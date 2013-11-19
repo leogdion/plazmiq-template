@@ -88,3 +88,17 @@ define('RELATIVE_PLUGIN_PATH',  str_replace(home_url() . '/', '', plugins_url())
 define('RELATIVE_CONTENT_PATH', str_replace(home_url() . '/', '', content_url()));
 define('THEME_NAME',            next($get_theme_name));
 define('THEME_PATH',            RELATIVE_CONTENT_PATH . '/themes/' . THEME_NAME);
+
+add_filter('upload_mimes', 'custom_upload_mimes');
+
+function custom_upload_mimes ( $existing_mimes=array() ) {
+
+  // add the file extension to the array
+
+  $existing_mimes['svg'] = 'mime/type';
+
+        // call the modified list of extensions
+
+  return $existing_mimes;
+
+}
