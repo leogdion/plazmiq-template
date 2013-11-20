@@ -102,3 +102,25 @@ function custom_upload_mimes ( $existing_mimes=array() ) {
   return $existing_mimes;
 
 }
+
+function apply_ebs_custom_option( $prevent ) {
+    return true;
+}
+add_filter( 'ebs_custom_option', 'apply_ebs_custom_option' );
+
+function apply_ebs_custom_bootstrap_admin_css( $prevent ) {
+    return true;
+}
+add_filter( 'ebs_custom_bootstrap_admin_css', 'apply_ebs_custom_bootstrap_admin_css' );
+
+function apply_ebs_bootstrap_css_url( $url ) {
+    $ebs_css_url='/assets/css/main.min.css';
+    return $ebs_css_url;
+}
+add_filter( 'ebs_bootstrap_css_url', 'apply_ebs_bootstrap_css_url' );
+
+function apply_ebs_bootstrap_js_url( $url ) {
+    $ebs_js_url='/assets/js/scripts.min.js';
+    return $ebs_js_url;
+}
+add_filter( 'ebs_bootstrap_js_url', 'apply_ebs_bootstrap_js_url' );

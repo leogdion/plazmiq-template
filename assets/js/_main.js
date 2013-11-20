@@ -39,6 +39,11 @@ var UTIL = {
       UTIL.fire(classnm);
     });
 
+    $('img.scale').each(function () {
+      $(this).css('background-image', 'url(' + $(this).attr('src') + ')');
+      $(this).removeAttr('src');
+    });
+
     UTIL.fire('common', 'finalize');
   }
 };
