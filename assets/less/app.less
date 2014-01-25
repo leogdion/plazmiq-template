@@ -21,12 +21,33 @@
 }
 
 #capabilities > div {
-   padding: 20px 40px;
+   padding: 15px 30px;
+}
+
+#capabilities > div:nth-child(2n) {
+   background-color: @gray-dark;
+}
+
+@media (max-width: @screen-sm-max){      
+   #capabilities > div:nth-child(3n), #capabilities > div:nth-child(4n) {
+      background-color: @gray;
+   }
 }
 
 #capabilities li {
-   font-size: @font-size-large;
    list-style-type:  none;
+}
+
+@media (min-width: @screen-sm){
+   #capabilities li {
+      font-size: @font-size-large;
+   }
+}
+
+@media (max-width: @screen-xs-max){
+   #capabilities h3  {
+      font-size: @font-size-base;
+   }
 }
 
 #capabilities ul {
