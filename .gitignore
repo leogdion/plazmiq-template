@@ -3,3 +3,5 @@
 node_modules
 assets/css/main.min.css
 assets/js/scripts.min.js
+*.*~*.TMP
+.*.tmp
