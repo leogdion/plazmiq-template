@@ -42,6 +42,10 @@
    }
 }
 
+svg * {
+   fill: @gray-dark;
+}
+
 #capabilities ul {
    padding: 0;
 }
@@ -64,15 +68,24 @@ footer {
 }
 
 footer .social h4 {
-   margin: 0;
    font-family: @font-family-sans-serif;
    font-size: @font-size-base;
    color: @gray-light;
+   float: left;
+   margin: 2px 4px;
+   width: 68px;
 }
 
 footer .social ul{
    padding: 0;
+   float: right;
+   margin: 0px 5px 0px;
 }
+
+footer .social ul a{
+   color: @gray-dark;
+}
+
 
 footer .social section {
    clear: both;
@@ -85,7 +98,7 @@ footer .social li{
    display: block;
    float: left;
    white-space: nowrap;
-   margin: 5px;
+   margin: 0px 4px;
 }
 
 footer .social li:first-child {

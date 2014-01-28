@@ -14,21 +14,21 @@
     <section>
       <h4>BrightDigit</h4>
       <ul>
-        <li><i class="fa fa-facebook"></i> facebook</li>
-        <li><i class="fa fa-twitter"></i> twitter</li>
-        <li><i class="fa fa-google-plus"></i> google+</li>
+        <li><a href="/blog" target="_blank" title="blog"><img src="/assets/img/wordpress-logo.svg" height="13" style="margin-bottom: 3px;"></a></li>
+        <li><a href="//www.facebook.com/pages/Bright-Digit" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="//www.twitter.com/brightdigit" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="//plus.google.com/109268664883314854950" target="_blank" rel="publisher" title="google+"><i class="fa fa-google-plus"></i></a></li>
       </ul>
       </section>
-      <section>
-        
-      
+      <section>      
       <h4>Leo G Dion</h4>
       <ul>
-        <li><i class="fa fa-facebook"></i> facebook</li>
-        <li><i class="fa fa-twitter"></i> twitter</li>
-        <li><i class="fa fa-google-plus"></i> google+</li>
-        <li><i class="fa fa-github"></i> github</li>
-        <li><i class="fa fa-stack-overflow"></i> stackoverflow</li>
+        <li><a href="//leogdion.name" target="_blank" title="blog"><img src="/assets/img/wordpress-logo.svg" height="13" style="margin-bottom: 0px;"></a></li>
+        <li><a href="//www.facebook.com/pages/Bright-Digit" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="//www.twitter.com/brightdigit" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></li>
+        <li><a href="//plus.google.com/115750410676034044633" target="_blank" title="google+"><i class="fa fa-google-plus"></i></a></li>
+        <li><a href="//github.com/leogdion" target="_blank" title="github"><i class="fa fa-github"></i></a></li>
+        <li><a href="//stackoverflow.com/users/97705/leogdion" target="_blank" title="stack overflow"><i class="fa fa-stack-overflow"></i></a></li>
       </ul>
       </section>
     </div>
