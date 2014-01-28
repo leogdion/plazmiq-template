@@ -1,5 +1,7 @@
 # [Roots Theme](http://roots.io/)
 
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
+
 Roots is a WordPress starter theme based on [HTML5 Boilerplate](http://html5boilerplate.com/) & [Bootstrap](http://getbootstrap.com/) that will help you make better themes.
 
 * Source: [https://github.com/roots/roots](https://github.com/roots/roots)
@@ -14,17 +16,6 @@ Clone the git repo - `git clone git://github.com/roots/roots.git` - or [download
 
 ```
 npm install
-```
-
-If you're using Nginx you'll need to add the Roots rewrites to your server config before the PHP block (`location ~ \.php$`) to use the clean URLs feature:
-
-```nginx
-location ~ ^/assets/(img|js|css)/(.*)$ {
-  try_files $uri $uri/ /wp-content/themes/roots/assets/$1/$2;
-}
-location ~ ^/plugins/(.*)$ {
-  try_files $uri $uri/ /wp-content/plugins/$1;
-}
 ```
 
 Reference the [theme activation](http://roots.io/roots-101/#theme-activation) documentation to understand everything that happens once you activate Roots.
@@ -54,11 +45,9 @@ Edit `lib/init.php` to setup custom navigation menus and post thumbnail sizes.
 * HTML5 Boilerplate's markup along with ARIA roles and microformat
 * Bootstrap
 * [Grunt build script](http://roots.io/using-grunt-for-wordpress-theme-development/)
-* [Theme activation](http://roots.io/getting-started/#theme-activation)
+* [Theme activation](http://roots.io/roots-101/#theme-activation)
 * [Theme wrapper](http://roots.io/an-introduction-to-the-roots-theme-wrapper/)
 * Root relative URLs
-* Clean URLs (no more `/wp-content/`)
-* All static theme assets are rewritten to the website root (`/assets/*`)
 * Cleaner HTML output of navigation menus
 * Cleaner output of `wp_head` and enqueued scripts/styles
 * Nice search (`/search/query/`)
