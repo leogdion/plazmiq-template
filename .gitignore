@@ -6,3 +6,4 @@ assets/js/scripts.min.js
 *.*~*.TMP
 .*.tmp\
 assets/css/main.min.css.map
+.sub*.tmp

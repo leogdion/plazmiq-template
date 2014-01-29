@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="<?php echo home_url(); ?>/"><?php bloginfo('name'); ?></a>
+      <a class="navbar-brand" href="<?php echo home_url(); ?>/"><img alt="" src="/media/brightB.svg" height="15" style="position: relative;bottom: 3px;"/>right<img alt="" src="/media/brightD.svg" height="15"  style="position: relative;bottom: 3px;"/>igit</a>
     </div>
 
     <nav class="collapse navbar-collapse" role="navigation">

@@ -45,6 +45,12 @@ var UTIL = {
       $(this).css('background-image', 'url(' + $(this).attr('src') + ')');
       $(this).removeAttr('src');
     });
+    
+    if(!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) )) {
+      jQuery('body').on('click', 'a[href^="tel:"]', function() {
+            jQuery(this).attr('href',jQuery(this).attr('href').replace(/^tel:/, 'callto:'));
+      });
+    }
 
     UTIL.fire('common', 'finalize');
   }
