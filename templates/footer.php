@@ -1,7 +1,7 @@
 <footer class="content-info container" role="contentinfo">
   <div class="row">
 
-    <div class="col-lg-2">
+    <div class="col-xs-5 col-sm-3">
 
       <address>
         <strong>BrightDigit, LLC</strong><br>
@@ -10,7 +10,7 @@
         517-325-3123
       </address>
     </div>
-    <div class="col-lg-5 social">
+    <div class="col-xs-7 col-sm-6 social">
     <section>
       <h4>BrightDigit</h4>
       <ul>
@@ -35,7 +35,7 @@
       </section>
     </div>
 
-    <div class="col-lg-5">
+    <div class="col-xs-7 col-sm-3 col-sm-push-0">
       <?php dynamic_sidebar('sidebar-footer'); ?>
       <p class="pull-right">&copy; <?php echo date('Y'); ?> BrightDigit, LLC</p>
     </div>
