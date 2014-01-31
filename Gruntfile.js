@@ -1,4 +1,7 @@
 'use strict';
+
+var moment = require('moment');
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
@@ -97,13 +100,15 @@ module.exports = function(grunt) {
       dist: [
         'assets/css/main.min.css',
         'assets/js/scripts.min.js',
-        'build/roots.zip'
+        'build/*.zip'
       ]
     },
     compress: {
       main: {
         options: {
-          archive: 'build/roots.zip'
+          archive: function () {
+            return "build/0.0"+moment().format('YYMMDDHHmm')+".zip";
+          }
         },
         expand: true,
         src: ['**/*', '!assets/less/**/*', '!assets/js/**/*',
