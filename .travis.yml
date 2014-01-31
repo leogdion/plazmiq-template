@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+- '0.10'
+deploy:
+  provider: s3
+  access_key_id: AKIAJDXH7S5YRZMJMINQ
+  secret_access_key:
+    secure: YaOvc9Bn69nLUVW9nCnmNtQdtgzIh+asGH4+mmBLKonN9YbThpF/d+miFb3H/aE7suO1+ymVW/FuXYmUkvb4h2Xi3apDkw6esFULNn5viM1gbG77qVpk9yVrorJS1VCml9PczJGB1ZMbLy6bVJBzE72sejwo0VVngeUaGio2D18=
+  bucket: brightdigit-builds
+  upload-dir: roots-brightdigit
+  local-dir: build
+  on:
+    repo: leogdion/roots

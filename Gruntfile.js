@@ -96,9 +96,22 @@ module.exports = function(grunt) {
     clean: {
       dist: [
         'assets/css/main.min.css',
-        'assets/js/scripts.min.js'
+        'assets/js/scripts.min.js',
+        'build/roots.zip'
       ]
+    },
+    compress: {
+      main: {
+        options: {
+          archive: 'build/roots.zip'
+        },
+        expand: true,
+        src: ['**/*', '!assets/less/**/*', '!assets/js/**/*',
+        'assets/css/main.min.css',
+        'assets/js/scripts.min.js',]
+      }
     }
+
   });
 
   // Load tasks
@@ -107,6 +120,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-wp-version');
 
   // Register tasks
@@ -119,5 +133,8 @@ module.exports = function(grunt) {
   grunt.registerTask('dev', [
     'watch'
   ]);
-
+  grunt.registerTask('package', [
+    'default',
+    'compress'
+  ]);
 };

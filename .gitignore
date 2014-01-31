@@ -7,3 +7,4 @@ assets/js/scripts.min.js
 .*.tmp\
 assets/css/main.min.css.map
 .sub*.tmp
+build
