@@ -128,13 +128,10 @@ module.exports = function(grunt) {
     'clean',
     'less',
     'uglify',
-    'version'
+    'version',
+    'compress'
   ]);
   grunt.registerTask('dev', [
     'watch'
-  ]);
-  grunt.registerTask('package', [
-    'default',
-    'compress'
   ]);
 };
