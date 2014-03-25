@@ -25,7 +25,7 @@
       <h4>Leo G Dion</h4>
       <ul>
         <li><a href="//leogdion.name" target="_blank" title="blog"><img src="/assets/img/wordpress-logo.svg" height="15" style="margin-bottom: 4px;"></a></li>
-        <li><a href="//http://facebook.com/leogdion" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></li>
+        <li><a href="//facebook.com/leogdion" target="_blank" title="facebook"><i class="fa fa-facebook"></i></a></li>
         <li><a href="//www.twitter.com/leogdion" target="_blank" title="twitter"><i class="fa fa-twitter"></i></a></li>
         <li><a href="//plus.google.com/115750410676034044633" target="_blank" title="google+"><i class="fa fa-google-plus"></i></a></li>
         <li><a href="//www.linkedin.com/in/leogdion/" target="_blank" title="linkedin"><i class="fa fa-linkedin"></i></a></li>
