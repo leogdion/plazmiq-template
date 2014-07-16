@@ -1,1 +1,3 @@
-require([], function () {});
+require(['zepto'], function ($) {
+  $('main').append('Hello World');
+});

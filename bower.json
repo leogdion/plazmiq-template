@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.141",
+  "version": "0.1.144",
   "authors": [
     "Leo Dion <leogdion@brightdigit.com>"
   ],
@@ -12,6 +12,9 @@
     "test",
     "tests"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "zepto": "~1.1.4",
+    "requirejs": "~2.1.14"
+  },
   "devDependencies": {}
 }
