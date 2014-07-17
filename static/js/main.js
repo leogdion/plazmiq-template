@@ -1,4 +1,3 @@
-require(['app'], function (app) {
-  var options = {};
-  app.start(options);
+require(['zepto'], function ($) {
+  //$('main').append('Hello World');
 });

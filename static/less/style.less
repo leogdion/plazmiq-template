@@ -1,8 +1,113 @@
-@import "bower_components/bootstrap/less/bootstrap.less";
+@import url(http://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,700,100italic,300italic,400italic);
 
-@body-bg: @gray-darker;
-@text-color:           @gray-lighter;
+html, body {
+  background-color: #333;
+  color: #ccc;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: 'Josefin Sans', sans-serif;
+}
 
-@navbar-inverse-bg:  @gray-dark;
+a:visited {
+  color: #f9f;
+}
 
-body { padding-top: 70px; }
+a {
+  color: #99f;
+}
+
+header > nav {
+  position: fixed;
+  clear: both;
+  width: 100%;
+  background-color: #000;
+  height: 1em;
+  padding: 10px 0px;
+  ul
+  {
+    list-style: none;
+    margin: 0px 5px;
+    padding: 0;
+    float: left;
+    li {
+      display: block;
+      float: left;
+      margin: 0px 10px;
+      text-transform: lowercase;
+    }
+    li.brand{
+      font-weight: bold;
+    }
+  }
+  ul.right {
+    float: right;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+main {
+  margin-top: 40px;
+}
+
+main > section {
+  text-align: center;
+  width: 100%;
+  clear: both;
+  margin: 20px 0px;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    li {
+      float: left;
+      width: 100%;
+      section {
+        margin: 20px 10px;
+        header {
+          font-weight: bold;
+          font-size: 1.25em;
+        }
+      }
+    }
+    li:nth-child(odd) {
+      background-color: #999;
+      color: #333;
+    }
+    li:nth-child(even) {
+      background-color: #666;
+      color: #FFF;
+    }
+  }
+  float: left;
+  p {
+    margin: 5px 20px;
+  }
+}
+
+footer {
+  width: 100%;
+  clear: both;
+  float: left;
+  padding: 0px 10px;
+  border-top: 1px #ccc solid;
+  margin-top: 10px;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 1.75em;
+}
+
+section > p {
+
+}
+section > header > h1,h2 {
+  margin: 0;
+}
+
+

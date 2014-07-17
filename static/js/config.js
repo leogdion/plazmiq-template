@@ -3,11 +3,8 @@ requirejs.config({
     "templates": "../../.tmp/jst"
   },
   shim: {
-    "bootstrap": {
-      "deps": ['jquery']
-    },
-    "jQuery.serializeObject": {
-      "deps": ['jquery']
-    },
+    "zepto": {
+      "exports": '$'
+    }
   }
 });
