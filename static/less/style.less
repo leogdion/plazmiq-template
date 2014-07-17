@@ -1,8 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Josefin+Sans:100,300,400,700,100italic,300italic,400italic);
+
 html, body {
   background-color: #333;
   color: #ccc;
   margin: 0;
   overflow-x: hidden;
+  font-family: 'Josefin Sans', sans-serif;
 }
 
 a:visited {
@@ -29,7 +32,7 @@ header > nav {
     li {
       display: block;
       float: left;
-      margin: 0px 5px;
+      margin: 0px 10px;
       text-transform: lowercase;
     }
     li.brand{
@@ -38,6 +41,9 @@ header > nav {
   }
   ul.right {
     float: right;
+  }
+  a {
+    text-decoration: none;
   }
 }
 
@@ -58,7 +64,7 @@ main > section {
       float: left;
       width: 100%;
       section {
-        margin: 10px;
+        margin: 20px 10px;
       }
     }
     li:nth-child(odd) {
@@ -71,12 +77,29 @@ main > section {
     }
   }
   float: left;
+  p {
+    margin: 5px 20px;
+  }
 }
 
 footer {
   width: 100%;
   clear: both;
   float: left;
+  padding: 0px 10px;
+  border-top: 1px #ccc solid;
+  margin-top: 10px;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+section > p {
+
+}
+section > header > h1,h2 {
+  margin: 0;
 }
 
 
