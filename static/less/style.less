@@ -60,6 +60,7 @@ main > section {
   width: 100%;
   clear: both;
   margin: 20px 0px;
+  float: left;
   ul {
     list-style: none;
     padding: 0;
@@ -84,9 +85,11 @@ main > section {
       color: #FFF;
     }
   }
-  float: left;
   p {
     margin: 5px 20px;
+  }
+  &:first-child {
+    margin-top: 40px;
   }
 }
 
@@ -114,4 +117,12 @@ section > header > h1,h2 {
   margin: 0;
 }
 
+a.button {
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #000;
+  color: #FFF;
+  text-decoration: none;
+  display: inline-block;
+}
 

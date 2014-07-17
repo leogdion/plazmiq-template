@@ -1,8 +1,13 @@
 define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], function (templates, $, crossroads, hasher, controllers) {
   var app = {};
+
   //setup crossroads
   crossroads.addRoute('/', function () {
     $('main').html(templates[controllers.home.template]());
+  });
+
+  crossroads.addRoute(/.*/, function () {
+    $('main').html(templates['404']());
   });
   //crossroads.addRoute('lorem/ipsum');
   crossroads.routed.add(console.log, console); //log all routes
