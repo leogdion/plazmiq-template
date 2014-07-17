@@ -5,9 +5,11 @@ html, body {
   color: #ccc;
   margin: 0;
   overflow-x: hidden;
-  font-family: 'Josefin Sans', sans-serif;
 }
 
+html, body, input, button {
+  font-family: 'Josefin Sans', sans-serif;
+}
 
 a:visited {
   color: #f9f;
@@ -117,12 +119,38 @@ section > header > h1,h2 {
   margin: 0;
 }
 
-a.button {
+form button, a.button {
   padding: 10px;
   margin-top: 5px;
   background-color: #000;
   color: #FFF;
   text-decoration: none;
   display: inline-block;
+  border: none;
+
 }
 
+form {
+  padding: 10px;
+  & > input {
+    font-size: 18px;
+    border: none;
+    width: 80%;
+    margin: 10px auto;
+    display: table;
+    padding: 10px;
+  }
+  & > p {
+    margin: 10px auto;
+    display: table;
+  }
+  button {
+    margin: 10px auto;
+    &.inactive {
+      background-color: #CCC;
+      color: #000;
+    }
+    font-size: 16px;
+    cursor: pointer;
+  }
+}

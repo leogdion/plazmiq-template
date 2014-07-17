@@ -1,9 +1,21 @@
 define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], function (templates, $, crossroads, hasher, controllers) {
   var app = {};
 
+
+
   //setup crossroads
   crossroads.addRoute('/', function () {
     $('main').html(templates[controllers.home.template]());
+  });
+
+  crossroads.addRoute('login', function () {
+    var controller = controllers.login;
+    var main = $('main').html(templates[controller.template]());
+    if (controller.events) {
+      for (var selector in controller.events) {
+        main.on(controller.events[selector], selector);
+      }
+    }
   });
 
   crossroads.addRoute(/.*/, function () {
