@@ -26,6 +26,7 @@ header > nav {
   background-color: #000;
   height: 1em;
   padding: 10px 0px;
+  z-index: 100;
   ul
   {
     list-style: none;
@@ -55,6 +56,7 @@ header > nav {
 
 main {
   margin-top: 40px;
+
 }
 
 main > section {
@@ -132,7 +134,8 @@ form button, a.button {
 
 form {
   padding: 10px;
-  & > input {
+  padding-bottom: 0px;
+  input {
     font-size: 18px;
     border: none;
     width: 80%;
@@ -146,11 +149,46 @@ form {
   }
   button {
     margin: 10px auto;
+    margin-bottom: 0px;
+    font-size: 16px;
+    cursor: pointer;
     &.inactive {
       background-color: #CCC;
       color: #000;
     }
-    font-size: 16px;
-    cursor: pointer;
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+  h1 {
+    font-size: 2em;
+    margin: 5px auto;
+    span{
+      &.inactive {
+        opacity: 0.5;
+      }
+      &:not(:first-child):before {
+        content: "/";
+      }
+    }
+    &+p {
+      margin: 5px auto;
+    }
+  }
+}
+
+.collapse {
+  animation-duration: 3s;
+  animation-name: collapse;
+  display: block;
+}
+
+@keyframes collapse {
+  from {
+    height: auto;
+  }
+
+  to {
+    height: 0px;
   }
 }
