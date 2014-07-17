@@ -5,6 +5,9 @@ html, body {
   color: #ccc;
   margin: 0;
   overflow-x: hidden;
+}
+
+html, body, input, button {
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -37,6 +40,9 @@ header > nav {
     }
     li.brand{
       font-weight: bold;
+      a {
+        color: #FFF;
+      }
     }
   }
   ul.right {
@@ -56,6 +62,7 @@ main > section {
   width: 100%;
   clear: both;
   margin: 20px 0px;
+  float: left;
   ul {
     list-style: none;
     padding: 0;
@@ -80,9 +87,11 @@ main > section {
       color: #FFF;
     }
   }
-  float: left;
   p {
     margin: 5px 20px;
+  }
+  &:first-child {
+    margin-top: 40px;
   }
 }
 
@@ -110,4 +119,38 @@ section > header > h1,h2 {
   margin: 0;
 }
 
+form button, a.button {
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #000;
+  color: #FFF;
+  text-decoration: none;
+  display: inline-block;
+  border: none;
 
+}
+
+form {
+  padding: 10px;
+  & > input {
+    font-size: 18px;
+    border: none;
+    width: 80%;
+    margin: 10px auto;
+    display: table;
+    padding: 10px;
+  }
+  & > p {
+    margin: 10px auto;
+    display: table;
+  }
+  button {
+    margin: 10px auto;
+    &.inactive {
+      background-color: #CCC;
+      color: #000;
+    }
+    font-size: 16px;
+    cursor: pointer;
+  }
+}

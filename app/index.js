@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 /* istanbul ignore if */
 if (require.main === module) {
-  app.listen(process.env.PORT || 3000);
+  app.listen(process.env.PORT || 3001);
 } else {
   module.exports = app;
 }

@@ -1,70 +1,38 @@
-define(["backbone.marionette", "./router", 'views/login', 'views/confirmation', 'views/home', 'models/session'], function (Marionette, Router, LoginView, ConfirmationView, HomeView, SessionModel) {
-  var app = new Marionette.Application();
+define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], function (templates, $, crossroads, hasher, controllers) {
+  var app = {};
 
-  var Controller = Marionette.Controller.extend({
 
-    initialize: function (options) {
-      this.stuff = options.stuff;
-    },
 
-    index: function () {
-      var view;
-      app.mainRegion.show(view = new LoginView());
-      view.on("registration:post", function () {
+  //setup crossroads
+  crossroads.addRoute('/', function () {
+    $('main').html(templates[controllers.home.template]());
+  });
 
-        Backbone.history.navigate('#confirmation', {
-          trigger: false
-        });
-        var view;
-        app.mainRegion.show(view = new ConfirmationView({
-
-        }));
-      });
-
-      view.on("session:post", function () {
-
-        Backbone.history.navigate('#home', {
-          trigger: false
-        });
-        var view;
-        app.mainRegion.show(view = new HomeView({
-          model: new SessionModel({
-            user: {
-              name: "John"
-            }
-          })
-        }));
-      });
-    },
-
-    home: function () {
-      console.log('home');
-    },
-
-    confirmation: function () {
-      console.log('confirmation');
-      var view;
-      app.mainRegion.show(view = new ConfirmationView({
-
-      }));
+  crossroads.addRoute('login', function () {
+    var controller = controllers.login;
+    var main = $('main').html(templates[controller.template]());
+    if (controller.events) {
+      for (var selector in controller.events) {
+        main.on(controller.events[selector], selector);
+      }
     }
   });
 
-  app.addRegions({
-    headerRegion: "header",
-    mainRegion: "main"
+  crossroads.addRoute(/.*/, function () {
+    $('main').html(templates['404']());
   });
+  //crossroads.addRoute('lorem/ipsum');
+  crossroads.routed.add(console.log, console); //log all routes
+  //setup hasher
 
-  app.on("registration:post", function () {
-    console.log('registration');
-  });
-
-  app.addInitializer(function () {
-    new Router({
-      controller: new Controller()
-    });
-    Backbone.history.start();
-  });
-
+  function parseHash(newHash, oldHash) {
+    crossroads.parse(newHash);
+  }
+  hasher.initialized.add(parseHash); //parse initial hash
+  hasher.changed.add(parseHash); //parse hash changes
+  hasher.init(); //start listening for history change
+  //update URL fragment generating new history record
+  //hasher.setHash('lorem/ipsum');
+  //$('main').html(templates.home());
   return app;
 });
