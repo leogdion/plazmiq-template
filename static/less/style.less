@@ -177,18 +177,14 @@ form {
   }
 }
 
-.collapse {
-  animation-duration: 3s;
-  animation-name: collapse;
+#registration {
+  transition: height 2s;
   display: block;
+  height: 100px;
+  width: 100%;
 }
 
-@keyframes collapse {
-  from {
-    height: auto;
-  }
-
-  to {
-    height: 0px;
-  }
+#registration.collapse {
+  height: 0px;
 }
+
