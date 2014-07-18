@@ -2,11 +2,11 @@
 <form role="form">
 <h1><span>Create Account</span><span class="inactive">Login</span></h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-  <input type="text" id="userName" placeholder="Username">
-  <input type="password" class="form-control" id="password" placeholder="Password">
+  <input type="text" id="userName" placeholder="Username" pattern="/^[a-z0-9-]{5,15}$/" required>
+  <input type="password" class="form-control" id="password"  pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/" placeholder="Password" required>
   <div id="registration">
-  <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
-  <input type="email" class="form-control" id="email" placeholder="Email Address">
+  <input type="password" class="form-control" id="confirmPassword" pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/" placeholder="Confirm Password" required>
+  <input type="email" class="form-control" id="email" placeholder="Email Address" required>
   </div>
   <p>
     <button type="button" id="register" disabled>Register</button>

@@ -6,6 +6,14 @@ define(['zepto'], function ($) {
   return {
     template: 'login',
     events: {
+      'input': {
+        'blur': function (e) {
+          var $this = $(this);
+          if ($this.prop('required') || $this.val().trim().length > 0) {
+
+          }
+        }
+      },
       'button.inactive': {
         'click': function (e) {
           console.log('switch');
@@ -13,12 +21,15 @@ define(['zepto'], function ($) {
           $('button').toggleClass('inactive').prop('disabled', false);
           validate();
           $('#registration').toggleClass('collapse', this.getAttribute('id') !== 'register');
+          $('#registration input').prop('required', this.getAttribute('id') !== 'register');
+
           //$('button.inactive').prop('disabled', false);
-          return false;
+          //return false;
         }
       },
       '#register': {
         'click': function (e) {
+          console.log(this.classList);
           if (!this.classList.contains('inactive')) {
             console.log('register');
           }
@@ -26,6 +37,7 @@ define(['zepto'], function ($) {
       },
       '#signin': {
         'click': function (e) {
+          console.log(this.classList);
           if (!this.classList.contains('inactive')) {
             console.log('signin');
           }
