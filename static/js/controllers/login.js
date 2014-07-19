@@ -1,6 +1,6 @@
-define(['zepto'], function ($) {
+define(['zepto', '../libs/validation/index'], function ($, validations) {
   function validate() {
-    $('button').not('.inactive').prop('disabled', true);
+    $('button').not('.inactive').prop('disabled', $('form input.error').size());
 
   }
   return {
@@ -9,9 +9,20 @@ define(['zepto'], function ($) {
       'input': {
         'blur': function (e) {
           var $this = $(this);
+          var errors = [];
           if ($this.prop('required') || $this.val().trim().length > 0) {
-
+            if ($this.attr('pattern')) {
+              if (!(new RegExp($this.attr('pattern'))).test($this.val().trim())) {
+                errors.push($this.data('error'));
+              }
+            } else {
+              for (var key in validations) {
+                errors.push.apply(errors, validations[key].call($this));
+              }
+            }
+            $this.toggleClass('error', errors.length);
           }
+          validate();
         }
       },
       'button.inactive': {

@@ -2,10 +2,10 @@
 <form role="form">
 <h1><span>Create Account</span><span class="inactive">Login</span></h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-  <input type="text" id="userName" placeholder="Username" pattern="/^[a-z0-9-]{5,15}$/" required>
-  <input type="password" class="form-control" id="password"  pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/" placeholder="Password" required>
+  <input type="text" id="userName" placeholder="Username" data-char="[a-z0-9-]" pattern="^[a-z0-9-]{5,15}$" data-error="The username must be at least 5 characters." required>
+  <input type="password" class="form-control" id="password" data-char="[\S]" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" data-error="This password must contain one upper case, one lower case, one digit, and a punctuation mark and at least 8 characters." placeholder="Password" required>
   <div id="registration">
-  <input type="password" class="form-control" id="confirmPassword" pattern="/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/" placeholder="Confirm Password" required>
+  <input type="password" class="form-control" id="confirmPassword" data-char="[\S]" data-match="#password" placeholder="Confirm Password" required>
   <input type="email" class="form-control" id="email" placeholder="Email Address" required>
   </div>
   <p>
