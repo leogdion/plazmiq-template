@@ -1,6 +1,7 @@
-define(['./email', './match'], function (email, match) {
+define(['./email', './match', './pattern'], function (email, match, pattern) {
   return {
     email: email,
-    match: match
+    match: match,
+    pattern: pattern
   };
 });
