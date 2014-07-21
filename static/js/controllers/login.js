@@ -1,7 +1,7 @@
 define(['zepto', '../libs/validation/index'], function ($, validations) {
   function validate() {
-    $('button').not('.inactive').prop('disabled', $('form input.error').size());
-
+    $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
+    // not(validated)required + error
   }
   return {
     template: 'login',
@@ -16,6 +16,7 @@ define(['zepto', '../libs/validation/index'], function ($, validations) {
             }
             console.log(errors);
             $this.toggleClass('error', errors.length);
+            $this.toggleClass('validated', true);
           }
           validate();
         }
@@ -28,7 +29,7 @@ define(['zepto', '../libs/validation/index'], function ($, validations) {
             $('button').toggleClass('inactive').prop('disabled', false);
             validate();
             $('#registration').toggleClass('collapse', this.getAttribute('id') !== 'register');
-            $('#registration input').prop('required', this.getAttribute('id') !== 'register');
+            $('#registration input').prop('required', this.getAttribute('id') === 'register');
           } else {
             console.log(this.getAttribute('id'));
           }
