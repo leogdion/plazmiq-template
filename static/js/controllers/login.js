@@ -1,4 +1,4 @@
-define(['zepto', '../libs/validation/index'], function ($, validations) {
+define(['zepto', '../libs/validation/index', '../libs/rest/index'], function ($, validations, rest) {
   function validate() {
     $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
     // not(validated)required + error
@@ -31,7 +31,29 @@ define(['zepto', '../libs/validation/index'], function ($, validations) {
             $('#registration').toggleClass('collapse', this.getAttribute('id') !== 'register');
             $('#registration input').prop('required', this.getAttribute('id') === 'register');
           } else {
-            console.log(this.getAttribute('id'));
+            if (this.getAttribute('id') === 'register') {
+              console.log('begin posting registration');
+              rest.post('registrations', 'form', {
+                success: function (data, status, xhr) {
+                  console.log('posted registration');
+                },
+                error: function (xhr, errorType, error) {
+                  console.log('error registration');
+                }
+              });
+            } else if (this.getAttribute('id') === 'signin') {
+              console.log('begin posting session');
+              rest.post('sessions', 'form', {
+                success: function (data, status, xhr) {
+                  console.log('posted sessions');
+                },
+                error: function (xhr, errorType, error) {
+                  console.log('error sessions');
+                }
+              });
+            } else {
+              throw "unknown button";
+            }
           }
           //e.preventDefault();
           //e.stopPropagation();
