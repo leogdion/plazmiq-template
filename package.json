@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.373",
+  "version": "0.1.406",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -16,6 +16,7 @@
   },
   "author": "Leo G. Dion, BrightDigit, LLC <leogdion@brightdigit.com>",
   "dependencies": {
+    "async": "^0.9.0",
     "body-parser": "^1.2.2",
     "express": "^4.3.2"
   },
@@ -24,7 +25,7 @@
     "bower-requirejs": "^0.11.0",
     "chai": "^1.9.1",
     "chai-things": "^0.2.0",
-    "event-stream": "^3.1.5",
+    "event-stream": "^3.1.7",
     "gulp": "^3.7.0",
     "gulp-beautify": "^1.1.0",
     "gulp-bump": "^0.1.8",

@@ -1,6 +1,8 @@
-define(['./home', './login'], function (home, login) {
+define(['./home', './login', './confirmation', './profile'], function (home, login, confirmation, profile) {
   return {
     home: home,
-    login: login
+    login: login,
+    confirmation: confirmation,
+    profile: profile
   };
 });

@@ -15,7 +15,10 @@ var gulp = require('gulp'),
     jst = require('gulp-jst'),
     clean = require('gulp-clean'),
     expressService = require('gulp-express-service'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    path = require('path'),
+    fs = require('fs'),
+    async = require('async');
 
 gulp.task('default', ['clean', 'less', 'requirejs', 'enforce-coverage', 'copy', 'bump']);
 
@@ -64,7 +67,26 @@ gulp.task('bowerrjs', ['bower', 'copy-rjs-config'], function (cb) {
   });
 });
 
-gulp.task('requirejs', ['clean', 'bowerrjs', 'JST', 'lint'], function (cb) {
+gulp.task('names', ['clean', 'bower'], function (cb) {
+  async.reduce(['bower_components/NameDatabases/NamesDatabases/first names/us.txt', 'bower_components/NameDatabases/NamesDatabases/surnames/us.txt'], {}, function (memo, item, cb) {
+    var key = path.basename(path.dirname(item));
+    fs.readFile(item, function (err, data) {
+      if (err) {
+        cb(err);
+        return;
+      }
+      memo[key] = data.toString().split("\n").map(function (_) {
+        return _.trim();
+      });
+      cb(undefined, memo);
+    });
+  }, function (error, result) {
+    fs.writeFile('.tmp/names.js', "define(function () { return " + JSON.stringify(result) + ";});", cb);
+  });
+});
+
+
+gulp.task('requirejs', ['clean', 'names', 'bowerrjs', 'JST', 'lint'], function (cb) {
   var config = {
     mainConfigFile: ".tmp/config.js",
     baseUrl: 'static/js',

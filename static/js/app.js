@@ -16,6 +16,22 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
         main.on(controller.events[selector], selector);
       }
     }
+    if (controller.initialize) {
+      controller.initialize.call(main);
+    }
+  });
+
+  crossroads.addRoute('confirmation', function () {
+    var controller = controllers.confirmation;
+    var main = $('main').html(templates[controller.template]());
+    if (controller.events) {
+      for (var selector in controller.events) {
+        main.on(controller.events[selector], selector);
+      }
+    }
+    if (controller.initialize) {
+      controller.initialize.call(main);
+    }
   });
 
   crossroads.addRoute(/.*/, function () {
@@ -28,6 +44,7 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
   function parseHash(newHash, oldHash) {
     crossroads.parse(newHash);
   }
+  hasher.prependHash = "";
   hasher.initialized.add(parseHash); //parse initial hash
   hasher.changed.add(parseHash); //parse hash changes
   hasher.init(); //start listening for history change
