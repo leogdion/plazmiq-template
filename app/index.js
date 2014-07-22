@@ -3,6 +3,13 @@ var bodyParser = require('body-parser');
 var roust = require('../roust');
 var app = express();
 
+app.use(function (req, res, next) {
+  console.log("received request...");
+  setTimeout(function () {
+    console.log("replying");
+    next();
+  }, 2000);
+});
 // parse application/json
 app.use(bodyParser.json());
 
