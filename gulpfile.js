@@ -113,8 +113,8 @@ gulp.task('JST', ['clean'], function () {
 });
 
 gulp.task('test', ['clean'], function (cb) {
-  gulp.src(['./app/**/*.js']).pipe(istanbul()).on('finish', function () {
-    gulp.src(["./test/app/**/*.js"]).pipe(mocha()).pipe(istanbul.writeReports()).on('end', cb); // Creating the reports after tests runned
+  gulp.src(['./server/**/*.js']).pipe(istanbul()).on('finish', function () {
+    gulp.src(["./test/server/**/*.js"]).pipe(mocha()).pipe(istanbul.writeReports()).on('end', cb); // Creating the reports after tests runned
   });
 });
 
@@ -129,7 +129,7 @@ gulp.task('enforce-coverage', ['test'], function () {
     coverageDirectory: 'coverage',
     rootDirectory: ''
   };
-  return gulp.src(['./app/**/*.js']).pipe(coverageEnforcer(options));
+  return gulp.src(['./server/**/*.js']).pipe(coverageEnforcer(options));
 });
 
 gulp.task('bump', function () {
@@ -139,11 +139,11 @@ gulp.task('bump', function () {
 });
 
 gulp.task('lint', ['beautify'], function () {
-  return gulp.src(['./app/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
+  return gulp.src(['./server/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
 });
 
 gulp.task('beautify', function () {
-  gulp.src(['./app/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js'], {
+  gulp.src(['./server/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js'], {
     base: '.'
   }).pipe(beautify({
     indentSize: 2,

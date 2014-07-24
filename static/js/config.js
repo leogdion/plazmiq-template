@@ -7,6 +7,9 @@ requirejs.config({
   shim: {
     "zepto": {
       "exports": '$'
+    },
+    "animx": {
+      "exports": "animx"
     }
   }
 });
