@@ -152,51 +152,7 @@ form button, a.button {
 form {
   padding: 10px;
   padding-bottom: 0px;
-  input {
-    font-size: 18px;
-    border: none;
-    width: 80%;
-    margin: 10px auto;
-    display: table;
-    padding: 10px;
-  }
-  .btn-set {
-    position: relative;
-    overflow: hidden;
-    & > .progress {
-      height: 30%;
-      width: 1000%;
-      z-index: 100;
-      position: absolute;
-      top: 45%;
-      padding: 5px 0px;
-      margin: -10px;
-      background: #CCC url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQIW2NkQAX/GZH4/4FsRpgAmAOSBBFwDkgAAIKuBATRTAAZAAAAAElFTkSuQmCC) repeat;
-      .animation(MOVE-BG,10s,linear,infinite);
-      border: rgba(224, 224, 224, 0.25) solid 5px;
-      opacity: 0.95;
-    }
-  }
-  .error {
-    box-shadow: 0 0 1em red;
-  }
-  & > p {
-    margin: 10px auto;
-    display: table;
-  }
-  button, a.button  {
-    margin: 10px auto;
-    margin-bottom: 0px;
-    font-size: 16px;
-    cursor: pointer;
-    &.inactive {
-      background-color: #CCC;
-      color: #000;
-    }
-    &:disabled {
-      opacity: 0.5;
-    }
-  }
+
   h1 {
     font-size: 2em;
     margin: 5px auto;
@@ -212,6 +168,75 @@ form {
       margin: 5px auto;
     }
   }
+
+  & > p, & fieldset p.btn-set {
+    margin: 10px auto;
+    display: table;
+  }
+  fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    input {
+      font-size: 18px;
+      border: none;
+      width: 80%;
+      margin: 10px auto;
+      display: table;
+      padding: 10px;
+    }
+    .btn-set {
+      position: relative;
+      
+      & > .progress {
+        width: 100%;
+        z-index: 1000;
+        overflow-x: hidden;
+        height: 100%;
+        position: absolute;
+        /* margin: 10px; */
+        /* top: 50%; */
+        top: 13px;
+        /* top: 45%; */
+        /* height: 30%; */
+        /* top: 100px; */
+        opacity: 0;
+        visibility: hidden;
+        transition: visibility 0s, opacity 0.5s;
+        & > .bar {
+          width: 10000px;
+          z-index: 100;
+          padding: 10px 0px;
+          /* margin: -3px; */
+          background: #cccccc url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAHklEQVQIW2NkQAX/GZH4/4FsRpgAmAOSBBFwDkgAAIKuBATRTAAZAAAAAElFTkSuQmCC) repeat;
+          position: absolute;
+          border: rgba(224, 224, 224, 0.25) solid 5px;
+          .animation(MOVE-BG,10s,linear,infinite);
+        }
+      }
+    }
+    .error {
+      box-shadow: 0 0 1em red;
+    }
+    button, a.button  {
+      margin: 10px auto;
+      margin-bottom: 0px;
+      font-size: 16px;
+      cursor: pointer;
+      &.inactive {
+        background-color: #CCC;
+        color: #000;
+      }
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+fieldset:disabled .btn-set > .progress {
+  opacity: 0.95;
+  visibility:visible;
 }
 
 #registration {

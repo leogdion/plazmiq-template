@@ -69,6 +69,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
           } else {
             if (this.getAttribute('id') === 'register') {
               console.log('begin posting registration');
+              $('form fieldset').prop('disabled', true);
               rest.post('registrations', 'form', {
                 success: function (data, status, xhr) {
                   shared.set('registration', data);
@@ -81,6 +82,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
               });
             } else if (this.getAttribute('id') === 'signin') {
               console.log('begin posting session');
+              $('form fieldset').prop('disabled', true);
               rest.post('sessions', 'form', {
                 success: function (data, status, xhr) {
                   console.log('posted sessions');
