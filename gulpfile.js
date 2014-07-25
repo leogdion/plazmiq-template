@@ -20,7 +20,7 @@ var gulp = require('gulp'),
     fs = require('fs'),
     async = require('async');
 
-gulp.task('default', ['clean', 'less', 'requirejs', 'enforce-coverage', 'copy', 'bump']);
+gulp.task('default', ['clean', 'less', 'requirejs', /*'enforce-coverage', */ 'copy', 'bump']);
 
 gulp.task('heroku:staging', ['default']);
 
