@@ -37,9 +37,12 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
           var $this = $(this);
           var errors = [];
           if ($this.prop('required') || $this.val().trim().length > 0) {
+/*
             for (var key in validations) {
               errors.push.apply(errors, validations[key].call($this));
             }
+            */
+            errors = validations($this);
             $this.toggleClass('error', errors.length);
             $this.toggleClass('validated', true);
           }
