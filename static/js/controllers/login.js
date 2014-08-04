@@ -51,6 +51,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
       },
       'button#test': {
         'click': function (e) {
+          console.log("test - login");
           var data = names();
           $('input#email').val(data.email);
           $('input#name').val(data.username);

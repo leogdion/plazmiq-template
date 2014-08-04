@@ -16,6 +16,14 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
           $this.toggleClass('validated', true);
           $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').not('[readonly]').size());
         }
+      },
+      'button#test': {
+        'click': function (e) {
+          console.log("test - confirm");
+          $('input#secret').val('testTEST123!');
+          $('input').toggleClass('validated', true).toggleClass('error', false);
+          //validate();
+        }
       }
     },
     initialize: function () {

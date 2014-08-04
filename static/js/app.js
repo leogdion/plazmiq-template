@@ -1,6 +1,7 @@
 define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], function (templates, $, crossroads, hasher, controllers) {
   var app = {};
 
+  var controller, main;
 
 
   //setup crossroads
@@ -9,8 +10,15 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
   });
 
   crossroads.addRoute('login', function () {
-    var controller = controllers.login;
-    var main = $('main').html(templates[controller.template]());
+    if (controller) {
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.off(controller.events[selector], selector);
+        }
+      }
+    }
+    controller = controllers.login;
+    main = $('main').html(templates[controller.template]());
     if (controller.events) {
       for (var selector in controller.events) {
         main.on(controller.events[selector], selector);
@@ -22,8 +30,15 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
   });
 
   crossroads.addRoute('confirmation', function () {
-    var controller = controllers.confirmation;
-    var main = $('main').html(templates[controller.template]());
+    if (controller) {
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.off(controller.events[selector], selector);
+        }
+      }
+    }
+    controller = controllers.confirmation;
+    main = $('main').html(templates[controller.template]());
     if (controller.events) {
       for (var selector in controller.events) {
         main.on(controller.events[selector], selector);
