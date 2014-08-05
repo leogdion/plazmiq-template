@@ -1,5 +1,7 @@
 define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '../libs/shared/index'], function ($, hasher, validations, rest, shared) {
-
+  function validate() {
+    $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
+  }
   return {
     template: 'confirmation',
     events: {
@@ -22,7 +24,22 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
           console.log("test - confirm");
           $('input#secret').val('testTEST123!');
           $('input').toggleClass('validated', true).toggleClass('error', false);
-          //validate();
+          validate();
+        }
+      },
+      'button#confirm': {
+        'click': function (e) {
+          console.log('begin posting user');
+          $('form fieldset').prop('disabled', true);
+          rest.post('users', 'form', {
+            success: function (data, status, xhr) {
+              console.log('posted user');
+              hasher.setHash('profile');
+            },
+            error: function (xhr, errorType, error) {
+              console.log('error user confirmation');
+            }
+          });
         }
       }
     },

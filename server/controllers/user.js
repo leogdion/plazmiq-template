@@ -12,7 +12,12 @@ module.exports = function (include) {
           res.send('show');
         },
         create: function (req, res) {
-          res.send('create');
+          console.log(req.body);
+          if (req.body.secret !== 'testTEST123!') {
+            res.send(400);
+          } else {
+            res.send(201, 'create');
+          }
         },
         update: function (req, res) {
           res.send('update');
