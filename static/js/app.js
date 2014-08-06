@@ -9,6 +9,26 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
     $('main').html(templates[controllers.home.template]());
   });
 
+  crossroads.addRoute('profile', function () {
+    if (controller) {
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.off(controller.events[selector], selector);
+        }
+      }
+    }
+    controller = controllers.profile;
+    main = $('main').html(templates[controller.template]());
+    if (controller.events) {
+      for (var selector in controller.events) {
+        main.on(controller.events[selector], selector);
+      }
+    }
+    if (controller.initialize) {
+      controller.initialize.call(main);
+    }
+  });
+
   crossroads.addRoute('login', function () {
     if (controller) {
       if (controller.events) {
