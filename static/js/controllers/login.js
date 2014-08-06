@@ -36,6 +36,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
         'blur': function (e) {
           var $this = $(this);
           var errors = [];
+          console.log("input blur");
           if ($this.prop('required') || $this.val().trim().length > 0) {
 /*
             for (var key in validations) {
@@ -43,6 +44,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
             }
             */
             errors = validations($this);
+            console.log(errors);
             $this.toggleClass('error', errors.length);
             $this.toggleClass('validated', true);
           }

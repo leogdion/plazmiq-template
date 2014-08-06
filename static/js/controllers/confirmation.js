@@ -1,6 +1,6 @@
 define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '../libs/shared/index'], function ($, hasher, validations, rest, shared) {
   function validate() {
-    $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
+    $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated,[readonly],[type="hidden"]').size());
   }
   return {
     template: 'confirmation',
@@ -13,12 +13,32 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
       "input": {
         "blur": function (e) {
           var $this = $(this);
+          var errors = [];
+          console.log("input blur");
+          if ($this.prop('required') || $this.val().trim().length > 0) {
+/*
+            for (var key in validations) {
+              errors.push.apply(errors, validations[key].call($this));
+            }
+            */
+            errors = validations($this);
+            console.log(errors);
+            $this.toggleClass('error', errors.length);
+            $this.toggleClass('validated', true);
+          }
+          validate();
+        }
+      },
+/*"input#secret": {
+        "keypress": function (e) {
+          var $this = $(this);
           var errors = validations($this);
           $this.toggleClass('error', errors.length);
           $this.toggleClass('validated', true);
           $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').not('[readonly]').size());
+
         }
-      },
+      },*/
       'button#test': {
         'click': function (e) {
           console.log("test - confirm");
