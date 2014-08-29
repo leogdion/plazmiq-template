@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.566",
+  "version": "0.1.574",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -18,30 +18,27 @@
   "dependencies": {
     "async": "^0.9.0",
     "body-parser": "^1.2.2",
-    "express": "^4.3.2",
+    "express": "^4.8.6",
     "pg.js": "^3.4.1",
     "sequelize": "^2.0.0-dev12"
   },
   "devDependencies": {
-    "bower": "^1.3.3",
-    "bower-requirejs": "^0.11.0",
+    "bower": "^1.3.9",
+    "bower-requirejs": "^1.1.0",
     "chai": "^1.9.1",
     "chai-things": "^0.2.0",
     "event-stream": "^3.1.7",
-    "gulp": "^3.7.0",
+    "gulp": "^3.8.7",
     "gulp-beautify": "^1.1.0",
-    "gulp-bump": "^0.1.8",
-    "gulp-clean": "^0.3.0",
-    "gulp-coveralls": "^0.1.2",
-    "gulp-express-service": "^1.2.3",
-    "gulp-istanbul": "^0.2.0",
-    "gulp-istanbul-enforcer": "^1.0.2",
-    "gulp-jshint": "^1.6.1",
+    "gulp-bump": "^0.1.11",
+    "gulp-clean": "^0.3.1",
+    "gulp-express": "0.0.9",
+    "gulp-jshint": "^1.8.4",
     "gulp-jst": "^0.1.1",
     "gulp-jst-concat": "git+https://github.com/brightdigit/gulp-jst-concat.git",
-    "gulp-less": "^1.2.3",
-    "gulp-mocha": "^0.4.1",
+    "gulp-less": "^1.3.5",
+    "gulp-mocha": "^1.0.0",
     "gulp-rename": "^1.2.0",
-    "requirejs": "^2.1.13"
+    "requirejs": "^2.1.14"
   }
 }

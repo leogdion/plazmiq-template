@@ -14,9 +14,9 @@ module.exports = function (include) {
         create: function (req, res) {
           console.log(req.body);
           if (req.body.secret !== 'testTEST123!') {
-            res.send(400);
+            res.status(400).send();
           } else {
-            res.send(201, 'create');
+            res.status(201).send('create');
           }
         },
         update: function (req, res) {
