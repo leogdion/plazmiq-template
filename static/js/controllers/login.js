@@ -2,7 +2,7 @@
 define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '../libs/names/index', '../libs/shared/index'], function ($, hasher, validations, rest, names, shared) {
 
   function validate() {
-    $('button').not('.inactive').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
+    $('button').not('.inactive').not('#test').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
   }
 
   return {
@@ -45,8 +45,17 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
             */
             errors = validations($this);
             console.log(errors);
-            $this.toggleClass('error', errors.length);
+
+            var errorList = $this.next("ul.errors").empty();
+            errorList = errorList.length ? errorList : $('<ul class="errors"></ul>').insertAfter($this);
             $this.toggleClass('validated', true);
+            if ($this.toggleClass('error', errors.length).hasClass('error')) {
+              console.log(errorList);
+              $.each(errors, function () {
+                errorList.append("<li>" + this + "</li>");
+              });
+            }
+
           }
           validate();
         }
@@ -60,6 +69,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
           $('input#password').val('testTEST123!');
           $('input#confirmPassword').val('testTEST123!');
           $('input').toggleClass('validated', true).toggleClass('error', false);
+          $('ul.errors').empty();
           validate();
         }
       },

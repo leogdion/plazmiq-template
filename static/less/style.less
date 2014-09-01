@@ -185,6 +185,24 @@ form {
       display: table;
       padding: 10px;
     }
+    input + ul.errors {
+      list-style-type: none;
+      text-indent: 0px;
+      padding: 0px;
+      margin-top: 10px;
+      &:empty {
+        display: none;
+      }
+      li {
+        font-weight: bold;
+        width: 80%;
+        margin: 10px auto;
+        padding: 10px;
+        background-color: #EDD;
+        color: #933;
+        border: #966 dotted 2px;
+      }
+    }
     .btn-set {
       position: relative;
       
@@ -240,15 +258,15 @@ fieldset:disabled .btn-set > .progress {
 }
 
 #registration {
-  transition: height 1s;
+  transition:  max-height 1s;
   display: block;
-  height: 100px;
+  max-height: 1000px;
   width: 100%;
   overflow: hidden;
 }
 
 #registration.collapse {
-  height: 0px;
+  max-height: 0px;
 }
 
 #test {
