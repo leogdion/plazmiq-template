@@ -1,6 +1,6 @@
 var chai = require('chai');
 var fs = require('fs');
-var app = require(__dirname + '/../../app');
+var app = require(__dirname + '/../../server');
 chai.should();
 
 describe('it works', function () {
