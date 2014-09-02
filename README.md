@@ -1,6 +1,6 @@
 phragm
 =======
-[ ![Codeship Status for brightdigit/phragm](https://www.codeship.io/projects/3e804630-c9c7-0131-ac6e-5e030090e4e5/status?branch=master)](https://www.codeship.io/projects/22474)
+[ ![Codeship Status for brightdigit/phragm](https://www.codeship.io/projects/3233b0c0-1467-0132-2ab7-12a9c05ceabd/status)](https://www.codeship.io/projects/33466)
 
 [![Build Status](https://travis-ci.org/brightdigit/phragm.svg)](https://travis-ci.org/brightdigit/phragm)
 
