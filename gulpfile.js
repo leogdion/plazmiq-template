@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     es = require('event-stream'),
     jstConcat = require('gulp-jst-concat'),
     jst = require('gulp-jst'),
-    clean = require('gulp-clean'),
+    rimraf = require('gulp-rimraf'),
     rename = require('gulp-rename'),
     path = require('path'),
     fs = require('fs'),
@@ -23,7 +23,7 @@ gulp.task('heroku:staging', ['default']);
 gulp.task('clean', function () {
   return gulp.src(['public', '.tmp', 'coverage'], {
     read: false
-  }).pipe(clean());
+  }).pipe(rimraf());
 });
 
 gulp.task('copy', ['clean', 'bowerrjs'], function () {
