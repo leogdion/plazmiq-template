@@ -3,28 +3,27 @@ var gulp = require('gulp'),
     bump = require('gulp-bump'),
     jshint = require('gulp-jshint'),
     beautify = require('gulp-beautify'),
-    istanbul = require("gulp-istanbul"),
-    coveralls = require('gulp-coveralls'),
     less = require('gulp-less'),
     bower = require('bower'),
     bowerRequireJS = require('bower-requirejs'),
     requirejs = require('requirejs'),
     es = require('event-stream'),
-    coverageEnforcer = require("gulp-istanbul-enforcer"),
     jstConcat = require('gulp-jst-concat'),
     jst = require('gulp-jst'),
-    clean = require('gulp-clean'),
-    expressService = require('gulp-express-service'),
-    rename = require('gulp-rename');
+    rimraf = require('gulp-rimraf'),
+    rename = require('gulp-rename'),
+    path = require('path'),
+    fs = require('fs'),
+    async = require('async');
 
-gulp.task('default', ['clean', 'less', 'requirejs', 'enforce-coverage', 'copy', 'bump']);
+gulp.task('default', ['clean', 'less', 'requirejs', /*'enforce-coverage', */ 'copy', 'bump']);
 
 gulp.task('heroku:staging', ['default']);
 
 gulp.task('clean', function () {
   return gulp.src(['public', '.tmp', 'coverage'], {
     read: false
-  }).pipe(clean());
+  }).pipe(rimraf());
 });
 
 gulp.task('copy', ['clean', 'bowerrjs'], function () {
@@ -64,7 +63,26 @@ gulp.task('bowerrjs', ['bower', 'copy-rjs-config'], function (cb) {
   });
 });
 
-gulp.task('requirejs', ['clean', 'bowerrjs', 'JST', 'lint'], function (cb) {
+gulp.task('names', ['clean', 'bower'], function (cb) {
+  async.reduce(['bower_components/NameDatabases/NamesDatabases/first names/us.txt', 'bower_components/NameDatabases/NamesDatabases/surnames/us.txt'], {}, function (memo, item, cb) {
+    var key = path.basename(path.dirname(item));
+    fs.readFile(item, function (err, data) {
+      if (err) {
+        cb(err);
+        return;
+      }
+      memo[key] = data.toString().split("\n").map(function (_) {
+        return _.trim();
+      });
+      cb(undefined, memo);
+    });
+  }, function (error, result) {
+    fs.writeFile('.tmp/names.js', "define(function () { return " + JSON.stringify(result) + ";});", cb);
+  });
+});
+
+
+gulp.task('requirejs', ['clean', 'names', 'bowerrjs', 'JST', 'lint'], function (cb) {
   var config = {
     mainConfigFile: ".tmp/config.js",
     baseUrl: 'static/js',
@@ -91,8 +109,8 @@ gulp.task('JST', ['clean'], function () {
 });
 
 gulp.task('test', ['clean'], function (cb) {
-  gulp.src(['./app/**/*.js']).pipe(istanbul()).on('finish', function () {
-    gulp.src(["./test/app/**/*.js"]).pipe(mocha()).pipe(istanbul.writeReports()).on('end', cb); // Creating the reports after tests runned
+  gulp.src(['./server/**/*.js']).pipe(istanbul()).on('finish', function () {
+    gulp.src(["./test/server/**/*.js"]).pipe(mocha()).pipe(istanbul.writeReports()).on('end', cb); // Creating the reports after tests runned
   });
 });
 
@@ -107,7 +125,7 @@ gulp.task('enforce-coverage', ['test'], function () {
     coverageDirectory: 'coverage',
     rootDirectory: ''
   };
-  return gulp.src(['./app/**/*.js']).pipe(coverageEnforcer(options));
+  return gulp.src(['./server/**/*.js']).pipe(coverageEnforcer(options));
 });
 
 gulp.task('bump', function () {
@@ -117,11 +135,11 @@ gulp.task('bump', function () {
 });
 
 gulp.task('lint', ['beautify'], function () {
-  return gulp.src(['./app/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
+  return gulp.src(['./server/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
 });
 
 gulp.task('beautify', function () {
-  gulp.src(['./app/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js'], {
+  gulp.src(['./server/**/*.js', './test/**/*.js', './gulpfile.js', 'static/js/**/*.js'], {
     base: '.'
   }).pipe(beautify({
     indentSize: 2,

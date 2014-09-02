@@ -1,6 +1,6 @@
 module.exports = function (include) {
   return {
-    registrations: {
+    users: {
       params: {
 
       },
@@ -12,7 +12,12 @@ module.exports = function (include) {
           res.send('show');
         },
         create: function (req, res) {
-          res.send({});
+          console.log(req.body);
+          if (req.body.secret !== 'testTEST123!') {
+            res.status(400).send();
+          } else {
+            res.status(201).send('create');
+          }
         },
         update: function (req, res) {
           res.send('update');

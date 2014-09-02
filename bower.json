@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.137",
+  "version": "0.1.517",
   "authors": [
     "Leo Dion <leogdion@brightdigit.com>"
   ],
@@ -13,14 +13,13 @@
     "tests"
   ],
   "dependencies": {
-    "requirejs": "~2.1.13",
-    "bootstrap": "~3.1.1",
-    "marionette": "~1.8.8",
-    "jQuery.serializeObject": "~2.0.3"
+    "zepto": "~1.1.4",
+    "requirejs": "~2.1.14",
+    "lodash": "~2.4.1",
+    "crossroads": "~0.12.0",
+    "hasher": "~1.2.0",
+    "signals": "~1.0.0",
+    "NameDatabases": "https://github.com/enorvelle/NameDatabases.git"
   },
-  "devDependencies": {
-    "mocha": "~1.20.1",
-    "should": "~3.3.1",
-    "chai": "~1.9.1"
-  }
+  "devDependencies": {}
 }
