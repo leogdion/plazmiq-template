@@ -32,6 +32,21 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
       */
     },
     events: {
+      'input[data-char]': {
+        'keypress': function (e) {
+          console.log(String.fromCharCode(e.which));
+
+          if (!(String.fromCharCode(e.which).match($(this).attr('data-char')))) {
+            return false;
+          }
+        }
+      },
+      'input[data-char-transform]': {
+        'blur': function (e) {
+          var $this = $(this);
+          $this.val($this.val()[$this.attr('data-char-transform')]());
+        }
+      },
       'input': {
         'blur': function (e) {
           var $this = $(this);
@@ -78,7 +93,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
           if (this.classList.contains('inactive')) {
             console.log('switch');
             $('form h1 span').toggleClass('inactive');
-            $('button').toggleClass('inactive').prop('disabled', false);
+            $('button').not("#test").toggleClass('inactive').prop('disabled', false);
             validate();
             $('#registration').toggleClass('collapse', this.getAttribute('id') !== 'register');
             $('#registration input').prop('required', this.getAttribute('id') === 'register');

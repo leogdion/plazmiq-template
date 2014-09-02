@@ -8,7 +8,7 @@ app.use(function (req, res, next) {
   setTimeout(function () {
     console.log("replying");
     next();
-  }, 2000);
+  }, 1000);
 });
 // parse application/json
 app.use(bodyParser.json());
