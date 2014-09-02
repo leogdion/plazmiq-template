@@ -1,0 +1,231 @@
+/*!
+ * Roots 6.5.0
+ */
+
+@import "iconic_fill.css";
+@import "iconic_stroke.css";
+@import "font-awesome/font-awesome.less";
+@import "bootstrap/bootstrap.less";
+@import url(http://fonts.googleapis.com/css?family=Oxygen+Mono|Cardo:400,700,400italic|Oxygen:400,300,700);
+
+@font-family-sans-serif:  'Oxygen', "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-serif:       'Cardo', Georgia, "Times New Roman", Times, serif;
+@font-family-monospace:   'Oxygen Mono', Monaco, Menlo, Consolas, "Courier New", monospace;
+
+@headings-font-family: @font-family-serif;
+
+.navbar-default .navbar-brand, .navbar-brand {
+   font-family: @font-family-serif;
+   color: @gray-dark;
+}
+
+.page-id-101 .content ul {
+   padding: 0;
+   font-size: @font-size-large;
+}
+.page-id-101 .content ul li {
+   display: block;
+   clear: both;
+}
+
+.page-id-101 .content ul a {
+   color: @gray-dark;
+}
+
+.page-id-101 .content ul a:hover {
+   text-decoration: none;
+}
+
+.page-id-101 .content ul a:hover i{
+   color: @link-color;
+}
+
+.page-id-101 .content address {
+   margin: 0;
+   display: inline;
+}
+.page-id-101 .content li i {
+   width: 35px;
+}
+
+.page-id-101 .content li i.fa-home + br {
+   display: none;
+}
+
+#capabilities ul {
+   margin: 10px;
+}
+
+#capabilities li {
+   list-style-type: none;
+   display: block;
+   float: left;
+   white-space: nowrap;
+   font-size: @font-size-large;
+   margin: 5px;
+}
+
+@media (min-width: @screen-md) {
+
+   #portfolio >  [class*="col-"] {
+       height: 100%;
+   }
+
+   #portfolio .thumbnail {
+      height: 100%;
+   }
+   
+   .row#portfolio{
+       overflow: hidden; 
+   }
+}
+
+svg * {
+   fill: @gray-dark;
+}
+
+#capabilities ul {
+   padding: 0;
+}
+
+img.chr {
+   margin-bottom: 13px;
+   height: 28px;
+}
+
+@media (min-width: 768px) {
+   img.chr {
+      margin-bottom: 18px;
+      height: 50px;
+   }
+}
+
+footer {
+   border-top: solid 1px @gray-lighter;
+   padding-top: 20px;
+}
+
+footer .social h4 {
+   font-family: @font-family-sans-serif;
+   color: @gray-light;
+   float: left;
+   margin: 4px;
+   width: 5 *@font-size-h4;
+}
+
+footer .social ul{
+   padding: 0;
+   float: right;
+   margin: 0px 5px 0px;
+   font-size: @font-size-h4;
+}
+
+footer .social ul a{
+   color: @gray-dark;
+}
+
+footer .social section {
+   clear: both;
+   float: left;
+}
+
+footer .social li{
+
+   list-style-type: none;
+   display: block;
+   float: left;
+   white-space: nowrap;
+   margin: 0px 4px;
+}
+
+footer .social li:first-child {
+   margin-left: 0;
+}
+
+body.home:before {
+   content: normal;
+}
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+body { }
+
+
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.banner { }
+
+
+
+/* ==========================================================================
+   Content
+   ========================================================================== */
+
+.content { }
+
+
+
+/* ==========================================================================
+   Primary Content
+   ========================================================================== */
+
+.main { }
+
+/* Gallery Shortcode */
+.gallery-row { padding: 15px 0; }
+
+
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.sidebar { }
+
+
+
+/* ==========================================================================
+   Posts
+   ========================================================================== */
+
+.hentry header { }
+.hentry time { }
+.hentry .byline { }
+.hentry .entry-content { }
+.hentry footer { }
+
+
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.content-info { }
+
+
+
+/* ==========================================================================
+   WordPress Generated Classes
+   See: http://codex.wordpress.org/CSS#WordPress_Generated_Classes
+   ========================================================================== */
+
+.aligncenter { display: block; margin: 0 auto; }
+.alignleft { float: left; }
+.alignright { float: right; }
+figure.alignnone { margin-left: 0; margin-right: 0; }
+
+
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+@media (min-width: @screen-sm) { }
+
+@media (min-width: @screen-md) { }
+
+@media (min-width: @screen-lg) { }
