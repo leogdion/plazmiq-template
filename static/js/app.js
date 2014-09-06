@@ -75,6 +75,9 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
   //crossroads.addRoute('lorem/ipsum');
   crossroads.routed.add(console.log, console); //log all routes
   //setup hasher
+  $('#debug').on('click', function () {
+    $('#test').css('display', 'inline-block');
+  });
 
   function parseHash(newHash, oldHash) {
     crossroads.parse(newHash);

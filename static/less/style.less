@@ -69,6 +69,21 @@ header > nav {
   a {
     text-decoration: none;
   }
+  button {
+    background-color: transparent;
+    color: #fff;
+    -webkit-appearance: none;
+    margin: 0;
+    padding: 0;
+    text-transform: lowercase;
+    font-size: 11pt;
+    color: #FFC;
+    cursor: pointer;
+    &:hover {
+      color: #FF9;
+      background-color: #006;
+    }
+  }
 }
 
 main {
@@ -139,11 +154,7 @@ section > header > h1,h2 {
 }
 
 form button, a.button {
-  padding: 10px;
-  margin-top: 5px;
-  text-decoration: none;
   display: inline-block;
-  border: none;
 
 }
 
@@ -243,8 +254,6 @@ form {
       margin-bottom: 0px;
       font-size: 16px;
       cursor: pointer;
-      background-color: #CCC;
-      color: #000;
       &.inactive {
         background-color: #000;
         color: #CCC;
@@ -256,9 +265,13 @@ form {
   }
 }
 
-a.button  {
+button,a.button  {
   background-color: #CCC;
   color: #000;
+  border: none;
+  padding: 10px;
+  margin-top: 5px;
+  text-decoration: none;
 }
 
 fieldset:disabled .btn-set > .progress {
@@ -280,6 +293,7 @@ fieldset:disabled .btn-set > .progress {
 
 #test {
   margin-left: 10px;
+  display: none;
 }
 
 @-webkit-keyframes MOVE-BG {
