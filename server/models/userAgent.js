@@ -1,8 +1,7 @@
 var crypto = require('crypto');
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   //var User = sequelize.$('user');
-
   var UserAgent = sequelize.define("userAgent", {
     hash: {
       type: DataTypes.STRING,
@@ -12,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     text: {
       type: DataTypes.TEXT,
       allowNull: false,
-      set: function(value) {
+      set: function (value) {
         var md5sum = crypto.createHash('md5');
         md5sum.update(value);
         this.setDataValue('text', value);
@@ -23,6 +22,5 @@ module.exports = function(sequelize, DataTypes) {
 
   //Company.hasMany(User, {as : "Developers"});
   //Company.hasOne(User, {as : "Contact"});
-
   return UserAgent;
 };

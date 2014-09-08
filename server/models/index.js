@@ -1,5 +1,5 @@
 var sequelize = require('../libs').sequelize,
-  indexer = require('../libs').indexer;
+    indexer = require('../libs').indexer;
 
 function model(name) {
   return sequelize.$(name);

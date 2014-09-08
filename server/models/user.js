@@ -1,12 +1,12 @@
 var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Registration = sequelize.$('registration'),
-    App = sequelize.$('app'),
-    Device = sequelize.$('device'),
-    Role = sequelize.$('role'),
-    Company = sequelize.$('company');
+      App = sequelize.$('app'),
+      Device = sequelize.$('device'),
+      Role = sequelize.$('role'),
+      Company = sequelize.$('company');
 
   var User = sequelize.define("user", {
     name: {
@@ -30,12 +30,12 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
-      findByLogin: function(name, password, cb) {
+      findByLogin: function (name, password, cb) {
         User.find({
           where: {
             name: name
           }
-        }).success(function(user) {
+        }).success(function (user) {
           if (user && bcrypt.compareSync(password, user.password)) {
             cb(user);
           } else {
@@ -43,7 +43,7 @@ module.exports = function(sequelize, DataTypes) {
           }
         });
       },
-      newLogin: function(data) {
+      newLogin: function (data) {
         data.password = bcrypt.hashSync(data.password, salt);
         return User.create(data);
       }
@@ -51,16 +51,10 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   Registration.belongsTo(User);
-  User
-    .belongsTo(Company)
-    .belongsTo(Registration)
-    .belongsTo(Role)
-    .hasMany(App)
-    .hasMany(Device)
-    .hasOne(Company, {
-      as: 'contact',
-      foreignKey: 'contactId'
-    });
+  User.belongsTo(Company).belongsTo(Registration).belongsTo(Role).hasMany(App).hasMany(Device).hasOne(Company, {
+    as: 'contact',
+    foreignKey: 'contactId'
+  });
 
   Device.hasMany(User);
 

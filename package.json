@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.624",
+  "version": "0.1.625",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -19,6 +19,7 @@
     "async": "^0.9.0",
     "body-parser": "^1.2.2",
     "express": "^4.8.6",
+    "pg": "^3.4.2",
     "pg.js": "^3.4.1",
     "sequelize": "^2.0.0-dev13"
   },
@@ -39,6 +40,7 @@
     "gulp-mocha": "^1.0.0",
     "gulp-rename": "^1.2.0",
     "gulp-rimraf": "^0.1.0",
+    "gulp-simplecrypt": "0.0.1",
     "requirejs": "^2.1.14"
   }
 }

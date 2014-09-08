@@ -1,7 +1,7 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var User = sequelize.$('user'),
-    App = sequelize.$('app'),
-    Device = sequelize.$('device');
+      App = sequelize.$('app'),
+      Device = sequelize.$('device');
 
   var Session = sequelize.define("session", {
     key: {
@@ -31,21 +31,18 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     instanceMethods: {
-      renew: function() {
+      renew: function () {
         this.lastActivatedAt = DataTypes.NOW;
         return this;
       },
-      logoff: function() {
+      logoff: function () {
         this.endedAt = DataTypes.NOW;
         return this;
       }
     }
   });
 
-  Session
-    .belongsTo(User)
-    .belongsTo(App)
-    .belongsTo(Device);
+  Session.belongsTo(User).belongsTo(App).belongsTo(Device);
 
   return Session;
 };

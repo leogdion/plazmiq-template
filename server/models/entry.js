@@ -1,6 +1,6 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Session = sequelize.$('session'),
-    Item = sequelize.$('item');
+      Item = sequelize.$('item');
 
   var Entry = sequelize.define("entry", {});
 

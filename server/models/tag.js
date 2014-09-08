@@ -1,7 +1,7 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Entry = sequelize.$('entry'),
-    Item = sequelize.$('item'),
-    Session = sequelize.$('session');
+      Item = sequelize.$('item'),
+      Session = sequelize.$('session');
 
   var Tag = sequelize.define("tag", {});
 

@@ -1,4 +1,4 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Privilege = sequelize.define("privilege", {
     name: {
       type: DataTypes.STRING,

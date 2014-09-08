@@ -1,8 +1,8 @@
 var fs = require('fs'),
-  path = require('path'),
-  logger = require('./logger.js');
+    path = require('path'),
+    logger = require('./logger.js');
 
-module.exports = function(dir, func) {
+module.exports = function (dir, func) {
   function filesOnly(dir) {
     function _filesOnly(dir, subpath) {
       return subpath !== 'index.js' && subpath[0] !== '_' && fs.statSync(path.resolve(dir, subpath)).isFile();
@@ -17,8 +17,7 @@ module.exports = function(dir, func) {
 
   function addObj(obj, dir) {
     function _(obj, dir, file) {
-      var mod,
-        filepath = path.resolve(dir, file + '.js');
+      var mod, filepath = path.resolve(dir, file + '.js');
       try {
         mod = require(filepath);
       } catch (e) {
