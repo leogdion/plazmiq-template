@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var roust = require('../roust');
 var app = express();
+var configuration = require('./configuration');
 
 app.use(function (req, res, next) {
   console.log("received request...");
