@@ -14,9 +14,11 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     path = require('path'),
     fs = require('fs'),
+    encrypt = require("gulp-simplecrypt").encrypt,
+    decrypt = require("gulp-simplecrypt").decrypt,
     async = require('async');
 
-gulp.task('default', ['clean', 'less', 'requirejs', /*'enforce-coverage', */ 'copy', 'bump']);
+gulp.task('default', ['clean', 'less', 'decrypt', 'requirejs', /*'enforce-coverage', */ 'copy', 'bump']);
 
 gulp.task('heroku:staging', ['default']);
 
@@ -24,6 +26,26 @@ gulp.task('clean', function () {
   return gulp.src(['public', '.tmp', 'coverage'], {
     read: false
   }).pipe(rimraf());
+});
+
+gulp.task('encrypt', function () {
+
+  var options = {
+    password: process.env.ENCRYPTION_KEY || fs.readFileSync('.encryption_key'),
+    salt: fs.readFileSync('.salt')
+  };
+  gulp.src('server/configuration/unencrypted/**/*.json').pipe(encrypt(options)).pipe(gulp.dest('server/configuration/encrypted/'));
+
+});
+
+gulp.task('decrypt', ['encrypt'], function () {
+
+  var options = {
+    password: process.env.SALT || fs.readFileSync('.encryption_key'),
+    salt: fs.readFileSync('.salt')
+  };
+  gulp.src('server/configuration/encrypted/**/*.json').pipe(decrypt(options)).pipe(gulp.dest('server/configuration/unencrypted/'));
+
 });
 
 gulp.task('copy', ['clean', 'bowerrjs'], function () {

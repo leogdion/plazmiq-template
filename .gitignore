@@ -4,3 +4,6 @@ npm-debug.log
 /.tmp
 node_modules
 coverage
+server/configuration/unencrypted
+.encryption_key
+.salt
