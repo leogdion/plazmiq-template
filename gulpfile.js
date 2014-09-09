@@ -31,8 +31,8 @@ gulp.task('clean', function () {
 gulp.task('encrypt', function () {
 
   var options = {
-    password: process.env.ENCRYPTION_KEY || fs.readFileSync('.encryption_key'),
-    salt: fs.readFileSync('.salt')
+    password: fs.existsSync('.encryption_key') ? fs.readFileSync('.encryption_key') : process.env.ENCRYPTION_KEY,
+    salt: fs.existsSync('.salt') ? fs.readFileSync('.salt') : process.env.SALT
   };
   gulp.src('server/configuration/unencrypted/**/*.json').pipe(encrypt(options)).pipe(gulp.dest('server/configuration/encrypted/'));
 
@@ -41,8 +41,8 @@ gulp.task('encrypt', function () {
 gulp.task('decrypt', ['encrypt'], function () {
 
   var options = {
-    password: process.env.SALT || fs.readFileSync('.encryption_key'),
-    salt: fs.readFileSync('.salt')
+    password: fs.existsSync('.encryption_key') ? fs.readFileSync('.encryption_key') : process.env.ENCRYPTION_KEY,
+    salt: fs.existsSync('.salt') ? fs.readFileSync('.salt') : process.env.SALT
   };
   gulp.src('server/configuration/encrypted/**/*.json').pipe(decrypt(options)).pipe(gulp.dest('server/configuration/unencrypted/'));
 
