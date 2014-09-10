@@ -3,7 +3,9 @@ var bodyParser = require('body-parser');
 var roust = require('../roust');
 var app = express();
 var configuration = require('./configuration');
+var config2 = require('./configuration');
 
+console.log(configuration);
 app.use(function (req, res, next) {
   console.log("received request...");
   setTimeout(function () {
