@@ -1,7 +1,11 @@
-var fs = require('fs'),
-    path = require('path'),
-    logger = require('./logger.js');
+var wrench = require('wrench'),
+merge = require('deepmerge'),
+fs = require('fs'),
+path = require('path'),
+decrypt = require('./decrypt');
+    //logger = require('./logger.js');
 
+/*
 module.exports = function (dir, func) {
   function filesOnly(dir) {
     function _filesOnly(dir, subpath) {
@@ -46,3 +50,43 @@ module.exports = function (dir, func) {
 
   return parseFiles(fs.readdirSync(dir).filter(filesOnly(dir)).map(basename), dir, func);
 };
+*/
+module.exports = function () {
+  function readdir(basedir, paths) {
+  //var paths = Array.prototype.slice.call(arguments);
+  paths.unshift(basedir);
+  //console.log(paths);
+  var fullpath = path.join.apply(undefined, paths);
+  return wrench.readdirSyncRecursive(fullpath).map(function (value) {
+    return path.join(fullpath, value);
+  });
+}
+
+  var METHODS = {
+    MERGE : 1
+  };
+
+  var indexer = function (settings) {
+    
+    return settings.directories.reduce(function (configuration, dirPath) {
+      var files = readdir(settings.basedir, dirPath.path);
+      var jsons = [];
+      if (dirPath.encrypted) {
+        jsons = files.map(decrypt);
+      } else {
+        jsons = files.map(require);
+      }
+      if (settings.method === METHODS.MERGE)
+        jsons.forEach(function (value) {
+        configuration = merge(configuration, value);
+      });
+
+
+      return configuration;
+    }, {});
+  };
+
+  indexer.methods = METHODS;
+
+  return indexer;
+}();

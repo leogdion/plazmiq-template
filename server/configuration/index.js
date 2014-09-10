@@ -1,6 +1,4 @@
-var wrench = require('wrench'),
-    merge = require('deepmerge'),
-    decrypt = require('./decrypt'),
+var indexer = require('../libs/indexer'),
     path = require('path'),
     configuration;
 
@@ -26,9 +24,18 @@ function readdir(paths) {
 }
 
 module.exports = function () {
+  if (!process.env.NODE_ENV) {
+    throw new Error('Must supply node environment.');
+  }
   if (!configuration) {
     console.log('test');
-    configuration = dirs.reduce(function (configuration, dirPath) {
+    configuration = indexer({
+      basedir : __dirname,
+      directories : dirs,
+      method : indexer.methods.MERGE
+    });
+       /*   configuration = dirs.reduce(function (configuration, dirPath) {
+
       var files = readdir(dirPath.path);
       var settings = [];
       if (dirPath.encrypted) {
@@ -40,8 +47,11 @@ module.exports = function () {
         //console.log(configuration);
         configuration = merge(configuration, value);
       });
+
+
       return configuration;
     }, {});
+    */
     //console.log(readdir("stages","default"));
     //console.log(readdir("stages",process.env.NODE_ENV));
     //console.log(readdir("encrypted",process.env.NODE_ENV));
