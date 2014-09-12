@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.642",
+  "version": "0.1.643",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -17,9 +17,12 @@
   "author": "Leo G. Dion, BrightDigit, LLC <leogdion@brightdigit.com>",
   "dependencies": {
     "async": "^0.9.0",
+    "bcrypt": "^0.8.0",
     "body-parser": "^1.2.2",
     "deepmerge": "^0.2.7",
     "express": "^4.8.6",
+    "lodash": "^2.4.1",
+    "node-uuid": "^1.4.1",
     "pg": "^3.4.2",
     "pg.js": "^3.4.1",
     "sequelize": "^2.0.0-dev13",

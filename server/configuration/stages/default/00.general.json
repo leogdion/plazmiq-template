@@ -3,5 +3,10 @@
 		"alpha" : "default",
 		"beta" : "default",
 		"gamma" : "default"
-	}
+	},
+  "database" : {
+    "options" : {
+      "dialect" : "postgres"
+    }
+  }
 }

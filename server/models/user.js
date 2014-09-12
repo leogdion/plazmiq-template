@@ -2,11 +2,13 @@ var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
 
 module.exports = function (sequelize, DataTypes) {
+  /*
   var Registration = sequelize.$('registration'),
       App = sequelize.$('app'),
       Device = sequelize.$('device'),
       Role = sequelize.$('role'),
       Company = sequelize.$('company');
+  */
 
   var User = sequelize.define("user", {
     name: {
@@ -50,6 +52,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
+  /*
   Registration.belongsTo(User);
   User.belongsTo(Company).belongsTo(Registration).belongsTo(Role).hasMany(App).hasMany(Device).hasOne(Company, {
     as: 'contact',
@@ -57,6 +60,7 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   Device.hasMany(User);
+  */
 
   return User;
 };

@@ -1,10 +1,9 @@
 var wrench = require('wrench'),
-merge = require('deepmerge'),
-fs = require('fs'),
-path = require('path'),
-decrypt = require('./decrypt');
-    //logger = require('./logger.js');
-
+    merge = require('deepmerge'),
+    fs = require('fs'),
+    path = require('path'),
+    decrypt = require('./decrypt');
+//logger = require('./logger.js');
 /*
 module.exports = function (dir, func) {
   function filesOnly(dir) {
@@ -53,21 +52,21 @@ module.exports = function (dir, func) {
 */
 module.exports = function () {
   function readdir(basedir, paths) {
-  //var paths = Array.prototype.slice.call(arguments);
-  paths.unshift(basedir);
-  //console.log(paths);
-  var fullpath = path.join.apply(undefined, paths);
-  return wrench.readdirSyncRecursive(fullpath).map(function (value) {
-    return path.join(fullpath, value);
-  });
-}
+    //var paths = Array.prototype.slice.call(arguments);
+    paths.unshift(basedir);
+    //console.log(paths);
+    var fullpath = path.join.apply(undefined, paths);
+    return wrench.readdirSyncRecursive(fullpath).map(function (value) {
+      return path.join(fullpath, value);
+    });
+  }
 
   var METHODS = {
-    MERGE : 1
+    MERGE: 1
   };
 
   var indexer = function (settings) {
-    
+
     return settings.directories.reduce(function (configuration, dirPath) {
       var files = readdir(settings.basedir, dirPath.path);
       var jsons = [];
@@ -76,8 +75,7 @@ module.exports = function () {
       } else {
         jsons = files.map(require);
       }
-      if (settings.method === METHODS.MERGE)
-        jsons.forEach(function (value) {
+      if (settings.method === METHODS.MERGE) jsons.forEach(function (value) {
         configuration = merge(configuration, value);
       });
 

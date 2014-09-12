@@ -13,51 +13,16 @@ var dirs = [{
   encrypted: true
 }];
 
-function readdir(paths) {
-  //var paths = Array.prototype.slice.call(arguments);
-  paths.unshift(__dirname);
-  //console.log(paths);
-  var fullpath = path.join.apply(undefined, paths);
-  return wrench.readdirSyncRecursive(fullpath).map(function (value) {
-    return path.join(fullpath, value);
-  });
-}
-
 module.exports = function () {
   if (!process.env.NODE_ENV) {
     throw new Error('Must supply node environment.');
   }
   if (!configuration) {
-    console.log('test');
     configuration = indexer({
-      basedir : __dirname,
-      directories : dirs,
-      method : indexer.methods.MERGE
+      basedir: __dirname,
+      directories: dirs,
+      method: indexer.methods.MERGE
     });
-       /*   configuration = dirs.reduce(function (configuration, dirPath) {
-
-      var files = readdir(dirPath.path);
-      var settings = [];
-      if (dirPath.encrypted) {
-        settings = files.map(decrypt);
-      } else {
-        settings = files.map(require);
-      }
-      settings.forEach(function (value) {
-        //console.log(configuration);
-        configuration = merge(configuration, value);
-      });
-
-
-      return configuration;
-    }, {});
-    */
-    //console.log(readdir("stages","default"));
-    //console.log(readdir("stages",process.env.NODE_ENV));
-    //console.log(readdir("encrypted",process.env.NODE_ENV));
-    //console.log(wrench.readdirSyncRecursive(__dirname + "/stages/" + process.env.NODE_ENV));
-    //console.log(wrench.readdirSyncRecursive(__dirname + "/encrypted/" + process.env.NODE_ENV));
-    //configuration = {};
   }
   return configuration;
 }();

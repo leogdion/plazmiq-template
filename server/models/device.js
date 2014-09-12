@@ -2,7 +2,7 @@ var crypto = require('crypto'),
     QueryChainer = require('sequelize').Utils.QueryChainer;
 
 module.exports = function (sequelize, DataTypes) {
-  var UserAgent = sequelize.$('userAgent');
+  //var UserAgent = sequelize.$('userAgent');
 
   var Device = sequelize.define("device", {
     key: {
@@ -40,7 +40,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  Device.belongsTo(UserAgent);
+  //Device.belongsTo(UserAgent);
 
   return Device;
 };

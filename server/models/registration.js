@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  var App = sequelize.$('app');
+  //var App = sequelize.$('app');
 
   var Registration = sequelize.define("registration", {
     emailAddress: {
@@ -24,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  Registration.belongsTo(App);
+  //Registration.belongsTo(App);
 
   return Registration;
 };

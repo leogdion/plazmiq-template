@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  var Privilege = sequelize.$('privilege');
+  //var Privilege = sequelize.$('privilege');
 
   var Role = sequelize.define("role", {
     name: {
@@ -9,8 +9,8 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  Role.hasMany(Privilege);
-  Privilege.hasMany(Role);
+  //Role.hasMany(Privilege);
+  //Privilege.hasMany(Role);
 
   return Role;
 };

@@ -1,8 +1,9 @@
 module.exports = function (sequelize, DataTypes) {
+  /*
   var User = sequelize.$('user'),
       App = sequelize.$('app'),
       Device = sequelize.$('device');
-
+  */
   var Session = sequelize.define("session", {
     key: {
       type: DataTypes.BLOB('tiny'),
@@ -42,7 +43,7 @@ module.exports = function (sequelize, DataTypes) {
     }
   });
 
-  Session.belongsTo(User).belongsTo(App).belongsTo(Device);
+  //Session.belongsTo(User).belongsTo(App).belongsTo(Device);
 
   return Session;
 };
