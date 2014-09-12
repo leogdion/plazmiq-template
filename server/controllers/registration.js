@@ -1,6 +1,6 @@
 var db = require("../libs/sequelize"),
   uuid = require('node-uuid');
-  
+
 module.exports = function (include) {
   return {
     registrations: {
@@ -16,9 +16,9 @@ module.exports = function (include) {
         },
         create: function (req, res) {
           console.log(req.body);
-          console.log(db.registration);
+          //console.log(db.registration);
           var data = {
-            emailAddress: req.body.emailAddress,
+            email: req.body.email,
             secret: new Buffer(uuid.parse(uuid.v4())),
             key: new Buffer(uuid.parse(uuid.v4()))
           };
@@ -35,6 +35,7 @@ module.exports = function (include) {
             });
 */
           }).error(function(error) {
+            console.log(error);
             res.status(500).send(error);
             /*
             if (error.emailAddress) {
@@ -48,9 +49,11 @@ module.exports = function (include) {
             }
             */
           });
+          /*
           var result = req.body;
           result.key = "key";
           res.send(result);
+          */
         },
         update: function (req, res) {
           res.send('update');

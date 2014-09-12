@@ -2,7 +2,7 @@ module.exports = function (sequelize, DataTypes) {
   //var App = sequelize.$('app');
 
   var Registration = sequelize.define("registration", {
-    emailAddress: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
