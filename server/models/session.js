@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  /*
+/*
   var User = sequelize.$('user'),
       App = sequelize.$('app'),
       Device = sequelize.$('device');
@@ -44,6 +44,5 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   //Session.belongsTo(User).belongsTo(App).belongsTo(Device);
-
   return Session;
 };

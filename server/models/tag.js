@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  /*
+/*
   var Entry = sequelize.$('entry'),
       Item = sequelize.$('item'),
       Session = sequelize.$('session');
@@ -10,6 +10,5 @@ module.exports = function (sequelize, DataTypes) {
   //Tag.belongsTo(Item);
   //Tag.belongsTo(Entry);
   //Tag.belongsTo(Session);
-
   return Tag;
 };

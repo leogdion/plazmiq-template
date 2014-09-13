@@ -1,6 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
   //var Privilege = sequelize.$('privilege');
-
   var Role = sequelize.define("role", {
     name: {
       type: DataTypes.STRING,
@@ -11,6 +10,5 @@ module.exports = function (sequelize, DataTypes) {
 
   //Role.hasMany(Privilege);
   //Privilege.hasMany(Role);
-
   return Role;
 };
