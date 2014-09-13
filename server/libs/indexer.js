@@ -56,9 +56,13 @@ module.exports = function () {
     paths.unshift(basedir);
     //console.log(paths);
     var fullpath = path.join.apply(undefined, paths);
-    return wrench.readdirSyncRecursive(fullpath).map(function (value) {
-      return path.join(fullpath, value);
-    });
+    if (fs.existsSync(fullpath)) {
+      return wrench.readdirSyncRecursive(fullpath).map(function (value) {
+        return path.join(fullpath, value);
+      });
+    } else {
+      return [];
+    }
   }
 
   var METHODS = {
