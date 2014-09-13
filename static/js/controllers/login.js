@@ -103,6 +103,8 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
               $('form fieldset').prop('disabled', true);
               rest.post('registrations', 'form', {
                 success: function (data, status, xhr) {
+                  data.name = $('input#name').val();
+                  data.email = $('input#email').val();
                   shared.set('registration', data);
                   console.log('posted registration');
                   hasher.setHash('confirmation');
