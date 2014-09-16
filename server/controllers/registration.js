@@ -22,6 +22,7 @@ module.exports = function (include) {
             secret: new Buffer(uuid.parse(uuid.v4())),
             key: new Buffer(uuid.parse(uuid.v4()))
           };
+          console.log(data.secret);
           db.registration.create(data).success(function (registration) {
             res.status(200).send({
               key: data.key.toString('base64')

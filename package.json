@@ -25,6 +25,7 @@
     "node-uuid": "^1.4.1",
     "pg": "^3.4.2",
     "pg.js": "^3.4.1",
+    "postmark": "^0.2.5",
     "sequelize": "^2.0.0-dev13",
     "simplecrypt": "^0.1.0",
     "wrench": "^1.5.8"

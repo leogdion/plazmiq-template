@@ -21,8 +21,14 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       defaultValue: DataTypes.NOW
     }
+  }, {
+    classMethods : {
+      associate : function (models) {
+        Registration.belongsTo(models.app);
+      }
+    }
   });
 
-  //Registration.belongsTo(App);
+  //
   return Registration;
 };
