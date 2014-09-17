@@ -28,14 +28,13 @@ module.exports = function (include) {
             //res.status(200).send({
             //  key: data.key.toString('base64')
             //});
-
             emailer.queue('confirmation', {
               email: data.email,
               secret: data.secret.toString('base64')
-            }, function(error, response) {
-             // callback(error ? 400 : undefined, error ? error : {
-             //   key: data.key.toString('base64')
-             // });
+            }, function (error, response) {
+              // callback(error ? 400 : undefined, error ? error : {
+              //   key: data.key.toString('base64')
+              // });
               if (error) {
                 res.status(400).send(error);
               } else {
@@ -53,7 +52,7 @@ module.exports = function (include) {
               });
             } else if (error) {
               res.status(500).send(error);
-            }            
+            }
           });
         },
         update: function (req, res) {

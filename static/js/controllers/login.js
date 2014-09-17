@@ -105,6 +105,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
                 success: function (data, status, xhr) {
                   data.name = $('input#name').val();
                   data.email = $('input#email').val();
+                  data.password = $('input#password').val();
                   shared.set('registration', data);
                   console.log('posted registration');
                   hasher.setHash('confirmation');

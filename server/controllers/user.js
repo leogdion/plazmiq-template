@@ -1,10 +1,9 @@
-
 var db = require("../libs/sequelize"),
-  async = require('async'),
-  QueryChainer = db.Sequelize.Utils.QueryChainer;
+    async = require('async'),
+    QueryChainer = db.Sequelize.Utils.QueryChainer;
 
 var Registration = db.registration,
-  User = db.user;
+    User = db.user;
 /*
 var emailer = libs.emailer,
   logger = libs.logger;
@@ -28,7 +27,7 @@ module.exports = function (include) {
           res.send('show');
         },
         create: function (req, res) {
-          /*
+/*
           console.log(req.body);
           if (req.body.secret !== 'testTEST123!') {
             res.status(400).send();
@@ -36,40 +35,41 @@ module.exports = function (include) {
             res.status(201).send('create');
           }
           */
-          function findRegistration(cb) {
-  Registration.find({
-    where: {
-      email: req.body.email,
-      key: new Buffer(req.body.key, 'base64'),
-      secret: new Buffer(req.body.secret, 'base64'),
-      userId: null,
-      registeredAt: {
-        gt: new Date(new Date() - 5 * 60 * 1000)
-      }
-    },
-    order: "\"registeredAt\" DESC"
-  }).success(function(registration) {
-    cb(undefined, registration);
-  }).error(function(error) {
-    cb(error, undefined);
-  });
-}
 
-function findUser(cb) {
-  User.find({
-    where: {
-      name: req.body.name
-    }
-  }).success(function(user) {
-    cb(undefined, user);
-  }).error(function(error) {
-    cb(error);
-  });
-}
+          function findRegistration(cb) {
+            Registration.find({
+              where: {
+                email: req.body.email,
+                key: new Buffer(req.body.key, 'base64'),
+                secret: new Buffer(req.body.secret, 'base64'),
+                userId: null,
+                registeredAt: {
+                  gt: new Date(new Date() - 5 * 60 * 1000)
+                }
+              },
+              order: "\"registeredAt\" DESC"
+            }).success(function (registration) {
+              cb(undefined, registration);
+            }).error(function (error) {
+              cb(error, undefined);
+            });
+          }
+
+          function findUser(cb) {
+            User.find({
+              where: {
+                name: req.body.name
+              }
+            }).success(function (user) {
+              cb(undefined, user);
+            }).error(function (error) {
+              cb(error);
+            });
+          }
           async.parallel({
             registration: findRegistration,
             user: findUser
-          }, function(err, results) {
+          }, function (err, results) {
             console.log(err);
             console.log(results);
             if (results.registration && !results.user) {
@@ -77,38 +77,38 @@ function findUser(cb) {
                 name: req.body.name,
                 password: req.body.password,
                 email: req.body.email
-              }).success(function(user) {
+              }).success(function (user) {
                 var chain = new QueryChainer();
                 chain.add(user.setRegistration(results.registration));
                 chain.add(results.registration.setUser(user));
-                chain.run().success(function(results) {
+                chain.run().success(function (results) {
                   res.status(201).send({
                     name: req.body.name
                   });
-                  /*
+/*
                   callback(201, {
                     name: request.body.name
                   }, {
                     "Location": "/user/" + request.body.name
                   });
                   */
-                }).error(function(error) {
+                }).error(function (error) {
                   res.status(500).send({
                     error: error
                   });
-                  /*
+/*
                   logger.error(error);
                   callback(500, {
                     error: error
                   });
                   */
                 });
-              }).error(function(error) {
+              }).error(function (error) {
                 if (error.name) {
                   res.status(400).send({
                     error: error
                   });
-                  /*
+/*
                   callback(400, {
                     error: error
                   });
@@ -117,7 +117,7 @@ function findUser(cb) {
                   res.status(500).send({
                     error: error
                   });
-                  /*
+/*
                   logger.error(error);
                   callback(500, {
                     error: error
@@ -127,19 +127,19 @@ function findUser(cb) {
               });
             } else {
               if (!results.registration) {
-                  res.status(400).send({
-                    error: "Registration information invalid."
-                  });
-                /*
+                res.status(400).send({
+                  error: "Registration information invalid."
+                });
+/*
                 callback(400, {
                   "error": "Registration information invalid."
                 });
                 */
               } else if (results.user) {
-                  res.status(400).send({
-                    error: "Username is already being used."
-                  });
-                /*
+                res.status(400).send({
+                  error: "Username is already being used."
+                });
+/*
                 callback(400, {
                   "error": "Username is already being used."
                 });
@@ -160,38 +160,38 @@ function findUser(cb) {
 };
 
 //module.exports = [{
-  /**
-   * @api {post} /user Confirm and create a new user.
-   * @apiName Confirm
-   * @apiGroup User
-   *
-   * @apiParam {String} key Registration Key.
-   * @apiParam {String} secret Registration Secret sent through email.
-   * @apiParam {String} emailAddress Registration Email Address.
-   * @apiParam {String} name Username.
-   * @apiParam {String} password Password.
-   *
-   * @apiSuccessExample Success-Response:
-   *     HTTP/1.1 200 OK
-   *
-   * @apiError RegistrationNotFound The registration information given is not found.
-   *
-   * @apiErrorExample Error-Response:
-   *     HTTP/1.1 404 Not Found
-   *     {
-   *       "error": "RegistrationNotFound"
-   *     }
-   *
-   * @apiError UsernameAlreadyInUse The user name requested is already in use.
-   *
-   * @apiErrorExample Error-Response:
-   *     HTTP/1.1 404 Not Found
-   *     {
-   *       "error": "UsernameAlreadyInUse"
-   *     }
-   */
+/**
+ * @api {post} /user Confirm and create a new user.
+ * @apiName Confirm
+ * @apiGroup User
+ *
+ * @apiParam {String} key Registration Key.
+ * @apiParam {String} secret Registration Secret sent through email.
+ * @apiParam {String} emailAddress Registration Email Address.
+ * @apiParam {String} name Username.
+ * @apiParam {String} password Password.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *
+ * @apiError RegistrationNotFound The registration information given is not found.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "RegistrationNotFound"
+ *     }
+ *
+ * @apiError UsernameAlreadyInUse The user name requested is already in use.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "UsernameAlreadyInUse"
+ *     }
+ */
 
-   /*
+/*
   verb: 'post',
   callback: function(request, callback) {
 

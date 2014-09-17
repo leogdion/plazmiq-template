@@ -13,7 +13,7 @@ module.exports = {
         postmark.send(mailOptions, callback);
       }
 
-      /*
+/*
       var smtpTransport = nodemailer.createTransport("SMTP", {
         service: "Gmail",
         auth: {
