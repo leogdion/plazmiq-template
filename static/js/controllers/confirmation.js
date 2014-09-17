@@ -69,6 +69,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
       this.find('#key').val(data.key);
       this.find('#name').val(data.name);
       this.find('#email').val(data.email);
+      this.find('#password').val(data.password);
     }
   };
 });
