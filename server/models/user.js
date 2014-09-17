@@ -1,5 +1,6 @@
 var bcrypt = require('bcrypt');
 var salt = bcrypt.genSaltSync(10);
+var db = require("../libs/sequelize");
 
 module.exports = function (sequelize, DataTypes) {
 /*
@@ -23,7 +24,7 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    emailAddress: {
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -46,8 +47,19 @@ module.exports = function (sequelize, DataTypes) {
         });
       },
       newLogin: function (data) {
+        console.log(data);
+        console.log(salt);
         data.password = bcrypt.hashSync(data.password, salt);
         return User.create(data);
+      },
+      associate: function (models) {
+        models.registration.belongsTo(User);
+        User.belongsTo(models.company).belongsTo(models.registration).belongsTo(models.role).hasMany(models.app).hasMany(models.device).hasOne(models.company, {
+          as: 'contact',
+          foreignKey: 'contactId'
+        });
+
+        models.device.hasMany(User);
       }
     }
   });
