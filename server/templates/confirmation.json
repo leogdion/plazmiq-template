@@ -1,0 +1,6 @@
+{
+  "From": "phragm@brightdigit.com", 
+  "To": "<%= email %>",
+  "TextBody": "<%= secret %>",
+  "Subject" : "Please confirm phragm account"
+}

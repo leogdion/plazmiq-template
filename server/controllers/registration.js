@@ -1,5 +1,6 @@
 var db = require("../libs/sequelize"),
-    uuid = require('node-uuid');
+    uuid = require('node-uuid'),
+    emailer = require("../libs/emailer");
 
 module.exports = function (include) {
   return {
@@ -22,41 +23,38 @@ module.exports = function (include) {
             secret: new Buffer(uuid.parse(uuid.v4())),
             key: new Buffer(uuid.parse(uuid.v4()))
           };
-          console.log(data.secret);
+          console.log(data.secret.toString('base64'));
           db.registration.create(data).success(function (registration) {
-            res.status(200).send({
-              key: data.key.toString('base64')
-            });
-/*
+            //res.status(200).send({
+            //  key: data.key.toString('base64')
+            //});
+
             emailer.queue('confirmation', {
-              emailAddress: data.emailAddress,
+              email: data.email,
               secret: data.secret.toString('base64')
             }, function(error, response) {
-              callback(error ? 400 : undefined, error ? error : {
-                key: data.key.toString('base64')
-              });
+             // callback(error ? 400 : undefined, error ? error : {
+             //   key: data.key.toString('base64')
+             // });
+              if (error) {
+                res.status(400).send(error);
+              } else {
+                res.send({
+                  key: data.key.toString('base64')
+                });
+              }
             });
-*/
+
           }).error(function (error) {
             console.log(error);
-            res.status(500).send(error);
-/*
-            if (error.emailAddress) {
-              callback(400, {
+            if (error.email) {
+              res.status(400).send({
                 error: error
               });
-              return;
             } else if (error) {
-              callback(500, error);
-              return;
-            }
-            */
+              res.status(500).send(error);
+            }            
           });
-/*
-          var result = req.body;
-          result.key = "key";
-          res.send(result);
-          */
         },
         update: function (req, res) {
           res.send('update');
