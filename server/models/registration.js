@@ -22,8 +22,8 @@ module.exports = function (sequelize, DataTypes) {
       defaultValue: DataTypes.NOW
     }
   }, {
-    classMethods : {
-      associate : function (models) {
+    classMethods: {
+      associate: function (models) {
         Registration.belongsTo(models.app);
       }
     }

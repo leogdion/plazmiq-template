@@ -72,7 +72,10 @@ module.exports = function () {
   var indexer = function (settings) {
 
     return settings.directories.reduce(function (configuration, dirPath) {
-      var files = readdir(settings.basedir, dirPath.path);
+      var files = readdir(settings.basedir, dirPath.path, settings.filter);
+      if (settings.filter) {
+        files = files.filter(settings.filter.test.bind(settings.filter));
+      }
       var jsons = [];
       if (dirPath.encrypted) {
         jsons = files.map(decrypt);

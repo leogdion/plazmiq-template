@@ -21,6 +21,7 @@ module.exports = function () {
     configuration = indexer({
       basedir: __dirname,
       directories: dirs,
+      filter: /.*\.json$/i,
       method: indexer.methods.MERGE
     });
   }

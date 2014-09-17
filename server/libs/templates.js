@@ -3,18 +3,16 @@ var _ = require('underscore');
 var path = require('path');
 var async = require('async');
 
-module.exports = function() {
+module.exports = function () {
   var _cached = {};
 
   function _datatemplate(templates, data, cb) {
-    async.reduce(Object.keys(templates), {},
-      function(memo, templateKey, cb) {
-        memo[templateKey] = templates[templateKey](data);
-        cb(undefined, memo);
-      },
-      function(error, memo) {
-        cb(undefined, memo);
-      });
+    async.reduce(Object.keys(templates), {}, function (memo, templateKey, cb) {
+      memo[templateKey] = templates[templateKey](data);
+      cb(undefined, memo);
+    }, function (error, memo) {
+      cb(undefined, memo);
+    });
   }
 
   function datatemplate(templates) {
@@ -52,7 +50,7 @@ module.exports = function() {
       } catch (e) {
         cb();
       }
-      Object.keys(data).forEach(function(name) {
+      Object.keys(data).forEach(function (name) {
         templates[name] = _.template(data[name]);
       });
       cb(undefined, datatemplate(templates));
@@ -63,7 +61,7 @@ module.exports = function() {
       cb(undefined, path.basename(filepath, '.json'));
     }
 
-    return function(name, data, cb) {
+    return function (name, data, cb) {
 
       if (!_templates) {
         lsr(dirpath, parsed(name, data, cb), templateData, templateName);
@@ -75,7 +73,7 @@ module.exports = function() {
     };
   }
 
-  return function(dirpath, req) {
+  return function (dirpath, req) {
     dirpath = path.resolve(dirpath);
     req = req || require;
     if (!_cached[dirpath]) {
