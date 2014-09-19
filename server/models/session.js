@@ -41,8 +41,8 @@ module.exports = function (sequelize, DataTypes) {
         return this;
       }
     },
-    classMethods : {
-      associate : function (models) {
+    classMethods: {
+      associate: function (models) {
         Session.belongsTo(models.user).belongsTo(models.app).belongsTo(models.device);
       }
     }

@@ -34,7 +34,11 @@ var server = lodash.extend(app, {
         console.log(err);
         throw err[0];
       } else {
-        listen.apply(app, args);
+        db.app.createByName('default', 'yaCCeDCruL/8ccbFz57sQZiDiu7FVzQfjkMirvSTMBWg19z5Hu8OqYww/2Q/Y3r/').success(
+
+        function () {
+          listen.apply(app, args);
+        });
       }
     });
   }

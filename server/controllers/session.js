@@ -124,7 +124,7 @@ module.exports = function (include) {
                 error: "Unknown application key."
               });
             } else {
-              beginSession(result.device, result.app, result.user, request, res);
+              beginSession(result.device, result.app, result.user, req, res);
             }
           });
         },
