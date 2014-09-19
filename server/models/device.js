@@ -1,8 +1,9 @@
 var crypto = require('crypto'),
-    QueryChainer = require('sequelize').Utils.QueryChainer;
+    QueryChainer = require('sequelize').Utils.QueryChainer,
+    UserAgent;
 
 module.exports = function (sequelize, DataTypes) {
-  //var UserAgent = sequelize.$('userAgent');
+
   var Device = sequelize.define("device", {
     key: {
       type: DataTypes.BLOB('tiny'),
@@ -35,10 +36,13 @@ module.exports = function (sequelize, DataTypes) {
             results[0].setUserAgent(results[1]).success(cb);
           });
         });
+      },
+      associate: function (models) {
+        UserAgent = models.userAgent;
+        Device.belongsTo(models.userAgent);
       }
     }
   });
 
-  //Device.belongsTo(UserAgent);
   return Device;
 };

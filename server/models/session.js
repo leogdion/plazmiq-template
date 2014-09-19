@@ -40,6 +40,11 @@ module.exports = function (sequelize, DataTypes) {
         this.endedAt = DataTypes.NOW;
         return this;
       }
+    },
+    classMethods: {
+      associate: function (models) {
+        Session.belongsTo(models.user).belongsTo(models.app).belongsTo(models.device);
+      }
     }
   });
 
