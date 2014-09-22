@@ -1,4 +1,4 @@
-define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '../libs/shared/index'], function ($, hasher, validations, rest, shared) {
+define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/index', '../libs/shared/index'], function ($, hasher, store, validations, rest, shared) {
   function validate() {
     $('button').not('.inactive').not('#test').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated,[readonly],[type="hidden"]').size());
   }
@@ -54,7 +54,8 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
           rest.post('users', 'form', {
             success: function (data, status, xhr) {
               console.log('posted user');
-              hasher.setHash('profile');
+
+              hasher.setHash('login');
             },
             error: function (xhr, errorType, error) {
               console.log('error user confirmation');

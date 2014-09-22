@@ -6,7 +6,8 @@ var async = require('async'),
 var User = db.user,
     App = db.app,
     Device = db.device,
-    Session = db.session;
+    Session = db.session,
+    UserAgent = db.userAgent;
 
 module.exports = function (include) {
   return {
@@ -129,7 +130,53 @@ module.exports = function (include) {
           });
         },
         update: function (req, res) {
-          res.send('update');
+          // find the 
+
+          function beginSession(device, app, user, request, response) {
+            Session.create({
+              key: crypto.randomBytes(48),
+              clientIpAddress: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+            }).success(function (session) {
+              var chainer = new QueryChainer();
+              chainer.add(session.setDevice(device));
+              chainer.add(session.setApp(app));
+              chainer.add(session.setUser(user));
+              chainer.run().success(function (results) {
+                response.status(201).send({
+                  sessionKey: session.key.toString('base64'),
+                  deviceKey: device.key.toString('base64'),
+                  user: {
+                    name: user.name,
+                    email: user.email
+                  }
+                });
+              });
+            });
+          }
+
+          Session.find({
+            include: [{
+              model: Device,
+              as: Device.tableName
+            },
+            {
+              model: App,
+              as: App.tableName
+            },
+            {
+              model: User,
+              as: User.tableName
+            }],
+            where: {
+              'device.key': req.body.deviceKey,
+              'app.key': req.body.apiKey,
+              'device.userAgent': request.headers['user-agent']
+            }
+          }).success(function (sessions) {
+            beginSession(sessions[0].device, sessions[0].app, sessions[0].user, req, res);
+          }).error(function (error) {
+
+          });
         },
         destroy: function (req, res) {
           res.send('destroy');

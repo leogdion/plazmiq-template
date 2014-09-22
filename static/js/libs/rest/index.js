@@ -17,7 +17,7 @@ define(['zepto'], function ($) {
         type: method,
         url: '/api/v1/' + resource,
         contentType: 'application/json',
-        data: serialize(selector)
+        data: typeof selector === 'string' ? serialize(selector) : selector
       }));
     }
     memo[method] = _request.bind(undefined, method);

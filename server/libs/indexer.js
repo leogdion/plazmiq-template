@@ -52,9 +52,7 @@ module.exports = function (dir, func) {
 */
 module.exports = function () {
   function readdir(basedir, paths) {
-    //var paths = Array.prototype.slice.call(arguments);
     paths.unshift(basedir);
-    //console.log(paths);
     var fullpath = path.join.apply(undefined, paths);
     if (fs.existsSync(fullpath)) {
       return wrench.readdirSyncRecursive(fullpath).map(function (value) {

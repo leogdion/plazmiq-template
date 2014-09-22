@@ -27,15 +27,6 @@ module.exports = function (include) {
           res.send('show');
         },
         create: function (req, res) {
-/*
-          console.log(req.body);
-          if (req.body.secret !== 'testTEST123!') {
-            res.status(400).send();
-          } else {
-            res.status(201).send('create');
-          }
-          */
-
           function findRegistration(cb) {
             Registration.find({
               where: {
@@ -85,23 +76,10 @@ module.exports = function (include) {
                   res.status(201).send({
                     name: req.body.name
                   });
-/*
-                  callback(201, {
-                    name: request.body.name
-                  }, {
-                    "Location": "/user/" + request.body.name
-                  });
-                  */
                 }).error(function (error) {
                   res.status(500).send({
                     error: error
                   });
-/*
-                  logger.error(error);
-                  callback(500, {
-                    error: error
-                  });
-                  */
                 });
               }).error(function (error) {
                 if (error.name) {
