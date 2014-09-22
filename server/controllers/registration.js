@@ -3,6 +3,7 @@ var db = require("../libs/sequelize"),
     emailer = require("../libs/emailer");
 
 module.exports = function (include) {
+  console.log('REGISTRATIONS')
   return {
     registrations: {
       params: {
