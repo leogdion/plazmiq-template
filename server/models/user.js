@@ -47,8 +47,6 @@ module.exports = function (sequelize, DataTypes) {
         });
       },
       newLogin: function (data) {
-        console.log(data);
-        console.log(salt);
         data.password = bcrypt.hashSync(data.password, salt);
         return User.create(data);
       },

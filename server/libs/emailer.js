@@ -2,9 +2,7 @@
 var configuration = require('../configuration');
 var _ = require('lodash');
 var templates = require('./templates.js')(__dirname + '/../templates');
-    console.log('connecting to postmark...')
-    console.log(process.env);
-var postmark = require('postmark')(configuration.mail.postmark.api_key || process.env(configuration.mail.postmark.api_key_env));
+var postmark = require('postmark')(configuration.mail.postmark.api_key || process.env[configuration.mail.postmark.api_key_env]);
 
 module.exports = {
   queue: function (template, data, callback) {

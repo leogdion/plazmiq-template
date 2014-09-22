@@ -2,8 +2,8 @@ var db = require("../libs/sequelize"),
     uuid = require('node-uuid'),
     emailer = require("../libs/emailer");
 
+
 module.exports = function (include) {
-  console.log('REGISTRATIONS')
   return {
     registrations: {
       params: {

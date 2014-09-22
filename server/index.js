@@ -6,7 +6,6 @@ var configuration = require('./configuration');
 var db = require('./libs/sequelize');
 var lodash = require('lodash');
 
-console.log(configuration);
 app.use(function (req, res, next) {
   console.log("received request...");
   setTimeout(function () {
@@ -46,8 +45,6 @@ var server = lodash.extend(app, {
 
 /* istanbul ignore if */
 if (require.main === module) {
-  console.log('as module')
-  console.log(process.env);
   server.listen(process.env.PORT || 3001);
 } else {
   module.exports = server;
