@@ -11,6 +11,8 @@ var fs = require('fs'),
 function build_sequalize() {
   var options = configuration.database.options || {};
   //options.logging = logger[configuration.sequelize.logging.level];
+    console.log('connecting to db...')
+    console.log(process.env);
   if (configuration.database.connection_string_env) {
     return new Sequalize(process.env[configuration.database.connection_string_env], options);
   } else {

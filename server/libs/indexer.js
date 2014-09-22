@@ -76,6 +76,7 @@ module.exports = function () {
       if (settings.filter) {
         files = files.filter(settings.filter.test.bind(settings.filter));
       }
+      console.log(files);
       var jsons = [];
       if (dirPath.encrypted) {
         jsons = files.map(decrypt);

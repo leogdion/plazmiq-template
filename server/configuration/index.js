@@ -2,6 +2,8 @@ var indexer = require('../libs/indexer'),
     path = require('path'),
     configuration;
 
+console.log('reading configuration');
+  console.log(process.env);
 var dirs = [{
   path: ["stages", "default"]
 },

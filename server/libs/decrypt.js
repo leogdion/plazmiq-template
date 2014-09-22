@@ -4,6 +4,8 @@ var fs = require('fs'),
 
 function read(filename, envVarName) {
   var fulpath = path.join(__dirname, "..", "..", filename);
+  console.log('reading file: ' + filename);
+  console.log(process.env);
   return fs.existsSync(fulpath) ? fs.readFileSync(fulpath).toString() : process.env[envVarName];
 }
 
