@@ -130,6 +130,7 @@ module.exports = function (include) {
           });
         },
         update: function (req, res) {
+          console.log(req.body);
           // find the 
 
           function beginSession(device, app, user, request, response) {
@@ -170,12 +171,16 @@ module.exports = function (include) {
             where: {
               'device.key': req.body.deviceKey,
               'app.key': req.body.apiKey,
-              'device.userAgent': request.headers['user-agent']
+              'device.userAgent': req.headers['user-agent']
             }
           }).success(function (sessions) {
-            beginSession(sessions[0].device, sessions[0].app, sessions[0].user, req, res);
+            if (sessions) {
+              beginSession(sessions[0].device, sessions[0].app, sessions[0].user, req, res);
+            } else {
+              console.log('nope');
+            }
           }).error(function (error) {
-
+            console.log(error);
           });
         },
         destroy: function (req, res) {

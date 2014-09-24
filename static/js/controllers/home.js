@@ -3,13 +3,12 @@ define(['store', '../libs/rest/index'], function (store, rest) {
     template: 'home',
     initialize: function () {
       var session = {
-        sessionKey: store.get('sessionKey'),
         deviceKey: store.get('deviceKey'),
         apiKey: "yaCCeDCruL/8ccbFz57sQZiDiu7FVzQfjkMirvSTMBWg19z5Hu8OqYww/2Q/Y3r/"
       };
-      console.log(session);
-      if (session && session.sessionKey && session.deviceKey) {
-        rest.put('session', session, {
+      var sessionKey = store.get('sessionKey');
+      if (session && sessionKey && session.deviceKey) {
+        rest.put('sessions/' + encodeURIComponent(sessionKey), session, {
           success: function (data, status, xhr) {
 
           },
