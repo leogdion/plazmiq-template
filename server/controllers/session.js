@@ -157,32 +157,28 @@ module.exports = function (include) {
           }
 
           Session.find({
-            include: [{
+            include: [User, App,
+            {
               model: Device,
-              as: Device.tableName
-            },
-            {
-              model: App,
-              as: App.tableName
-            },
-            {
-              model: User,
-              as: User.tableName
+              include: [UserAgent]
             }],
             where: {
-              'device.key': req.body.deviceKey,
-              'app.key': req.body.apiKey,
-              'key' : req.params.id,
-              'device.userAgent': req.headers['user-agent']
+              'device.key':  new Buffer(req.body.deviceKey, 'base64'),
+              'app.key':  req.body.apiKey,
+              'key':  new Buffer(req.params.id, 'base64'),
+              'device.userAgent.text': req.headers['user-agent']
             }
-          }).success(function (sessions) {
-            if (sessions) {
-              beginSession(sessions[0].device, sessions[0].app, sessions[0].user, req, res);
+          }).success(function (session) {
+            console.log(session);
+            if (session) {
+              beginSession(session.device, session.app, session.user, req, res);
             } else {
               console.log('nope');
+              res.status(404);
             }
           }).error(function (error) {
             console.log(error);
+            res.status(500).send(error);
           });
         },
         destroy: function (req, res) {
