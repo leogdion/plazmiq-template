@@ -131,6 +131,7 @@ module.exports = function (include) {
         },
         update: function (req, res) {
           console.log(req.body);
+          console.log(req.params);
           // find the 
 
           function beginSession(device, app, user, request, response) {
@@ -171,6 +172,7 @@ module.exports = function (include) {
             where: {
               'device.key': req.body.deviceKey,
               'app.key': req.body.apiKey,
+              'key' : req.params.id,
               'device.userAgent': req.headers['user-agent']
             }
           }).success(function (sessions) {
