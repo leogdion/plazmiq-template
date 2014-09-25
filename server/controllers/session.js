@@ -7,7 +7,8 @@ var User = db.user,
     App = db.app,
     Device = db.device,
     Session = db.session,
-    UserAgent = db.userAgent;
+    UserAgent = db.userAgent,
+    Sequelize = db.Sequelize;
 
 module.exports = function (include) {
   return {
@@ -162,19 +163,45 @@ module.exports = function (include) {
               model: Device,
               include: [UserAgent]
             }],
-            where: {
-              'device.key':  new Buffer(req.body.deviceKey, 'base64'),
-              'app.key':  req.body.apiKey,
-              'key':  new Buffer(req.params.id, 'base64'),
+            where: Sequelize.and({
+              'device.key': new Buffer(req.body.deviceKey, 'base64')
+            }, {
+              'app.key': req.body.apiKey
+            }, {
+              'key': new Buffer(req.params.id, 'base64')
+            }, {
               'device.userAgent.text': req.headers['user-agent']
-            }
+            }, {
+              'lastActivatedAt': {
+                gt: new Date((new Date()).valueOf() - Session.constants().expiration)
+              }
+            }, Sequelize.or({
+              'endedAt': {
+                gt: new Date()
+              }
+            }, {
+              'endedAt': null
+            }))
           }).success(function (session) {
-            console.log(session);
-            if (session) {
-              beginSession(session.device, session.app, session.user, req, res);
-            } else {
+            if (!session) {
               console.log('nope');
-              res.status(404);
+              res.status(404).send();
+            } else if ((new Date() - session.lastActivatedAt) < Session.constants().renewal) {
+              console.log('renewing');
+              session.renew().success(function () {
+                res.status(201).send({
+                  sessionKey: session.key.toString('base64'),
+                  deviceKey: session.device.key.toString('base64'),
+                  user: {
+                    name: session.user.name,
+                    email: session.user.email
+                  }
+                });
+              }).error(function (error) {
+                res.status(500).send(error);
+              });
+            } else {
+              beginSession(session.device, session.app, session.user, req, res);
             }
           }).error(function (error) {
             console.log(error);
