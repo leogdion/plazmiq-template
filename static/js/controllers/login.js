@@ -1,5 +1,5 @@
 /*jshint multistr: true */
-define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '../libs/names/index', '../libs/shared/index'], function ($, hasher, validations, rest, names, shared) {
+define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/index', '../libs/names/index', '../libs/shared/index'], function ($, hasher, store, validations, rest, names, shared) {
 
   function validate() {
     $('button').not('.inactive').not('#test').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
@@ -120,6 +120,7 @@ define(['zepto', 'hasher', '../libs/validation/index', '../libs/rest/index', '..
               rest.post('sessions', 'form', {
                 success: function (data, status, xhr) {
                   console.log('posted sessions');
+                  store(data);
                   hasher.setHash('profile');
                 },
                 error: function (xhr, errorType, error) {

@@ -17,25 +17,16 @@ module.exports = function (include) {
           res.send('show');
         },
         create: function (req, res) {
-          console.log(req.body);
-          //console.log(db.registration);
           var data = {
             email: req.body.email,
             secret: new Buffer(uuid.parse(uuid.v4())),
             key: new Buffer(uuid.parse(uuid.v4()))
           };
-          console.log(data.secret.toString('base64'));
           db.registration.create(data).success(function (registration) {
-            //res.status(200).send({
-            //  key: data.key.toString('base64')
-            //});
             emailer.queue('confirmation', {
               email: data.email,
               secret: data.secret.toString('base64')
             }, function (error, response) {
-              // callback(error ? 400 : undefined, error ? error : {
-              //   key: data.key.toString('base64')
-              // });
               if (error) {
                 res.status(400).send(error);
               } else {

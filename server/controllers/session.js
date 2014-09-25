@@ -6,7 +6,9 @@ var async = require('async'),
 var User = db.user,
     App = db.app,
     Device = db.device,
-    Session = db.session;
+    Session = db.session,
+    UserAgent = db.userAgent,
+    Sequelize = db.Sequelize;
 
 module.exports = function (include) {
   return {
@@ -129,7 +131,82 @@ module.exports = function (include) {
           });
         },
         update: function (req, res) {
-          res.send('update');
+          console.log(req.body);
+          console.log(req.params);
+          // find the 
+
+          function beginSession(device, app, user, request, response) {
+            Session.create({
+              key: crypto.randomBytes(48),
+              clientIpAddress: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+            }).success(function (session) {
+              var chainer = new QueryChainer();
+              chainer.add(session.setDevice(device));
+              chainer.add(session.setApp(app));
+              chainer.add(session.setUser(user));
+              chainer.run().success(function (results) {
+                response.status(201).send({
+                  sessionKey: session.key.toString('base64'),
+                  deviceKey: device.key.toString('base64'),
+                  user: {
+                    name: user.name,
+                    email: user.email
+                  }
+                });
+              });
+            });
+          }
+
+          Session.find({
+            include: [User, App,
+            {
+              model: Device,
+              include: [UserAgent]
+            }],
+            where: Sequelize.and({
+              'device.key': new Buffer(req.body.deviceKey, 'base64')
+            }, {
+              'app.key': req.body.apiKey
+            }, {
+              'key': new Buffer(req.params.id, 'base64')
+            }, {
+              'device.userAgent.text': req.headers['user-agent']
+            }, {
+              'lastActivatedAt': {
+                gt: new Date((new Date()).valueOf() - Session.constants().expiration)
+              }
+            }, Sequelize.or({
+              'endedAt': {
+                gt: new Date()
+              }
+            }, {
+              'endedAt': null
+            }))
+          }).success(function (session) {
+            if (!session) {
+              console.log('nope');
+              res.status(404).send();
+            } else if ((new Date() - session.lastActivatedAt) < Session.constants().renewal) {
+              console.log('renewing');
+              session.renew().success(function () {
+                res.status(201).send({
+                  sessionKey: session.key.toString('base64'),
+                  deviceKey: session.device.key.toString('base64'),
+                  user: {
+                    name: session.user.name,
+                    email: session.user.email
+                  }
+                });
+              }).error(function (error) {
+                res.status(500).send(error);
+              });
+            } else {
+              beginSession(session.device, session.app, session.user, req, res);
+            }
+          }).error(function (error) {
+            console.log(error);
+            res.status(500).send(error);
+          });
         },
         destroy: function (req, res) {
           res.send('destroy');

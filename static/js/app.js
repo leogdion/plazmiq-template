@@ -6,7 +6,23 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
 
   //setup crossroads
   crossroads.addRoute('/', function () {
-    $('main').html(templates[controllers.home.template]());
+    if (controller) {
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.off(controller.events[selector], selector);
+        }
+      }
+    }
+    controller = controllers.home;
+    main = $('main').html(templates[controller.template]());
+    if (controller.events) {
+      for (var selector in controller.events) {
+        main.on(controller.events[selector], selector);
+      }
+    }
+    if (controller.initialize) {
+      controller.initialize.call(main);
+    }
   });
 
   crossroads.addRoute('profile', function () {
