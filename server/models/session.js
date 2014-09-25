@@ -1,3 +1,8 @@
+var constants = {
+  renewal: 5 * 60 * 1000,
+  expiration: 7 * 24 * 60 * 60 * 1000
+};
+
 module.exports = function (sequelize, DataTypes) {
 /*
   var User = sequelize.$('user'),
@@ -33,12 +38,22 @@ module.exports = function (sequelize, DataTypes) {
   }, {
     instanceMethods: {
       renew: function () {
-        this.lastActivatedAt = DataTypes.NOW;
-        return this;
+        return this.updateAttributes({
+          'lastActivatedAt': new Date()
+        }, ['lastActivatedAt']);
       },
       logoff: function () {
-        this.endedAt = DataTypes.NOW;
-        return this;
+        return this.updateAttributes({
+          'endedAt': new Date()
+        }, ['endedAt']);
+      }
+    },
+    classMethods: {
+      associate: function (models) {
+        Session.belongsTo(models.user).belongsTo(models.app).belongsTo(models.device);
+      },
+      constants: function () {
+        return constants;
       }
     }
   });
