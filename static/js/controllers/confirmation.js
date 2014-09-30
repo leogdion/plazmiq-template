@@ -58,6 +58,8 @@ define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/in
               hasher.setHash('login');
             },
             error: function (xhr, errorType, error) {
+              console.log(errorType);
+              console.log(error);
               console.log('error user confirmation');
             }
           });

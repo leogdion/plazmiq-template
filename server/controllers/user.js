@@ -105,8 +105,11 @@ module.exports = function (include) {
               });
             } else {
               if (!results.registration) {
-                res.status(400).send({
-                  error: "Registration information invalid."
+                res.status(404).send({
+                  error: {
+                    message: "Registration not found.",
+                    type: "NotFound"
+                  }
                 });
 /*
                 callback(400, {
@@ -114,8 +117,12 @@ module.exports = function (include) {
                 });
                 */
               } else if (results.user) {
-                res.status(400).send({
-                  error: "Username is already being used."
+                res.status(409).send({
+                  error: {
+                    message: "Username is already being used.",
+                    type: "AlreadyInUse",
+                    field: "name"
+                  }
                 });
 /*
                 callback(400, {

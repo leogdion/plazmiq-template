@@ -4,7 +4,8 @@
 <fieldset>
   
 
-  <input type="text" id="name" placeholder="Username" data-char="[a-z0-9-]" pattern="^[a-z0-9-]{5,15}$" data-error="The username must be at least 5 characters." required readonly>
+  <input type="text" id="name" placeholder="Username" data-char="[a-z0-9-]" pattern="^[a-z0-9-]{5,15}$" data-error="The username must be at least 5 characters." required>
+  
   <input type="password" id="secret" data-char="[\S]" pattern="\S{8,}" placeholder="Confirmation Code" required>
   <input type="email" class="form-control" id="email" placeholder="Email Address" required readonly>
   <input type="hidden" id="key" required>
