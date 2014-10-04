@@ -10,6 +10,36 @@ define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/in
           console.log("test");
         }
       },
+      'input[type=text],input[type=password]': {
+        'keypress': function (e) {
+          var $this = $(this);
+          var errors = [];
+          console.log("input blur");
+          if ($this.prop('required') || $this.val().trim().length > 0) {
+/*
+            for (var key in validations) {
+              errors.push.apply(errors, validations[key].call($this));
+            }
+            */
+            errors = validations($this);
+            console.log(errors);
+
+            var errorList = $this.next("ul.errors").empty();
+            errorList = errorList.length ? errorList : $('<ul class="errors"></ul>').insertAfter($this);
+            $this.toggleClass('validated', true);
+            if ($this.toggleClass('error', errors.length).hasClass('error')) {
+/*
+              console.log(errorList);
+              $.each(errors, function () {
+                errorList.append("<li>" + this + "</li>");
+              });
+              */
+            }
+
+          }
+          validate();
+        }
+      },
       "input": {
         "blur": function (e) {
           var $this = $(this);
@@ -73,6 +103,31 @@ define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/in
       this.find('#name').val(data.name);
       this.find('#email').val(data.email);
       this.find('#password').val(data.password);
+      var $this = this.find('#name');
+      var errors = [];
+      console.log("input blur");
+      if ($this.prop('required') || $this.val().trim().length > 0) {
+/*
+            for (var key in validations) {
+              errors.push.apply(errors, validations[key].call($this));
+            }
+            */
+        errors = validations($this);
+        console.log(errors);
+
+        var errorList = $this.next("ul.errors").empty();
+        errorList = errorList.length ? errorList : $('<ul class="errors"></ul>').insertAfter($this);
+        $this.toggleClass('validated', true);
+        if ($this.toggleClass('error', errors.length).hasClass('error')) {
+/*
+              console.log(errorList);
+              $.each(errors, function () {
+                errorList.append("<li>" + this + "</li>");
+              });
+              */
+        }
+
+      }
     }
   };
 });
