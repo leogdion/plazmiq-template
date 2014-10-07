@@ -23,7 +23,7 @@ gulp.task('default', ['clean', 'less', 'decrypt', 'requirejs', /*'enforce-covera
 gulp.task('heroku:staging', ['default']);
 
 gulp.task('clean', function () {
-  return gulp.src(['public', '.tmp', 'coverage'], {
+  return gulp.src(['public', '.tmp', 'coverage', 'server/configuration/unencrypted'], {
     read: false
   }).pipe(rimraf());
 });

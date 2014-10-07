@@ -16,5 +16,17 @@ var decrypt = simplecrypt({
 }).decrypt;
 
 module.exports = function (file) {
-  return JSON.parse(decrypt(fs.readFileSync(file).toString()));
+  try {
+    return JSON.parse(decrypt(fs.readFileSync(file).toString()));
+  } catch (ex) {
+    if (ex instanceof SyntaxError) {
+      var error = new Error ("The file '" + file + "' is unreadable.");
+      error.fileName = file;
+      error.innerException = ex;
+      throw ex;
+    } else {
+      throw ex;
+    }
+  }
+  
 };
