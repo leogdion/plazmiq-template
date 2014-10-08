@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.715",
+  "version": "0.1.721",
   "authors": [
     "Leo Dion <leogdion@brightdigit.com>"
   ],
@@ -20,7 +20,8 @@
     "hasher": "~1.2.0",
     "signals": "~1.0.0",
     "NameDatabases": "https://github.com/enorvelle/NameDatabases.git",
-    "store": "~2.1.6"
+    "store": "~2.1.6",
+    "smoke.js": "https://github.com/brightdigit/smoke.js.git"
   },
   "devDependencies": {}
 }

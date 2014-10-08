@@ -1,4 +1,6 @@
-define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/index', '../libs/shared/index'], function ($, hasher, store, validations, rest, shared) {
+define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../libs/rest/index', '../libs/shared/index'], function ($, hasher, store, smoke, validations, rest, shared) {
+  console.log(smoke);
+
   function validate() {
     $('button').not('.inactive').not('#test').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated,[readonly],[type="hidden"]').size());
   }
@@ -11,7 +13,7 @@ define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/in
         }
       },
       'input[type=text],input[type=password]': {
-        'keypress': function (e) {
+        'keyup': function (e) {
           var $this = $(this);
           var errors = [];
           console.log("input blur");
@@ -91,6 +93,12 @@ define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/in
               console.log(errorType);
               console.log(error);
               console.log('error user confirmation');
+              switch (xhr.status) {
+
+              }
+              // confirmation incorrect
+              // username in use
+              // app key unknown
             }
           });
         }

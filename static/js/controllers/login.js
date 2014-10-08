@@ -1,5 +1,6 @@
 /*jshint multistr: true */
-define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/index', '../libs/names/index', '../libs/shared/index'], function ($, hasher, store, validations, rest, names, shared) {
+define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../libs/rest/index', '../libs/names/index', '../libs/shared/index'], function ($, hasher, store, smoke, validations, rest, names, shared) {
+  console.log(smoke);
 
   function validate() {
     $('button').not('.inactive').not('#test').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated').size());
