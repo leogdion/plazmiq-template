@@ -48,10 +48,11 @@ define(['zepto', 'hasher', 'store', '../libs/validation/index', '../libs/rest/in
         }
       },
       'input[type=text],input[type=password]': {
-        'keypress': function (e) {
+        'keyup': function (e) {
           var $this = $(this);
           var errors = [];
-          console.log("input blur");
+
+          console.log("input keyup: " + $this.val());
           if ($this.prop('required') || $this.val().trim().length > 0) {
 /*
             for (var key in validations) {
