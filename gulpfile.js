@@ -18,7 +18,7 @@ var gulp = require('gulp'),
     decrypt = require("gulp-simplecrypt").decrypt,
     async = require('async');
 
-gulp.task('default', ['clean', 'less', 'decrypt', 'requirejs', /*'enforce-coverage', */ 'copy', 'bump']);
+gulp.task('default', ['clean', 'less', 'requirejs', /*'enforce-coverage', */ 'copy', 'bump']);
 
 gulp.task('heroku:staging', ['default']);
 
@@ -38,7 +38,7 @@ gulp.task('encrypt', function () {
 
 });
 
-gulp.task('decrypt', ['encrypt'], function () {
+gulp.task('decrypt', ['clean'], function () {
 
   var options = {
     password: fs.existsSync('.encryption_key') ? fs.readFileSync('.encryption_key') : process.env.ENCRYPTION_KEY,
