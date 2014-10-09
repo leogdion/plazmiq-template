@@ -93,9 +93,22 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
               console.log(errorType);
               console.log(error);
               console.log('error user confirmation');
+              var message;
               switch (xhr.status) {
-
+              case 409:
+                message = "Sorry the username you have chosen is already in use. Please try a different one.";
+                break;
+              case 404:
+                message = "The information you have entered does not match our records. Please check your confirmation information or try registering again.";
+                break;
+              default:
+                message = "Sorry there is an unknown server error. Please notify the <a href=\"mailto:www@phragm.com\">administrator</a>.";
+                break;
               }
+              smoke.alert(message, function (e) {
+                $('form fieldset').prop('disabled', false);
+
+              });
               // confirmation incorrect
               // username in use
               // app key unknown
