@@ -22,30 +22,49 @@ module.exports = function (include) {
             secret: new Buffer(uuid.parse(uuid.v4())),
             key: new Buffer(uuid.parse(uuid.v4()))
           };
-          db.registration.create(data).success(function (registration) {
-            emailer.queue('confirmation', {
-              email: data.email,
-              secret: data.secret.toString('base64')
-            }, function (error, response) {
-              if (error) {
-                res.status(400).send(error);
-              } else {
-                res.send({
-                  key: data.key.toString('base64')
-                });
-              }
-            });
+          db.user.count({
+            where: {
+              email: data.email
+            }
+          }).success(
 
-          }).error(function (error) {
-            console.log(error);
-            if (error.email) {
-              res.status(400).send({
-                error: error
+          function (c) {
+            if (c) {
+              res.status(409).send({
+                error: {
+                  message: "Email address is already being used.",
+                  type: "AlreadyInUse",
+                  field: "email"
+                }
               });
-            } else if (error) {
-              res.status(500).send(error);
+            } else {
+              db.registration.create(data).success(function (registration) {
+                emailer.queue('confirmation', {
+                  email: data.email,
+                  secret: data.secret.toString('base64')
+                }, function (error, response) {
+                  if (error) {
+                    res.status(400).send(error);
+                  } else {
+                    res.send({
+                      key: data.key.toString('base64')
+                    });
+                  }
+                });
+
+              }).error(function (error) {
+                console.log(error);
+                if (error.email) {
+                  res.status(400).send({
+                    error: error
+                  });
+                } else if (error) {
+                  res.status(500).send(error);
+                }
+              });
             }
           });
+
         },
         update: function (req, res) {
           res.send('update');
