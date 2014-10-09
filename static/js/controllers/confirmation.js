@@ -111,7 +111,6 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
               }
               smoke.alert(message, function (e) {
                 $('form fieldset').prop('disabled', false);
-
               });
               // confirmation incorrect
               // username in use

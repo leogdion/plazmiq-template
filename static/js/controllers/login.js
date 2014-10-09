@@ -157,6 +157,18 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
                 },
                 error: function (xhr, errorType, error) {
                   console.log('error sessions');
+                  var message;
+                  switch (xhr.status) {
+                  case 401:
+                    message = "Sorry. The username and password you have entered are incorrect.";
+                    break;
+                  default:
+                    message = "Sorry. There is an unknown server error. Please notify the <a href=\"mailto:www@phragm.com\">administrator</a>.";
+                    break;
+                  }
+                  smoke.alert(message, function (e) {
+                    $('form fieldset').prop('disabled', false);
+                  });
                 }
               });
             }
