@@ -86,8 +86,12 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
           rest.post('users', 'form', {
             success: function (data, status, xhr) {
               console.log('posted user');
-
-              hasher.setHash('login');
+              smoke.signal("Welcome! Your account has been created. Please login to begin.", function (e) {
+                hasher.setHash('login');
+              }, {
+                duration: 3000,
+                classname: "custom-class"
+              });
             },
             error: function (xhr, errorType, error) {
               console.log(errorType);
@@ -96,13 +100,13 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
               var message;
               switch (xhr.status) {
               case 409:
-                message = "Sorry the username you have chosen is already in use. Please try a different one.";
+                message = "Sorry. The username you have chosen is already in use. Please try a different one.";
                 break;
               case 404:
                 message = "The information you have entered does not match our records. Please check your confirmation information or try registering again.";
                 break;
               default:
-                message = "Sorry there is an unknown server error. Please notify the <a href=\"mailto:www@phragm.com\">administrator</a>.";
+                message = "Sorry. There is an unknown server error. Please notify the <a href=\"mailto:www@phragm.com\">administrator</a>.";
                 break;
               }
               smoke.alert(message, function (e) {
