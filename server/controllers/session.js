@@ -106,7 +106,11 @@ module.exports = function (include) {
               chainer.run().success(function (results) {
                 response.status(201).send({
                   sessionKey: session.key.toString('base64'),
-                  deviceKey: device.key.toString('base64')
+                  deviceKey: device.key.toString('base64'),
+                  user: {
+                    name: user.name,
+                    email: user.email
+                  }
                 });
               });
             });

@@ -14,14 +14,22 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.home;
-    main = $('main').html(templates[controller.template](data));
-    var data = {};
-    if (controller.initialize) {
-      data = controller.initialize.call(main) || data;
+    //main = $('main').html(templates[controller.template](data));
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
+
+    function callback(data) {
+      main = $('main').html(templates[controller.template](data));
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
       }
     }
   });
@@ -35,14 +43,21 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.profile;
-    var data = {};
-    if (controller.initialize) {
-      data = controller.initialize.call(main) || data;
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    main = $('main').html(templates[controller.template](data));
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
+
+    function callback(data) {
+      main = $('main').html(templates[controller.template](data));
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
       }
     }
   });
@@ -56,14 +71,21 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.login;
-    var data = {};
-    if (controller.initialize) {
-      data = controller.initialize.call(main) || data;
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    main = $('main').html(templates[controller.template](data));
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
+
+    function callback(data) {
+      main = $('main').html(templates[controller.template](data));
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
       }
     }
   });
@@ -77,14 +99,21 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.confirmation;
-    var data = {};
-    if (controller.initialize) {
-      data = controller.initialize.call(main) || data;
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    main = $('main').html(templates[controller.template](data));
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
+
+    function callback(data) {
+      main = $('main').html(templates[controller.template](data));
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
       }
     }
   });

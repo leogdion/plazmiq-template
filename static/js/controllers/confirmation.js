@@ -120,13 +120,7 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
         }
       }
     },
-    initialize: function () {
-      var data = shared.get('registration');
-      console.log(data);
-      this.find('#key').val(data.key);
-      this.find('#name').val(data.name);
-      this.find('#email').val(data.email);
-      this.find('#password').val(data.password);
+    setup: function () {
       var $this = this.find('#name');
       var errors = [];
       console.log("input blur");
@@ -152,6 +146,17 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
         }
 
       }
+    },
+    prepare: function (cb) {
+      var data = {
+        registration: shared.get('registration')
+      };
+      console.log(data);
+      this.find('#key').val(data.key);
+      this.find('#name').val(data.name);
+      this.find('#email').val(data.email);
+      this.find('#password').val(data.password);
+      cb(data);
     }
   };
 });
