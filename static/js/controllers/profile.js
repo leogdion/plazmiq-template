@@ -1,5 +1,10 @@
 define(function () {
   return {
-    template: 'profile'
+    template: 'profile',
+    initialize: function () {
+      return {
+        name: "Fred"
+      };
+    }
   };
 });

@@ -14,14 +14,15 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.home;
-    main = $('main').html(templates[controller.template]());
+    main = $('main').html(templates[controller.template](data));
+    var data = {};
+    if (controller.initialize) {
+      data = controller.initialize.call(main) || data;
+    }
     if (controller.events) {
       for (var selector in controller.events) {
         main.on(controller.events[selector], selector);
       }
-    }
-    if (controller.initialize) {
-      controller.initialize.call(main);
     }
   });
 
@@ -34,14 +35,15 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.profile;
-    main = $('main').html(templates[controller.template]());
+    var data = {};
+    if (controller.initialize) {
+      data = controller.initialize.call(main) || data;
+    }
+    main = $('main').html(templates[controller.template](data));
     if (controller.events) {
       for (var selector in controller.events) {
         main.on(controller.events[selector], selector);
       }
-    }
-    if (controller.initialize) {
-      controller.initialize.call(main);
     }
   });
 
@@ -54,14 +56,15 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.login;
-    main = $('main').html(templates[controller.template]());
+    var data = {};
+    if (controller.initialize) {
+      data = controller.initialize.call(main) || data;
+    }
+    main = $('main').html(templates[controller.template](data));
     if (controller.events) {
       for (var selector in controller.events) {
         main.on(controller.events[selector], selector);
       }
-    }
-    if (controller.initialize) {
-      controller.initialize.call(main);
     }
   });
 
@@ -74,14 +77,15 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.confirmation;
-    main = $('main').html(templates[controller.template]());
+    var data = {};
+    if (controller.initialize) {
+      data = controller.initialize.call(main) || data;
+    }
+    main = $('main').html(templates[controller.template](data));
     if (controller.events) {
       for (var selector in controller.events) {
         main.on(controller.events[selector], selector);
       }
-    }
-    if (controller.initialize) {
-      controller.initialize.call(main);
     }
   });
 
