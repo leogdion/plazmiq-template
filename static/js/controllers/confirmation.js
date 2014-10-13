@@ -5,7 +5,10 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
     $('button').not('.inactive').not('#test').prop('disabled', $('form input.error').size() + $('form input[required]').not('.validated,[readonly],[type="hidden"]').size());
   }
   return {
-    template: 'confirmation',
+    templates: {
+      'main': 'confirmation',
+      '#log-nav': 'login-nav'
+    },
     events: {
       "#confirm": {
         "click": function (e) {

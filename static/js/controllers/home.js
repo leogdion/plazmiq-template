@@ -1,6 +1,9 @@
 define(['store', 'hasher', '../libs/rest/index'], function (store, hasher, rest) {
   return {
-    template: 'home',
+    templates: {
+      'main': 'home',
+      '#log-nav': 'login-nav'
+    },
     prepare: function (cb) {
       var session = {
         deviceKey: store.get('deviceKey'),
