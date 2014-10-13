@@ -14,7 +14,7 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.home;
-    //main = $('main').html(templates[controller.template](data));
+    //main = $('main').html(templates[template](data));
     if (controller.prepare) {
       controller.prepare.call(main, callback);
     } else {
@@ -22,7 +22,14 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
     }
 
     function callback(data) {
-      main = $('main').html(templates[controller.template](data));
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
       if (controller.events) {
         for (var selector in controller.events) {
           main.on(controller.events[selector], selector);
@@ -50,7 +57,14 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
     }
 
     function callback(data) {
-      main = $('main').html(templates[controller.template](data));
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
       if (controller.events) {
         for (var selector in controller.events) {
           main.on(controller.events[selector], selector);
@@ -78,7 +92,14 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
     }
 
     function callback(data) {
-      main = $('main').html(templates[controller.template](data));
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
       if (controller.events) {
         for (var selector in controller.events) {
           main.on(controller.events[selector], selector);
@@ -106,7 +127,14 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
     }
 
     function callback(data) {
-      main = $('main').html(templates[controller.template](data));
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
       if (controller.events) {
         for (var selector in controller.events) {
           main.on(controller.events[selector], selector);

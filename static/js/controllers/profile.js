@@ -1,6 +1,9 @@
 define(['../libs/shared/index', 'store', 'hasher', '../libs/rest/index'], function (shared, store, hasher, rest) {
   return {
-    template: 'profile',
+    templates: {
+      'main': 'profile',
+      '#log-nav': 'profile-nav'
+    },
     prepare: function (cb) {
       this.data = {
         user: shared.get('user')

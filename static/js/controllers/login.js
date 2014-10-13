@@ -7,7 +7,10 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
   }
 
   return {
-    template: 'login',
+    templates: {
+      'main': 'login',
+      '#log-nav': 'login-nav'
+    },
     events: {
       'input[data-char]': {
         'keypress': function (e) {
