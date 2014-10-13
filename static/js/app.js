@@ -14,14 +14,30 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.home;
-    main = $('main').html(templates[controller.template]());
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
-      }
+    //main = $('main').html(templates[template](data));
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    if (controller.initialize) {
-      controller.initialize.call(main);
+
+    function callback(data) {
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
+      }
     }
   });
 
@@ -34,14 +50,29 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.profile;
-    main = $('main').html(templates[controller.template]());
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
-      }
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    if (controller.initialize) {
-      controller.initialize.call(main);
+
+    function callback(data) {
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
+      }
     }
   });
 
@@ -54,14 +85,29 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.login;
-    main = $('main').html(templates[controller.template]());
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
-      }
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    if (controller.initialize) {
-      controller.initialize.call(main);
+
+    function callback(data) {
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
+      }
     }
   });
 
@@ -74,14 +120,29 @@ define(['templates', 'zepto', 'crossroads', 'hasher', './controllers/index'], fu
       }
     }
     controller = controllers.confirmation;
-    main = $('main').html(templates[controller.template]());
-    if (controller.events) {
-      for (var selector in controller.events) {
-        main.on(controller.events[selector], selector);
-      }
+    if (controller.prepare) {
+      controller.prepare.call(main, callback);
+    } else {
+      callback({});
     }
-    if (controller.initialize) {
-      controller.initialize.call(main);
+
+    function callback(data) {
+      var div, template;
+      for (var selector in controller.templates) {
+        template = controller.templates[selector];
+        div = $(selector).html(templates[template](data));
+        if (selector === 'main') {
+          main = div;
+        }
+      }
+      if (controller.events) {
+        for (var selector in controller.events) {
+          main.on(controller.events[selector], selector);
+        }
+      }
+      if (controller.setup) {
+        controller.setup.call(main);
+      }
     }
   });
 

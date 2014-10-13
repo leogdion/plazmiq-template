@@ -7,30 +7,9 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
   }
 
   return {
-    template: 'login',
-    initialize: function () {
-
-      //var btnGroup = this.find('.btn-progress');
-      //var progress = $('<div class="progress"></div>').appendTo(btnGroup);
-/*
-      var sep = 2 * Math.floor(btnGroup.width() / 40) + 2;
-      var squares = $(new Array(sep).join("<span></span>")).appendTo(progress);
-      var count = sep - 1;
-      var middle = Math.floor(count / 2);
-
-      for (var index = 0; index <= count / 2; index++) {
-
-        var set = squares.eq(middle - index);
-
-        if (index > 0) {
-          set = set.add(squares.eq(middle + index));
-        }
-        set.addClass("seg-mid-" + index + "-" + (count/2) );
-        var opacity = (index + 1) / (middle + 1);
-        //set.css('opacity', opacity);
-
-      }
-      */
+    templates: {
+      'main': 'login',
+      '#log-nav': 'login-nav'
     },
     events: {
       'input[data-char]': {
@@ -164,6 +143,8 @@ define(['zepto', 'hasher', 'store', 'smoke', '../libs/validation/index', '../lib
               rest.post('sessions', 'form', {
                 success: function (data, status, xhr) {
                   console.log('posted sessions');
+                  shared.set('user', data.user);
+                  delete data.user;
                   store(data);
                   hasher.setHash('profile');
                 },
