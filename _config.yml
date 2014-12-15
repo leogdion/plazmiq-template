@@ -10,3 +10,5 @@ github_username:  jekyll
 # Build settings
 markdown: kramdown
 permalink: pretty
+sass:
+  sass_dir: bower_components/foundation/scss
