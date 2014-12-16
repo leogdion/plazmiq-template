@@ -10,9 +10,9 @@ author:
   url: ''
 author_login: leogdion
 author_email: leogdion@brightdigit.com
-excerpt: "<a href=\"http:&#47;&#47;harvesthq.github.com&#47;chosen&#47;\" target=\"_blank\">Chosen<&#47;a>
+excerpt: "<a href=\"http:&#47;&#47;harvesthq.github.com&#47;chosen&#47;\" target=\"_blank\">Chosen</a>
   is a terrific javascript plugin which makes large dropdown selection more user-friendly.
-  For <a href=\"http:&#47;&#47;teenytrackr.com\" target=\"_blank\">teenytrackr<&#47;a>,
+  For <a href=\"http:&#47;&#47;teenytrackr.com\" target=\"_blank\">teenytrackr</a>,
   I was looking for a way to allow easy tagging of different entries. Unfortunately,
   Chosen does not come with a built it way to add new items to the selector on the
   fly.\r\n\r\n"
