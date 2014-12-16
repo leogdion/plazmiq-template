@@ -1,6 +1,8 @@
 ---
 ---
 
+@import url(http://fonts.googleapis.com/css?family=Cardo:400,400italic,700|Oxygen:700,400,300);
+
 // Foundation by ZURB
 // foundation.zurb.com
 // Licensed under MIT Open Source
@@ -90,8 +92,8 @@ $include-html-global-classes: $include-html-classes;
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // We use these to define default font stacks
-// $font-family-sans-serif: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-// $font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+$font-family-sans-serif: 'Oxygen', sans-serif;
+$font-family-serif: 'Cardo', serif;
 // $font-family-monospace: Consolas, "Liberation Mono", Courier, monospace;
 
 // We use these to define default font weights
@@ -100,22 +102,22 @@ $include-html-global-classes: $include-html-classes;
 
 // $white       : #FFFFFF;
 // $ghost       : #FAFAFA;
-// $snow        : #F9F9F9;
-// $vapor       : #F6F6F6;
-// $white-smoke : #F5F5F5;
-// $silver      : #EFEFEF;
+$snow        : #F9F9F9;
+//$vapor       : #F6F6F6;
+//$white-smoke : #F5F5F5;
+//$silver      : #EFEFEF;
 // $smoke       : #EEEEEE;
 // $gainsboro   : #DDDDDD;
 // $iron        : #CCCCCC;
 // $base        : #AAAAAA;
 // $aluminum    : #999999;
 // $jumbo       : #888888;
-// $monsoon     : #777777;
+$monsoon     : #777777;
 // $steel       : #666666;
 // $charcoal    : #555555;
 // $tuatara     : #444444;
-// $oil         : #333333;
-// $jet         : #222222;
+$oil         : #333333;
+$jet         : #222222;
 // $black       : #000000;
 
 // We use these as default colors throughout
@@ -1367,7 +1369,7 @@ $include-html-global-classes: $include-html-classes;
 // $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-// $topbar-bg-color: $oil;
+$topbar-bg-color: $snow;
 // $topbar-bg: $topbar-bg-color;
 
 // Height and margin
@@ -1380,7 +1382,7 @@ $include-html-global-classes: $include-html-classes;
 
 // Style the top bar dropdown elements
 // $topbar-dropdown-bg: $oil;
-// $topbar-dropdown-link-color: $white;
+$topbar-dropdown-link-color: $monsoon;
 // $topbar-dropdown-link-bg: $oil;
 // $topbar-dropdown-link-bg-hover: $oil;
 // $topbar-dropdown-link-weight: $font-weight-normal;
@@ -1389,7 +1391,7 @@ $include-html-global-classes: $include-html-classes;
 // $topbar-dropdown-toggle-alpha: 0.4;
 
 // Set the link colors and styles for top-level nav
-// $topbar-link-color: $white;
+$topbar-link-color: $monsoon;
 // $topbar-link-color-hover: $white;
 // $topbar-link-color-active: $white;
 // $topbar-link-color-active-hover: $white;
@@ -1486,3 +1488,8 @@ $include-html-global-classes: $include-html-classes;
 //   "foundation/components/type",
 //   "foundation/components/offcanvas",
 //   "foundation/components/visibility";
+
+.top-bar .title-area > .name h1 a{
+  font-family: $font-family-serif;
+  color: $oil;
+}
