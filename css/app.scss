@@ -1492,4 +1492,89 @@ $topbar-link-color: $monsoon;
 .top-bar .title-area > .name h1 a{
   font-family: $font-family-serif;
   color: $oil;
+
+  img {
+    height: 10pt;
+    margin-bottom: 5px;
+  }
+}
+
+.callout h1 {
+  font-family: $font-family-serif;
+  text-align: center;
+position: relative;
+font-size: 48pt;
+top: 95%;
+  img {
+    height: 52px;
+margin-bottom: 13pt;
+  }
+}
+
+/*
+.callout {
+  h1 {
+    font-family: $font-family-serif;
+  text-align: center;
+  }
+
+    background-image: url(/assets/callout-bg.jpg);
+    background-position: center;
+    background-size: contain;
+    margin: 20px 0px;
+    min-height: 500px;
+    display: table;
+    width: 100%;
+
+}
+*/
+
+.callout > div {
+    background-image: url(/assets/callout-bg.jpg);
+    background-position: center;
+    background-size: contain;
+    margin: 20px 0px;
+    position: relative;
+    height: 500px;
+}
+
+
+.callout div > div{
+  bottom: 0;
+  height: 47.5%;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  top: -36pt;
+  right: 0;
+}
+
+.callout div > div > img {
+
+  width: auto;
+  height: 100%;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+@media #{$small-only} { 
+  .callout h1 {
+font-size: 24pt;
+  img {
+    height: 24px;
+margin-bottom: 8px;
+  }
+  }
+  .callout > div  {
+    height: 250px;
+    background-size: cover;
+  }
+  .callout div > div{
+  top: -24pt;
+}
+  .callout div > div > img {
+    max-width: 25%;
+
+  }
 }
