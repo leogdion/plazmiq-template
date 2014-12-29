@@ -1,0 +1,25 @@
+---
+layout: default
+---
+<!DOCTYPE html>
+<html>
+  {{> head}}
+    <body>
+        {{> header}}
+      <main>
+<div class="post">
+
+  <header class="post-header">
+    <h1>{{ title }}</h1>
+    <p class="meta">{{formatDate date day="numeric" month="long" year="numeric"}}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
+  </header>
+
+  <article class="post-content">
+  {{ contents }}
+  </article>
+
+</div>
+      </main>
+        {{> footer}}
+    </body>
+</html>
