@@ -6,7 +6,13 @@
         {{#each collections.posts}}
             <li>
                 <h3>{{this.title}}</h3>
-                <article>{{{this.excerpt}}}</article>
+                <article>
+                {{#unless this.abstract}}
+                  {{excerpt}}
+                {{else}}
+                  {{this.abstract}}
+                {{/unless}}
+                </article>
             </li>
         {{/each}}
     </ul>

@@ -31,7 +31,6 @@ glob("./static/templates/partials/*.html", function (er, files) {
     console.log(error);
     Metalsmith(__dirname)
         .source('static/html')
-        .use(excerpts())
         .use(collections({
             posts: {
                 pattern: 'posts/*.md',
@@ -40,6 +39,7 @@ glob("./static/templates/partials/*.html", function (er, files) {
             }
         }))
         .use(markdown())
+        .use(excerpts())
         .use(templates({engine : 'handlebars', directory: 'static/templates'}))
         .destination('./public')
         .build(function (error, files) {
