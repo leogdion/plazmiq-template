@@ -7,6 +7,7 @@ var Metalsmith = require('metalsmith'),
     templates  = require('metalsmith-templates'),
     excerpts  = require('metalsmith-excerpts'),
     collections  = require('metalsmith-collections'),
+    sass = require('metalsmith-sass'),
     Handlebars = require('handlebars'),
     fs         = require('fs'),
     async      = require('async'),
@@ -38,6 +39,7 @@ glob("./static/templates/partials/*.html", function (er, files) {
                 reverse: true
             }
         }))
+        .use(sass())
         .use(markdown())
         .use(excerpts())
         .use(templates({engine : 'handlebars', directory: 'static/templates'}))
