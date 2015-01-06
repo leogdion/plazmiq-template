@@ -23,6 +23,9 @@ glob("./static/templates/partials/*.html", function (er, files) {
       cb(error);
     });
   }, function (error) {
+    Handlebars.registerHelper('safe', function(contents) {
+      return new Handlebars.SafeString(contents);
+    });
     console.log(error);
     Metalsmith(__dirname)
         .source('static')
