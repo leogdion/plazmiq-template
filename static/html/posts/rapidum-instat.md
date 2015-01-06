@@ -1,8 +1,8 @@
 ---
 template: post.hbt
 published: true
-title: IRS says Bitcoins should be treated as property not currency
-date: '2014-03-25 21:32:14 -0400'
+title: Rapidum instat
+date: 2015-01-02 21:32:14 -0400
 categories:
 - Uncategorized
 tags: []

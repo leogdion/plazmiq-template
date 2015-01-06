@@ -1,10 +1,8 @@
 ---
 template: post.hbt
 published: true
-title: IRS says Bitcoins should be treated as property not currency
-excerpt: Bitcoin and all cryptocurrencies are a set of technologies I am interested
-  in looking at. Today's news is big.
-date: '2014-03-25 21:32:14 -0400'
+title: Replent ardet tamen locum
+date: 2015-01-03 21:32:14 -0400
 categories:
 - Uncategorized
 tags: []

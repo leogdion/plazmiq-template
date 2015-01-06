@@ -5,6 +5,8 @@ if (!global.Intl) {
 var Metalsmith = require('metalsmith'),
     markdown   = require('metalsmith-markdown'),
     templates  = require('metalsmith-templates'),
+    excerpts  = require('metalsmith-excerpts'),
+    collections  = require('metalsmith-collections'),
     Handlebars = require('handlebars'),
     fs         = require('fs'),
     async      = require('async'),
@@ -29,6 +31,14 @@ glob("./static/templates/partials/*.html", function (er, files) {
     console.log(error);
     Metalsmith(__dirname)
         .source('static/html')
+        .use(excerpts())
+        .use(collections({
+            posts: {
+                pattern: 'posts/*.md',
+                sortBy: 'date',
+                reverse: true
+            }
+        }))
         .use(markdown())
         .use(templates({engine : 'handlebars', directory: 'static/templates'}))
         .destination('./public')
