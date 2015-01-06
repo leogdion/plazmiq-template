@@ -28,7 +28,7 @@ glob("./static/templates/partials/*.html", function (er, files) {
     });
     console.log(error);
     Metalsmith(__dirname)
-        .source('static')
+        .source('static/html')
         .use(markdown())
         .use(templates({engine : 'handlebars', directory: 'static/templates'}))
         .destination('./public')
