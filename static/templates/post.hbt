@@ -8,7 +8,7 @@
 
   <header class="post-header">
     <h1>{{ title }}</h1>
-    <p class="meta">{{formatDate date day="numeric" month="long" year="numeric"}}{% if page.author %} • {{ page.author }}{% endif %}{% if page.meta %} • {{ page.meta }}{% endif %}</p>
+    <p class="meta">{{#intl locales="en-US"}}{{formatDate date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}</p>
   </header>
 
   <article class="post-content">
