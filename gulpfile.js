@@ -25,7 +25,9 @@ var gulp = require('gulp'),
     async      = require('async'),
     path       = require('path'),
     glob       = require('glob'),
-    HandlebarsIntl = require('handlebars-intl');
+    HandlebarsIntl = require('handlebars-intl'),
+    gulp_front_matter = require('gulp-front-matter');
+    assign = require('lodash.assign');
 
 gulp.task('default', ['clean', 'browserify', 'sass', 'copy', 'metalsmith', 'bump']);
 
@@ -47,7 +49,10 @@ glob("./static/templates/partials/*.html", function (er, files) {
     Handlebars.registerHelper('safe', function(contents) {
       return new Handlebars.SafeString(contents);
     });
-    gulp.src('static/html/**/*').pipe(
+    gulp.src('./static/html/**/*').pipe(gulp_front_matter()).on("data", function(file) {
+    assign(file, file.frontMatter); 
+    delete file.frontMatter;
+}).pipe(
     //Metalsmith(__dirname)
       //  .source('static/html')
       gulpsmith()
