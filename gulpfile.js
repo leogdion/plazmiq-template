@@ -1,3 +1,8 @@
+
+if (!global.Intl) {
+    global.Intl = require('intl');
+}
+
 var gulp = require('gulp'),
     bump = require('gulp-bump'),
     jshint = require('gulp-jshint'),
@@ -8,17 +13,72 @@ var gulp = require('gulp'),
     rimraf = require('rimraf'),
     rename = require('gulp-rename')
     browserify = require('browserify');
-    transform = require('vinyl-transform');
+    transform = require('vinyl-transform'),
+    gulpsmith = require('gulpsmith'), 
+    Metalsmith = require('metalsmith'),
+    markdown   = require('metalsmith-markdown'),
+    templates  = require('metalsmith-templates'),
+    excerpts  = require('metalsmith-excerpts'),
+    collections  = require('metalsmith-collections'),
+    Handlebars = require('handlebars'),
+    fs         = require('fs'),
+    async      = require('async'),
+    path       = require('path'),
+    glob       = require('glob'),
+    HandlebarsIntl = require('handlebars-intl');
 
-gulp.task('default', ['clean', 'browserify', 'sass', 'copy', 'bump']);
+gulp.task('default', ['clean', 'browserify', 'sass', 'copy', 'metalsmith', 'bump']);
 
 gulp.task('clean', function (cb) {
   async.each(['public', '.tmp', '.coverdata'], rimraf, cb);
 });
 
+gulp.task('metalsmith', ['clean'], function (cb) {
+
+
+HandlebarsIntl.registerWith(Handlebars);
+glob("./static/templates/partials/*.html", function (er, files) {
+  async.each(files, function (file, asynccb) {
+    fs.readFile(file, function (error, content) {
+      Handlebars.registerPartial(path.basename(file, '.html'), content.toString());
+      asynccb(error);
+    });
+  }, function (error) {
+    Handlebars.registerHelper('safe', function(contents) {
+      return new Handlebars.SafeString(contents);
+    });
+    gulp.src('static/html/**/*').pipe(
+    //Metalsmith(__dirname)
+      //  .source('static/html')
+      gulpsmith()
+        .use(collections({
+            posts: {
+                pattern: 'posts/*.md',
+                sortBy: 'date',
+                reverse: true
+            }
+        }))
+        .use(markdown())
+        .use(excerpts())
+        .use(templates({engine : 'handlebars', directory: 'static/templates'}))
+        /*.destination('./public')
+        .build(function (error, files) {
+          console.log(error);
+          console.log(files);
+          cb(error);
+        });
+*/
+  ).pipe(gulp.dest("./public"));
+    // files is an array of filenames.
+  // If the `nonull` option is set, and nothing
+  // was found, then files is ["**/*.js"]
+  // er is an error object or null.
+});
+})});
+
 gulp.task('copy', ['clean'], function () {
   return es.merge(
-  gulp.src('static/html/*.html').pipe(gulp.dest('public')), gulp.src('static/fonts/**/*.*').pipe(gulp.dest('public/fonts')), gulp.src('static/images/**/*.*').pipe(gulp.dest('public/images')));
+  gulp.src('static/fonts/**/*.*').pipe(gulp.dest('public/fonts')), gulp.src('static/images/**/*.*').pipe(gulp.dest('public/images')));
 });
 
 gulp.task('sass', ['clean'], function () {
