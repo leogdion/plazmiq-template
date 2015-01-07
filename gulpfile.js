@@ -19,6 +19,7 @@ var gulp = require('gulp'),
     templates = require('metalsmith-templates'),
     excerpts = require('metalsmith-excerpts'),
     collections = require('metalsmith-collections'),
+    permalinks = require('metalsmith-permalinks'),
     Handlebars = require('handlebars'),
     fs = require('fs'),
     async = require('async'),
@@ -56,7 +57,7 @@ gulp.task('metalsmith', ['clean'], function (cb) {
           sortBy: 'date',
           reverse: true
         }
-      })).use(markdown()).use(excerpts()).use(templates({
+      })).use(markdown()).use(excerpts()).use(permalinks()).use(templates({
         engine: 'handlebars',
         directory: 'static/templates'
       }))).pipe(gulp.dest("./public"));

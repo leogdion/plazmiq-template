@@ -1,14 +1,19 @@
-{{> header}}
+<!DOCTYPE html>
+<html>
+  {{> head}}
+    <body>
+        {{> header}}
+      <main>
 <h2>{{title}}</h2>
 
 <article>
     <ul>
         {{#each collections.posts}}
             <li>
-                <h3>{{this.title}}</h3>
+                <h3><a href="../{{this.path}}">{{this.title}}</a></h3>
                 <article>
                 {{#unless this.abstract}}
-                  {{excerpt}}
+                  {{safe excerpt}}
                 {{else}}
                   {{this.abstract}}
                 {{/unless}}
@@ -17,5 +22,7 @@
         {{/each}}
     </ul>
 </article>
-
-{{> footer}}
+      </main>
+        {{> footer}}
+    </body>
+</html>
