@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "0.1.209",
+  "version": "0.1.211",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -28,7 +28,9 @@
     "gulp-mocha": "^0.5.2",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^1.2.4",
-    "gulp-scss-lint": "^0.1.4",
+    "gulp-uglify": "^1.0.2",
+    "gulp-uglifycss": "^1.0.4",
+    "gulp-htmlmin": "^0.2.0",
     "gulpsmith": "^0.5.3",
     "handlebars": "^2.0.0",
     "handlebars-intl": "^1.0.1",

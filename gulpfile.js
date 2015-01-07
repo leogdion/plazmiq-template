@@ -11,6 +11,9 @@ var gulp = require('gulp'),
     async = require('async'),
     rimraf = require('rimraf'),
     rename = require('gulp-rename'),
+    uglify = require('gulp-uglify'),
+    uglifycss = require('gulp-uglifycss')
+     htmlmin = require('gulp-htmlmin'),
     browserify = require('browserify'),
     transform = require('vinyl-transform'),
     gulpsmith = require('gulpsmith'),
@@ -60,10 +63,15 @@ gulp.task('metalsmith', ['clean'], function (cb) {
       })).use(markdown()).use(excerpts()).use(permalinks()).use(templates({
         engine: 'handlebars',
         directory: 'static/templates'
-      }))).pipe(gulp.dest("./public"));
+      }))).pipe(htmlmin({
+        collapseWhitespace: true,
+        removeComments: true,
+        removeEmptyAttributes: true
+      })).pipe(gulp.dest("./public"));
     });
   });
 });
+
 
 gulp.task('copy', ['clean'], function () {
   return es.merge(
@@ -71,7 +79,7 @@ gulp.task('copy', ['clean'], function () {
 });
 
 gulp.task('sass', ['clean'], function () {
-  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('public/css'));
+  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(uglifycss()).pipe(gulp.dest('public/css'));
 });
 
 gulp.task('browserify', function () {
@@ -80,9 +88,7 @@ gulp.task('browserify', function () {
     return b.bundle();
   });
 
-  return gulp.src(['./static/js/main.js']).pipe(browserified)
-  //.pipe(uglify())
-  .pipe(gulp.dest('./public/js'));
+  return gulp.src(['./static/js/main.js']).pipe(browserified).pipe(uglify()).pipe(gulp.dest('./public/js'));
 });
 
 gulp.task('bump', function () {
