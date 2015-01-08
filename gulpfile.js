@@ -50,10 +50,10 @@ gulp.task('rev', ['build'], function () {
 
 gulp.task('handlebars', function (cb) {
   HandlebarsIntl.registerWith(Handlebars);
-  glob("./static/templates/partials/*.html", function (er, files) {
+  glob("./static/templates/partials/*.hbt", function (er, files) {
     async.each(files, function (file, asynccb) {
       fs.readFile(file, function (error, content) {
-        Handlebars.registerPartial(path.basename(file, '.html'), content.toString());
+        Handlebars.registerPartial(path.basename(file, '.hbt'), content.toString());
         asynccb(error);
       });
     }, function (error) {
@@ -75,6 +75,9 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
       pattern: 'posts/*.md',
       sortBy: 'date',
       reverse: true
+    },
+    pages: {
+      pattern: '*.md'
     }
   })).use(markdown()).use(excerpts()).use(permalinks()).use(templates({
     engine: 'handlebars',
@@ -104,7 +107,7 @@ gulp.task('browserify', function () {
   return gulp.src(['./static/js/main.js']).pipe(browserified).pipe(uglify()).pipe(gulp.dest('./.tmp/build/js'));
 });
 
-gulp.task('bump', function () {
+gulp.task('bump', ['browserify'], function () {
   return gulp.src(['./package.json']).pipe(bump({
     type: 'patch'
   })).pipe(gulp.dest('./'));
