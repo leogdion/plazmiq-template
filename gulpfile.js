@@ -26,16 +26,25 @@ var gulp = require('gulp'),
     path = require('path'),
     glob = require('glob'),
     HandlebarsIntl = require('handlebars-intl'),
-    gulp_front_matter = require('gulp-front-matter');
-assign = require('lodash.assign');
+    gulp_front_matter = require('gulp-front-matter'),
+    assign = require('lodash.assign'),
+    revall = require('gulp-rev-all');
 
-gulp.task('default', ['clean', 'browserify', 'sass', 'copy', 'lint', 'metalsmith', 'bump']);
+gulp.task('default', ['rev']);
+
+gulp.task('build', ['clean', 'browserify', 'sass', 'copy', 'lint', 'metalsmith', 'bump']);
 
 gulp.task('clean', function (cb) {
   async.each(['public', '.tmp', '.coverdata'], rimraf, cb);
 });
 
-gulp.task('metalsmith', ['clean'], function (cb) {
+gulp.task('rev', ['build'], function () {
+  return gulp.src('.tmp/build/**').pipe(revall({
+    ignore: ['.html']
+  })).pipe(gulp.dest('./public'));
+});
+
+gulp.task('handlebars', function (cb) {
   HandlebarsIntl.registerWith(Handlebars);
   glob("./static/templates/partials/*.html", function (er, files) {
     async.each(files, function (file, asynccb) {
@@ -47,31 +56,35 @@ gulp.task('metalsmith', ['clean'], function (cb) {
       Handlebars.registerHelper('safe', function (contents) {
         return new Handlebars.SafeString(contents);
       });
-      gulp.src('./static/html/**/*').pipe(gulp_front_matter()).on("data", function (file) {
-        assign(file, file.frontMatter);
-        delete file.frontMatter;
-      }).pipe(
-      gulpsmith().use(collections({
-        posts: {
-          pattern: 'posts/*.md',
-          sortBy: 'date',
-          reverse: true
-        }
-      })).use(markdown()).use(excerpts()).use(permalinks()).use(templates({
-        engine: 'handlebars',
-        directory: 'static/templates'
-      }))).pipe(gulp.dest("./public"));
+      cb(error);
     });
   });
 });
 
+gulp.task('metalsmith', ['clean', 'handlebars'], function () {
+  return gulp.src('./static/html/**/*').pipe(gulp_front_matter()).on("data", function (file) {
+    assign(file, file.frontMatter);
+    delete file.frontMatter;
+  }).pipe(
+  gulpsmith().use(collections({
+    posts: {
+      pattern: 'posts/*.md',
+      sortBy: 'date',
+      reverse: true
+    }
+  })).use(markdown()).use(excerpts()).use(permalinks()).use(templates({
+    engine: 'handlebars',
+    directory: 'static/templates'
+  }))).pipe(gulp.dest("./.tmp/build"));
+});
+
 gulp.task('copy', ['clean'], function () {
   return es.merge(
-  gulp.src('static/fonts/**/*.*').pipe(gulp.dest('public/fonts')), gulp.src('static/images/**/*.*').pipe(gulp.dest('public/images')));
+  gulp.src('static/fonts/**/*.*').pipe(gulp.dest('.tmp/build/fonts')), gulp.src('static/images/**/*.*').pipe(gulp.dest('.tmp/build/images')));
 });
 
 gulp.task('sass', ['clean'], function () {
-  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('public/css'));
+  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp/build/css'));
 });
 
 gulp.task('browserify', function () {
@@ -82,11 +95,11 @@ gulp.task('browserify', function () {
 
   return gulp.src(['./static/js/main.js']).pipe(browserified)
   //.pipe(uglify())
-  .pipe(gulp.dest('./public/js'));
+  .pipe(gulp.dest('./.tmp/build/js'));
 });
 
 gulp.task('bump', function () {
-  gulp.src(['./package.json']).pipe(bump({
+  return gulp.src(['./package.json']).pipe(bump({
     type: 'patch'
   })).pipe(gulp.dest('./'));
 });
@@ -96,7 +109,7 @@ gulp.task('lint', ['beautify'], function () {
 });
 
 gulp.task('beautify', function () {
-  gulp.src(['./gulpfile.js', 'static/js/**/*.js'], {
+  return gulp.src(['./gulpfile.js', 'static/js/**/*.js'], {
     base: '.'
   }).pipe(beautify({
     indentSize: 2,

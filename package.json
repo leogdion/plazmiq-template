@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "0.1.209",
+  "version": "0.1.222",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -27,6 +27,7 @@
     "gulp-jshint": "^1.8.4",
     "gulp-mocha": "^0.5.2",
     "gulp-rename": "^1.2.0",
+    "gulp-rev-all": "^0.7.5",
     "gulp-sass": "^1.2.4",
     "gulp-scss-lint": "^0.1.4",
     "gulpsmith": "^0.5.3",
