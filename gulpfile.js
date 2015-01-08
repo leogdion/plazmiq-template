@@ -2,33 +2,37 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
+var fs = require('fs'),
+    path = require('path');
+
 var gulp = require('gulp'),
     bump = require('gulp-bump'),
     jshint = require('gulp-jshint'),
     beautify = require('gulp-beautify'),
     sass = require('gulp-sass'),
-    es = require('event-stream'),
-    async = require('async'),
-    rimraf = require('rimraf'),
-    rename = require('gulp-rename'),
-    browserify = require('browserify'),
-    transform = require('vinyl-transform'),
-    gulpsmith = require('gulpsmith'),
-    Metalsmith = require('metalsmith'),
+    revall = require('gulp-rev-all'),
+    htmlmin = require('gulp-htmlmin'),
+    uglify = require('gulp-uglify'),
+    uglifycss = require('gulp-uglifycss'),
+    gulp_front_matter = require('gulp-front-matter');
+
+var gulpsmith = require('gulpsmith'),
     markdown = require('metalsmith-markdown'),
     templates = require('metalsmith-templates'),
     excerpts = require('metalsmith-excerpts'),
     collections = require('metalsmith-collections'),
-    permalinks = require('metalsmith-permalinks'),
-    Handlebars = require('handlebars'),
-    fs = require('fs'),
-    async = require('async'),
-    path = require('path'),
+    permalinks = require('metalsmith-permalinks');
+
+var async = require('async'),
     glob = require('glob'),
+    Handlebars = require('handlebars'),
     HandlebarsIntl = require('handlebars-intl'),
-    gulp_front_matter = require('gulp-front-matter'),
     assign = require('lodash.assign'),
-    revall = require('gulp-rev-all');
+    es = require('event-stream'),
+    async = require('async'),
+    rimraf = require('rimraf'),
+    browserify = require('browserify'),
+    transform = require('vinyl-transform');
 
 gulp.task('default', ['rev']);
 
@@ -75,7 +79,11 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
   })).use(markdown()).use(excerpts()).use(permalinks()).use(templates({
     engine: 'handlebars',
     directory: 'static/templates'
-  }))).pipe(gulp.dest("./.tmp/build"));
+  }))).pipe(htmlmin({
+    collapseWhitespace: true,
+    removeComments: true,
+    removeEmptyAttributes: true
+  })).pipe(gulp.dest("./.tmp/build"));
 });
 
 gulp.task('copy', ['clean'], function () {
@@ -84,7 +92,7 @@ gulp.task('copy', ['clean'], function () {
 });
 
 gulp.task('sass', ['clean'], function () {
-  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp/build/css'));
+  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(uglifycss()).pipe(gulp.dest('.tmp/build/css'));
 });
 
 gulp.task('browserify', function () {
@@ -93,9 +101,7 @@ gulp.task('browserify', function () {
     return b.bundle();
   });
 
-  return gulp.src(['./static/js/main.js']).pipe(browserified)
-  //.pipe(uglify())
-  .pipe(gulp.dest('./.tmp/build/js'));
+  return gulp.src(['./static/js/main.js']).pipe(browserified).pipe(uglify()).pipe(gulp.dest('./.tmp/build/js'));
 });
 
 gulp.task('bump', function () {
