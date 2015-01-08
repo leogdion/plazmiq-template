@@ -2,6 +2,8 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
+var revquire = require('./revquire');
+
 var fs = require('fs'),
     path = require('path');
 
@@ -14,8 +16,10 @@ var gulp = require('gulp'),
     htmlmin = require('gulp-htmlmin'),
     uglify = require('gulp-uglify'),
     uglifycss = require('gulp-uglifycss'),
-    gulp_front_matter = require('gulp-front-matter');
-
+    gulp_front_matter = require('gulp-front-matter'),
+    awspublish = require("gulp-awspublish"),
+    awspublishRouter = require("gulp-awspublish-router")
+    
 var gulpsmith = require('gulpsmith'),
     markdown = require('metalsmith-markdown'),
     templates = require('metalsmith-templates'),
@@ -34,7 +38,64 @@ var async = require('async'),
     browserify = require('browserify'),
     transform = require('vinyl-transform');
 
+var awscredentials = revquire({
+  "key": "AWS_CREDENTIALS_KEY",
+  "secret": "AWS_CREDENTIALS_SECRET",
+  "bucket": "AWS_CREDENTIALS_BUCKET"
+}, './.aws-credentials.json');
+
 gulp.task('default', ['rev']);
+
+gulp.task('publish', ['rev'], function () {
+  var publisher = awspublish.create(awscredentials);
+  return gulp.src("**/*", {
+    cwd: "./public/"
+  }).pipe(awspublishRouter({
+    cache: {
+      // cache for 5 minutes by default
+      cacheTime: 300,
+      gzip: true
+    },
+
+    routes: {
+/* "^assets/(?:.+)\\.(?:js|css|svg|ttf)$": {
+        // don't modify original key. this is the default
+        key: "$&",
+        // use gzip for assets that benefit from it
+        gzip: true,
+        // cache static assets for 2 years
+        cacheTime: 630720000
+      },
+
+      "^assets/.+$": {
+        // cache static assets for 2 years
+        cacheTime: 630720000
+      },
+
+      // e.g. upload items/foo/bar/index.html under key items/foo/bar
+      "^items/([^/]+)/([^/]+)/index\\.html": "items/$1/$2",
+
+      "^.+\\.html": {
+        // apply gzip with extra options
+        gzip: {
+          // Add .gz extension.
+          ext: ".gz"
+        }
+      },
+
+      "^README$": {
+        // specify extra headers
+        headers: {
+          "Content-Type": "text/plain"
+        }
+      },
+
+      // pass-through for anything that wasn't matched by routes above, to be uploaded with default options
+      */
+      "^.+$": "$&"
+    }
+  })).pipe(publisher.publish()).pipe(publisher.sync()).pipe(awspublish.reporter());
+});
 
 gulp.task('build', ['clean', 'browserify', 'sass', 'copy', 'lint', 'metalsmith', 'bump']);
 

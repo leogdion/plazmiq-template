@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "0.1.237",
+  "version": "0.1.241",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -21,6 +21,8 @@
     "event-stream": "^3.1.7",
     "glob": "^4.3.2",
     "gulp": "^3.8.7",
+    "gulp-awspublish": "0.0.24",
+    "gulp-awspublish-router": "^0.1.0",
     "gulp-beautify": "^1.1.0",
     "gulp-bump": "^0.1.11",
     "gulp-front-matter": "^1.1.1",
