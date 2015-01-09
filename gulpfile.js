@@ -18,8 +18,8 @@ var gulp = require('gulp'),
     uglifycss = require('gulp-uglifycss'),
     gulp_front_matter = require('gulp-front-matter'),
     awspublish = require("gulp-awspublish"),
-    awspublishRouter = require("gulp-awspublish-router")
-    
+    awspublishRouter = require("gulp-awspublish-router");
+
 var gulpsmith = require('gulpsmith'),
     markdown = require('metalsmith-markdown'),
     templates = require('metalsmith-templates'),
@@ -32,7 +32,6 @@ var async = require('async'),
     Handlebars = require('handlebars'),
     HandlebarsIntl = require('handlebars-intl'),
     assign = require('lodash.assign'),
-    es = require('event-stream'),
     async = require('async'),
     rimraf = require('rimraf'),
     browserify = require('browserify'),
@@ -105,7 +104,8 @@ gulp.task('clean', function (cb) {
 
 gulp.task('rev', ['build'], function () {
   return gulp.src('.tmp/build/**').pipe(revall({
-    ignore: ['.html']
+    ignore: ['.html', /^\/assets/g],
+    quiet: true
   })).pipe(gulp.dest('./public'));
 });
 
@@ -151,8 +151,7 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
 });
 
 gulp.task('copy', ['clean'], function () {
-  return es.merge(
-  gulp.src('static/fonts/**/*.*').pipe(gulp.dest('.tmp/build/fonts')), gulp.src('static/images/**/*.*').pipe(gulp.dest('.tmp/build/images')));
+  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
 });
 
 gulp.task('sass', ['clean'], function () {
@@ -175,11 +174,11 @@ gulp.task('bump', ['browserify'], function () {
 });
 
 gulp.task('lint', ['beautify'], function () {
-  return gulp.src(['./gulpfile.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
+  return gulp.src(['./*.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
 });
 
 gulp.task('beautify', function () {
-  return gulp.src(['./gulpfile.js', 'static/js/**/*.js'], {
+  return gulp.src(['./*.js', 'static/js/**/*.js'], {
     base: '.'
   }).pipe(beautify({
     indentSize: 2,

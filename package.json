@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "0.1.241",
+  "version": "0.1.245",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -18,7 +18,6 @@
   "devDependencies": {
     "async": "^0.9.0",
     "browserify": "^7.0.2",
-    "event-stream": "^3.1.7",
     "glob": "^4.3.2",
     "gulp": "^3.8.7",
     "gulp-awspublish": "0.0.24",
@@ -41,7 +40,6 @@
     "lodash.assign": "^2.4.1",
     "metalsmith": "^1.0.1",
     "metalsmith-collections": "^0.6.0",
-    "metalsmith-define": "^1.0.0",
     "metalsmith-excerpts": "^1.0.0",
     "metalsmith-markdown": "^0.2.1",
     "metalsmith-permalinks": "^0.4.0",

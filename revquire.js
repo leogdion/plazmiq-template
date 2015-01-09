@@ -5,7 +5,11 @@ module.exports = function (mapping, file) {
     if (value) {
       result[key] = value;
     } else {
-      return require(file);
+      try {
+        return require(file);
+      } catch (ex) {
+        return undefined;
+      }
     }
   }
   return result;
