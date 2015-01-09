@@ -14,7 +14,8 @@
   <article class="post-content">
   {{ safe contents }}
   </article>
-
+  {{#if next}}<a href="/{{next.path}}">Previous - {{next.title}}</a>{{/if}}
+  {{#if previous}}<a href="/{{previous.path}}">Next - {{previous.title}}</a>{{/if}}
 </div>
       </main>
         {{> footer}}
