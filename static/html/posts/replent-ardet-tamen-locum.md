@@ -2,7 +2,7 @@
 template: post.hbt
 published: true
 title: Replent ardet tamen locum
-date: 2015-01-03 21:32:14 -0400
+date:  2015-01-03T19:22:12-05:00
 categories:
 - Uncategorized
 tags: []

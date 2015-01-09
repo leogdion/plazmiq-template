@@ -140,7 +140,10 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
     pages: {
       pattern: '*.md'
     }
-  })).use(markdown()).use(excerpts()).use(permalinks()).use(templates({
+  })).use(markdown()).use(excerpts()).use(permalinks({
+    pattern: 'blog/:date/:title',
+    date: 'YY/MM/DD'
+  })).use(templates({
     engine: 'handlebars',
     directory: 'static/templates'
   }))).pipe(htmlmin({

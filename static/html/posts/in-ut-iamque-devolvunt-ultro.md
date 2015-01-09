@@ -3,7 +3,7 @@ template: post.hbt
 published: true
 title: In ut iamque devolvunt ultro
 abstract: Stabat inpia renovamine atque mare
-date: 2015-01-01 21:32:14 -0400
+date:  2015-01-01T19:22:12-05:00
 categories:
 - Uncategorized
 tags: []

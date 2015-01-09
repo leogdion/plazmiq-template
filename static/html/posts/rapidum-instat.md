@@ -2,7 +2,7 @@
 template: post.hbt
 published: true
 title: Rapidum instat
-date: 2015-01-02 21:32:14 -0400
+date:  2015-01-02T19:22:12-05:00
 categories:
 - Uncategorized
 tags: []
