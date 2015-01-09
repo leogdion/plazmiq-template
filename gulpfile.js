@@ -28,7 +28,8 @@ var gulpsmith = require('gulpsmith'),
     collections = require('metalsmith-collections'),
     permalinks = require('metalsmith-permalinks'),
     paginate = require('metalsmith-paginate'),
-    tags = require('metalsmith-tags');
+    tags = require('metalsmith-tags'),
+    ignore = require('metalsmith-ignore');
 
 var async = require('async'),
     glob = require('glob'),
@@ -46,9 +47,17 @@ var awscredentials = revquire({
   "bucket": "AWS_CREDENTIALS_BUCKET"
 }, './.aws-credentials.json');
 
-gulp.task('default', ['rev']);
 
-gulp.task('publish', ['rev'], function () {
+var watch = function (stage) {
+  var Watch = function () {
+    stage = stage || "default";
+    return gulp.watch('./static/**/*', [stage]);
+  };
+
+  return Watch;
+};
+
+gulp.task('publish', ['production'], function () {
   var publisher = awspublish.create(awscredentials);
   return gulp.src("**/*", {
     cwd: "./build/production/"
@@ -150,7 +159,7 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
     assign(file, file.frontMatter);
     delete file.frontMatter;
   }).pipe(
-  gulpsmith().use(collections({
+  gulpsmith().use(ignore('drafts/*')).use(collections({
     posts: {
       pattern: 'posts/*.md',
       sortBy: 'date',
@@ -216,3 +225,7 @@ gulp.task('beautify', function () {
     preserveNewlines: true
   })).pipe(gulp.dest('.'));
 });
+
+gulp.task('watch', ['default'], watch());
+gulp.task('watch-development', ['development'], watch('development'));
+gulp.task('watch-production', ['production'], watch('production'));
