@@ -25,7 +25,8 @@ var gulpsmith = require('gulpsmith'),
     templates = require('metalsmith-templates'),
     excerpts = require('metalsmith-excerpts'),
     collections = require('metalsmith-collections'),
-    permalinks = require('metalsmith-permalinks');
+    permalinks = require('metalsmith-permalinks'),
+    paginate = require('metalsmith-paginate');
 
 var async = require('async'),
     glob = require('glob'),
@@ -118,6 +119,9 @@ gulp.task('handlebars', function (cb) {
         asynccb(error);
       });
     }, function (error) {
+      Handlebars.registerHelper('limit', function (collection, limit, start) {
+        return collection.slice(start, limit + 1);
+      });
       Handlebars.registerHelper('safe', function (contents) {
         return new Handlebars.SafeString(contents);
       });
@@ -140,6 +144,9 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
     pages: {
       pattern: '*.md'
     }
+  })).use(paginate({
+    perPage: 1,
+    path: "blog/page"
   })).use(markdown()).use(excerpts()).use(permalinks({
     pattern: 'blog/:date/:title',
     date: 'YY/MM/DD'
