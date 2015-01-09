@@ -5,7 +5,7 @@ title: Rapidum instat
 date:  2015-01-02T19:22:12-05:00
 categories:
 - Uncategorized
-tags: []
+tags: things, items
 ---
 # Rapidum instat
 

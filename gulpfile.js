@@ -26,7 +26,8 @@ var gulpsmith = require('gulpsmith'),
     excerpts = require('metalsmith-excerpts'),
     collections = require('metalsmith-collections'),
     permalinks = require('metalsmith-permalinks'),
-    paginate = require('metalsmith-paginate');
+    paginate = require('metalsmith-paginate'),
+    tags = require('metalsmith-tags');
 
 var async = require('async'),
     glob = require('glob'),
@@ -144,6 +145,16 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
     pages: {
       pattern: '*.md'
     }
+  })).use(tags({
+    handle: 'tags',
+    // yaml key for tag list in you pages
+    path: 'tags',
+    // path for result pages
+    template: '../templates/blog.hbt',
+    // template to use for tag listing
+    sortBy: 'date',
+    // provide posts sorted by 'date' (optional)
+    reverse: true // sort direction (optional)
   })).use(paginate({
     perPage: 1,
     path: "blog/page"

@@ -5,7 +5,7 @@ title: Replent ardet tamen locum
 date:  2015-01-03T19:22:12-05:00
 categories:
 - Uncategorized
-tags: []
+tags: items, stuff
 ---
 # Replent ardet tamen locum
 
