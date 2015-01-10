@@ -1,9 +1,14 @@
+$font-family-sans-serif:  'Oxygen', "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-serif:       'Cardo', Georgia, "Times New Roman", Times, serif;
+$font-family-monospace:   'Oxygen Mono', Monaco, Menlo, Consolas, "Courier New", monospace;
+
 html, body {
-  background-color: #333;
+  background-color: #FFF;
   color: #ccc;
   margin: 0;
   overflow-x: hidden;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  font-family: $font-family-sans-serif;
+  font-weight: 300;
 }
 
 a:visited {
@@ -13,7 +18,7 @@ a:visited {
 a {
   color: #99f;
 }
-
+ 
 header > nav {
   position: fixed;
   clear: both;
