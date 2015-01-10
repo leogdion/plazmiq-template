@@ -1,5 +1,6 @@
-_site
-#/bower_components/*
-/.sass-cache/*
 *.DS_Store
-/stylesheets/*
+build
+npm-debug.log
+/.tmp
+node_modules
+.aws-credentials.*
