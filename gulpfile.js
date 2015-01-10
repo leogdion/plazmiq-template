@@ -117,13 +117,14 @@ gulp.task('development', ['build'], function () {
 });
 
 gulp.task('production', ['build'], function () {
-  var htmlFilter = gulpFilter("**/*.html");
-
-  return gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
+  var htmlFilter = gulpFilter("**/*.html"),
+      jsFilter = gulpFilter("**/*.js"),
+      cssFilter = gulpFilter("**/*.css");
+  gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
     collapseWhitespace: true,
     removeComments: true,
     removeEmptyAttributes: true
-  })).pipe(htmlFilter.restore()).pipe(revall({
+  })).pipe(htmlFilter.restore()).pipe(jsFilter).pipe(uglify()).pipe(jsFilter.restore()).pipe(uglifycss()).pipe(revall({
     ignore: ['.html', /^\/assets/g],
     quiet: true
   })).pipe(gulp.dest('./build/production'));
@@ -198,7 +199,7 @@ gulp.task('sass', ['clean'], function () {
   return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp/build/css'));
 });
 
-gulp.task('browserify', function () {
+gulp.task('browserify', ['clean'], function () {
   var browserified = transform(function (filename) {
     var b = browserify(filename);
     return b.bundle();
