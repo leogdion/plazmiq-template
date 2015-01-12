@@ -29,7 +29,8 @@ var gulpsmith = require('gulpsmith'),
     permalinks = require('metalsmith-permalinks'),
     paginate = require('metalsmith-paginate'),
     tags = require('metalsmith-tags'),
-    ignore = require('metalsmith-ignore');
+    ignore = require('metalsmith-ignore'),
+    define = require('metalsmith-define');
 
 var async = require('async'),
     glob = require('glob'),
@@ -160,7 +161,9 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
     assign(file, file.frontMatter);
     delete file.frontMatter;
   }).pipe(
-  gulpsmith().use(ignore('drafts/*')).use(collections({
+  gulpsmith().use(ignore('drafts/*')).use(define({
+    pkg: require('./package.json')
+  })).use(collections({
     posts: {
       pattern: 'posts/*.md',
       sortBy: 'date',

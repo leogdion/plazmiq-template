@@ -2,8 +2,16 @@ $font-family-sans-serif:  'Oxygen', "Helvetica Neue", Helvetica, Arial, sans-ser
 $font-family-serif:       'Cardo', Georgia, "Times New Roman", Times, serif;
 $font-family-monospace:   'Oxygen Mono', Monaco, Menlo, Consolas, "Courier New", monospace;
 
+$nightshade-blue: #232E33;
+$softshade-blue: lighten($nightshade-blue, 50%);
+$white: #FFF;
+
+$background-color: $white;
+$nav-background-color: $nightshade-blue;
+$color: $white;
+
 html, body {
-  background-color: #FFF;
+  background-color: $background-color;
   color: #ccc;
   margin: 0;
   overflow-x: hidden;
@@ -11,6 +19,9 @@ html, body {
   font-weight: 300;
 }
 
+main {
+  margin: 20px;
+}
 a:visited {
   color: #f9f;
 }
@@ -23,7 +34,7 @@ header > nav {
   position: fixed;
   clear: both;
   width: 100%;
-  background-color: #000;
+  background-color: $nav-background-color;
   height: 1em;
   padding: 10px 0px;
   z-index: 100;

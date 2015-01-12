@@ -1,3 +1,4 @@
+var svg = require('browsernizr/test/websockets');
 var $ = require("browserify-zepto");
 
 WebFontConfig = {
@@ -13,3 +14,10 @@ WebFontConfig = {
   var s = document.getElementsByTagName('script')[0];
   s.parentNode.insertBefore(wf, s);
 })();
+
+// SVG / PNG
+if (!svg) {
+  $('img[src*="svg"]').attr('src', function () {
+    return $(this).attr('src').replace('.svg', '.png');
+  });
+}
