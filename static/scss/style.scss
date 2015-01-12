@@ -3,11 +3,11 @@ $font-family-serif:       'Cardo', Georgia, "Times New Roman", Times, serif;
 $font-family-monospace:   'Oxygen Mono', Monaco, Menlo, Consolas, "Courier New", monospace;
 
 $nightshade-blue: #232E33;
-$softshade-blue: lighten($nightshade-blue, 50%);
+$softshade-blue: lighten($nightshade-blue, 75%);
 $white: #FFF;
 
 $background-color: $white;
-$nav-background-color: $nightshade-blue;
+$nav-background-color: $softshade-blue;
 $color: #222;
 
 html, body {
@@ -23,14 +23,43 @@ main {
   margin: 40px;
   margin-top: 80px;
   .callout {
+    .tagline {
+      display: table;
+      margin: 0 auto;
+    }
     h1 {
-      text-align: center;
       font-size: 15vw;
       text-transform: lowercase;
       font-weight: 200;
+      margin: 0px 0px;
+      img {
+        height: 12vw;
+      }
     }
-    img {
+    img.logo {
       max-height: 40vh;
+    }
+    .subtitle {
+      font-size: 3.5vmax;
+      font-family: $font-family-sans-serif;
+      &, & ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      & > li {
+        clear: both;
+
+      }
+      & ul li {
+        &:after {
+          content: "/";
+        }
+        &:last-child:after {
+          content: ""
+        }
+        float: left;
+      }
     }
   }
 }
@@ -66,11 +95,19 @@ header > nav {
       float: left;
       margin: 0px 10px;
       text-transform: lowercase;
+      a {
+        color: #A81929;
+        &:visited {
+          color: #C21327;
+        }
+      }
     }
     li.brand{
-      font-weight: bold;
       a {
-        color: #FFF;
+        color: #000;
+        img {
+          height: 0.85em;
+        }
       }
     }
   }

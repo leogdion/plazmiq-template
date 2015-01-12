@@ -1,9 +1,9 @@
 <header>
   <nav>
     <ul>
-      <li class="brand"><a href="/#">{{this.pkg.name}}</a></li>
+      <li class="brand"><a href="/#"><img src="/assets/images/brightB.svg" alt="b">right<img src="/assets/images/brightD.svg" alt="d">igit</a></li>
     </ul>
-    <ul>
+    <ul class="right">
      {{#each collections.pages}}
       <li><a href="/{{this.path}}">{{this.title}}</a></li>
       {{/each}}
