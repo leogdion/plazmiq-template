@@ -19,8 +19,12 @@ html, body {
   font-weight: 200;
 }
 
+h1, h2, h3, h4, h5, h6, h7 {
+      font-weight: 200;
+
+}
+
 main {
-  margin: 40px;
   margin-top: 80px;
   .callout {
     .tagline {
@@ -62,10 +66,25 @@ main {
       }
     }
   }
+  section {
+    padding: 20px;
+    &.inverse {
+      background-color: $nightshade-blue;
+      color: $white;
+    }
+    padding-bottom: 20px;
+    border-bottom: solid 1px;
+    header {
+      h2 {
+        font-size: 5vw;
+        text-align: center;
+      }
+    }
+  }
 }
 
 footer {
-  margin: 40px;
+  margin: 20px;
 }
 
 a:visited {
