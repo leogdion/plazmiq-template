@@ -11,7 +11,7 @@ development: depend
 production: depend
 	gulp production
 kill-serve:
-	pgrep -f 'node node_modules/node-static/bin/cli.js' | xargs kill
+	-nohup pgrep -f 'node node_modules/node-static/bin/cli.js' | xargs kill
 serve-development: kill-serve
 	node_modules/node-static/bin/cli.js build/development -p 8081 &
 serve-production: kill-serve

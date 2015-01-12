@@ -21,3 +21,8 @@ if (!svg) {
     return $(this).attr('src').replace('.svg', '.png');
   });
 }
+
+$('img[alt]').on('error', function (e) {
+  var $this = $(this);
+  $this.replaceWith($this.attr('alt'));
+});

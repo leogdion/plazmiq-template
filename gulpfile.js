@@ -52,7 +52,9 @@ var awscredentials = revquire({
 var watch = function (stage) {
   var Watch = function () {
     stage = stage || "default";
-    return gulp.watch('./static/**/*', [stage]);
+    return gulp.watch('./static/**/*', {
+      debounceDelay: 2000
+    }, [stage]);
   };
 
   return Watch;
@@ -151,6 +153,9 @@ gulp.task('handlebars', function (cb) {
       Handlebars.registerHelper('safe', function (contents) {
         return new Handlebars.SafeString(contents);
       });
+      Handlebars.registerHelper('year', function (contents) {
+        return contents.getFullYear();
+      });
       cb(error);
     });
   });
@@ -162,7 +167,8 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
     delete file.frontMatter;
   }).pipe(
   gulpsmith().use(ignore('drafts/*')).use(define({
-    pkg: require('./package.json')
+    pkg: require('./package.json'),
+    buildDate: new Date()
   })).use(collections({
     posts: {
       pattern: 'posts/*.md',
@@ -221,7 +227,7 @@ gulp.task('lint', ['beautify'], function () {
   return gulp.src(['./*.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
 });
 
-gulp.task('beautify', function () {
+gulp.task('beautify', ['clean'], function () {
   return gulp.src(['./*.js', 'static/js/**/*.js'], {
     base: '.'
   }).pipe(beautify({
