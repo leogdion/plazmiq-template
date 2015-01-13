@@ -17,11 +17,11 @@ html, body {
   overflow-x: hidden;
   font-family: $font-family-serif;
   font-weight: 200;
+  font-size: 5vmin;
 }
 
 h1, h2, h3, h4, h5, h6, h7 {
-      font-weight: 200;
-
+  font-weight: 200;
 }
 
 main {
@@ -67,17 +67,49 @@ main {
     }
   }
   section {
-    padding: 20px;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    min-height: 30vh;
+    &.box {
+      display: inline-flex;
+      &.margin {
+        background-size: 80vw;
+        background-position: 10vw 10vh;
+        background-repeat: no-repeat;
+        & > .content {
+          margin-top: 35%;
+          padding-bottom: 1em;
+          background: none;
+        }
+      }
+      & > .content {
+        background-color: transparentize($nightshade-blue, 0.5);
+        color: #FFF;
+        padding: 10%;
+        margin: auto;
+        text-align: center;
+      }
+    }
+    & > .content, & > header {
+      margin: 20px;
+    }
     &.inverse {
       background-color: $nightshade-blue;
       color: $white;
     }
     padding-bottom: 20px;
-    border-bottom: solid 1px;
     header {
       h2 {
-        font-size: 5vw;
         text-align: center;
+      }
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        text-transform: lowercase;
       }
     }
   }

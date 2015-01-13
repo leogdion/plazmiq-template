@@ -116,14 +116,14 @@ gulp.task('build', ['clean', 'browserify', 'sass', 'copy', 'lint', 'metalsmith',
 gulp.task('default', ['development', 'production']);
 
 gulp.task('development', ['build'], function () {
-  gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
+  return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
 });
 
 gulp.task('production', ['build'], function () {
   var htmlFilter = gulpFilter("**/*.html"),
       jsFilter = gulpFilter("**/*.js"),
       cssFilter = gulpFilter("**/*.css");
-  gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
+  return gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
     collapseWhitespace: true,
     removeComments: true,
     removeEmptyAttributes: true
