@@ -4,6 +4,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Cardo:400,400italic,700|Oxygen:700,400,300">
         <script src="/js/main.js" type="text/javascript" charset="utf-8" async defer></script>
         <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicons/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="114x114" href="/assets/favicons/apple-touch-icon-114x114.png">
