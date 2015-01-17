@@ -72,6 +72,11 @@ gulp.task('publish', ['production'], function () {
     },
 
     routes: {
+      "^assets/.+$": {
+        // cache static assets for 2 years
+        cacheTime: 630720000
+      },
+
 /* "^assets/(?:.+)\\.(?:js|css|svg|ttf)$": {
         // don't modify original key. this is the default
         key: "$&",
@@ -106,7 +111,10 @@ gulp.task('publish', ['production'], function () {
 
       // pass-through for anything that wasn't matched by routes above, to be uploaded with default options
       */
-      "^.+$": "$&"
+      "^.+$": {
+        key: "$&",
+        gzip: true
+      }
     }
   })).pipe(publisher.publish()).pipe(publisher.sync()).pipe(awspublish.reporter());
 });
@@ -129,7 +137,17 @@ gulp.task('production', ['build'], function () {
     collapseWhitespace: true,
     removeComments: true,
     removeEmptyAttributes: true
-  })).pipe(htmlFilter.restore()).pipe(jsFilter).pipe(uglify()).pipe(jsFilter.restore()).pipe(uglifycss()).pipe(imagesFilter).pipe(revall({
+  })).pipe(htmlFilter.restore())
+/*.pipe(jsFilter)
+.pipe(uglify({
+    mangle: false,
+    compress: false
+  }))
+
+  .pipe(jsFilter.restore()).pipe(jsFilter)*/
+  .pipe(cssFilter).pipe(uglifycss()).pipe(cssFilter.restore()).pipe(imagesFilter)
+
+  .pipe(revall({
     ignore: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     quiet: false
   })).pipe(gulp.dest('./build/production'));

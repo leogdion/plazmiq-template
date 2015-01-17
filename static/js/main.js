@@ -1,4 +1,4 @@
-var svg = require('browsernizr/test/websockets');
+var svg = require('browsernizr/test/svg');
 var $ = require("browserify-zepto");
 
 WebFontConfig = {
