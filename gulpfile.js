@@ -134,7 +134,7 @@ gulp.task('production', ['build'], function () {
     quiet: false
   })).pipe(gulp.dest('./build/production'));
 
-  gulp.src(['.tmp/build/assets/**/*.jpg', '.tmp/build/assets/**/*.png', '.tmp/build/assets/**/*.jpeg', '.tmp/build/assets/**/*.ico']).pipe(gulp.dest('./build/production/assets'))
+  gulp.src(['.tmp/build/assets/**/*.jpg', '.tmp/build/assets/**/*.png', '.tmp/build/assets/**/*.jpeg', '.tmp/build/assets/**/*.ico']).pipe(gulp.dest('./build/production/assets'));
 
   return stream;
 });
