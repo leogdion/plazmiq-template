@@ -122,15 +122,21 @@ gulp.task('development', ['build'], function () {
 gulp.task('production', ['build'], function () {
   var htmlFilter = gulpFilter("**/*.html"),
       jsFilter = gulpFilter("**/*.js"),
-      cssFilter = gulpFilter("**/*.css");
-  return gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
+      cssFilter = gulpFilter("**/*.css"),
+      imagesFilter = gulpFilter(["**/*", "!assets/**/*.jpeg", "!assets/**/*.png", "!assets/**/*.jpg", , "!assets/**/*.ico"]);
+
+  var stream = gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
     collapseWhitespace: true,
     removeComments: true,
     removeEmptyAttributes: true
-  })).pipe(htmlFilter.restore()).pipe(jsFilter).pipe(uglify()).pipe(jsFilter.restore()).pipe(uglifycss()).pipe(revall({
-    ignore: ['.html', /^\/assets/g],
-    quiet: true
+  })).pipe(htmlFilter.restore()).pipe(jsFilter).pipe(uglify()).pipe(jsFilter.restore()).pipe(uglifycss()).pipe(imagesFilter).pipe(revall({
+    ignore: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
+    quiet: false
   })).pipe(gulp.dest('./build/production'));
+
+  gulp.src(['.tmp/build/assets/**/*.jpg', '.tmp/build/assets/**/*.png', '.tmp/build/assets/**/*.jpeg', '.tmp/build/assets/**/*.ico']).pipe(gulp.dest('./build/production/assets'))
+
+  return stream;
 });
 
 gulp.task('clean', function (cb) {
