@@ -1,3 +1,5 @@
+all: depend
+	gulp 
 clean:
 	git clean -x -d -f --exclude=".aws-credentials.json"
 clean-dry-run:
@@ -8,14 +10,12 @@ development: depend
 	gulp development
 production: depend
 	gulp production
-all: depend
-	gulp 
 kill-serve:
-	pgrep -f 'node node_modules/node-static/bin/cli.js' | xargs kill
+	-nohup pgrep -f 'node node_modules/node-static/bin/cli.js' | xargs kill
 serve-development: kill-serve
-	node_modules/node-static/bin/cli.js build/development -p 8081 &	echo $$! >> .pid
+	node_modules/node-static/bin/cli.js build/development -p 8081 &
 serve-production: kill-serve
-	node_modules/node-static/bin/cli.js build/production -p 8080 &	echo $$! >> .pid 
+	node_modules/node-static/bin/cli.js build/production -p 8080 &
 serve: kill-serve all serve-development serve-production
 watch: depend
 	gulp watch

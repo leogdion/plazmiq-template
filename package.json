@@ -1,6 +1,6 @@
 {
-  "name": "beginkit",
-  "version": "0.1.302",
+  "name": "brightdigit",
+  "version": "2.0.169",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -41,6 +41,7 @@
     "lodash.assign": "^2.4.1",
     "metalsmith": "^1.0.1",
     "metalsmith-collections": "^0.6.0",
+    "metalsmith-define": "^1.0.0",
     "metalsmith-drafts": "0.0.1",
     "metalsmith-excerpts": "^1.0.0",
     "metalsmith-ignore": "^0.1.2",
@@ -54,6 +55,7 @@
     "vinyl-transform": "^1.0.0"
   },
   "dependencies": {
-    "browserify-zepto": "^1.1.4"
+    "browserify-zepto": "^1.1.4",
+    "browsernizr": "^1.0.2"
   }
 }

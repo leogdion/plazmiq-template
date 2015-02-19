@@ -29,7 +29,8 @@ var gulpsmith = require('gulpsmith'),
     permalinks = require('metalsmith-permalinks'),
     paginate = require('metalsmith-paginate'),
     tags = require('metalsmith-tags'),
-    ignore = require('metalsmith-ignore');
+    ignore = require('metalsmith-ignore'),
+    define = require('metalsmith-define');
 
 var async = require('async'),
     glob = require('glob'),
@@ -51,7 +52,9 @@ var awscredentials = revquire({
 var watch = function (stage) {
   var Watch = function () {
     stage = stage || "default";
-    return gulp.watch('./static/**/*', [stage]);
+    return gulp.watch('./static/**/*', {
+      debounceDelay: 2000
+    }, [stage]);
   };
 
   return Watch;
@@ -69,6 +72,11 @@ gulp.task('publish', ['production'], function () {
     },
 
     routes: {
+      "^assets/.+$": {
+        // cache static assets for 2 years
+        cacheTime: 630720000
+      },
+
 /* "^assets/(?:.+)\\.(?:js|css|svg|ttf)$": {
         // don't modify original key. this is the default
         key: "$&",
@@ -103,7 +111,10 @@ gulp.task('publish', ['production'], function () {
 
       // pass-through for anything that wasn't matched by routes above, to be uploaded with default options
       */
-      "^.+$": "$&"
+      "^.+$": {
+        key: "$&",
+        gzip: true
+      }
     }
   })).pipe(publisher.publish()).pipe(publisher.sync()).pipe(awspublish.reporter());
 });
@@ -113,21 +124,37 @@ gulp.task('build', ['clean', 'browserify', 'sass', 'copy', 'lint', 'metalsmith',
 gulp.task('default', ['development', 'production']);
 
 gulp.task('development', ['build'], function () {
-  gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
+  return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
 });
 
 gulp.task('production', ['build'], function () {
   var htmlFilter = gulpFilter("**/*.html"),
       jsFilter = gulpFilter("**/*.js"),
-      cssFilter = gulpFilter("**/*.css");
-  gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
+      cssFilter = gulpFilter("**/*.css"),
+      imagesFilter = gulpFilter(["**/*", "!assets/**/*.jpeg", "!assets/**/*.png", "!assets/**/*.jpg", , "!assets/**/*.ico"]);
+
+  var stream = gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
     collapseWhitespace: true,
     removeComments: true,
     removeEmptyAttributes: true
-  })).pipe(htmlFilter.restore()).pipe(jsFilter).pipe(uglify()).pipe(jsFilter.restore()).pipe(uglifycss()).pipe(revall({
-    ignore: ['.html', /^\/assets/g],
-    quiet: true
+  })).pipe(htmlFilter.restore())
+/*.pipe(jsFilter)
+.pipe(uglify({
+    mangle: false,
+    compress: false
+  }))
+
+  .pipe(jsFilter.restore()).pipe(jsFilter)*/
+  .pipe(cssFilter).pipe(uglifycss()).pipe(cssFilter.restore()).pipe(imagesFilter)
+
+  .pipe(revall({
+    ignore: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
+    quiet: false
   })).pipe(gulp.dest('./build/production'));
+
+  gulp.src(['.tmp/build/assets/**/*.jpg', '.tmp/build/assets/**/*.png', '.tmp/build/assets/**/*.jpeg', '.tmp/build/assets/**/*.ico']).pipe(gulp.dest('./build/production/assets'));
+
+  return stream;
 });
 
 gulp.task('clean', function (cb) {
@@ -150,6 +177,9 @@ gulp.task('handlebars', function (cb) {
       Handlebars.registerHelper('safe', function (contents) {
         return new Handlebars.SafeString(contents);
       });
+      Handlebars.registerHelper('year', function (contents) {
+        return contents.getFullYear();
+      });
       cb(error);
     });
   });
@@ -160,7 +190,10 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
     assign(file, file.frontMatter);
     delete file.frontMatter;
   }).pipe(
-  gulpsmith().use(ignore('drafts/*')).use(collections({
+  gulpsmith().use(ignore('drafts/*')).use(define({
+    pkg: require('./package.json'),
+    buildDate: new Date()
+  })).use(collections({
     posts: {
       pattern: 'posts/*.md',
       sortBy: 'date',
@@ -218,7 +251,7 @@ gulp.task('lint', ['beautify'], function () {
   return gulp.src(['./*.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
 });
 
-gulp.task('beautify', function () {
+gulp.task('beautify', ['clean'], function () {
   return gulp.src(['./*.js', 'static/js/**/*.js'], {
     base: '.'
   }).pipe(beautify({
