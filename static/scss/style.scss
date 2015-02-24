@@ -15,9 +15,12 @@ html, body {
   color: $color;
   margin: 0;
   overflow-x: hidden;
-  font-family: $font-family-serif;
+  font-family: $font-family-sans-serif;
   font-weight: 200;
   font-size: 5vmin;
+  & > footer {
+    margin: 20px;
+  }
 }
 
 h1, h2, h3, h4, h5, h6, h7 {
@@ -90,6 +93,22 @@ main {
         margin: auto;
         text-align: center;
       }
+      & > blockquote.content {
+        font-size: 3.65vmin;
+        text-align: left;
+        cite {
+          font-size: 3vmin;
+          font-style: normal;
+          opacity: 0.80;
+          float: right;
+          .name {
+            text-decoration: none;
+            color: #F5EE31;
+            font-weight: bold;
+            opacity: 1.0;
+          }
+        }
+      }
     }
     & > .content, & > header {
       margin: 20px;
@@ -113,10 +132,6 @@ main {
       }
     }
   }
-}
-
-footer {
-  margin: 20px;
 }
 
 a:visited {
@@ -170,6 +185,6 @@ header > nav {
   }
 }
 
-main {
-
+.margin > main {
+  margin: 70px 20px 20px;
 }
