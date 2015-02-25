@@ -270,17 +270,14 @@ gulp.task('metalsmith', ['clean', 'handlebars'], function () {
   }))).pipe(gulp.dest(".tmp/build"));
 });
 
+gulp.task('test', ['clean'], function () {
+
+});
+
 //gulp.task('test', ['clean'], function (cb) {
 ///gulp.src(['./server/**/*.js']).pipe(istanbul()).on('finish', function () {
 //  gulp.src(["./test/server/**/*.js"]).pipe(mocha()).pipe(istanbul.writeReports()).on('end', cb); // Creating the reports after tests runned
 //});
-gulp.task('copy', ['clean'], function () {
-  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
-});
-
-gulp.task('sass', ['clean'], function () {
-  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp/build/css'));
-});
 
 /*
 gulp.task('test', ['clean'], function () {
@@ -304,6 +301,15 @@ gulp.task('test', ['clean'], function () {
     outFile: '.coverdata/coverage.html'
   })).pipe(cover.enforce(options.thresholds));
 */
+
+gulp.task('copy', ['clean'], function () {
+  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
+});
+
+gulp.task('sass', ['clean'], function () {
+  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp/build/css'));
+});
+
 
 gulp.task('browserify', ['clean'], function () {
   var browserified = transform(function (filename) {
