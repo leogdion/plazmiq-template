@@ -82,7 +82,7 @@ main {
         background-position: 10vw 10vh;
         background-repeat: no-repeat;
         & > .content {
-          padding-top: 40%;
+          padding-top: 50%;
           padding-bottom: 1em;
           background: none;
         }
@@ -97,6 +97,9 @@ main {
       & > blockquote.content {
         font-size: 3.65vmin;
         text-align: left;
+        & > p {
+          font-weight: 600;
+        }
         cite {
           font-size: 3vmin;
           font-style: normal;

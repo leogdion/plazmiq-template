@@ -1,6 +1,6 @@
 {
   "name": "brightdigit",
-  "version": "2.0.200",
+  "version": "2.0.201",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
