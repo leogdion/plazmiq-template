@@ -23,7 +23,7 @@ html, body {
   }
 }
 
-h1, h2, h3, h4, h5, h6, h7 {
+h1, h2, h3, h4, h5, h6, h7, .brand {
   font-weight: 200;
   font-family: $font-family-serif;
 }
@@ -121,7 +121,7 @@ main {
       background-color: $nightshade-blue;
       color: $white;
     }
-    padding-bottom: 20px;
+    padding: 0.5em inherit;
     header {
       h2 {
         text-align: center;
@@ -154,6 +154,8 @@ header > nav {
   height: 1em;
   padding: 10px 0px;
   z-index: 100;
+  font-size: 4vmin;
+  font-weight: 600;
   ul
   {
     list-style: none;
@@ -174,6 +176,9 @@ header > nav {
     }
     li.brand{
       a {
+        font-weight: 200;
+        font-size: 5vmin;
+        line-height: 4vmin;
         color: #000;
         img {
           height: 0.85em;
