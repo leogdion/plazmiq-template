@@ -1,6 +1,8 @@
 $font-family-sans-serif:  'Oxygen', "Helvetica Neue", Helvetica, Arial, sans-serif;
 $font-family-serif:       'Cardo', Georgia, "Times New Roman", Times, serif;
 $font-family-monospace:   'Oxygen Mono', Monaco, Menlo, Consolas, "Courier New", monospace;
+$font-family-tictalktoc: 'Helvetica Neue', HelveticaNeue, TeXGyreHeros, FreeSans, 'Nimbus Sans L', 'Liberation Sans', Arimo, Helvetica, Arial, sans-serif;
+$font-family-speculid: Lato, sans-serif;
 
 $nightshade-blue: #232E33;
 $softshade-blue: lighten($nightshade-blue, 75%);
@@ -87,12 +89,29 @@ main {
           background: none;
         }
       }
+      &.product > .content {
+        text-align: left;
+      }
       & > .content {
         background-color: transparentize($nightshade-blue, 0.5);
         color: #FFF;
         padding: 10%;
         margin: auto;
         text-align: center;
+        & > h3 {
+          margin-top: 0;
+          text-align: left;
+          & > a {
+            padding: 5px;
+            width: 100%;
+            display: block;
+            margin: -5px;
+            img {
+                height: 0.8em;
+                margin-right: 5px;
+            }
+          }
+        }
       }
       & > blockquote.content {
         font-size: 3.65vmin;
@@ -196,4 +215,22 @@ header > nav {
 
 .margin > main {
   margin: 70px 20px 20px;
+}
+
+.product.speculid h3 {
+  font-family: $font-family-speculid;
+  font-weight: 700;
+  & > a {
+    color: #003d80;
+    background-color: rgba(255,255,255,0.9);
+  }
+}
+
+.product.tictalktoc h3 {
+  font-family: $font-family-tictalktoc;
+  font-weight: bold;
+  & > a {
+    color: #333;
+    background-color: rgba(255,255,255,0.9);
+  }
 }
