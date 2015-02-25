@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+    <body class="margin">
+        {{> header}}
+      <main>
+<h2>{{title}}</h2>
+
+<article>
+    <ul>
+        {{#each (limit collections.posts this.pagination.end this.pagination.start)}}
+            <li>
+                <h3><a href="../{{this.path}}">{{this.title}}</a></h3>
+                <article>
+                {{#unless this.abstract}}
+                  {{safe excerpt}}
+                {{else}}
+                  {{this.abstract}}
+                {{/unless}}
+                </article>
+            </li>
+        {{/each}}
+    </ul>
+</article>
+{{#if this.pagination}}
+    <nav class="pagination">
+        {{#if this.pagination.next}}
+            <a href="/{{this.pagination.next.path}}">&lt; Prev</a>
+        {{/if}}
+
+        {{#if this.pagination.prev}}
+            <a href="/{{this.pagination.prev.path}}">Next &gt;</a>
+        {{/if}}
+    </nav>
+{{/if}}
+      </main>
+        {{> footer}}
+    </body>
+</html>
