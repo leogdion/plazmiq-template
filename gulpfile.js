@@ -158,9 +158,8 @@ gulp.task('production', ['build'], function () {
 });
 
 gulp.task('clean', function (cb) {
-  async.each(['build', '.tmp', '.coverdata'], rimraf, cb);
+  async.each(['.tmp'], rimraf, cb);
 });
-
 
 gulp.task('handlebars', function (cb) {
   HandlebarsIntl.registerWith(Handlebars);
