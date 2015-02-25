@@ -1,9 +1,12 @@
-public
-bower_components
+*.DS_Store
+build
 npm-debug.log
 /.tmp
 node_modules
 coverage
-server/configuration/unencrypted
+app/configuration/unencrypted
 .encryption_key
 .salt
+.coverrun
+.coverdata
+.aws-credentials.*
