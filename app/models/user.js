@@ -44,7 +44,6 @@ module.exports = function (sequelize, DataTypes) {
         return User.create(data);
       },
       associate: function (models) {
-        //models.registration.belongsTo(User);
         User.belongsTo(models.registration);
         User.hasMany(models.app);
         models.app.hasMany(User);
