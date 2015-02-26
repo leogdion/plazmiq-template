@@ -33,9 +33,9 @@ module.exports = function (sequelize, DataTypes) {
           }
         }).success(function (user) {
           if (user && bcrypt.compareSync(password, user.password)) {
-            cb(user);
+            cb(null, user);
           } else {
-            cb();
+            cb(null, false);
           }
         });
       },

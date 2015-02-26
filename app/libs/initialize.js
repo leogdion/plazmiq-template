@@ -1,5 +1,7 @@
 var lodash = require('lodash');
 var db = require('./sequelize');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 module.exports = function (app) {
   var listen = app.listen;
@@ -16,6 +18,9 @@ module.exports = function (app) {
           console.log(err);
           throw err[0];
         } else {
+        passport.use(new LocalStrategy({passReqToCallback: true}, db.session.login()));
+        passport.serializeUser(db.session.serializeUser());
+        passport.deserializeUser(db.session.deserializeUser());
           var pw = require('crypto').randomBytes(8).toString('base64');
           console.log(pw);
           /*

@@ -1,3 +1,5 @@
+var passport = require('passport');
+
 module.exports = function (include) {
   return {
     services : {
@@ -12,7 +14,7 @@ module.exports = function (include) {
           show: function (req, res) {
             res.send('show');
           },
-          create: [function (req, res) {
+          create: [passport.authenticate('local'), function (req, res) {
             res.send("create")
           }],
           update: function (req, res) {
