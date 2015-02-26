@@ -23,6 +23,7 @@ sequelize = build_sequalize();
 fs.readdirSync(path.join(modeldir)).filter(function (file) {
   return (file.indexOf('.') !== 0) && (file !== 'index.js');
 }).forEach(function (file) {
+  console.log(file);
   var model = sequelize.import(path.join(modeldir, file));
   db[model.name] = model;
 });

@@ -12,6 +12,7 @@ module.exports = function (sequelize, DataTypes) {
   */
 
   var User = sequelize.define("user", {
+/*
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -60,6 +61,7 @@ module.exports = function (sequelize, DataTypes) {
         models.device.hasMany(User);
       }
     }
+*/
   });
 
 /*

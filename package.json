@@ -1,6 +1,6 @@
 {
   "name": "phragm",
-  "version": "0.1.752",
+  "version": "0.1.755",
   "prerelease": "alpha",
   "description": "sample project",
   "main": "server",
@@ -74,6 +74,7 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "pg": "^3.6.3",
+    "pg-hstore": "^2.3.1",
     "pg.js": "^3.6.2",
     "postmark": "^0.2.6",
     "sequelize": "^2.0.3",

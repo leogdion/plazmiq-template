@@ -1,15 +1,13 @@
+/*
 var constants = {
   renewal: 5 * 60 * 1000,
   expiration: 7 * 24 * 60 * 60 * 1000
 };
+*/
 
 module.exports = function (sequelize, DataTypes) {
-/*
-  var User = sequelize.$('user'),
-      App = sequelize.$('app'),
-      Device = sequelize.$('device');
-  */
   var Session = sequelize.define("session", {
+/*
     key: {
       type: DataTypes.BLOB('tiny'),
       allowNull: false
@@ -56,6 +54,7 @@ module.exports = function (sequelize, DataTypes) {
         return constants;
       }
     }
+*/
   });
 
   //Session.belongsTo(User).belongsTo(App).belongsTo(Device);
