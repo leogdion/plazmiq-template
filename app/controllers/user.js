@@ -31,9 +31,9 @@ module.exports = function (include) {
             Registration.find({
               where: {
                 email: req.body.email,
+                // error check for key and secret
                 key: new Buffer(req.body.key, 'base64'),
                 secret: new Buffer(req.body.secret, 'base64'),
-                userId: null,
                 registeredAt: {
                   gt: new Date(new Date() - 5 * 60 * 1000)
                 }
@@ -71,7 +71,7 @@ module.exports = function (include) {
               }).success(function (user) {
                 var chain = new QueryChainer();
                 chain.add(user.setRegistration(results.registration));
-                chain.add(results.registration.setUser(user));
+                //chain.add(results.registration.setUser(user));
                 chain.run().success(function (results) {
                   res.status(201).send({
                     name: req.body.name
