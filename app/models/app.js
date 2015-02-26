@@ -25,6 +25,11 @@ module.exports = function (sequelize, DataTypes) {
             key: apiKey
           }
         });
+      }, 
+      associate: function (models) {
+        var Permission = models.permission;
+        App.hasMany(Permission);
+        Permission.hasMany(App);
       }
     }
   });
