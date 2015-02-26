@@ -15,6 +15,8 @@ var gulp = require('gulp'),
     encrypt = require("gulp-simplecrypt").encrypt,
     decrypt = require("gulp-simplecrypt").decrypt,
     
+    
+    
     /*
     less = require('gulp-less'),
     bower = require('bower'),
@@ -30,6 +32,9 @@ var gulp = require('gulp'),
     async = require('async');
 
 */
+    
+    
+    
     
     
     //gulp.task('default', ['clean', 'less', 'requirejs', /*'enforce-coverage', */ 'copy', 'bump']);
@@ -176,7 +181,7 @@ gulp.task('production', ['build'], function () {
   var htmlFilter = gulpFilter("**/*.html"),
       jsFilter = gulpFilter("**/*.js"),
       cssFilter = gulpFilter("**/*.css"),
-      imagesFilter = gulpFilter(["**/*", "!assets/**/*.jpeg", "!assets/**/*.png", "!assets/**/*.jpg", , "!assets/**/*.ico"]);
+      imagesFilter = gulpFilter(["**/*", "!assets/**/*.jpeg", "!assets/**/*.png", "!assets/**/*.jpg", "!assets/**/*.ico"]);
 
   var stream = gulp.src('.tmp/build/**/*').pipe(htmlFilter).pipe(htmlmin({
     collapseWhitespace: true,
@@ -278,7 +283,6 @@ gulp.task('test', ['clean'], function () {
 ///gulp.src(['./server/**/*.js']).pipe(istanbul()).on('finish', function () {
 //  gulp.src(["./test/server/**/*.js"]).pipe(mocha()).pipe(istanbul.writeReports()).on('end', cb); // Creating the reports after tests runned
 //});
-
 /*
 gulp.task('test', ['clean'], function () {
   var options = {
