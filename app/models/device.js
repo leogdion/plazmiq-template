@@ -22,20 +22,20 @@ module.exports = function (sequelize, DataTypes) {
           where: {
             key: keyBuffer
           }
-        }).success(
-
-        function (device) {
-          var chainer = new QueryChainer();
-          chainer.add(Device.create({
-            key: keyBuffer
-          }));
-          chainer.add(UserAgent.findOrCreate({
-            text: userAgent
-          }));
-          chainer.run().success(function (results) {
-            results[0].setUserAgent(results[1]).success(cb);
-          });
-        });
+        }).then(
+          function (device) {
+            var chainer = new QueryChainer();
+            chainer.add(Device.create({
+              key: keyBuffer
+            }));
+            chainer.add(UserAgent.findOrCreate({
+              where : {text: userAgent}
+            }));
+            chainer.run().success(function (results) {
+              results[0].setUserAgent(results[1][0]).success(cb);
+            });
+          }
+        );
       },
       associate: function (models) {
         UserAgent = models.userAgent;

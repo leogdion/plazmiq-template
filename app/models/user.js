@@ -32,14 +32,19 @@ module.exports = function (sequelize, DataTypes) {
             name: name
           }
         }).success(function (user) {
+          console.log("chk Password: " + password);
+        console.log("cryptword: " +bcrypt.hashSync(password, salt) );
+
+          console.log(user);
           if (user && bcrypt.compareSync(password, user.password)) {
-            cb(null, user);
+            cb(user);
           } else {
-            cb(null, false);
+            cb();
           }
         });
       },
       newLogin: function (data) {
+          console.log("set Password: " + data.password);
         data.password = bcrypt.hashSync(data.password, salt);
         return User.create(data);
       },
