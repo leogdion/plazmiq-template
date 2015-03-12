@@ -52,9 +52,10 @@ module.exports = function (app) {
           }
 
           function beginSession(device, app, user, request, response) {
+            console.log(request.connection.remoteAddress);
             Session.create({
               key: crypto.randomBytes(48),
-              clientIpAddress: request.headers['x-forwarded-for'] || request.connection.remoteAddress
+              clientIpAddress:  '129.89.23.1'//request.headers['x-forwarded-for'] || request.connection.remoteAddress
             }).then(function (session) {
               //console.log("TEST$!");
               console.log(session.dataValues);
@@ -88,6 +89,8 @@ module.exports = function (app) {
                   });
                 }
               });
+            }).catch(function (error) {
+              console.log(error);
             });
           }
 
@@ -96,9 +99,6 @@ module.exports = function (app) {
             app: findApp(req.body),
             device: findDevice(req)
           }, function (error, result) {
-            console.log("TEST2");
-            console.log(error);
-            console.log(result);
             if (!result.user) {
               done(null, false, {
                 status: 401,
@@ -115,8 +115,17 @@ module.exports = function (app) {
             }
           });
         }));
-        passport.serializeUser(db.session.serializeUser());
-        passport.deserializeUser(db.session.deserializeUser());
+        passport.serializeUser(function (user, done) {
+          console.log(user);
+          done(null, user.sessionKey);
+        });
+        passport.deserializeUser(function (id, done) {
+          console.log('session Id');
+          console.log(id);
+          Session.find({where : {sessionKey : id}}).then(function (session) {
+            done(null, session);
+          });
+        }); 
           var pw = crypto.randomBytes(8).toString('base64');
           console.log(pw);
           /*

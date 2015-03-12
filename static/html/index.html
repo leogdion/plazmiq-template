@@ -1,4 +1,15 @@
 ---
 template: default.hbt
 ---
-Hello World!
+<form id="registration">
+  <input type="email"/>
+  <button>register</button>
+</form>
+
+<form id="confirmation">
+  <input type="text" name="name"/>
+  <input type="password" name="password"/>
+  <input type="text" name="secret" readonly/>
+  <input type="text" name="key" readonly/>
+  <button>confirm</button>
+</form>

@@ -31,8 +31,8 @@ module.exports = function (sequelize, DataTypes) {
             chainer.add(UserAgent.findOrCreate({
               where : {text: userAgent}
             }));
-            chainer.run().success(function (results) {
-              results[0].setUserAgent(results[1][0]).success(cb);
+            chainer.run().success(function (results) {              
+              results[0].setUserAgent(results[1][0]).then(cb);
             });
           }
         );

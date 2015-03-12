@@ -20,7 +20,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 // parse application/json
 app.use(bodyParser.json());
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.roust('/api/v1', [__dirname + '/controllers']);
 
 //app.use(express.static(__dirname + '/../public'));

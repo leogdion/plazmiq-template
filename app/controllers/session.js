@@ -10,6 +10,7 @@ var User = db.user,
     UserAgent = db.userAgent,
     Sequelize = db.Sequelize;
 
+var passport = require('passport');
 module.exports = function (include) {
   return {
     sessions: {
@@ -65,78 +66,20 @@ module.exports = function (include) {
          *       "error": "UnknownApiKey"
          *     }
          */
-        create: function (req, res) {
-          // find user
-          // find app
-          // find or create device
-
-          function findUser(requestBody) {
-            function _(requestBody, cb) {
-              User.findByLogin(requestBody.name, requestBody.password, cb.bind(undefined, undefined));
-            }
-
-            return _.bind(undefined, requestBody);
-          }
-
-          function findApp(requestBody) {
-            function _(requestBody, cb) {
-              App.findByKey(requestBody.apiKey).success(cb.bind(undefined, undefined));
-            }
-
-            return _.bind(undefined, requestBody);
-          }
-
-          function findDevice(request) {
-            function _(request, cb) {
-              Device.findByKey(request.body.deviceKey, request.headers['user-agent'], cb.bind(undefined, undefined));
-            }
-
-            return _.bind(undefined, request);
-          }
-
-          function beginSession(device, app, user, request, response) {
-            Session.create({
-              key: crypto.randomBytes(48),
-              clientIpAddress: request.headers['x-forwarded-for'] || request.connection.remoteAddress
-            }).success(function (session) {
-              var chainer = new QueryChainer();
-              chainer.add(session.setDevice(device));
-              chainer.add(session.setApp(app));
-              chainer.add(session.setUser(user));
-              chainer.run().success(function (results) {
-                response.status(201).send({
-                  sessionKey: session.key.toString('base64'),
-                  deviceKey: device.key.toString('base64'),
-                  user: {
-                    name: user.name,
-                    email: user.email
-                  }
-                });
-              });
-            });
-          }
-
-          async.parallel({
-            user: findUser(req.body),
-            app: findApp(req.body),
-            device: findDevice(req)
-          }, function (error, result) {
-            if (!result.user) {
-              res.status(401).send({
-                error: "Unknown username or password."
-              });
-            } else if (!result.app) {
-              res.status(400).send({
-                error: "Unknown application key."
-              });
-            } else {
-              beginSession(result.device, result.app, result.user, req, res);
-            }
-          });
+        create: function(req, res, next) {
+            passport.authenticate('local', function(err, user, info) {
+              console.log(err);
+              console.log(user);
+              console.log(info);
+              if (user === false) {
+                res.status(info.status).send(info.message);
+              } else {
+                console.log(req);
+                res.send(user);
+              }
+            })(req, res, next);
         },
         update: function (req, res) {
-          console.log(req.body);
-          console.log(req.params);
           // find the 
 
           function beginSession(device, app, user, request, response) {
