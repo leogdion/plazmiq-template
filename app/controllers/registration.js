@@ -39,7 +39,7 @@ module.exports = function (include) {
               });
             } else {
               db.registration.create(data).success(function (registration) {
-                var url = (req.body.redirect.uri) ? (req.body.redirect.uri + "?secret=" + data.secret.toString('base64')) : data.secret.toString('base64');
+                var url = (req.body.redirect.uri) ? (req.body.redirect.uri + "?secret=" + encodeURIComponent(data.secret.toString('base64')) + "&email=" + data.email) : data.secret.toString('base64');
                 console.log(url);
                 emailer.queue('confirmation', {
                   email: data.email,

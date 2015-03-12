@@ -18,6 +18,7 @@ ready(function () {
   if (secret) {
     localStorage.setItem("registration-secret", secret);
   }
+  var email = getParameterByName("email");
   document.getElementById("registration").querySelectorAll('button')[0].addEventListener('click', function (evt) {
     var request = new XMLHttpRequest();
     request.open('POST', 'http://localhost:3001/api/v1/registrations', true);
@@ -53,6 +54,10 @@ ready(function () {
   }
   if (key) {
     confirmation.querySelectorAll('[name="key"]')[0].setAttribute('value', key);
+  }
+  if (email) {
+    confirmation.querySelectorAll('[name="email"]')[0].setAttribute('value', email);
+
   }
   confirmation.querySelectorAll('button')[0].addEventListener('click', function (evt) {
     var request = new XMLHttpRequest();
