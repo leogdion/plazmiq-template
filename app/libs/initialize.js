@@ -141,7 +141,7 @@ module.exports = function (app) {
 
             function (hostApp) {
               var regPermission = db.permission.build({name : 'registration'});
-              db.user.newLogin({name: "leogdion", password: "testtest", email: "leo.dion+test@gmail.com"});
+              db.user.newLogin({name: "leogdion-test", password: "testtest", email: "leo.dion+test@gmail.com"});
               regPermission.save().then ( function (regPermission) {
                 regPermission.addApp(hostApp).then( function () {
                 listen.apply(app, args);

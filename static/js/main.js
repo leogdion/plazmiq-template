@@ -46,6 +46,7 @@ ready(function () {
     }));
     evt.preventDefault();
   });
+
   var confirmation = document.getElementById("confirmation");
   var secret = localStorage.getItem("registration-secret");
   var key = localStorage.getItem("registration-key");
@@ -82,7 +83,38 @@ ready(function () {
       memo[elem.getAttribute('name')] = elem.value;
       return memo;
     }, {});
+    data.apiKey = 'yaCCeDCruL/8ccbFz57sQZiDiu7FVzQfjkMirvSTMBWg19z5Hu8OqYww/2Q/Y3r/';
     console.log(data);
+    request.send(JSON.stringify(data));
+    evt.preventDefault();
+  });
+
+
+  var login = document.getElementById("login");
+  login.querySelectorAll('button')[0].addEventListener('click', function (evt) {
+    var request = new XMLHttpRequest();
+    request.open('POST', 'http://localhost:3001/api/v1/sessions', true);
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        // Success!
+        var resp = this.response;
+        console.log(resp);
+        //var data = JSON.parse(resp);
+        //localStorage.setItem('registration-key', data.key);
+      } else {
+        // We reached our target server, but it returned an error
+      }
+    };
+
+    request.onerror = function () {
+      // There was a connection error of some sort
+    };
+    var data = Array.prototype.reduce.call(login.querySelectorAll('[name]'), function (memo, elem) {
+      memo[elem.getAttribute('name')] = elem.value;
+      return memo;
+    }, {});
+    data.apiKey = 'yaCCeDCruL/8ccbFz57sQZiDiu7FVzQfjkMirvSTMBWg19z5Hu8OqYww/2Q/Y3r/';
     request.send(JSON.stringify(data));
     evt.preventDefault();
   });
