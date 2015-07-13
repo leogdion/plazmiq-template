@@ -33,15 +33,28 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(User.createStrategy());
+passport.use(new BearerStrategy({
+  },
+  function(token, done) {
+    // asynchronous validation, for effect...
+    process.nextTick(function () {
+      
+      Session.find({where : {id : token}, include: [{
+        model: User}]}).then(function (session) {
+          done(null, session.User);
+      });
+    });
+  }
+));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
 app.get('/', 
-  passport.authenticate('local', {failureFlash : true}),
+  passport.authenticate('bearer', {failureFlash : true}),
   function (req, res) {
-  res.send('Hello World!');
+  res.send(req.user);
 });
 
 app.post('/users',function(req, res, next) {
