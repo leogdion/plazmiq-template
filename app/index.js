@@ -10,7 +10,63 @@ var sequelize = new Sequelize('auth-sample', 'auth-sample', null, {dialect: 'pos
 var passport = require('passport');
 var passportLocalSequelize = require('passport-local-sequelize');
 
-var User = passportLocalSequelize.defineUser(sequelize);
+var User = sequelize.define('User', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    name: {
+    type : Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    is: /^  [a-z0-9]+    (?:             -             [a-z0-9]+   )*           $/
+  },
+  emailAddress : {
+    type : Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    isEmail: true
+  },
+    hash: {
+        type: Sequelize.STRING(5000),
+        allowNull: false
+    },
+    salt: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    activationKey: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    resetPasswordKey: {
+        type: Sequelize.STRING,
+        allowNull: true
+    }
+});
+
+passportLocalSequelize.attachToUser(User, {
+  usernameField: 'name',
+  activationRequired: false
+});
+/*passportLocalSequelize.defineUser(sequelize, {
+  name: {
+    type : Sequelize.STRING,
+    unique: true,
+    allowNull: false
+  },
+  emailAddress : {
+    type : Sequelize.STRING,
+    unique: true,
+    allowNull: false,
+    isEmail: true
+  }
+}, {
+  usernameField: 'name',
+  activationRequired: false
+});
+*/
 
 var Session = sequelize.define('Session', {
   id: {
@@ -60,7 +116,7 @@ app.get('/',
 app.post('/users',function(req, res, next) {
   console.log('registering user');
   console.log(req.body);
-  User.register({ username: req.body.username }, req.body.password, function(err) {
+  User.register({  name: req.body.name, emailAddress : req.body.emailAddress }, req.body.password, function(err) {
     if (err) { console.log('error while user register!', err); return next(err); }
 
     console.log('user registered!');
@@ -70,7 +126,7 @@ app.post('/users',function(req, res, next) {
 });
 
 app.post('/sessions', function (req, res, next) {
-  User.authenticate()(req.body.username, req.body.password, function (_, user, error) {
+  User.authenticate()(req.body.name, req.body.password, function (_, user, error) {
     console.log(arguments);
     Session.create({'UserId' : user.id}).then(
       function (session) {
@@ -80,7 +136,7 @@ app.post('/sessions', function (req, res, next) {
   });
 });
 
-sequelize.sync().then(
+sequelize.sync({force : true}).then(
 	function () {
 		var server = app.listen(3000, function () {
 		  var host = server.address().address;
