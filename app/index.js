@@ -48,25 +48,8 @@ var User = sequelize.define('User', {
 
 passportLocalSequelize.attachToUser(User, {
   usernameField: 'name',
-  activationRequired: false
+  activationRequired: true
 });
-/*passportLocalSequelize.defineUser(sequelize, {
-  name: {
-    type : Sequelize.STRING,
-    unique: true,
-    allowNull: false
-  },
-  emailAddress : {
-    type : Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    isEmail: true
-  }
-}, {
-  usernameField: 'name',
-  activationRequired: false
-});
-*/
 
 var Session = sequelize.define('Session', {
   id: {
@@ -105,7 +88,6 @@ passport.use(new BearerStrategy({
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 
 app.get('/', 
   passport.authenticate('bearer', {failureFlash : true}),
