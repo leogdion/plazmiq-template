@@ -1,5 +1,8 @@
 var express = require('express');
 var app = express();
+var roust = require('roust');
+
+roust(app, '/api/v1', [__dirname + '/controllers']);
 
 app.get('/', function (req, res) {
   res.send('Hello World!');

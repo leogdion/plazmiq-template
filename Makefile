@@ -1,5 +1,8 @@
 gulp = node_modules/gulp/bin/gulp.js
-all:
+PHONY: all
+depend:
+	npm install 
+all: depend
 	$(gulp)
 test:
 	$(gulp) test
