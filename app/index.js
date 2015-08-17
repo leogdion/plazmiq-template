@@ -1,10 +1,13 @@
 var express = require('express');
 var app = express();
-app.use(express.static(__dirname + '/../build/development'));
 
-/* istanbul ignore if */
-if (require.main === module) {
-  app.listen(process.env.PORT || 8081);
-} else {
-  module.exports = app;
-}
+app.get('/', function (req, res) {
+  res.send('Hello World!');
+});
+
+var server = app.listen(process.env.PORT || 5000, function () {
+  var host = server.address().address;
+  var port = server.address().port;
+
+  console.log('Example app listening at http://%s:%s', host, port);
+});
