@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 
+gulp.task('heroku:production', ['submodules']);
 gulp.task('test', function() {
   // place code for your default task here
 });
