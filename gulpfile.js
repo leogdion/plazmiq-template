@@ -9,6 +9,10 @@ var bump = require('gulp-bump'),
     Handlebars = require('handlebars'),
     HandlebarsIntl = require('handlebars-intl');
 
+var markdown = require('metalsmith-markdown'),
+    layouts = require('metalsmith-layouts'),
+    metalsmith = require('metalsmith');
+
 gulp.task('handlebars', function (cb) {
   HandlebarsIntl.registerWith(Handlebars);
   glob("./static/templates/partials/*.hbt", function (er, files) {
@@ -31,6 +35,22 @@ gulp.task('handlebars', function (cb) {
     });
   });
 });
+
+gulp.task('metalsmith', ['handlebars'], function (cb) {
+
+  metalsmith("./static") // defaults to process.cwd() if no dir supplied
+  // You can initialize the metalsmith instance with metadata
+  //.metadata({site_name: "My Site"})
+  .use(layouts({
+    engine: "handlebars",
+    partials: 'partials'
+  }))
+  // and .use() as many Metalsmith plugins as you like 
+  .use(markdown()).destination("../.tmp/build")
+  //.use(permalinks('posts/:title'))
+  .build(cb);
+});
+
 
 gulp.task('lint', ['beautify'], function () {
   return gulp.src(['./*.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
@@ -56,7 +76,7 @@ gulp.task('test', function () {
   // place code for your default task here
 });
 
-gulp.task('default', ['submodules', 'lint', 'bump', 'handlebars']);
+gulp.task('default', ['submodules', 'lint', 'bump', 'metalsmith']);
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));

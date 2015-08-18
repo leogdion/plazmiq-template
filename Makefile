@@ -1,4 +1,4 @@
-gulp = node_modules/gulp/bin/gulp.js
+gulp = node_modules/gulp/bin/gulp.js --harmony
 PHONY: all
 depend:
 	npm install 

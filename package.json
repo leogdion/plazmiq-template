@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "2.0.4",
+  "version": "1.9.6",
   "description": "",
   "main": "app/index.js",
   "scripts": {
@@ -32,10 +32,11 @@
     "gulp-beautify": "^1.1.2",
     "gulp-bump": "^0.3.1",
     "gulp-jshint": "^1.11.2",
-    "gulpsmith": "^0.5.5",
     "handlebars": "^3.0.3",
     "handlebars-intl": "^1.1.1",
     "metalsmith": "^2.0.1",
+    "metalsmith-layouts": "^1.4.0",
+    "metalsmith-markdown": "^0.2.1",
     "passport": "^0.2.2",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
