@@ -4,42 +4,42 @@ var Sequelize = require('sequelize');
 
 // The model definition is done in /path/to/models/project.js
 // As you might notice, the DataTypes are the very same as explained above
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
     id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
     },
     name: {
-    type : Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    is: /^  [a-z0-9]+    (?:             -             [a-z0-9]+   )*           $/
-  },
-  emailAddress : {
-    type : Sequelize.STRING,
-    unique: true,
-    allowNull: false,
-    isEmail: true
-  },
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+      is: /^  [a-z0-9]+    (?:             -             [a-z0-9]+   )*           $/
+    },
+    emailAddress: {
+      type: Sequelize.STRING,
+      unique: true,
+      allowNull: false,
+      isEmail: true
+    },
     hash: {
-        type: Sequelize.STRING(5000),
-        allowNull: false
+      type: Sequelize.STRING(5000),
+      allowNull: false
     },
     salt: {
-        type: Sequelize.STRING,
-        allowNull: false
+      type: Sequelize.STRING,
+      allowNull: false
     },
     activationKey: {
-        type: Sequelize.STRING,
-        allowNull: true
+      type: Sequelize.STRING,
+      allowNull: true
     },
     resetPasswordKey: {
-        type: Sequelize.STRING,
-        allowNull: true
+      type: Sequelize.STRING,
+      allowNull: true
     }
-	});
+  });
 
   passportLocalSequelize.attachToUser(User, {
     usernameField: 'name',
