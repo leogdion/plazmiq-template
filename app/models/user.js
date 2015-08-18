@@ -45,4 +45,6 @@ module.exports = function (sequelize, DataTypes) {
     usernameField: 'name',
     activationRequired: true
   });
+
+  return User;
 }
