@@ -1,4 +1,7 @@
 module.exports = function (include) {
+
+  var db = require("../models");
+
   return {
     sessions: {
       params: {
@@ -11,8 +14,17 @@ module.exports = function (include) {
         show: function (req, res) {
           res.send('show');
         },
-        create: function (req, res) {
-          res.send({});
+        create: function (req, res, next) {
+          db.User.authenticate()(req.body.name, req.body.password, function (_, user, error) {
+            console.log(arguments);
+            db.Session.create({
+              'UserId': user.id
+            }).then(
+
+            function (session) {
+              res.send(session);
+            });
+          });
         },
         update: function (req, res) {
           res.send('update');

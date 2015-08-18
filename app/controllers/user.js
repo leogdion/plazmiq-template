@@ -1,15 +1,6 @@
 module.exports = function (include) {
-  var Sequelize = require('sequelize');
 
-  if (process.env.DATABASE_URL) {
-    var sequelize = new Sequelize(process.env.DATABASE_URL);
-  } else {
-    var sequelize = new Sequelize('beginkit-master', 'beginkit-user', '', {
-      dialect: 'postgres'
-    });
-  }
-
-  var User = sequelize.import(__dirname + "/../models/user.js");
+  var User = require("../models").User;
   return {
     users: {
       params: {
@@ -26,15 +17,16 @@ module.exports = function (include) {
           User.register({
             name: req.body.name,
             emailAddress: req.body.emailAddress
-          }, req.body.password, function (err) {
+          }, req.body.password, function (err, user) {
             if (err) {
               console.log('error while user register!', err);
               return next(err);
             }
 
-            console.log('user registered!');
-
-            res.redirect('/');
+            res.send({
+              "name": user.name,
+              "emailAddress": user.emailAddress,
+            });
           });
         },
         update: function (req, res) {

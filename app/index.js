@@ -1,29 +1,20 @@
 var express = require('express');
 var app = express();
-var roust = require('roust');
-var Sequelize = require('sequelize'),
+var roust = require('roust'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
     BearerStrategy = require('passport-http-bearer').Strategy;
 
 var flash = require('connect-flash');
+var db = require("./models");
 
 
-if (process.env.DATABASE_URL) {
-  var sequelize = new Sequelize(process.env.DATABASE_URL);
-} else {
-  var sequelize = new Sequelize('beginkit-master', 'beginkit-user', '', {
-    dialect: 'postgres'
-  });
-}
-
+console.log(db);
 
 var passport = require('passport');
 var passportLocalSequelize = require('passport-local-sequelize');
 
-var User = sequelize.import(__dirname + "/models/user.js");
-var Session = sequelize.import(__dirname + "/models/session.js");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -38,7 +29,7 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(User.createStrategy());
+passport.use(db.User.createStrategy());
 passport.use(new BearerStrategy({}, function (token, done) {
   // asynchronous validation, for effect...
   process.nextTick(function () {
@@ -56,8 +47,8 @@ passport.use(new BearerStrategy({}, function (token, done) {
   });
 }));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(db.User.serializeUser());
+passport.deserializeUser(db.User.deserializeUser());
 
 
 app.get('/', passport.authenticate('bearer', {
@@ -70,7 +61,7 @@ app.get('/', passport.authenticate('bearer', {
 roust(app, '/api/v1', [__dirname + '/controllers']);
 
 
-sequelize.sync({
+db.sequelize.sync({
   force: true
 }).then(
 
