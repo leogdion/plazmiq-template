@@ -16,7 +16,6 @@ module.exports = function (include) {
         },
         create: function (req, res, next) {
           db.User.authenticate()(req.body.name, req.body.password, function (_, user, error) {
-            console.log(arguments);
             db.Session.create({
               'UserId': user.id
             }).then(

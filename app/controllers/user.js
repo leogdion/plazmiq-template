@@ -23,8 +23,7 @@ module.exports = function (include) {
             }
 
             res.send({
-              "name": user.name,
-              "emailAddress": user.emailAddress,
+              "name": user.name
             });
           });
         },
