@@ -10,8 +10,6 @@ var flash = require('connect-flash');
 var db = require("./models");
 
 
-console.log(db);
-
 var passport = require('passport');
 var passportLocalSequelize = require('passport-local-sequelize');
 
@@ -23,7 +21,9 @@ app.use(bodyParser.urlencoded({
 app.use(require('connect-multiparty')());
 app.use(cookieParser());
 app.use(session({
-  secret: 'super-secret'
+  secret: 'super-secret',
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(flash());
 app.use(passport.initialize());

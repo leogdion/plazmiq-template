@@ -19,7 +19,6 @@ module.exports = function (include) {
             emailAddress: req.body.emailAddress
           }, req.body.password, function (err, user) {
             if (err) {
-              console.log('error while user register!', err);
               return next(err);
             }
 
