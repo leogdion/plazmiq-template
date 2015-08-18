@@ -1,0 +1,12 @@
+<header>
+  <nav>
+    <ul>
+      <li class="brand"><a href="/#">beginkit</a></li>
+    </ul>
+    <ul>
+     {{#each collections.pages}}
+      <li><a href="/{{this.path}}">{{this.title}}</a></li>
+      {{/each}}
+    </ul>
+  </nav>
+</header>

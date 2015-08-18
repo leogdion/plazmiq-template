@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  {{> head}}
+    <body class="margin">
+        {{> header}}
+      <main>
+<div class="post">
+
+  <header class="post-header">
+    <h1>{{ title }}</h1>
+    <p class="meta">{{#intl locales="en-US"}}{{formatDate date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}</p>
+  </header>
+
+  <article class="post-content">
+  {{ safe contents }}
+  </article>
+  {{#if next}}<a href="/{{next.path}}">Previous - {{next.title}}</a>{{/if}}
+  {{#if previous}}<a href="/{{previous.path}}">Next - {{previous.title}}</a>{{/if}}
+</div>
+      </main>
+        {{> footer}}
+    </body>
+</html>
