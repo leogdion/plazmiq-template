@@ -14,6 +14,7 @@ if (process.env.DATABASE_URL) {
 }
 
 var User = sequelize.import(__dirname + "/models/user.js");
+var Session = sequelize.import(__dirname + "/models/session.js");
 
 app.get('/', function (req, res) {
   res.send('Hello World!');
