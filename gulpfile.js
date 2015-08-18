@@ -8,7 +8,7 @@ gulp.task('beautify', function () {
     indentSize: 2
   })).pipe(gulp.dest('.'))
 });
-gulp.task('heroku:production', ['submodules', 'beautify']);
+gulp.task('heroku:production', ['submodules']);
 gulp.task('test', function () {
   // place code for your default task here
 });
