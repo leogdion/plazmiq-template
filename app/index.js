@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var roust = require('roust');
-var Sequelize = require('Sequelize');
+var Sequelize = require('sequelize');
 
 roust(app, '/api/v1', [__dirname + '/controllers']);
 
