@@ -5,7 +5,7 @@
   "main": "app/index.js",
   "scripts": {
     "test": "make test",
-    "start" : "node app"
+    "start": "node app"
   },
   "engines": {
     "node": "0.12.x"
@@ -21,7 +21,10 @@
   },
   "homepage": "https://github.com/brightdigit/beginkit#readme",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "pg": "^4.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.5.1"
   },
   "devDependencies": {
     "gulp": "^3.9.0"
