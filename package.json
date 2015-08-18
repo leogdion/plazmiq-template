@@ -26,10 +26,10 @@
     "passport-local-sequelize": "^0.6.0",
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^3.5.1"
+    "sequelize": "^3.5.1",
+    "gulp-beautify": "^1.1.2"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-beautify": "^1.1.2"
+    "gulp": "^3.9.0"
   }
 }
