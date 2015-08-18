@@ -22,6 +22,8 @@
   "homepage": "https://github.com/brightdigit/beginkit#readme",
   "dependencies": {
     "express": "^4.13.3",
+    "passport": "^0.2.2",
+    "passport-local-sequelize": "^0.6.0",
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.5.1"
