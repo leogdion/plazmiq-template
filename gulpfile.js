@@ -172,11 +172,11 @@ gulp.task('scss', ['clean'], function () {
   return gulp.src('static/scss/**/*.scss').pipe(scss()).pipe(gulp.dest('.tmp/build/css'));
 });
 
-gulp.task('assets', function () {
-
+gulp.task('assets', function (cb) {
+  cb();
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets']);
+gulp.task('static', ['metalsmith', 'browserify', 'assets', 'scss']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -217,7 +217,7 @@ gulp.task('test', function () {
 
 gulp.task('build', ['submodules', 'production', 'test']);
 
-gulp.task('default', ['build', 'development', 'publish']);
+gulp.task('default', ['submodules', 'bump', 'production', 'development', 'test']);
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));
