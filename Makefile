@@ -3,7 +3,7 @@ PHONY: all
 depend:
 	npm install 
 all: depend
-	$(gulp)
+	$(gulp) ${task}
 test: depend
 	$(gulp) test
 serve: all
@@ -14,3 +14,4 @@ clean-dry-run:
 	git clean -x -d -n --exclude=".credentials"
 publish: 
 	$(gulp) publish
+

@@ -1,17 +1,25 @@
-module.exports = function (mapping, file) {
-  var result = {};
-  for (var key in mapping) {
-    var value = process.env[mapping[key]];
-    if (value) {
-      result[key] = value;
-    } else {
-      try {
-        console.log(file);
-        return require(file);
-      } catch (ex) {
+module.exports = (function  () {
+ function revquire (mapping, file) {
+    var child, result = {};
+    for (var key in mapping) {
+      var value = process.env[mapping[key]];
+      if (typeof value == "string") {
+        result[key] = value;
+      }
+      else if (child = revquire(value)) {
+        result[key] = child;
+      } else if (file) {
+        try {
+          return require(file);
+        } catch (ex) {
+          return undefined;
+        }
+      } else {
         return undefined;
       }
     }
-  }
-  return result;
-};
+    return result;
+  };
+
+  return revquire;
+})();
