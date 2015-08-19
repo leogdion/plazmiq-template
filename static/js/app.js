@@ -1,5 +1,5 @@
 module.exports = {
-  start : function () {
+  start: function () {
     console.log("Hello World!");
   }
 };

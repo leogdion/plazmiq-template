@@ -12,7 +12,13 @@ var bump = require('gulp-bump'),
     glob = require('glob'),
     Handlebars = require('handlebars'),
     scss = require('gulp-scss'),
-    HandlebarsIntl = require('handlebars-intl');
+    browserify = require('browserify');
+
+HandlebarsIntl = require('handlebars-intl');
+
+
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 var markdown = require('metalsmith-markdown'),
     layouts = require('metalsmith-layouts'),
@@ -48,9 +54,32 @@ gulp.task('handlebars', function (cb) {
   });
 });
 
+gulp.task('browserify', ['clean', 'lint'], function () {
+  var b = browserify({
+    entries: './static/js/main.js',
+    debug: true
+  });
+
+  return b.bundle().pipe(source('main.js')).pipe(buffer())
+/*
+    .pipe(sourcemaps.init({loadMaps: true}))
+        // Add transformation tasks to the pipeline here.
+        .pipe(uglify())
+        .on('error', gutil.log)
+    .pipe(sourcemaps.write('./'))
+        */
+  .pipe(gulp.dest('./.tmp/build/js/'));
+});
+
 gulp.task('scss', ['clean'], function () {
   return gulp.src('static/scss/**/*.scss').pipe(scss()).pipe(gulp.dest('.tmp/build/css'));
 });
+
+gulp.task('assets', function () {
+
+});
+
+gulp.task('static', ['metalsmith', 'scss', 'browserify', 'assets']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], function (cb) {
 
@@ -77,7 +106,7 @@ gulp.task('metalsmith', ['handlebars', 'clean'], function (cb) {
 
 
 gulp.task('lint', ['beautify'], function () {
-  return gulp.src(['./*.js', 'static/js/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
+  return gulp.src(['./*.js', 'static/js/**/*.js', 'app/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
 });
 
 gulp.task('bump', [], function () {
@@ -87,7 +116,7 @@ gulp.task('bump', [], function () {
 });
 
 gulp.task('beautify', function () {
-  return gulp.src(['./app/**/*.js', 'gulpfile.js'], {
+  return gulp.src(['./*.js', 'static/js/**/*.js', 'app/**/*.js'], {
     base: '.'
   }).pipe(beautify({
     indentSize: 2
@@ -100,7 +129,7 @@ gulp.task('test', function () {
   // place code for your default task here
 });
 
-gulp.task('default', ['submodules', 'lint', 'bump', 'metalsmith', 'scss']);
+gulp.task('default', ['submodules', 'bump', 'static']);
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));
