@@ -6,7 +6,7 @@
   "scripts": {
     "test": "make test",
     "start": "node app",
-    "prestart": "make publish"
+    "build": "make publish"
   },
   "engines": {
     "node": "0.12.x"

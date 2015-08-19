@@ -1,1 +1,1 @@
-web: make publish && npm start
+web: npm start
