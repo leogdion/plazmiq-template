@@ -123,13 +123,15 @@ gulp.task('beautify', function () {
   })).pipe(gulp.dest('.'));
 });
 
-gulp.task('heroku:production', ['submodules']);
+gulp.task('heroku:production', ['build']);
 
 gulp.task('test', function () {
   // place code for your default task here
 });
 
-gulp.task('default', ['submodules', 'bump', 'static']);
+gulp.task('build', ['submodules', 'static', 'test']);
+
+gulp.task('default', ['bump', 'build']);
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));
