@@ -176,7 +176,7 @@ gulp.task('assets', function () {
 
 });
 
-gulp.task('static', ['metalsmith', 'scss', 'browserify', 'assets']);
+gulp.task('static', ['metalsmith', 'browserify', 'assets']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
