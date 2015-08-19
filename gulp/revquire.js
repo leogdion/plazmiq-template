@@ -2,15 +2,10 @@ module.exports = (function  () {
  function revquire (mapping, file) {
     var child, result = {};
     for (var key in mapping) {
-      console.log(mapping);
-      console.log(key);
-      var value = process.env[mapping[key]];
-      console.log(value);
-      console.log(file);
-      if (typeof value == "string") {
+      var value, env_key = mapping[key];
+      if (typeof env_key == "string" && (value = process.env[mapping[key]])){
         result[key] = value;
-      }
-      else if (value && (child = revquire(value))) {
+      } else if (value && (child = revquire(env_key))) {
         result[key] = child;
       } else if (file) {
         try {
