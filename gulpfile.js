@@ -15,6 +15,7 @@ var bump = require('gulp-bump'),
 
 var markdown = require('metalsmith-markdown'),
     layouts = require('metalsmith-layouts'),
+    collections = require('metalsmith-collections'),
     metalsmith = require('metalsmith');
 
 gulp.task('handlebars', function (cb) {
@@ -45,12 +46,20 @@ gulp.task('metalsmith', ['handlebars'], function (cb) {
   metalsmith("./static") // defaults to process.cwd() if no dir supplied
   // You can initialize the metalsmith instance with metadata
   //.metadata({site_name: "My Site"})
-  .use(layouts({
+  .use(collections({
+    posts: {
+      pattern: 'posts/*.md',
+      sortBy: 'date',
+      reverse: true
+    },
+    pages: {
+      pattern: '*.md'
+    }
+  })).use(markdown()).use(layouts({
     engine: "handlebars",
     partials: 'partials'
-  }))
+  })).destination("../.tmp/build")
   // and .use() as many Metalsmith plugins as you like 
-  .use(markdown()).destination("../.tmp/build")
   //.use(permalinks('posts/:title'))
   .build(cb);
 });

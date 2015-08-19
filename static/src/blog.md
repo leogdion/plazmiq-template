@@ -1,5 +1,5 @@
 ---
 title: Blog
-template: blog.hbt
+layout: blog.hbt
 paginate: posts
 ---

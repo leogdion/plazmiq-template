@@ -1,5 +1,5 @@
 ---
-template: post.hbt
+layout: post.hbt
 published: true
 title: Replent ardet tamen locum
 date:  2015-01-03T19:22:12-05:00

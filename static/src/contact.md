@@ -1,5 +1,5 @@
 ---
-template: default.hbt
+layout: default.hbt
 title: contact
 ---
 Hello World!

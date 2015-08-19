@@ -1,5 +1,5 @@
 ---
-template: post.hbt
+layout: post.hbt
 published: true
 title: In ut iamque devolvunt ultro
 abstract: Stabat inpia renovamine atque mare
