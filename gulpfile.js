@@ -11,12 +11,19 @@ var async = require('async');
 var bump = require('gulp-bump'),
     glob = require('glob'),
     Handlebars = require('handlebars'),
+    scss = require('gulp-scss'),
     HandlebarsIntl = require('handlebars-intl');
 
 var markdown = require('metalsmith-markdown'),
     layouts = require('metalsmith-layouts'),
     collections = require('metalsmith-collections'),
     metalsmith = require('metalsmith');
+
+var async = require('async'),
+    rimraf = require('rimraf');
+gulp.task('clean', function (cb) {
+  async.each(['.tmp'], rimraf, cb);
+});
 
 gulp.task('handlebars', function (cb) {
   HandlebarsIntl.registerWith(Handlebars);
@@ -41,7 +48,11 @@ gulp.task('handlebars', function (cb) {
   });
 });
 
-gulp.task('metalsmith', ['handlebars'], function (cb) {
+gulp.task('scss', ['clean'], function () {
+  return gulp.src('static/scss/**/*.scss').pipe(scss()).pipe(gulp.dest('.tmp/build/css'));
+});
+
+gulp.task('metalsmith', ['handlebars', 'clean'], function (cb) {
 
   metalsmith("./static") // defaults to process.cwd() if no dir supplied
   // You can initialize the metalsmith instance with metadata
@@ -89,7 +100,7 @@ gulp.task('test', function () {
   // place code for your default task here
 });
 
-gulp.task('default', ['submodules', 'lint', 'bump', 'metalsmith']);
+gulp.task('default', ['submodules', 'lint', 'bump', 'metalsmith', 'scss']);
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));
