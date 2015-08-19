@@ -36,8 +36,6 @@ var awscredentials = revquire({
   }
 }, __dirname + '/.credentials/aws.json');
 
-console.log(awscredentials);
-
 gulp.task('clean', function (cb) {
   async.each(['.tmp'], rimraf, cb);
 });
