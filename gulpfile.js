@@ -37,7 +37,7 @@ var awscredentials = revquire({
 }, __dirname + '/.credentials/aws.json');
 
 gulp.task('clean', function (cb) {
-  async.each(['.tmp'], rimraf, cb);
+  async.each(['.tmp', 'build'], rimraf, cb);
 });
 
 gulp.task('publish', ['production'], function () {
@@ -99,9 +99,28 @@ gulp.task('publish', ['production'], function () {
   })).pipe(publisher.publish()).pipe(publisher.sync()).pipe(awspublish.reporter());
 });
 
-gulp.task('handlebars', function (cb) {
+gulp.task('handlebars', function () {
   HandlebarsIntl.registerWith(Handlebars);
-  glob("./static/templates/partials/*.hbt", function (er, files) {
+  Handlebars.registerHelper('limit', function (collection, limit, start) {
+    return collection.slice(start, limit + 1);
+  });
+  Handlebars.registerHelper('safe', function (contents) {
+    return new Handlebars.SafeString(contents);
+  });
+  Handlebars.registerHelper('year', function (contents) {
+    return contents.getFullYear();
+  });
+  Handlebars.registerHelper('year', function (contents) {
+    return contents.getFullYear();
+  });
+  Handlebars.registerHelper('isoDate', function (contents) {
+    return contents.toISOString();
+  });
+  Handlebars.registerHelper('strip', function (contents) {
+    return contents.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ");
+  });
+/*
+  glob("./static/partials/*.hbt", function (er, files) {
     async.each(files, function (file, asynccb) {
       fs.readFile(file, function (error, content) {
         Handlebars.registerPartial(path.basename(file, '.hbt'), content.toString());
@@ -129,6 +148,7 @@ gulp.task('handlebars', function (cb) {
       cb(error);
     });
   });
+  */
 });
 
 gulp.task('browserify', ['clean', 'lint'], function () {
@@ -164,7 +184,7 @@ gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
 
 
 gulp.task('lint', ['beautify'], function () {
-  return gulp.src(['./*.js', 'static/js/**/*.js', 'app/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
+  return gulp.src(['./*.js', 'gulp/**/*.js', 'static/js/**/*.js', 'app/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
 });
 
 gulp.task('bump', [], function () {
@@ -174,7 +194,7 @@ gulp.task('bump', [], function () {
 });
 
 gulp.task('beautify', function () {
-  return gulp.src(['./*.js', 'static/js/**/*.js', 'app/**/*.js'], {
+  return gulp.src(['./*.js', 'gulp/**/*.js', 'static/js/**/*.js', 'app/**/*.js'], {
     base: '.'
   }).pipe(beautify({
     indentSize: 2
