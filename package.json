@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.38",
+  "version": "1.9.39",
   "description": "",
   "main": "app/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "gulp-beautify": "^1.1.2",
     "gulp-bump": "^0.3.1",
     "gulp-jshint": "^1.11.2",
-    "gulp-scss": "^1.2.0",
+    "gulp-sass": "^2.0.4",
     "handlebars": "^3.0.3",
     "handlebars-intl": "^1.1.1",
     "intl": "^1.0.0",

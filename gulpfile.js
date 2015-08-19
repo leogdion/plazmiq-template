@@ -11,7 +11,7 @@ var async = require('async');
 var bump = require('gulp-bump'),
     glob = require('glob'),
     Handlebars = require('handlebars'),
-    scss = require('gulp-scss'),
+    sass = require('gulp-sass'),
     browserify = require('browserify'),
     awspublish = require("gulp-awspublish"),
     awspublishRouter = require("gulp-awspublish-router");
@@ -169,7 +169,7 @@ gulp.task('browserify', ['clean', 'lint'], function () {
 });
 
 gulp.task('scss', ['clean'], function () {
-  return gulp.src('static/scss/**/*.scss').pipe(scss()).pipe(gulp.dest('.tmp/build/css'));
+  return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp/build/css'));
 });
 
 gulp.task('assets', function (cb) {
