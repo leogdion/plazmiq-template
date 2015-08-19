@@ -12,10 +12,13 @@ var bump = require('gulp-bump'),
     glob = require('glob'),
     Handlebars = require('handlebars'),
     scss = require('gulp-scss'),
-    browserify = require('browserify');
+    browserify = require('browserify'),
+    awspublish = require("gulp-awspublish"),
+    awspublishRouter = require("gulp-awspublish-router");
 
 HandlebarsIntl = require('handlebars-intl');
 
+var revquire = require('./gulp/revquire');
 
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -27,8 +30,76 @@ var markdown = require('metalsmith-markdown'),
 
 var async = require('async'),
     rimraf = require('rimraf');
+
+var awscredentials = revquire({
+  "accessKeyId": "AWS_CREDENTIALS_KEY",
+  "secretAccessKey": "AWS_CREDENTIALS_SECRET",
+  "params": {
+    "Bucket": "AWS_CREDENTIALS_BUCKET"
+  }
+}, __dirname + '/.credentials/aws.json');
+
 gulp.task('clean', function (cb) {
   async.each(['.tmp'], rimraf, cb);
+});
+
+gulp.task('publish', ['production'], function () {
+  var publisher = awspublish.create(awscredentials);
+  return gulp.src("**/*", {
+    cwd: "./build/production/"
+  }).pipe(awspublishRouter({
+    cache: {
+      // cache for 5 minutes by default
+      cacheTime: 300,
+      gzip: true
+    },
+
+    routes: {
+      "^assets/.+$": {
+        // cache static assets for 2 years
+        cacheTime: 630720000
+      },
+
+/* "^assets/(?:.+)\\.(?:js|css|svg|ttf)$": {
+        // don't modify original key. this is the default
+        key: "$&",
+        // use gzip for assets that benefit from it
+        gzip: true,
+        // cache static assets for 2 years
+        cacheTime: 630720000
+      },
+
+      "^assets/.+$": {
+        // cache static assets for 2 years
+        cacheTime: 630720000
+      },
+
+      // e.g. upload items/foo/bar/index.html under key items/foo/bar
+      "^items/([^/]+)/([^/]+)/index\\.html": "items/$1/$2",
+
+      "^.+\\.html": {
+        // apply gzip with extra options
+        gzip: {
+          // Add .gz extension.
+          ext: ".gz"
+        }
+      },
+
+      "^README$": {
+        // specify extra headers
+        headers: {
+          "Content-Type": "text/plain"
+        }
+      },
+
+      // pass-through for anything that wasn't matched by routes above, to be uploaded with default options
+      */
+      "^.+$": {
+        key: "$&",
+        gzip: true
+      }
+    }
+  })).pipe(publisher.publish()).pipe(publisher.sync()).pipe(awspublish.reporter());
 });
 
 gulp.task('handlebars', function (cb) {
@@ -123,15 +194,23 @@ gulp.task('beautify', function () {
   })).pipe(gulp.dest('.'));
 });
 
+gulp.task('development', ['static'], function () {
+  return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
+});
+
+gulp.task('production', ['static'], function () {
+  return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/production'));
+});
+
 gulp.task('heroku:production', ['build']);
 
 gulp.task('test', function () {
   // place code for your default task here
 });
 
-gulp.task('build', ['submodules', 'static', 'test']);
+gulp.task('build', ['submodules', 'production', 'test']);
 
-gulp.task('default', ['bump', 'build']);
+gulp.task('default', ['build', 'development']);
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));

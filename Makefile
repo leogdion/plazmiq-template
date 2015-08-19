@@ -9,6 +9,8 @@ test: depend
 serve: all
 	npm start
 clean:
-	git clean -x -d -f --exclude=".aws-credentials.json"
+	git clean -x -d -f --exclude=".credentials"
 clean-dry-run:
-	git clean -x -d -n --exclude=".aws-credentials.json"
+	git clean -x -d -n --exclude=".credentials"
+publish: 
+	$(gulp) publish

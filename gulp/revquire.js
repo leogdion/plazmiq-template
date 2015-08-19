@@ -6,6 +6,7 @@ module.exports = function (mapping, file) {
       result[key] = value;
     } else {
       try {
+        console.log(file);
         return require(file);
       } catch (ex) {
         return undefined;
