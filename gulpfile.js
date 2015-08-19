@@ -189,7 +189,7 @@ gulp.task('production', ['static'], function () {
   return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/production'));
 });
 
-gulp.task('heroku:production', ['build']);
+gulp.task('heroku:production', ['build', 'publish']);
 
 gulp.task('test', function () {
   // place code for your default task here
