@@ -157,7 +157,7 @@ gulp.task('browserify', ['clean', 'lint'], function () {
     debug: true
   });
 
-  return b.bundle().pipe(source('main.js')).pipe(buffer())
+  return b.bundle().pipe(source('main.js')).pipe(buffer()).pipe(gulp.dest('./.tmp/build/js/'));
 /*
     .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
@@ -165,7 +165,7 @@ gulp.task('browserify', ['clean', 'lint'], function () {
         .on('error', gutil.log)
     .pipe(sourcemaps.write('./'))
         */
-  .pipe(gulp.dest('./.tmp/build/js/'));
+
 });
 
 gulp.task('scss', ['clean'], function () {
@@ -209,7 +209,7 @@ gulp.task('production', ['static'], function () {
   return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/production'));
 });
 
-gulp.task('heroku:production', ['submodules', 'production', 'test', 'build', 'publish', 'default']);
+gulp.task('heroku:production', ['publish']);
 
 gulp.task('test', function () {
   // place code for your default task here
