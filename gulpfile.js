@@ -210,7 +210,7 @@ gulp.task('production', ['static'], function () {
 });
 
 //gulp.task('heroku:production', ['publish']);
-gulp.task('heroku:production', ['scss']);
+gulp.task('heroku:production', ['publish', 'test', 'submodules']);
 
 gulp.task('test', function () {
   // place code for your default task here
