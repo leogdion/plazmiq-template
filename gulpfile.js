@@ -217,7 +217,7 @@ gulp.task('test', function () {
 
 gulp.task('build', ['submodules', 'production', 'test']);
 
-gulp.task('default', ['build', 'development']);
+gulp.task('default', ['build', 'development', 'publish']);
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));
