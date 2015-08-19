@@ -23,10 +23,7 @@ var revquire = require('./gulp/revquire');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
-var markdown = require('metalsmith-markdown'),
-    layouts = require('metalsmith-layouts'),
-    collections = require('metalsmith-collections'),
-    metalsmith = require('metalsmith');
+var metalsmith_build = require('./gulp/metalsmith');
 
 var async = require('async'),
     rimraf = require('rimraf');
@@ -120,6 +117,15 @@ gulp.task('handlebars', function (cb) {
       Handlebars.registerHelper('year', function (contents) {
         return contents.getFullYear();
       });
+      Handlebars.registerHelper('year', function (contents) {
+        return contents.getFullYear();
+      });
+      Handlebars.registerHelper('isoDate', function (contents) {
+        return contents.toISOString();
+      });
+      Handlebars.registerHelper('strip', function (contents) {
+        return contents.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ");
+      });
       cb(error);
     });
   });
@@ -152,28 +158,9 @@ gulp.task('assets', function () {
 
 gulp.task('static', ['metalsmith', 'scss', 'browserify', 'assets']);
 
-gulp.task('metalsmith', ['handlebars', 'clean'], function (cb) {
-
-  metalsmith("./static") // defaults to process.cwd() if no dir supplied
-  // You can initialize the metalsmith instance with metadata
-  //.metadata({site_name: "My Site"})
-  .use(collections({
-    posts: {
-      pattern: 'posts/*.md',
-      sortBy: 'date',
-      reverse: true
-    },
-    pages: {
-      pattern: '*.md'
-    }
-  })).use(markdown()).use(layouts({
-    engine: "handlebars",
-    partials: 'partials'
-  })).destination("../.tmp/build")
-  // and .use() as many Metalsmith plugins as you like 
-  //.use(permalinks('posts/:title'))
-  .build(cb);
-});
+gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
+  stage: "development"
+}));
 
 
 gulp.task('lint', ['beautify'], function () {
