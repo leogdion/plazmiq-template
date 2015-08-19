@@ -4,7 +4,7 @@ depend:
 	npm install 
 all: depend
 	$(gulp)
-test:
+test: depend
 	$(gulp) test
 serve: all
 	npm start

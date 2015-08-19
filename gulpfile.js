@@ -1,3 +1,7 @@
+if (!global.Intl) {
+  global.Intl = require('intl');
+}
+
 var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
