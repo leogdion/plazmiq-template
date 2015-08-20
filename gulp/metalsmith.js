@@ -11,6 +11,8 @@ markdown = require('metalsmith-markdown'),
     collections = require('metalsmith-collections'),
     metalsmith = require('metalsmith');
 
+var crypto = require('crypto');
+var md5sum = crypto.createHash('md5');
 module.exports = (function () {
   function build(configuration, cb) {
 
@@ -25,7 +27,7 @@ module.exports = (function () {
         future: true
       };
     }
-    metalsmith(basePath + "/static").metadata({
+    var m = metalsmith(basePath + "/static").metadata({
       site: {
         title: "BrightDigit",
         url: "http://www.brightdigit.com"
@@ -58,13 +60,30 @@ module.exports = (function () {
     })).use(markdown()).use(excerpts()).use(permalinks({
       pattern: 'blog/:date/:title',
       date: 'YY/MM/DD'
-    })).use(layouts({
+    })).use(function (files, metalsmith) {
+      var metadata = metalsmith.metadata();
+      for (var key in files) {
+        if (!files[key].collection) {
+          continue;
+        }
+        for (var collectionIndex = 0; collectionIndex < files[key].collection.length; collectionIndex++) {
+          var collectionName = files[key].collection[collectionIndex];
+          var index;
+          for (index = 0; index < metadata.collections[collectionName].length; index++) {
+            if (metadata.collections[collectionName][index].title == files[key].title) {
+              metadata.collections[collectionName][index] = files[key];
+            }
+          }
+        }
+      }
+    }).use(layouts({
       engine: "handlebars",
       partials: 'partials'
-    })).destination("../.tmp/build")
+    })).destination("../.tmp/build");
+
     // and .use() as many Metalsmith plugins as you like 
     //.use(permalinks('posts/:title'))
-    .build(cb);
+    m.build(cb);
   }
 
   function build_callback(configuration) {
