@@ -8,6 +8,7 @@ var gulp = require('gulp');
 var beautify = require('gulp-beautify');
 var jshint = require('gulp-jshint');
 var async = require('async');
+var jscs = require('gulp-jscs');
 var bump = require('gulp-bump'),
     glob = require('glob'),
     Handlebars = require('handlebars'),
@@ -102,36 +103,6 @@ gulp.task('handlebars', function () {
   Handlebars.registerHelper('strip', function (contents) {
     return contents.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ");
   });
-/*
-  glob("./static/partials/*.hbt", function (er, files) {
-    async.each(files, function (file, asynccb) {
-      fs.readFile(file, function (error, content) {
-        Handlebars.registerPartial(path.basename(file, '.hbt'), content.toString());
-        asynccb(error);
-      });
-    }, function (error) {
-      Handlebars.registerHelper('limit', function (collection, limit, start) {
-        return collection.slice(start, limit + 1);
-      });
-      Handlebars.registerHelper('safe', function (contents) {
-        return new Handlebars.SafeString(contents);
-      });
-      Handlebars.registerHelper('year', function (contents) {
-        return contents.getFullYear();
-      });
-      Handlebars.registerHelper('year', function (contents) {
-        return contents.getFullYear();
-      });
-      Handlebars.registerHelper('isoDate', function (contents) {
-        return contents.toISOString();
-      });
-      Handlebars.registerHelper('strip', function (contents) {
-        return contents.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ");
-      });
-      cb(error);
-    });
-  });
-  */
 });
 
 gulp.task('browserify', ['clean', 'lint'], function () {
@@ -165,6 +136,13 @@ gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
 }));
 
+gulp.task('jscs', function () {
+  return gulp.src(['./*.js', 'gulp/**/*.js', 'static/js/**/*.js', 'app/**/*.js'], {
+    base: '.'
+  }).pipe(jscs({
+    fix: true
+  })).pipe(gulp.dest('.'));
+});
 
 gulp.task('lint', ['beautify'], function () {
   return gulp.src(['./*.js', 'gulp/**/*.js', 'static/js/**/*.js', 'app/**/*.js']).pipe(jshint()).pipe(jshint.reporter('default'));
@@ -176,7 +154,7 @@ gulp.task('bump', [], function () {
   })).pipe(gulp.dest('./'));
 });
 
-gulp.task('beautify', function () {
+gulp.task('beautify', ['jscs'], function () {
   return gulp.src(['./*.js', 'gulp/**/*.js', 'static/js/**/*.js', 'app/**/*.js'], {
     base: '.'
   }).pipe(beautify({
