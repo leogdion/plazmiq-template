@@ -54,4 +54,23 @@ html, body {
   background-color: #333;
   font-family: 'Raleway', sans-serif;
   color: #CCC;
+  main {
+    display: block;
+    .callout {
+      display: table;
+      margin: auto;
+      img.logo {
+        height: 50vmin;
+        display: block;
+        margin: auto;
+      }
+      .tagline {
+        text-align: center;
+        #title-header {
+          font-size: 64pt;
+          margin: 8pt auto;
+        }
+      }
+    }
+  }
 }
