@@ -191,7 +191,7 @@ gulp.task('development', ['static'], function () {
 gulp.task('production', ['minify', 'production-assets'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
-    debug: true
+    debug: false
   });
   return gulp.src('.tmp/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
 });
