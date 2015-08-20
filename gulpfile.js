@@ -155,8 +155,8 @@ gulp.task('scss', ['clean'], function () {
   return gulp.src('static/scss/**/*.scss').pipe(sass()).pipe(gulp.dest('.tmp/build/css'));
 });
 
-gulp.task('assets', function (cb) {
-  cb();
+gulp.task('assets', ['clean'], function () {
+  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
 });
 
 gulp.task('static', ['metalsmith', 'browserify', 'assets', 'scss']);
@@ -188,12 +188,16 @@ gulp.task('development', ['static'], function () {
   return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
 });
 
-gulp.task('production', ['minify'], function () {
+gulp.task('production', ['minify', 'production-assets'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: true
   });
   return gulp.src('.tmp/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
+});
+
+gulp.task('production-assets', ['assets'], function () {
+  return gulp.src('.tmp/build/assets/**/*').pipe(gulp.dest('./build/production/assets'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
