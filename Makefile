@@ -7,7 +7,7 @@ all: depend
 	$(gulp) ${task}
 test: depend
 	$(gulp) test
-serve: all
+prod: all
 	$(static) build/production -p 8080 & npm start
 clean:
 	git clean -x -d -f --exclude=".credentials"
@@ -15,5 +15,7 @@ clean-dry-run:
 	git clean -x -d -n --exclude=".credentials"
 publish: 
 	$(gulp) publish
-dev-serve: all
+dev: all
 	$(static) build/development -p 8081 & npm start 
+serve: all
+	$(static) build/production -p 8080 & $(static) build/development -p 8081 & npm start

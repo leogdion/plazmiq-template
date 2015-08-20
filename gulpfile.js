@@ -123,7 +123,7 @@ gulp.task('browserify', ['clean', 'lint'], function () {
 });
 
 gulp.task('scss', ['clean'], function () {
-  return gulp.src('static/scss/**/*.scss').pipe(scss()).pipe(gulp.dest('.tmp/build/css'));
+  return gulp.src('static/scss/*.scss').pipe(scss()).pipe(gulp.dest('.tmp/build/css'));
 });
 
 gulp.task('assets', ['clean'], function () {
