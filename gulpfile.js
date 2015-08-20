@@ -14,6 +14,11 @@ var bump = require('gulp-bump'),
     sass = require('gulp-sass'),
     browserify = require('browserify'),
     awspublish = require("gulp-awspublish"),
+    htmlmin = require('gulp-htmlmin'),
+    revall = require('gulp-rev-all'),
+    htmlmin = require('gulp-htmlmin'),
+    uglify = require('gulp-uglify'),
+    uglifycss = require('gulp-uglifycss'),
     awspublishRouter = require("gulp-awspublish-router");
 
 HandlebarsIntl = require('handlebars-intl');
@@ -52,51 +57,29 @@ gulp.task('publish', ['production'], function () {
     },
 
     routes: {
-      "^assets/.+$": {
-        // cache static assets for 2 years
-        cacheTime: 630720000
-      },
-
-/* "^assets/(?:.+)\\.(?:js|css|svg|ttf)$": {
-        // don't modify original key. this is the default
-        key: "$&",
+      "^(assets|js|css|fonts)/(.+)\.(js|css|svg|ttf)$": {
         // use gzip for assets that benefit from it
-        gzip: true,
         // cache static assets for 2 years
-        cacheTime: 630720000
+        gzip: true,
+        cacheTime: 630720000,
+        headers: {
+          //"Vary": "Accept-Encoding"
+        }
       },
-
       "^assets/.+$": {
         // cache static assets for 2 years
         cacheTime: 630720000
-      },
-
-      // e.g. upload items/foo/bar/index.html under key items/foo/bar
-      "^items/([^/]+)/([^/]+)/index\\.html": "items/$1/$2",
-
-      "^.+\\.html": {
-        // apply gzip with extra options
-        gzip: {
-          // Add .gz extension.
-          ext: ".gz"
-        }
-      },
-
-      "^README$": {
-        // specify extra headers
-        headers: {
-          "Content-Type": "text/plain"
-        }
       },
 
       // pass-through for anything that wasn't matched by routes above, to be uploaded with default options
-      */
       "^.+$": {
         key: "$&",
         gzip: true
       }
     }
-  })).pipe(publisher.publish()).pipe(publisher.sync()).pipe(awspublish.reporter());
+  })).pipe(publisher.publish(undefined, {
+    force: false
+  })).pipe(publisher.sync()).pipe(awspublish.reporter());
 });
 
 gulp.task('handlebars', function () {
@@ -205,11 +188,34 @@ gulp.task('development', ['static'], function () {
   return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
 });
 
-gulp.task('production', ['static'], function () {
-  return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/production'));
+gulp.task('production', ['minify'], function () {
+  var revAll = new revall({
+    dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
+    debug: true
+  });
+  return gulp.src('.tmp/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
 });
 
-//gulp.task('heroku:production', ['publish']);
+gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
+
+gulp.task('htmlmin', ['metalsmith'], function () {
+  return gulp.src('.tmp/build/**/*.html').pipe(htmlmin({
+    collapseWhitespace: true
+  })).pipe(gulp.dest('.tmp/production'));
+});
+
+gulp.task('uglify-js', ['browserify'], function () {
+  return gulp.src('.tmp/build/**/*.js').pipe(uglify({
+    mangle: false,
+    compress: false
+  })).pipe(gulp.dest('.tmp/production'));
+
+});
+
+gulp.task('uglify-css', ['scss'], function () {
+  return gulp.src('.tmp/build/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/production'));
+});
+
 gulp.task('heroku:production', ['publish', 'test', 'submodules']);
 
 gulp.task('test', function () {
