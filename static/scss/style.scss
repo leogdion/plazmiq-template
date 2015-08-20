@@ -53,9 +53,40 @@ $cn-bold-suffix: to-lower-case($ttf-cn-bold-suffix);
 html, body {
   background-color: #333;
   font-family: 'Raleway', sans-serif;
-  color: #CCC;
+  color: #FFF;
+  margin: 0;
+  nav {
+    overflow: auto;
+    background-color: #000;
+    padding: 10px;
+    a {
+      color: #FFF;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      margin-right: 10px;
+      overflow: auto;
+      float: left;
+        display: block;
+      li {
+        float: left;
+        display: block;
+        margin-right: 10px;
+        &.brand a{
+          font-weight: 900;
+
+        }
+      }
+    }
+  }
   main {
+    margin: 40px 10px 20px;
     display: block;
+    clear: both;
     .callout {
       display: table;
       margin: auto;
@@ -69,8 +100,12 @@ html, body {
         #title-header {
           font-size: 64pt;
           margin: 8pt auto;
+          font-weight: 900;
         }
       }
     }
+  }
+  footer {
+    margin: 20px 10px;
   }
 }
