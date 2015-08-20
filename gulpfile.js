@@ -137,7 +137,7 @@ gulp.task('handlebars', function () {
 gulp.task('browserify', ['clean', 'lint'], function () {
   var b = browserify({
     entries: './static/js/main.js',
-    debug: true
+    debug: false
   });
 
   return b.bundle().pipe(source('main.js')).pipe(buffer()).pipe(gulp.dest('./.tmp/build/js/'));
