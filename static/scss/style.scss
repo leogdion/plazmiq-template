@@ -1,4 +1,8 @@
-
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
 
 /*
 /// Replace `$search` with `$replace` in `$string`
@@ -50,9 +54,12 @@ $ttf-cn-bold-suffix: 'Cn-Bld';
 $cn-bold-suffix: to-lower-case($ttf-cn-bold-suffix);
 */
 
+html, body, input, button {
+  font-family: 'Raleway', sans-serif;
+}
+
 html, body {
   background-color: #333;
-  font-family: 'Raleway', sans-serif;
   color: #FFF;
   margin: 0;
   nav {
@@ -64,6 +71,10 @@ html, body {
       text-decoration: none;
       font-weight: 700;
     }
+    form {
+      float: right;
+      margin: 0px 10px;
+    }
     ul {
       list-style: none;
       margin: 0;
@@ -72,7 +83,7 @@ html, body {
       overflow: auto;
       float: left;
       display: block;
-      &:last-child {
+      &:last-of-type  {
         float: right;
       }
       li {
@@ -97,6 +108,36 @@ html, body {
     .callout {
       display: table;
       margin: auto;
+      & > * {
+        float: left;
+        height: 100%;
+      }
+      form {
+        display: table-cell;
+        vertical-align: middle;
+        padding: 10px;
+        button,input {
+          font-size: 14pt;
+          padding: 10px;
+          margin: 10px;
+          clear: both;
+          border: none;
+          @include border-radius(5px);
+          display: block;
+
+        }
+        button {
+          margin-bottom: 0px;
+        }
+        input {
+
+          width: 100%;
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+        margin: auto;
+      }
       img.logo {
         height: 50vmin;
         display: block;
