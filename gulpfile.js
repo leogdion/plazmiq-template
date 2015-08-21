@@ -184,19 +184,20 @@ gulp.task('production', ['minify', 'production-assets'], function () {
   return gulp.src('.tmp/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
 });
 
-gulp.task('production-assets', ['assets'], function () {
+gulp.task('production-assets', ['static'], function () {
   return gulp.src('.tmp/build/assets/**/*').pipe(gulp.dest('./build/production/assets'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
 
-gulp.task('htmlmin', ['metalsmith'], function () {
+gulp.task('htmlmin', ['static'], function () {
   return gulp.src('.tmp/build/**/*.html').pipe(htmlmin({
-    collapseWhitespace: true
+    collapseWhitespace: true,
+    minifyCSS: true
   })).pipe(gulp.dest('.tmp/production'));
 });
 
-gulp.task('uglify-js', ['browserify'], function () {
+gulp.task('uglify-js', ['static'], function () {
   return gulp.src('.tmp/build/**/*.js').pipe(uglify({
     mangle: false,
     compress: false
@@ -204,7 +205,7 @@ gulp.task('uglify-js', ['browserify'], function () {
 
 });
 
-gulp.task('critical', ['scss', 'metalsmith'], function () {
+gulp.task('critical', ['scss', 'metalsmith'], function (cb) {
   critical.generateInline({
     base: '.tmp/build',
     src: 'index.html',
@@ -213,10 +214,10 @@ gulp.task('critical', ['scss', 'metalsmith'], function () {
     width: 320,
     height: 480,
     minify: false
-  });
+  }, cb);
 });
 
-gulp.task('uglify-css', ['scss'], function () {
+gulp.task('uglify-css', ['static'], function () {
   return gulp.src('.tmp/build/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/production'));
 });
 
