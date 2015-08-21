@@ -1,0 +1,115 @@
+{
+<<<<<<< HEAD:package.json
+  "name": "beginkit",
+  "version": "1.9.173",
+  "description": "template for s3 aws / heroku app",
+  "main": "app/index.js",
+=======
+  "name": "phragm",
+  "version": "0.1.613",
+  "prerelease": "alpha",
+  "description": "sample project",
+  "main": "server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brightdigit/phragm.git"
+  },
+>>>>>>> phragm-master:__phragm/master/package.json
+  "scripts": {
+    "test": "make test",
+    "start": "node app"
+  },
+  "engines": {
+    "node": "0.12.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brightdigit/beginkit.git"
+  },
+  "author": "Leo G Dion",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/brightdigit/beginkit/issues"
+  },
+  "homepage": "https://github.com/brightdigit/beginkit#readme",
+  "dependencies": {
+<<<<<<< HEAD:package.json
+    "async": "^1.4.2",
+    "body-parser": "^1.13.3",
+    "browserify": "^11.0.1",
+    "connect-flash": "^0.1.1",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.3.5",
+    "critical": "^0.6.0",
+    "express": "^4.13.3",
+    "express-session": "^1.11.3",
+    "glob": "^5.0.14",
+    "gulp-awspublish": "^2.0.2",
+    "gulp-awspublish-router": "^0.1.1",
+    "gulp-beautify": "^1.1.2",
+    "gulp-bump": "^0.3.1",
+    "gulp-htmlmin": "^1.1.3",
+    "gulp-jscs": "^2.0.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev-all": "^0.8.21",
+    "gulp-scss": "^1.2.0",
+    "gulp-uglify": "^1.2.0",
+    "gulp-uglifycss": "^1.0.4",
+    "handlebars": "^3.0.3",
+    "handlebars-intl": "^1.1.1",
+    "intl": "^1.0.0",
+    "merge-stream": "^1.0.0",
+    "merge2": "^0.3.6",
+    "metalsmith": "^2.0.1",
+    "metalsmith-collections": "^0.7.0",
+    "metalsmith-define": "^1.0.0",
+    "metalsmith-excerpts": "^1.0.0",
+    "metalsmith-layouts": "^1.4.0",
+    "metalsmith-markdown": "^0.2.1",
+    "metalsmith-paginate": "^0.3.0",
+    "metalsmith-permalinks": "^0.4.0",
+    "metalsmith-publish": "^0.1.3",
+    "metalsmith-tags": "^0.11.0",
+    "node-static": "^0.7.7",
+    "passport": "^0.2.2",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "passport-local-sequelize": "^0.6.0",
+    "pg": "^4.4.1",
+    "pg-hstore": "^2.3.2",
+    "rimraf": "^2.4.2",
+    "sequelize": "^3.5.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0"
+=======
+    "async": "^0.9.0",
+    "body-parser": "^1.2.2",
+    "express": "^4.8.6",
+    "pg.js": "^3.4.1",
+    "sequelize": "^2.0.0-dev12"
+  },
+  "devDependencies": {
+    "bower": "^1.3.9",
+    "bower-requirejs": "^1.1.0",
+    "chai": "^1.9.1",
+    "chai-things": "^0.2.0",
+    "event-stream": "^3.1.7",
+    "gulp": "^3.8.7",
+    "gulp-beautify": "^1.1.0",
+    "gulp-bump": "^0.1.11",
+    "gulp-express": "0.0.9",
+    "gulp-jshint": "^1.8.4",
+    "gulp-jst": "^0.1.1",
+    "gulp-jst-concat": "git+https://github.com/brightdigit/gulp-jst-concat.git",
+    "gulp-less": "^1.3.5",
+    "gulp-mocha": "^1.0.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-rimraf": "^0.1.0",
+    "requirejs": "^2.1.14"
+>>>>>>> phragm-master:__phragm/master/package.json
+  }
+}
