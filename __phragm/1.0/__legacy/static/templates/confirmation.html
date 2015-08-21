@@ -1,0 +1,22 @@
+
+<form role="form">
+<h1><span>Confirm Your Account</h1>
+<fieldset>
+  
+
+  <input type="text" id="name" placeholder="Username" data-char="[a-z0-9-]" pattern="^[a-z0-9-]{5,15}$" data-error="The username must be at least 5 characters." required>
+  
+  <input type="password" id="secret" data-char="[\S]" pattern="\S{8,}" placeholder="Confirmation Code" required>
+  <input type="email" class="form-control" id="email" placeholder="Email Address" required readonly>
+  <input type="hidden" id="key" required>
+  <input type="hidden" id="password" required>
+  <p class="btn-set">
+      <span class="progress">
+        <span class="bar"></span>
+      </span>
+
+    <button type="button" id="confirm" disabled>Confirm</button>
+    <a class="button inactive" href="/#" id="cancel">Cancel</a>
+  </p>
+  </fieldset>
+</form>

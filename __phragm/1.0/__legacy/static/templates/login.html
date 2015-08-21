@@ -1,0 +1,22 @@
+
+<form role="form">
+  <h1><span>Create Account</span><span class="inactive">Login</span></h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+  <fieldset>
+    <input type="text" id="name" placeholder="Username" data-char="[a-zA-Z0-9-]" pattern="^[a-zA-Z0-9-]{5,15}$" data-char-transform="toLowerCase" data-error="The username must be at least 5 characters and can contain only letters, numbers, or a dash '-'." required>
+    <input type="password" id="password" data-char="[\S]" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*=-]).{8,}$" data-error="This password must contain one upper case, one lower case, one digit, and a punctuation mark and at least 8 characters." placeholder="Password" required>
+    <div id="registration">
+    <input type="password" id="confirmPassword" data-char="[\S]" data-match="#password" placeholder="Confirm Password" required>
+    <input type="email" id="email" placeholder="Email Address" required>
+      <input type="hidden" name="apiKey" value="yaCCeDCruL/8ccbFz57sQZiDiu7FVzQfjkMirvSTMBWg19z5Hu8OqYww/2Q/Y3r/"/>
+    </div>
+    <p class="btn-set">
+      <span class="progress">
+        <span class="bar"></span>
+      </span>
+      <button type="button" id="register" disabled>Register</button>
+      <button type="button" class="inactive" id="signin">Sign in</button>
+      <button type="button" id="test">Test</button>
+    </p>
+  </fieldset>
+</form>
