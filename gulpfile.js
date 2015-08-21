@@ -11,7 +11,7 @@ var async = require('async');
 var merge = require('merge-stream');
 var jscs = require('gulp-jscs');
 var bump = require('gulp-bump'),
-  rename = require('gulp-rename'),
+    rename = require('gulp-rename'),
     glob = require('glob'),
     Handlebars = require('handlebars'),
     scss = require('gulp-scss'),
@@ -126,13 +126,14 @@ gulp.task('browserify', ['clean', 'lint'], function () {
 });
 
 gulp.task('scss', ['clean'], function () {
-  var dest =  gulp.dest('.tmp/build/css');
+  var dest = gulp.dest('.tmp/build/css');
   var main = gulp.src('static/scss/*.scss').pipe(scss());
 
   var site = gulp.src('static/scss/*.scss').pipe(scss()).pipe(rename({
-            basename: "site" }));
+    basename: "site"
+  }));
 
-  return merge(main,site).pipe(dest);
+  return merge(main, site).pipe(dest);
 });
 
 gulp.task('assets', ['clean'], function () {
@@ -205,13 +206,13 @@ gulp.task('uglify-js', ['browserify'], function () {
 
 gulp.task('critical', ['scss', 'metalsmith'], function () {
   critical.generateInline({
-        base: '.tmp/build',
-        src: 'index.html',
-        styleTarget: '.tmp/build/css/site.css',
-        htmlTarget: '.tmp/build/index.html',
-        width: 320,
-        height: 480,
-        minify: false
+    base: '.tmp/build',
+    src: 'index.html',
+    styleTarget: '.tmp/build/css/site.css',
+    htmlTarget: '.tmp/build/index.html',
+    width: 320,
+    height: 480,
+    minify: false
   });
 });
 
