@@ -8,8 +8,10 @@ var gulp = require('gulp');
 var beautify = require('gulp-beautify');
 var jshint = require('gulp-jshint');
 var async = require('async');
+var merge = require('merge-stream');
 var jscs = require('gulp-jscs');
 var bump = require('gulp-bump'),
+  rename = require('gulp-rename'),
     glob = require('glob'),
     Handlebars = require('handlebars'),
     scss = require('gulp-scss'),
@@ -28,6 +30,7 @@ var revquire = require('./gulp/revquire');
 
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var critical = require('critical');
 
 var metalsmith_build = require('./gulp/metalsmith');
 
@@ -123,14 +126,20 @@ gulp.task('browserify', ['clean', 'lint'], function () {
 });
 
 gulp.task('scss', ['clean'], function () {
-  return gulp.src('static/scss/*.scss').pipe(scss()).pipe(gulp.dest('.tmp/build/css'));
+  var dest =  gulp.dest('.tmp/build/css');
+  var main = gulp.src('static/scss/*.scss').pipe(scss());
+
+  var site = gulp.src('static/scss/*.scss').pipe(scss()).pipe(rename({
+            basename: "site" }));
+
+  return merge(main,site).pipe(dest);
 });
 
 gulp.task('assets', ['clean'], function () {
   return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'scss']);
+gulp.task('static', ['metalsmith', 'browserify', 'assets', 'critical']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -192,6 +201,18 @@ gulp.task('uglify-js', ['browserify'], function () {
     compress: false
   })).pipe(gulp.dest('.tmp/production'));
 
+});
+
+gulp.task('critical', ['scss', 'metalsmith'], function () {
+  critical.generateInline({
+        base: '.tmp/build',
+        src: 'index.html',
+        styleTarget: '.tmp/build/css/site.css',
+        htmlTarget: '.tmp/build/index.html',
+        width: 320,
+        height: 480,
+        minify: false
+  });
 });
 
 gulp.task('uglify-css', ['scss'], function () {
