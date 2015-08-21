@@ -66,6 +66,9 @@ html, body {
     overflow: auto;
     background-color: #000;
     padding: 10px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
     a {
       color: #FFF;
       text-decoration: none;
@@ -102,24 +105,32 @@ html, body {
     }
   }
   main {
-    margin: 40px 10px 20px;
+    margin: 80px 10px 20px;
     display: block;
     clear: both;
     .callout {
       display: table;
       margin: auto;
+      width: auto;
       & > * {
-        float: left;
+        display: table-cell;
         height: 100%;
+        float: left;
       }
       form {
-        display: table-cell;
         vertical-align: middle;
-        padding: 10px;
-        button,input {
-          font-size: 14pt;
+        padding: 10px 50px;
+        max-width: 300px;
+        p {
+          margin-top: 0px;
+        }
+        button,input, p {
           padding: 10px;
+
+        }
+        button,input {
           margin: 10px;
+          font-size: 14pt;
           clear: both;
           border: none;
           @include border-radius(5px);
