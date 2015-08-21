@@ -71,11 +71,18 @@ html, body {
       margin-right: 10px;
       overflow: auto;
       float: left;
-        display: block;
+      display: block;
+      &:last-child {
+        float: right;
+      }
       li {
         float: left;
         display: block;
         margin-right: 10px;
+        img {
+          margin: -0.15em 5px -0.15em 0px;
+          height: 1.0em;
+        }
         &.brand a{
           font-weight: 900;
 

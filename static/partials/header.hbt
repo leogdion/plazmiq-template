@@ -1,12 +1,16 @@
 <header>
   <nav>
     <ul>
-      <li class="brand"><a href="/#">beginkit</a></li>
+      <li class="brand"><a href="/#">
+  <img class="logo" src="/assets/images/power-button2.svg">beginkit</a></li>
     </ul>
     <ul>
      {{#each collections.pages}}
       <li><a href="/{{path}}">{{this.title}}</a></li>
       {{/each}}
+    </ul>
+    <ul><li><a href="https://github.com/brightdigit/beginkit"><img src="/assets/images/GitHub-Mark-Light-32px.png"></a></li>
+    <li><a href="https://www.brightdigit.com"><img src="/assets/images/bd-logo.svg"></a></li>
     </ul>
   </nav>
 </header>
