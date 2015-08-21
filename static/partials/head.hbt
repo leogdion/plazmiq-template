@@ -3,7 +3,7 @@
         <title>beginkit {{#if title}} - {{title}} {{/if}}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="alternate stylesheet" href="/css/style.css">
         <script src="/js/main.js" type="text/javascript" charset="utf-8" async defer></script>
         <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicons/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicons/apple-touch-icon-60x60.png">
