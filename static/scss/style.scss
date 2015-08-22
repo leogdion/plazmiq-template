@@ -108,10 +108,27 @@ html, body {
     margin: 80px 10px 20px;
     display: block;
     clear: both;
+    video#bgvid {
+      /*
+    position: fixed;
+    top: 50%;
+    left: 50%;*/
+
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(/assets/images/Dissolve_D1_3_061_1.jpg) no-repeat;
+    background-size: cover;
+    }
     .callout {
       display: table;
       margin: auto;
       width: auto;
+      bakground: transparentize(#333, 0.2);
       & > * {
         display: table-cell;
         height: 100%;
