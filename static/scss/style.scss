@@ -143,14 +143,21 @@ html, body {
       position: relative;
       z-index: 200;
       padding: 50px;
+      min-height: 40vh;
+      height: 40vh;
+      max-height: 60vh;
       & > * {
-        display: table-cell;
+        display: table;
         height: 100%;
         float: left;
+        & > * {
+          display: table-cell;
+          vertical-align: middle;
+        }
       }
       form {
         vertical-align: middle;
-        padding: 10px 50px;
+        padding: 0px 50px;
         max-width: 300px;
         p {
           margin-top: 0px;
@@ -181,7 +188,7 @@ html, body {
         margin: auto;
       }
       img.logo {
-        height: 50vmin;
+        height: 50%;
         display: block;
         margin: auto;
       }
