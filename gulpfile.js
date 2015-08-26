@@ -22,6 +22,7 @@ var bump = require('gulp-bump'),
     htmlmin = require('gulp-htmlmin'),
     uglify = require('gulp-uglify'),
     uglifycss = require('gulp-uglifycss'),
+    umd = require('gulp-umd'),
     awspublishRouter = require("gulp-awspublish-router");
 
 HandlebarsIntl = require('handlebars-intl');
@@ -108,9 +109,13 @@ gulp.task('handlebars', function () {
   });
 });
 
-gulp.task('browserify', ['clean', 'lint'], function () {
+gulp.task('umd', ['clean'], function () {
+  return gulp.src('static/js/**/*.js').pipe(umd()).pipe(gulp.dest('./.tmp/js'));
+});
+
+gulp.task('browserify', ['clean', 'lint', 'umd'], function () {
   var b = browserify({
-    entries: './static/js/main.js',
+    entries: './.tmp/js/main.js',
     debug: false
   });
 

@@ -1,6 +1,5 @@
-module.exports = {
+var App = {
   start: function () {
-    console.log("Hello World!");
     var cb = function () {
       var l = document.createElement('link');
       l.rel = 'stylesheet';

@@ -1,2 +1,4 @@
-var app = require('./app.js');
-app.start();
+var Main = (function () {
+  var app = require('./app');
+  app.start();
+})();
