@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.336",
+  "version": "1.9.344",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -70,6 +70,7 @@
     "pg-hstore": "^2.3.2",
     "rimraf": "^2.4.2",
     "sequelize": "^3.5.1",
+    "spin.js": "^2.3.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },

@@ -1,3 +1,5 @@
+var Spinner = require('spin.js');
+
 var User = (function () {
   var constructor = function () {
 
@@ -8,7 +10,9 @@ var User = (function () {
       this.app = app;
       console.log('user initialized');
       var form = document.getElementById("user-registration");
-      var inputs = ["input", "select", "textarea"].reduce(
+      var callout = document.getElementsByClassName("callout")[0];
+      var videoBg = document.getElementsByClassName("video-bg")[0];
+      var inputs = ["input", "select", "textarea", "button"].reduce(
 
       function (memo, tagName) {
         memo = memo.concat(Array.prototype.slice.call(form.getElementsByTagName(tagName)));
@@ -45,6 +49,13 @@ var User = (function () {
         };
         request.send(JSON.stringify(data));
         E.preventDefault();
+        var spinner = new Spinner().spin();
+        videoBg.appendChild(spinner.el);
+        callout.classList.add('fade');
+
+        for (var i = 0, len = inputs.length; i < len; i++) {
+          inputs[i].disabled = true;
+        }
       });
     }
   };

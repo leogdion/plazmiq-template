@@ -53,6 +53,11 @@ $cn-regular-suffix: to-lower-case($ttf-cn-regular-suffix);
 $ttf-cn-bold-suffix: 'Cn-Bld';
 $cn-bold-suffix: to-lower-case($ttf-cn-bold-suffix);
 */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
 
 html, body, input, button {
   font-family: 'Raleway', sans-serif;
@@ -146,6 +151,10 @@ html, body {
       min-height: 40vh;
       height: 40vh;
       max-height: 60vh;
+      transition: opacity 500ms;
+      &.fade {
+        opacity: 0.5;
+      }
       & > * {
         display: table;
         height: 100%;
