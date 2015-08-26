@@ -1,5 +1,7 @@
+var User = require('./controllers/user.js');
+
 var App = {
-  start: function () {
+  attachStyleSheet: function () {
     var cb = function () {
       var l = document.createElement('link');
       l.rel = 'stylesheet';
@@ -10,5 +12,11 @@ var App = {
     var raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
     if (raf) raf(cb);
     else window.addEventListener('load', cb);
+
+  },
+  start: function () {
+    var user = new User();
+    this.attachStyleSheet();
+    user.initialize();
   }
 };
