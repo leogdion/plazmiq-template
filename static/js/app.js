@@ -17,6 +17,9 @@ var App = {
   start: function () {
     var user = new User();
     this.attachStyleSheet();
-    user.initialize();
+    window.addEventListener('load', function () {
+      user.initialize();
+    });
+
   }
 };
