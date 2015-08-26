@@ -25,6 +25,7 @@ var bump = require('gulp-bump'),
     umd = require('gulp-umd'),
     awspublishRouter = require("gulp-awspublish-router");
 var substituter = require('gulp-substituter');
+var gulpFilter = require('gulp-filter');
 
 HandlebarsIntl = require('handlebars-intl');
 
@@ -179,11 +180,15 @@ gulp.task('beautify', ['jscs'], function () {
 });
 
 gulp.task('development', ['static'], function () {
-  return gulp.src('.tmp/build/**/*').pipe(substituter({
+  var filter = gulpFilter('*.html', {
+    restore: true
+  });
+
+  return gulp.src('.tmp/build/**/*').pipe(filter).pipe(substituter({
     configuration: JSON.stringify({
       "server": "http://localhost:5000"
     })
-  })).pipe(gulp.dest('build/development'));
+  })).pipe(filter.restore).pipe(gulp.dest('build/development'));
 });
 
 gulp.task('production', ['minify', 'production-assets'], function () {

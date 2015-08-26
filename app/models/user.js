@@ -16,7 +16,7 @@ module.exports = function (sequelize, DataTypes) {
       unique: true,
       allowNull: false,
       validate: {
-        is: /^  [a-z0-9]+    (?:             -             [a-z0-9]+   )*           $/
+        is: /^[a-z0-9]+(?:-[a-z0-9]+)*$/
       }
     },
     emailAddress: {

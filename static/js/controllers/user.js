@@ -4,7 +4,8 @@ var User = (function () {
   };
 
   constructor.prototype = {
-    initialize: function () {
+    initialize: function (app) {
+      this.app = app;
       console.log('user initialized');
       var form = document.getElementById("user-registration");
       var inputs = ["input", "select", "textarea"].reduce(
@@ -13,6 +14,7 @@ var User = (function () {
         memo = memo.concat(Array.prototype.slice.call(form.getElementsByTagName(tagName)));
         return memo;
       }, []);
+      var controller = this;
       form.addEventListener('submit', function (E) {
         var form = E.target;
         var data = inputs.reduce(function (memo, element) {
@@ -25,7 +27,7 @@ var User = (function () {
           return memo;
         }, {});
         var request = new XMLHttpRequest();
-        request.open('POST', 'http://localhost:5000/api/v1/users', true);
+        request.open('POST', controller.app.configuration.server + '/api/v1/users', true);
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         request.onload = function () {
           if (this.status >= 200 && this.status < 400) {

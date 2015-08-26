@@ -17,15 +17,14 @@ var App = {
   configuration: {},
   start: function () {
     var user = new User();
+    var App = this;
     this.attachStyleSheet();
     window.addEventListener('load', function () {
-      var configurationElement = document.getElementById('main-configuration'),
-          configuration;
+      var configurationElement = document.getElementById('main-configuration');
       if (configurationElement) {
-        configuration = JSON.parse(configurationElement.innerText.trim());
+        App.configuration = JSON.parse(configurationElement.innerText.trim()) || this.configuration;
       }
-      this.configuration = configuration;
-      user.initialize();
+      user.initialize(App);
     });
 
   }
