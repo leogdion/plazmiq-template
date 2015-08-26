@@ -14,10 +14,16 @@ var App = {
     else window.addEventListener('load', cb);
 
   },
+  configuration: {},
   start: function () {
     var user = new User();
     this.attachStyleSheet();
     window.addEventListener('load', function () {
+      var configurationElement, configuration;
+      if (configurationElement = document.getElementById('main-configuration')) {
+        configuration = JSON.parse(configurationElement.innerText.trim());
+      }
+      this.configuration = configuration;
       user.initialize();
     });
 

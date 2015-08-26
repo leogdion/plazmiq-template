@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Raleway:900,200,400,700">
         <link rel="stylesheet" href="/css/style.css">
         <script src="/js/main.js" type="text/javascript" charset="utf-8" async defer></script>
+        <script type="text/javascript" id="main-configuration">{"server":"http://localhost:5000"}</script>
         <link rel="apple-touch-icon" sizes="57x57" href="/assets/favicons/apple-touch-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/assets/favicons/apple-touch-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/assets/favicons/apple-touch-icon-72x72.png">
