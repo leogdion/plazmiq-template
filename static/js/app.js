@@ -19,8 +19,9 @@ var App = {
     var user = new User();
     this.attachStyleSheet();
     window.addEventListener('load', function () {
-      var configurationElement, configuration;
-      if (configurationElement = document.getElementById('main-configuration')) {
+      var configurationElement = document.getElementById('main-configuration'),
+          configuration;
+      if (configurationElement) {
         configuration = JSON.parse(configurationElement.innerText.trim());
       }
       this.configuration = configuration;

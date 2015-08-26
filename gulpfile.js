@@ -24,6 +24,7 @@ var bump = require('gulp-bump'),
     uglifycss = require('gulp-uglifycss'),
     umd = require('gulp-umd'),
     awspublishRouter = require("gulp-awspublish-router");
+var substituter = require('gulp-substituter');
 
 HandlebarsIntl = require('handlebars-intl');
 
@@ -178,7 +179,11 @@ gulp.task('beautify', ['jscs'], function () {
 });
 
 gulp.task('development', ['static'], function () {
-  return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
+  return gulp.src('.tmp/build/**/*').pipe(substituter({
+    configuration: JSON.stringify({
+      "server": "http://localhost:5000"
+    })
+  })).pipe(gulp.dest('build/development'));
 });
 
 gulp.task('production', ['minify', 'production-assets'], function () {
@@ -186,7 +191,11 @@ gulp.task('production', ['minify', 'production-assets'], function () {
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
   });
-  return gulp.src('.tmp/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
+  return gulp.src('.tmp/production/**/*').pipe(substituter({
+    configuration: JSON.stringify({
+      "server": "http://mysterious-oasis-7692.herokuapp.com"
+    })
+  })).pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
 });
 
 gulp.task('production-assets', ['static'], function () {
