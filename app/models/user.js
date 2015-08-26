@@ -15,13 +15,17 @@ module.exports = function (sequelize, DataTypes) {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
-      is: /^  [a-z0-9]+    (?:             -             [a-z0-9]+   )*           $/
+      validate: {
+        is: /^  [a-z0-9]+    (?:             -             [a-z0-9]+   )*           $/
+      }
     },
     emailAddress: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
-      isEmail: true
+      validate: {
+        isEmail: true
+      }
     },
     hash: {
       type: Sequelize.STRING(5000),

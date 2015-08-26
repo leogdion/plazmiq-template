@@ -24,7 +24,24 @@ var User = (function () {
           }
           return memo;
         }, {});
-        console.log(data);
+        var request = new XMLHttpRequest();
+        request.open('POST', 'http://localhost:5000/api/v1/users', true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        request.onload = function () {
+          if (this.status >= 200 && this.status < 400) {
+            // Success!
+            var resp = this.response;
+            console.log(resp);
+          } else {
+            // We reached our target server, but it returned an error
+            console.log(this);
+          }
+        };
+
+        request.onerror = function () {
+          // There was a connection error of some sort
+        };
+        request.send(JSON.stringify(data));
         E.preventDefault();
       });
     }
