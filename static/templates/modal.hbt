@@ -1,0 +1,15 @@
+<div class="modal">
+<section>
+<header>
+<i class="fa fa-times"></i>
+</header>
+<main>
+<div class="message">
+{{ message }}
+</div>
+</main>
+<footer>
+<button>Ok</button>
+</footer>
+</section>
+</div>

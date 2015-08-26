@@ -127,6 +127,7 @@ gulp.task('build', ['clean', 'browserify', 'sass', 'copy', 'lint', 'metalsmith',
 
 gulp.task('default', ['development', 'production']);
 
+
 gulp.task('development', ['build'], function () {
   return gulp.src('.tmp/build/**/*').pipe(gulp.dest('build/development'));
 });

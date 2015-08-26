@@ -1,4 +1,5 @@
 var Spinner = require('spin.js');
+var modal = require("../libs/modal");
 
 var User = (function () {
   var constructor = function () {
@@ -34,18 +35,38 @@ var User = (function () {
         request.open('POST', controller.app.configuration.server + '/api/v1/users', true);
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         request.onload = function () {
+          var i = 0;
           if (this.status >= 200 && this.status < 400) {
             // Success!
             var resp = this.response;
             console.log(resp);
+            videoBg.removeChild(spinner.el);
+            callout.classList.remove('fade');
+
+            for (i = 0, len = inputs.length; i < len; i++) {
+              inputs[i].disabled = false;
+            }
           } else {
             // We reached our target server, but it returned an error
-            console.log(this);
+            //vex.dialog.alert('Thanks for checking out Vex!');
+            videoBg.removeChild(spinner.el);
+            callout.classList.remove('fade');
+
+            for (i = 0, len = inputs.length; i < len; i++) {
+              inputs[i].disabled = false;
+            }
+            modal(this.response);
           }
         };
 
         request.onerror = function () {
           // There was a connection error of some sort
+          videoBg.removeChild(spinner.el);
+          callout.classList.remove('fade');
+
+          for (var i = 0, len = inputs.length; i < len; i++) {
+            inputs[i].disabled = false;
+          }
         };
         request.send(JSON.stringify(data));
         E.preventDefault();

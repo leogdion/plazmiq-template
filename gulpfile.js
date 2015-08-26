@@ -35,6 +35,12 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var critical = require('critical');
 
+var handlebars = require('gulp-handlebars');
+var wrap = require('gulp-wrap');
+var declare = require('gulp-declare');
+var concat = require('gulp-concat');
+var insert = require('gulp-insert');
+
 var metalsmith_build = require('./gulp/metalsmith');
 
 var async = require('async'),
@@ -111,11 +117,19 @@ gulp.task('handlebars', function () {
   });
 });
 
+
+gulp.task('templates', ['clean'], function () {
+  gulp.src('static/templates/*.hbt').pipe(handlebars()).pipe(wrap('Handlebars.template(<%= contents %>)')).pipe(declare({
+    root: "Templates"
+    // Avoid duplicate declarations 
+  })).pipe(concat('templates.js')).pipe(insert.prepend('var Handlebars = require(\'handlebars\'); var Templates = Templates || {};')).pipe(umd()).pipe(gulp.dest('.tmp/js/'));
+});
+
 gulp.task('umd', ['clean'], function () {
   return gulp.src('static/js/**/*.js').pipe(umd()).pipe(gulp.dest('./.tmp/js'));
 });
 
-gulp.task('browserify', ['clean', 'lint', 'umd'], function () {
+gulp.task('browserify', ['clean', 'lint', 'umd', 'templates'], function () {
   var b = browserify({
     entries: './.tmp/js/main.js',
     debug: false
@@ -147,7 +161,11 @@ gulp.task('assets', ['clean'], function () {
   return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'critical']);
+gulp.task('fonts', ['clean'], function () {
+  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/build/assets/fonts/font-awesome'));
+});
+
+gulp.task('static', ['metalsmith', 'browserify', 'assets', 'fonts', 'critical']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
