@@ -1,16 +1,21 @@
-//var nodemailer = require('nodemailer');
-var configuration = require('../configuration');
-var _ = require('lodash');
-var templates = require('./templates.js')(__dirname + '/../templates');
-var postmark = require('postmark')(configuration.mail.postmark.api_key || process.env[configuration.mail.postmark.api_key_env]);
+var templates = require('./templates.js')(__dirname + '/../../static/emails');
 
+var postmark = require('postmark');
+var pmConfig = require('../../gulp/revquire')({
+  "apiKey": "POSTMARK_API_KEY",
+  "apiToken": "POSTMARK_API_TOKEN",
+  "inboundAddress": "POSTMARK_INBOUND_ADDRESS",
+  "smtpServe": "POSTMARK_SMTP_SERVER"
+}, __dirname + '/../../.credentials/postmark.json');
+
+var client = new postmark.Client(pmConfig.apiKey);
 module.exports = {
   queue: function (template, data, callback) {
     templates(template, data, function (error, mailOptions) {
       if (error) {
         callback(error);
       } else {
-        postmark.send(mailOptions, callback);
+        client.send(mailOptions, callback);
       }
 
 /*

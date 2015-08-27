@@ -1,5 +1,5 @@
 var lsr = require('./lsr');
-var _ = require('lodash');
+var Handlebars = require('handlebars');
 var path = require('path');
 var async = require('async');
 
@@ -51,7 +51,7 @@ module.exports = function () {
         cb();
       }
       Object.keys(data).forEach(function (name) {
-        templates[name] = _.template(data[name]);
+        templates[name] = Handlebars.compile(data[name]);
       });
       cb(undefined, datatemplate(templates));
     }

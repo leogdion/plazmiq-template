@@ -1,14 +1,22 @@
-var configuration = require('../libs/configuration');
 var url = require('url');
-var postmark = require('postmark');
-var pmConfig = require('../../gulp/revquire')({
-  "apiKey": "POSTMARK_API_KEY",
-  "apiToken": "POSTMARK_API_TOKEN",
-  "inboundAddress": "POSTMARK_INBOUND_ADDRESS",
-  "smtpServe": "POSTMARK_SMTP_SERVER"
-}, __dirname + '/../../.credentials/postmark.json');
+var emailer = require('../libs/emailer');
 
-var client = new postmark.Client (pmConfig.apiKey);
+var urls = {
+  _: "web",
+  web: {
+    _: "dev",
+    dev: "http://localhost:8081",
+    qa: "http://mysterious-oasis-7692.herokuapp.com",
+    prod: "http://mysterious-oasis-7692.herokuapp.com"
+  }
+};
+
+function baseUrl(source, stage) {
+  source = source || urls._;
+  stage = stage || urls[source]._;
+
+  return urls[source][stage];
+}
 
 module.exports = function (include) {
 
@@ -26,8 +34,8 @@ module.exports = function (include) {
           res.send('show');
         },
         create: function (req, res, next) {
-          var components = url.parse(req.get('referer') || req.get('origin'));
-
+          var components = url.parse(req.get('referer') || req.get('origin') || baseUrl(req.body.source, req.body.stage));
+          console.log(components);
           User.register({
             name: req.body.name,
             emailAddress: req.body.emailAddress
@@ -41,8 +49,19 @@ module.exports = function (include) {
               slashes: components.slashes,
               search: "activationKey=" + user.activationKey
             });
-            res.send({
-              "name": user.name
+
+            emailer.queue('confirmation', {
+              email: user.emailAddress,
+              url: fullUrl
+            }, function (error, response) {
+              if (error) {
+                res.status(400).send(error);
+              } else {
+
+                res.send({
+                  "name": user.name
+                });
+              }
             });
           });
         },
