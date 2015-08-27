@@ -160,12 +160,17 @@ html, body {
         display: table;
         height: 100%;
         float: left;
+        position: relative;
         & > * {
           display: table-cell;
           vertical-align: middle;
         }
       }
       form {
+        &#user-activation {
+          position: absolute;
+          left: 0px;
+        }
         vertical-align: middle;
         padding: 0px 50px;
         max-width: 300px;
@@ -183,7 +188,6 @@ html, body {
           border: none;
           @include border-radius(5px);
           display: block;
-
         }
         button {
           margin-bottom: 0px;
@@ -216,6 +220,15 @@ html, body {
   footer {
     margin: 20px 10px;
   }
+}
+
+.fade {
+  opacity: 0.0;
+  transition: opacity 2000ms;
+}
+
+.fade.in {
+  opacity: 1.0;
 }
 
 .modal {

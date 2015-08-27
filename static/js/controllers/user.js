@@ -1,24 +1,79 @@
 var Spinner = require('spin.js');
 var modal = require("../libs/modal");
+var templates = require('../templates');
 
 var User = (function () {
   var constructor = function () {
 
   };
 
+  function whichTransitionEvent() {
+    var t;
+    var el = document.createElement('fakeelement');
+    var transitions = {
+      'transition': 'transitionend',
+      'OTransition': 'oTransitionEnd',
+      'MozTransition': 'transitionend',
+      'WebkitTransition': 'webkitTransitionEnd'
+    };
+
+    for (t in transitions) {
+      if (el.style[t] !== undefined) {
+        return transitions[t];
+      }
+    }
+  }
+
+  function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+
   constructor.prototype = {
+    hashChange: function (evt) {
+      var activationKey = getParameterByName('activationKey');
+      if (activationKey) {
+        var transitionEvent = whichTransitionEvent();
+        if (transitionEvent) {
+          this.form.addEventListener(transitionEvent, function () {
+            console.log('Transition complete!  This is the callback, no library needed!');
+          });
+        }
+        this.form.classList.add('fade');
+        var d = document.createElement('div');
+        d.innerHTML = templates.activation({
+          activationKey: activationKey
+        });
+        var activationForm = this.form.parentNode.appendChild(d.firstChild);
+        activationForm.classList.add('fade');
+        setTimeout(function () {
+          activationForm.classList.add('in');
+
+        }, 100);
+        var inputs = activationForm.getElementsByTagName('input');
+        for (var i = 0, len = inputs.length; i < len; i++) {
+          inputs[i].readOnly = !! (inputs[i].value);
+        }
+      }
+    },
     initialize: function (app) {
       this.app = app;
+      this.app.hashChange(this);
       console.log('user initialized');
+
       var form = document.getElementById("user-registration");
       var callout = document.getElementsByClassName("callout")[0];
       var videoBg = document.getElementsByClassName("video-bg")[0];
       var inputs = ["input", "select", "textarea", "button"].reduce(
 
+
       function (memo, tagName) {
         memo = memo.concat(Array.prototype.slice.call(form.getElementsByTagName(tagName)));
         return memo;
       }, []);
+      this.form = form;
       var controller = this;
       form.addEventListener('submit', function (E) {
         var form = E.target;
