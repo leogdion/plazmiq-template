@@ -32,30 +32,34 @@ var User = (function () {
   }
 
   constructor.prototype = {
+    changeActivation: function (activationKey) {
+      activationKey = '';
+      var transitionEvent = whichTransitionEvent();
+      if (transitionEvent) {
+        this.form.addEventListener(transitionEvent, function () {
+          console.log('Transition complete!  This is the callback, no library needed!');
+        });
+      }
+      this.form.classList.add('fade');
+      var d = document.createElement('div');
+      d.innerHTML = templates.activation({
+        activationKey: activationKey
+      });
+      var activationForm = this.form.parentNode.appendChild(d.firstChild);
+      activationForm.classList.add('fade');
+      setTimeout(function () {
+        activationForm.classList.add('in');
+
+      }, 100);
+      var inputs = activationForm.getElementsByTagName('input');
+      for (var i = 0, len = inputs.length; i < len; i++) {
+        inputs[i].readOnly = !! (inputs[i].value);
+      }
+    },
     hashChange: function (evt) {
       var activationKey = getParameterByName('activationKey');
       if (activationKey) {
-        var transitionEvent = whichTransitionEvent();
-        if (transitionEvent) {
-          this.form.addEventListener(transitionEvent, function () {
-            console.log('Transition complete!  This is the callback, no library needed!');
-          });
-        }
-        this.form.classList.add('fade');
-        var d = document.createElement('div');
-        d.innerHTML = templates.activation({
-          activationKey: activationKey
-        });
-        var activationForm = this.form.parentNode.appendChild(d.firstChild);
-        activationForm.classList.add('fade');
-        setTimeout(function () {
-          activationForm.classList.add('in');
-
-        }, 100);
-        var inputs = activationForm.getElementsByTagName('input');
-        for (var i = 0, len = inputs.length; i < len; i++) {
-          inputs[i].readOnly = !! (inputs[i].value);
-        }
+        this.changeActivation(activationKey);
       }
     },
     initialize: function (app) {
@@ -101,6 +105,7 @@ var User = (function () {
             for (i = 0, len = inputs.length; i < len; i++) {
               inputs[i].disabled = false;
             }
+            controller.changeActivation();
           } else {
             // We reached our target server, but it returned an error
             //vex.dialog.alert('Thanks for checking out Vex!');
