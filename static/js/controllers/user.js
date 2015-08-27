@@ -65,20 +65,42 @@ var User = (function () {
     initialize: function (app) {
       this.app = app;
       this.app.hashChange(this);
-      console.log('user initialized');
+      var controller = this;
 
       var form = document.getElementById("user-registration");
       var callout = document.getElementsByClassName("callout")[0];
       var videoBg = document.getElementsByClassName("video-bg")[0];
+      var submitBtn = Array.prototype.slice.call(form.getElementsByTagName("button")).filter(function (btn) {
+        return btn.type == "submit";
+      })[0];
       var inputs = ["input", "select", "textarea", "button"].reduce(
-
 
       function (memo, tagName) {
         memo = memo.concat(Array.prototype.slice.call(form.getElementsByTagName(tagName)));
         return memo;
       }, []);
+      if (controller.app.configuration.debug) {
+        var btnParent = document.createElement('div');
+        btnParent.innerHTML = "<button class=\"test\" type=\"button\">Test</button>";
+
+        var testButton = submitBtn.parentNode.insertBefore(btnParent.firstChild, submitBtn);
+        testButton.addEventListener('click', function (evt) {
+          var data = {
+            name: "test",
+            emailAddress: "test",
+            password: "test",
+            "confirm-password": "test"
+          };
+          for (var i = 0, len = inputs.length; i < len; i++) {
+            var name = inputs[i].getAttribute('name');
+            var value = name && data[name];
+            if (value) {
+              inputs[i].setAttribute('value', value);
+            }
+          }
+        });
+      }
       this.form = form;
-      var controller = this;
       form.addEventListener('submit', function (E) {
         var form = E.target;
         var data = inputs.reduce(function (memo, element) {

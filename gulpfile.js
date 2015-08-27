@@ -204,7 +204,8 @@ gulp.task('development', ['static'], function () {
 
   return gulp.src('.tmp/build/**/*').pipe(filter).pipe(substituter({
     configuration: JSON.stringify({
-      "server": "http://localhost:5000"
+      "server": "http://localhost:5000",
+      "debug": true
     })
   })).pipe(filter.restore).pipe(gulp.dest('build/development'));
 });

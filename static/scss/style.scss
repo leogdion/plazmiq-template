@@ -191,6 +191,13 @@ html, body {
         }
         button {
           margin-bottom: 0px;
+          float: left;
+          display: inline-block;
+          clear: none;
+          &.test {
+            background-color: #FFF;
+            color: #F00;
+          }
         }
         input {
 
