@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.371",
+  "version": "1.9.372",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -74,6 +74,7 @@
     "passport-local-sequelize": "^0.6.0",
     "pg": "^4.4.1",
     "pg-hstore": "^2.3.2",
+    "postmark": "^1.2.1",
     "rimraf": "^2.4.2",
     "sequelize": "^3.5.1",
     "spin.js": "^2.3.2",

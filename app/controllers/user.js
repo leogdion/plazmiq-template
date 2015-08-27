@@ -1,3 +1,5 @@
+var configuration = require('../libs/configuration');
+
 module.exports = function (include) {
 
   var User = require("../models").User;
@@ -14,6 +16,7 @@ module.exports = function (include) {
           res.send('show');
         },
         create: function (req, res, next) {
+          console.log(req);
           User.register({
             name: req.body.name,
             emailAddress: req.body.emailAddress
