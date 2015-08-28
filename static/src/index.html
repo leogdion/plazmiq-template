@@ -18,7 +18,7 @@ layout: default.hbt
         <input name="password" type="password" placeholder="Password" data-char="[\S]" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" data-error="This password must contain one upper case, one lower case, one digit, and a punctuation mark and at least 8 characters." placeholder="Password" required>
         <input name="confirm-password" type="password" placeholder="Confirm Password" equalTo="[name='password']" required data-ignore>
         <input name="email" type="email" placeholder="Email Address" required>
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled>Sign Up</button>
       </form>
     </div>
   </section>

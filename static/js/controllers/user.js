@@ -24,6 +24,35 @@ var User = (function () {
     }
   }
 
+  function keypress(evt) {
+    var regex = evt.target.dataset.char;
+
+    if (regex) {
+
+      console.log(String.fromCharCode(evt.which));
+      if (!(String.fromCharCode(evt.which).match(regex))) {
+        evt.preventDefault();
+      }
+    }
+  }
+
+  function validate(evt) {
+    if (evt.target.value !== undefined && evt.target.dataset.charTransform) {
+      evt.target.value = evt.target.value[evt.target.dataset.charTransform]();
+    }
+
+    var pattern = evt.target.getAttribute('pattern');
+    if (pattern) {
+      if (!(new RegExp(pattern)).test(evt.target.value.trim())) {
+        evt.target.classList.add('error');
+      } else {
+        evt.target.classList.remove('error');
+      }
+      evt.target.classList.add('validated');
+    }
+    //$this.val($this.val()[$this.attr('data-char-transform')]());
+  }
+
   function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -78,6 +107,10 @@ var User = (function () {
         memo = memo.concat(Array.prototype.slice.call(form.getElementsByTagName(tagName)));
         return memo;
       }, []);
+      for (var i = 0, len = inputs.length; i < len; i++) {
+        inputs[i].addEventListener('keypress', keypress);
+        inputs[i].addEventListener('blur', validate);
+      }
       if (controller.app.configuration.debug) {
         var faker = require('faker');
         var username = faker.fake('{{name.firstName}}{{name.lastName}}').toLowerCase();
