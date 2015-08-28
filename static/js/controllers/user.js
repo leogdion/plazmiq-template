@@ -42,14 +42,14 @@ var User = (function () {
     var pattern = evt.target.getAttribute('pattern');
     if (pattern) {
       if (!(new RegExp(pattern)).test(evt.target.value.trim())) {
-        evt.target.classList.add('error');
+        evt.target.setCustomValidity(evt.target.dataset.error);
       } else {
-        evt.target.classList.remove('error');
+        evt.target.setCustomValidity("");
       }
     }
+
     evt.target.dataset.validated = true;
     controller.applyValidate(evt);
-    //$this.val($this.val()[$this.attr('data-char-transform')]());
   }
 
   function getParameterByName(name) {
@@ -64,7 +64,7 @@ var User = (function () {
       var isValid = true;
       for (var i = 0, len = this.inputs.length; i < len && isValid; i++) {
         var input = this.inputs[i];
-        isValid = input.tagName.toLowerCase() == "button" || (input.dataset.validated && !(input.classList.contains("error")));
+        isValid = input.tagName.toLowerCase() == "button" || (input.dataset.validated && input.validity.valid);
       }
       this.submitButton.disabled = !isValid;
     },
@@ -118,8 +118,31 @@ var User = (function () {
         var v = validate.bind(undefined, controller);
         var k = keypress.bind(undefined, controller);
         inputs[i].addEventListener('keypress', k);
-        inputs[i].addEventListener('keydown', v);
+        inputs[i].addEventListener('keyup', v);
         inputs[i].addEventListener('blur', v);
+        inputs[i].parentNode.addEventListener('mouseover', function (evt) {
+          var target = evt.target.tagName.toLowerCase() === 'input' ? evt.target.parentNode : evt.target;
+          var errorMsg = target.classList.contains('error-message') ? target : target.getElementsByClassName('error-message')[0];
+          if (errorMsg) {
+            errorMsg.classList.add("active");
+          }
+        });
+        inputs[i].parentNode.addEventListener('mouseout', function (evt) {
+          var target = evt.target.tagName.toLowerCase() === 'input' ? evt.target.parentNode : evt.target;
+          var errorMsg = target.getElementsByClassName('error-message')[0];
+          if (errorMsg) {
+            errorMsg.classList.remove("active");
+          }
+        });
+        var errorMessage = inputs[i].dataset.error;
+        if (errorMessage) {
+          var divContainer = document.createElement("div");
+          var paragraphElement = document.createElement("p");
+          paragraphElement.innerHTML = errorMessage;
+          divContainer.classList.add("error-message");
+          divContainer.appendChild(paragraphElement);
+
+        }
       }
       this.inputs = inputs;
       this.submitButton = submitBtn;
