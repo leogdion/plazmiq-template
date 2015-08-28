@@ -33,7 +33,7 @@ var User = (function () {
 
   constructor.prototype = {
     changeActivation: function (activationKey) {
-      activationKey = '';
+      activationKey = activationKey || '';
       var transitionEvent = whichTransitionEvent();
       if (transitionEvent) {
         this.form.addEventListener(transitionEvent, function () {
