@@ -34,7 +34,8 @@ module.exports = (function () {
       }
     }).use(publish(publishSettings)).use(define({
       pkg: require(basePath + '/package.json'),
-      buildDate: new Date()
+      buildDate: new Date(),
+      stage: stage.substring(0, 3)
     })).use(collections({
       posts: {
         pattern: 'posts/*.md',

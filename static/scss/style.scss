@@ -94,7 +94,7 @@ html, body {
       overflow: auto;
       float: left;
       display: block;
-      &:last-of-type  {
+      &:last-of-type,&.float-right  {
         float: right;
       }
       li {
@@ -107,7 +107,14 @@ html, body {
         }
         &.brand a{
           font-weight: 900;
-
+        }
+        &#build {
+          font-weight: 100;
+          font-size: 0.8em;
+          line-height: 1.75em;
+          &.dev {
+            color: #F00;
+          }
         }
       }
     }

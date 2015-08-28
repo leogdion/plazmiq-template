@@ -9,7 +9,7 @@
       <li><a href="/{{path}}">{{this.title}}</a></li>
       {{/each}}
     </ul>
-    <ul><li><a href="https://github.com/brightdigit/beginkit"><img src="/assets/images/GitHub-Mark-Light-32px.png"></a></li>
+    <ul class="float-right"><li><a href="https://github.com/brightdigit/beginkit"><img src="/assets/images/GitHub-Mark-Light-32px.png"></a></li>
     <li><a href="https://www.brightdigit.com"><img src="/assets/images/bd-logo.svg"></a></li>
     </ul>
     <form>
@@ -17,5 +17,8 @@
           <input class="" name="password" type="password" placeholder="password" minlength="8" maxlength="255" required>
           <button>Log In</button>
     </form>
+    <ul class="float-right">
+      <li id="build" class="{{ stage }}">{{ pkg.version }}-{{ stage }}</li>
+    </ul>
   </nav>
 </header>
