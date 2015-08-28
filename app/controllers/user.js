@@ -35,10 +35,9 @@ module.exports = function (include) {
         },
         create: function (req, res, next) {
           var components = url.parse(req.get('referer') || req.get('origin') || baseUrl(req.body.source, req.body.stage));
-          console.log(components);
           User.register({
             name: req.body.name,
-            emailAddress: req.body.emailAddress
+            email: req.body.email
           }, req.body.password, function (err, user) {
             if (err) {
               return next(err);
@@ -51,7 +50,9 @@ module.exports = function (include) {
             });
 
             emailer.queue('confirmation', {
-              email: user.emailAddress,
+              email: user.email,
+              name: user.name,
+              activationKey: user.activationKey,
               url: fullUrl
             }, function (error, response) {
               if (error) {

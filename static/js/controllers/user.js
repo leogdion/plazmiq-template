@@ -32,8 +32,7 @@ var User = (function () {
   }
 
   constructor.prototype = {
-    changeActivation: function (activationKey) {
-      activationKey = activationKey || '';
+    changeActivation: function (data) {
       var transitionEvent = whichTransitionEvent();
       if (transitionEvent) {
         this.form.addEventListener(transitionEvent, function () {
@@ -42,9 +41,7 @@ var User = (function () {
       }
       this.form.classList.add('fade');
       var d = document.createElement('div');
-      d.innerHTML = templates.activation({
-        activationKey: activationKey
-      });
+      d.innerHTML = templates.activation(data);
       var activationForm = this.form.parentNode.appendChild(d.firstChild);
       activationForm.classList.add('fade');
       setTimeout(function () {
@@ -59,7 +56,9 @@ var User = (function () {
     hashChange: function (evt) {
       var activationKey = getParameterByName('activationKey');
       if (activationKey) {
-        this.changeActivation(activationKey);
+        this.changeActivation({
+          activationKey: activationKey
+        });
       }
     },
     initialize: function (app) {
@@ -80,14 +79,16 @@ var User = (function () {
         return memo;
       }, []);
       if (controller.app.configuration.debug) {
+        var faker = require('faker');
+        var username = faker.fake('{{name.firstName}}{{name.lastName}}').toLowerCase();
         var btnParent = document.createElement('div');
         btnParent.innerHTML = "<button class=\"test\" type=\"button\">Test</button>";
 
         var testButton = submitBtn.parentNode.insertBefore(btnParent.firstChild, submitBtn);
         testButton.addEventListener('click', function (evt) {
           var data = {
-            name: "test",
-            emailAddress: "test",
+            name: username,
+            email: "test+" + username + "@brightdigit.com",
             password: "test",
             "confirm-password": "test"
           };
@@ -120,14 +121,14 @@ var User = (function () {
           if (this.status >= 200 && this.status < 400) {
             // Success!
             var resp = this.response;
-            console.log(resp);
+
             videoBg.removeChild(spinner.el);
             callout.classList.remove('fade');
 
             for (i = 0, len = inputs.length; i < len; i++) {
               inputs[i].disabled = false;
             }
-            controller.changeActivation();
+            controller.changeActivation(JSON.parse(resp));
           } else {
             // We reached our target server, but it returned an error
             //vex.dialog.alert('Thanks for checking out Vex!');

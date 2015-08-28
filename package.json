@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.407",
+  "version": "1.9.417",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "critical": "^0.6.0",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
+    "faker": "^3.0.1",
     "font-awesome": "fortawesome/Font-Awesome",
     "glob": "^5.0.14",
     "gulp-awspublish": "^2.0.2",

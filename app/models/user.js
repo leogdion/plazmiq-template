@@ -16,10 +16,11 @@ module.exports = function (sequelize, DataTypes) {
       unique: true,
       allowNull: false,
       validate: {
+        len: [3, 15],
         is: /^[a-z0-9]+(?:-[a-z0-9]+)*$/
       }
     },
-    emailAddress: {
+    email: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,

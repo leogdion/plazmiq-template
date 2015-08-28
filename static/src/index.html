@@ -14,10 +14,10 @@ layout: default.hbt
     <div>
       <form id="user-registration">
         <p>Pellentesque diam ex, auctor ut laoreet id, luctus vitae libero. Vestibulum pharetra est nulla, vitae tincidunt tortor ultricies vitae.</p>
-        <input class="" name="name" type="text" placeholder="Name" minlength="5" maxlength="15" required>
-        <input class="" name="password" type="password" placeholder="Password" minlength="8" maxlength="255" required>
-        <input class="ignore" name="confirm-password" type="password" placeholder="Confirm Password" equalTo="[name='password']" required data-ignore>
-        <input name="emailAddress" type="emailAddress" placeholder="Email Address" required>
+        <input name="name" type="text" placeholder="Name" minlength="3" maxlength="15" data-char="[a-zA-Z0-9-]" pattern="^[a-zA-Z0-9-]{5,15}$" data-char-transform="toLowerCase" data-error="The username must be at least 5 characters and can contain only letters, numbers, or a dash '-'." required>
+        <input name="password" type="password" placeholder="Password" data-char="[\S]" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" data-error="This password must contain one upper case, one lower case, one digit, and a punctuation mark and at least 8 characters." placeholder="Password" required>
+        <input name="confirm-password" type="password" placeholder="Confirm Password" equalTo="[name='password']" required data-ignore>
+        <input name="email" type="email" placeholder="Email Address" required>
         <button type="submit">Sign Up</button>
       </form>
     </div>
