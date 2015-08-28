@@ -5,7 +5,7 @@
 }
 
 $fa-font-path: "/assets/fonts/font-awesome";
-
+$submit-button-bg-color: #36C;
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
 
 /*
@@ -204,6 +204,15 @@ html, body {
           &.test {
             background-color: #FFF;
             color: #F00;
+          }
+          &[type="submit"] {
+            background-color: $submit-button-bg-color;
+            color: #FFF;
+            transition: background-color 500ms linear, opacity 500ms linear;
+          }
+          &:disabled {
+            opacity: 0.5;
+            background-color: desaturate($submit-button-bg-color, 100%);
           }
         }
         input {

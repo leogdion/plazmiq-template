@@ -24,19 +24,17 @@ var User = (function () {
     }
   }
 
-  function keypress(evt) {
+  function keypress(controller, evt) {
     var regex = evt.target.dataset.char;
 
     if (regex) {
-
-      console.log(String.fromCharCode(evt.which));
       if (!(String.fromCharCode(evt.which).match(regex))) {
         evt.preventDefault();
       }
     }
   }
 
-  function validate(evt) {
+  function validate(controller, evt) {
     if (evt.target.value !== undefined && evt.target.dataset.charTransform) {
       evt.target.value = evt.target.value[evt.target.dataset.charTransform]();
     }
@@ -48,8 +46,9 @@ var User = (function () {
       } else {
         evt.target.classList.remove('error');
       }
-      evt.target.classList.add('validated');
     }
+    evt.target.dataset.validated = true;
+    controller.applyValidate(evt);
     //$this.val($this.val()[$this.attr('data-char-transform')]());
   }
 
@@ -61,6 +60,14 @@ var User = (function () {
   }
 
   constructor.prototype = {
+    applyValidate: function (evt) {
+      var isValid = true;
+      for (var i = 0, len = this.inputs.length; i < len && isValid; i++) {
+        var input = this.inputs[i];
+        isValid = input.tagName.toLowerCase() == "button" || (input.dataset.validated && !(input.classList.contains("error")));
+      }
+      this.submitButton.disabled = !isValid;
+    },
     changeActivation: function (data) {
       var transitionEvent = whichTransitionEvent();
       if (transitionEvent) {
@@ -108,12 +115,17 @@ var User = (function () {
         return memo;
       }, []);
       for (var i = 0, len = inputs.length; i < len; i++) {
-        inputs[i].addEventListener('keypress', keypress);
-        inputs[i].addEventListener('blur', validate);
+        var v = validate.bind(undefined, controller);
+        var k = keypress.bind(undefined, controller);
+        inputs[i].addEventListener('keypress', k);
+        inputs[i].addEventListener('keydown', v);
+        inputs[i].addEventListener('blur', v);
       }
+      this.inputs = inputs;
+      this.submitButton = submitBtn;
       if (controller.app.configuration.debug) {
         var faker = require('faker');
-        var username = faker.fake('{{name.firstName}}{{name.lastName}}').toLowerCase();
+        var username = faker.fake('{{name.firstName}}{{name.lastName}}').toLowerCase().substring(0, 14);
         var btnParent = document.createElement('div');
         btnParent.innerHTML = "<button class=\"test\" type=\"button\">Test</button>";
 
@@ -122,14 +134,18 @@ var User = (function () {
           var data = {
             name: username,
             email: "test+" + username + "@brightdigit.com",
-            password: "test",
-            "confirm-password": "test"
+            password: "testTEST123!",
+            "confirm-password": "testTEST123!"
           };
+          var inputEvt;
           for (var i = 0, len = inputs.length; i < len; i++) {
             var name = inputs[i].getAttribute('name');
             var value = name && data[name];
             if (value) {
+              inputEvt = document.createEvent('HTMLEvents');
+              inputEvt.initEvent('blur', true, false);
               inputs[i].setAttribute('value', value);
+              inputs[i].dispatchEvent(inputEvt);
             }
           }
         });
