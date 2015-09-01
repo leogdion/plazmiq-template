@@ -1,7 +1,10 @@
 gulp = node_modules/gulp/bin/gulp.js --harmony
 static = node_modules/node-static/bin/cli.js 
+NODE_PATH := $(source ~/.nvm/nvm.sh >&/dev/null && nvm install >&/dev/null && nvm use >&/dev/null && dirname $(which node))
+PATH := $(NODE_PATH):$(shell echo $$PATH)
+
 PHONY: all
-depend:
+depend: 
 	npm install 
 all: depend
 	$(gulp) ${task}
