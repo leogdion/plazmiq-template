@@ -167,7 +167,7 @@ var User = (function () {
             if (value) {
               inputEvt = document.createEvent('HTMLEvents');
               inputEvt.initEvent('blur', true, false);
-              inputs[i].setAttribute('value', value);
+              inputs[i].value = value;
               inputs[i].dispatchEvent(inputEvt);
             }
           }
