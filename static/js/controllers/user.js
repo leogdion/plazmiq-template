@@ -7,6 +7,20 @@ var User = (function () {
 
   };
 
+  function closest(elem, selector) {
+
+    var matchesSelector = elem.matches || elem.webkitMatchesSelector || elem.mozMatchesSelector || elem.msMatchesSelector;
+
+    while (elem) {
+      if (matchesSelector.bind(elem)(selector)) {
+        return elem;
+      } else {
+        elem = elem.parentElement;
+      }
+    }
+    return false;
+  }
+
   function whichTransitionEvent() {
     var t;
     var el = document.createElement('fakeelement');
@@ -38,18 +52,19 @@ var User = (function () {
     if (evt.target.value !== undefined && evt.target.dataset.charTransform) {
       evt.target.value = evt.target.value[evt.target.dataset.charTransform]();
     }
-
-    var pattern = evt.target.getAttribute('pattern');
-    if (pattern) {
-      if (!(new RegExp(pattern)).test(evt.target.value.trim())) {
-        evt.target.setCustomValidity(evt.target.dataset.error);
-      } else {
-        evt.target.setCustomValidity("");
+/*
+    var errorMessage = "";
+    if (evt.target.dataset.equalto) {
+      var selector = evt.target.dataset.equalto;
+      var element = document.querySelector(selector);
+      if (element && element.value !== evt.target.value) {
+        errorMessage = evt.target.dataset.error || "This does not match.";
       }
     }
+    console.log(evt.target.getAttribute('name'), errorMessage);
+    evt.target.setCustomValidity(errorMessage);
 
-    evt.target.dataset.validated = true;
-    controller.applyValidate(evt);
+    */
   }
 
   function getParameterByName(name) {
@@ -60,20 +75,10 @@ var User = (function () {
   }
 
   constructor.prototype = {
-    applyValidate: function (evt) {
-      var isValid = true;
-      for (var i = 0, len = this.inputs.length; i < len && isValid; i++) {
-        var input = this.inputs[i];
-        isValid = input.tagName.toLowerCase() == "button" || (input.dataset.validated && input.validity.valid);
-      }
-      this.submitButton.disabled = !isValid;
-    },
-    changeActivation: function (data) {
+    changeActivation: function (data, done) {
       var transitionEvent = whichTransitionEvent();
-      if (transitionEvent) {
-        this.form.addEventListener(transitionEvent, function () {
-          console.log('Transition complete!  This is the callback, no library needed!');
-        });
+      if (transitionEvent && done.apply) {
+        this.form.addEventListener(transitionEvent, done && done.bind(this));
       }
       this.form.classList.add('fade');
       var d = document.createElement('div');
@@ -120,29 +125,40 @@ var User = (function () {
         inputs[i].addEventListener('keypress', k);
         inputs[i].addEventListener('keyup', v);
         inputs[i].addEventListener('blur', v);
-        inputs[i].parentNode.addEventListener('mouseover', function (evt) {
-          var target = evt.target.tagName.toLowerCase() === 'input' ? evt.target.parentNode : evt.target;
-          var errorMsg = target.classList.contains('error-message') ? target : target.getElementsByClassName('error-message')[0];
-          if (errorMsg) {
-            errorMsg.classList.add("active");
+/*
+        inputs[i].addEventListener('invalid', function (evt) {
+          var errorMessage;
+          if (evt.target.dataset.error) {
+            errorMessage = evt.target.dataset.error;
+          } else {
+            for (var name in evt.target.validity) {
+              if (name !== "valid" && name !== "customError" && evt.target.dataset[name + "-error"] && !(evt.target.validity[name]())) {
+                errorMessage = evt.target.dataset[name + "-error"];
+                break;
+              }
+            }
           }
-        });
-        inputs[i].parentNode.addEventListener('mouseout', function (evt) {
-          var target = evt.target.tagName.toLowerCase() === 'input' ? evt.target.parentNode : evt.target;
-          var errorMsg = target.getElementsByClassName('error-message')[0];
-          if (errorMsg) {
-            errorMsg.classList.remove("active");
-          }
-        });
-        var errorMessage = inputs[i].dataset.error;
-        if (errorMessage) {
-          var divContainer = document.createElement("div");
-          var paragraphElement = document.createElement("p");
-          paragraphElement.innerHTML = errorMessage;
-          divContainer.classList.add("error-message");
-          divContainer.appendChild(paragraphElement);
+          console.log(evt.target.getAttribute('name'), errorMessage);
+          evt.target.setCustomValidity(errorMessage);
 
-        }
+        });
+*/
+        inputs[i].addEventListener('input', function (evt) {
+          var errorMessage;
+          if (evt.target.dataset.equalto) {
+            var selector = evt.target.dataset.equalto;
+            var element = closest(evt.target, "form").querySelector(selector);
+            if (element && element.value !== evt.target.value) {
+              errorMessage = evt.target.dataset.error || "This does not match.";
+            }
+          }
+          if (errorMessage) {
+            evt.target.setCustomValidity(errorMessage);
+          } else {
+            evt.target.setCustomValidity("");
+          }
+
+        });
       }
       this.inputs = inputs;
       this.submitButton = submitBtn;
@@ -194,13 +210,15 @@ var User = (function () {
             // Success!
             var resp = this.response;
 
-            videoBg.removeChild(spinner.el);
             callout.classList.remove('fade');
 
             for (i = 0, len = inputs.length; i < len; i++) {
               inputs[i].disabled = false;
             }
-            controller.changeActivation(JSON.parse(resp));
+            controller.changeActivation(JSON.parse(resp), function () {
+
+              videoBg.removeChild(spinner.el);
+            });
           } else {
             // We reached our target server, but it returned an error
             //vex.dialog.alert('Thanks for checking out Vex!');
