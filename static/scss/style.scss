@@ -198,7 +198,7 @@ html, body {
           border: none;
           @include border-radius(5px);
           display: block;
-          &[data-validated="true"]:invalid {
+          &[data-validated="true"]:invalid,&.invalid {
             border: red 1px solid;
             margin: 9px;
           }

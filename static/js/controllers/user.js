@@ -46,6 +46,27 @@ var User = (function () {
         evt.preventDefault();
       }
     }
+
+    if (navigator.userAgent.indexOf("Safari") > -1) {
+      var errorMessage;
+      if (evt.target.dataset.equalto) {
+        var selector = evt.target.dataset.equalto;
+        var element = closest(evt.target, "form").querySelector(selector);
+        if (element && element.value !== evt.target.value) {
+          errorMessage = evt.target.dataset.error || "This does not match.";
+        }
+      } else {
+        evt.target.setCustomValidity("");
+        if (!evt.target.checkValidity() && evt.target.dataset.error) {
+          errorMessage = evt.target.dataset.error;
+        }
+      }
+      if (errorMessage) {
+        evt.target.setCustomValidity(errorMessage);
+      } else {
+        evt.target.setCustomValidity("");
+      }
+    }
   }
 
   function validate(controller, evt) {
@@ -119,7 +140,6 @@ var User = (function () {
             errorMessage = evt.target.dataset.error;
           }
           if (errorMessage) {
-            console.log(evt.target.getAttribute('name'), errorMessage);
             evt.target.setCustomValidity(errorMessage);
           }
         });
@@ -170,6 +190,7 @@ var User = (function () {
               inputEvt.initEvent('blur', true, false);
               inputs[i].value = value;
               inputs[i].dispatchEvent(inputEvt);
+              inputs[i].setCustomValidity("");
             }
           }
         });
@@ -177,64 +198,95 @@ var User = (function () {
       this.form = form;
       form.addEventListener('submit', function (E) {
         var form = E.target;
-        var data = inputs.reduce(function (memo, element) {
-          var key = element.getAttribute('name') || element.getAttribute('id');
-          var value = element.value || (element.selectedIndex && element.options && element.options[element.selectedIndex]);
-          var ignore = element.hasAttribute('data-ignore');
-          if (key && value && !ignore) {
-            memo[key] = value;
-          }
-          return memo;
-        }, {});
-        var request = new XMLHttpRequest();
-        request.open('POST', controller.app.configuration.server + '/api/v1/users', true);
-        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-        request.onload = function () {
-          var i = 0;
-          if (this.status >= 200 && this.status < 400) {
-            // Success!
-            var resp = this.response;
-
-            callout.classList.remove('fade');
-
-            for (i = 0, len = inputs.length; i < len; i++) {
-              inputs[i].disabled = false;
+        if (navigator.userAgent.indexOf("Safari") > -1) {
+          for (var i = 0, len = inputs.length; i < len; i++) {
+            var errorMessage;
+            if (inputs[i].dataset.equalto) {
+              var selector = inputs[i].dataset.equalto;
+              var element = closest(inputs[i], "form").querySelector(selector);
+              if (element && element.value !== inputs[i].value) {
+                errorMessage = inputs[i].dataset.error || "This does not match.";
+              }
+            } else {
+              inputs[i].setCustomValidity("");
+              if (!inputs[i].checkValidity() && inputs[i].dataset.error) {
+                errorMessage = inputs[i].dataset.error;
+              }
             }
-            controller.changeActivation(JSON.parse(resp), function () {
+            if (errorMessage) {
+              inputs[i].setCustomValidity(errorMessage);
+            } else {
+              inputs[i].setCustomValidity("");
+            }
+            inputs[i].checkValidity();
+          }
+        }
+        if (navigator.userAgent.indexOf("Safari") < 0 || form.checkValidity()) {
+          var data = inputs.reduce(function (memo, element) {
+            var key = element.getAttribute('name') || element.getAttribute('id');
+            var value = element.value || (element.selectedIndex && element.options && element.options[element.selectedIndex]);
+            var ignore = element.hasAttribute('data-ignore');
+            if (key && value && !ignore) {
+              memo[key] = value;
+            }
+            return memo;
+          }, {});
+          var request = new XMLHttpRequest();
+          request.open('POST', controller.app.configuration.server + '/api/v1/users', true);
+          request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+          request.onload = function () {
+            var i = 0;
+            if (this.status >= 200 && this.status < 400) {
+              // Success!
+              var resp = this.response;
 
+              callout.classList.remove('fade');
+
+              for (i = 0, len = inputs.length; i < len; i++) {
+                inputs[i].disabled = false;
+              }
+              controller.changeActivation(JSON.parse(resp), function () {
+
+                videoBg.removeChild(spinner.el);
+              });
+            } else {
+              // We reached our target server, but it returned an error
+              //vex.dialog.alert('Thanks for checking out Vex!');
               videoBg.removeChild(spinner.el);
-            });
-          } else {
-            // We reached our target server, but it returned an error
-            //vex.dialog.alert('Thanks for checking out Vex!');
+              callout.classList.remove('fade');
+
+              for (i = 0, len = inputs.length; i < len; i++) {
+                inputs[i].disabled = false;
+              }
+              modal(this.response);
+            }
+          };
+
+          request.onerror = function () {
+            // There was a connection error of some sort
             videoBg.removeChild(spinner.el);
             callout.classList.remove('fade');
 
-            for (i = 0, len = inputs.length; i < len; i++) {
+            for (var i = 0, len = inputs.length; i < len; i++) {
               inputs[i].disabled = false;
             }
-            modal(this.response);
-          }
-        };
-
-        request.onerror = function () {
-          // There was a connection error of some sort
-          videoBg.removeChild(spinner.el);
-          callout.classList.remove('fade');
+          };
+          request.send(JSON.stringify(data));
+          var spinner = new Spinner().spin();
+          videoBg.appendChild(spinner.el);
+          callout.classList.add('fade');
 
           for (var i = 0, len = inputs.length; i < len; i++) {
-            inputs[i].disabled = false;
+            inputs[i].disabled = true;
           }
-        };
-        request.send(JSON.stringify(data));
-        E.preventDefault();
-        var spinner = new Spinner().spin();
-        videoBg.appendChild(spinner.el);
-        callout.classList.add('fade');
-
-        for (var i = 0, len = inputs.length; i < len; i++) {
-          inputs[i].disabled = true;
+        } else if (navigator.userAgent.indexOf("Safari") > -1) {
+          for (var i = 0, len = inputs.length; i < len; i++) {
+            console.log(inputs[i].getAttribute('name'), inputs[i].validity);
+            inputs[i].classList.toggle("invalid", !inputs[i].checkValidity());
+          }
         }
+        E.preventDefault();
+
       });
     }
   };
