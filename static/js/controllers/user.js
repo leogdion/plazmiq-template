@@ -52,19 +52,6 @@ var User = (function () {
     if (evt.target.value !== undefined && evt.target.dataset.charTransform) {
       evt.target.value = evt.target.value[evt.target.dataset.charTransform]();
     }
-/*
-    var errorMessage = "";
-    if (evt.target.dataset.equalto) {
-      var selector = evt.target.dataset.equalto;
-      var element = document.querySelector(selector);
-      if (element && element.value !== evt.target.value) {
-        errorMessage = evt.target.dataset.error || "This does not match.";
-      }
-    }
-    console.log(evt.target.getAttribute('name'), errorMessage);
-    evt.target.setCustomValidity(errorMessage);
-
-    */
   }
 
   function getParameterByName(name) {
@@ -125,24 +112,17 @@ var User = (function () {
         inputs[i].addEventListener('keypress', k);
         inputs[i].addEventListener('keyup', v);
         inputs[i].addEventListener('blur', v);
-/*
+
         inputs[i].addEventListener('invalid', function (evt) {
           var errorMessage;
           if (evt.target.dataset.error) {
             errorMessage = evt.target.dataset.error;
-          } else {
-            for (var name in evt.target.validity) {
-              if (name !== "valid" && name !== "customError" && evt.target.dataset[name + "-error"] && !(evt.target.validity[name]())) {
-                errorMessage = evt.target.dataset[name + "-error"];
-                break;
-              }
-            }
           }
-          console.log(evt.target.getAttribute('name'), errorMessage);
-          evt.target.setCustomValidity(errorMessage);
-
+          if (errorMessage) {
+            console.log(evt.target.getAttribute('name'), errorMessage);
+            evt.target.setCustomValidity(errorMessage);
+          }
         });
-*/
         inputs[i].addEventListener('input', function (evt) {
           var errorMessage;
           if (evt.target.dataset.equalto) {
@@ -150,6 +130,11 @@ var User = (function () {
             var element = closest(evt.target, "form").querySelector(selector);
             if (element && element.value !== evt.target.value) {
               errorMessage = evt.target.dataset.error || "This does not match.";
+            }
+          } else {
+            evt.target.setCustomValidity("");
+            if (!evt.target.checkValidity() && evt.target.dataset.error) {
+              errorMessage = evt.target.dataset.error;
             }
           }
           if (errorMessage) {
