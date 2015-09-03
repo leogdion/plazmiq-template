@@ -21,6 +21,7 @@ function baseUrl(source, stage) {
 module.exports = function (include) {
 
   var User = require("../models").User;
+  var Session = require("../models").Session;
   return {
     users: {
       params: {
@@ -67,25 +68,32 @@ module.exports = function (include) {
           });
         },
         update: function (req, res) {
-          User.activate(
-          req.body.name, req.body.password, req.body.activationKey, function (err, user) {
+          User.activate(req.params.id, req.body.password, req.body.activationKey, function (err, user) {
             if (err) {
               return next(err);
             }
 
-            emailer.queue('welcome', {
-              email: user.email,
-              name: user.name
-            }, function (error, response) {
-              if (error) {
-                res.status(400).send(error);
-              } else {
+            var session = Session.build();
+            session.setUser(user).then(
 
-                res.send({
-                  "name": user.name
-                });
-              }
+            function (session) {
+              emailer.queue('welcome', {
+                email: user.email,
+                name: user.name
+              }, function (error, response) {
+                if (error) {
+                  res.status(400).send(error);
+                } else {
+                  res.send({
+                    "sessionId": session.id
+                  });
+                }
+              });
+            }).
+            catch (function (error) {
+              res.status(400).send(error);
             });
+
           });
         },
         destroy: function (req, res) {

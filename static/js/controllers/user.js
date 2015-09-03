@@ -115,6 +115,7 @@ var User = (function () {
         }, {});
         var request = new XMLHttpRequest();
         request.open('PUT', that.app.configuration.server + '/api/v1/users/' + data.name, true);
+        delete data.name;
         request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
         request.onload = function () {
           var i = 0;
