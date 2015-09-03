@@ -67,7 +67,26 @@ module.exports = function (include) {
           });
         },
         update: function (req, res) {
-          res.send('update');
+          User.activate(
+          req.body.name, req.body.password, req.body.activationKey, function (err, user) {
+            if (err) {
+              return next(err);
+            }
+
+            emailer.queue('welcome', {
+              email: user.email,
+              name: user.name
+            }, function (error, response) {
+              if (error) {
+                res.status(400).send(error);
+              } else {
+
+                res.send({
+                  "name": user.name
+                });
+              }
+            });
+          });
         },
         destroy: function (req, res) {
           res.send('destroy');

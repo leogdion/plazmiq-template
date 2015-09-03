@@ -160,7 +160,7 @@ html, body {
       height: 40vh;
       max-height: 60vh;
       transition: opacity 500ms;
-      &.fade {
+      &.half.fade {
         opacity: 0.5;
       }
       & > * {

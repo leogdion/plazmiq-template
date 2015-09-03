@@ -85,7 +85,7 @@ var User = (function () {
   constructor.prototype = {
     changeActivation: function (data, done) {
       var transitionEvent = whichTransitionEvent();
-      if (transitionEvent && done.apply) {
+      if (transitionEvent && done && done.apply) {
         this.form.addEventListener(transitionEvent, done && done.bind(this));
       }
       this.form.classList.add('fade');
@@ -97,10 +97,75 @@ var User = (function () {
         activationForm.classList.add('in');
 
       }, 100);
-      var inputs = activationForm.getElementsByTagName('input');
+      var that = this;
+      var videoBg = that.videoBg;
+      var inputs = Array.prototype.slice.call(activationForm.getElementsByTagName('input'));
       for (var i = 0, len = inputs.length; i < len; i++) {
         inputs[i].readOnly = !! (inputs[i].value);
       }
+      activationForm.addEventListener('submit', function (evt) {
+        var data = inputs.reduce(function (memo, element) {
+          var key = element.getAttribute('name') || element.getAttribute('id');
+          var value = element.value || (element.selectedIndex && element.options && element.options[element.selectedIndex]);
+          var ignore = element.hasAttribute('data-ignore');
+          if (key && value && !ignore) {
+            memo[key] = value;
+          }
+          return memo;
+        }, {});
+        var request = new XMLHttpRequest();
+        request.open('PUT', that.app.configuration.server + '/api/v1/users/' + data.name, true);
+        request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        request.onload = function () {
+          var i = 0;
+          if (this.status >= 200 && this.status < 400) {
+            // Success!
+            var resp = this.response;
+
+            that.callout.classList.remove('half');
+            for (i = 0, len = inputs.length; i < len; i++) {
+              inputs[i].disabled = false;
+            }
+
+            videoBg.removeChild(spinner.el);
+            //activationForm.classList.add('fade');
+/*controller.changeActivation(JSON.parse(resp), function () {
+
+              videoBg.removeChild(spinner.el);
+              });
+*/
+          } else {
+            // We reached our target server, but it returned an error
+            //vex.dialog.alert('Thanks for checking out Vex!');
+            videoBg.removeChild(spinner.el);
+            that.callout.classList.remove('fade');
+
+            for (i = 0, len = inputs.length; i < len; i++) {
+              inputs[i].disabled = false;
+            }
+            modal(this.response);
+          }
+        };
+
+        request.onerror = function () {
+          // There was a connection error of some sort
+          videoBg.removeChild(spinner.el);
+          that.callout.classList.remove('fade');
+
+          for (var i = 0, len = inputs.length; i < len; i++) {
+            inputs[i].disabled = false;
+          }
+        };
+        request.send(JSON.stringify(data));
+        var spinner = new Spinner().spin();
+        videoBg.appendChild(spinner.el);
+        that.callout.classList.add('fade');
+
+        for (var i = 0, len = inputs.length; i < len; i++) {
+          inputs[i].disabled = true;
+        }
+        evt.preventDefault();
+      });
     },
     hashChange: function (evt) {
       var activationKey = getParameterByName('activationKey');
@@ -116,11 +181,14 @@ var User = (function () {
       var controller = this;
 
       var form = document.getElementById("user-registration");
+
       var callout = document.getElementsByClassName("callout")[0];
       var videoBg = document.getElementsByClassName("video-bg")[0];
       var submitBtn = Array.prototype.slice.call(form.getElementsByTagName("button")).filter(function (btn) {
         return btn.type == "submit";
       })[0];
+      this.callout = callout;
+      this.videoBg = videoBg;
       var inputs = ["input", "select", "textarea", "button"].reduce(
 
       function (memo, tagName) {
