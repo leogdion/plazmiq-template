@@ -198,7 +198,7 @@ gulp.task('beautify', ['jscs'], function () {
 });
 
 gulp.task('development', ['static'], function () {
-  var filter = gulpFilter('*.html', {
+  var filter = gulpFilter('**/*.html', {
     restore: true
   });
 
