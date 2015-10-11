@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.549",
+  "version": "1.9.550",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "gulp-jshint": "^1.11.2",
     "gulp-rename": "^1.2.2",
     "gulp-rev-all": "^0.8.21",
-    "gulp-scss": "^1.2.0",
+    "gulp-sass": "^2.0.4",
     "gulp-substituter": "^0.3.0",
     "gulp-uglify": "^1.2.0",
     "gulp-uglifycss": "^1.0.4",
