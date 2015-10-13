@@ -26,6 +26,8 @@ var bump = require('gulp-bump'),
     awspublishRouter = require("gulp-awspublish-router");
 var substituter = require('gulp-substituter');
 var gulpFilter = require('gulp-filter');
+var sourcemaps = require('gulp-sourcemaps');
+var babel = require('babelify');
 
 HandlebarsIntl = require('handlebars-intl');
 
@@ -129,20 +131,24 @@ gulp.task('umd', ['clean'], function () {
   return gulp.src('static/js/**/*.js').pipe(umd()).pipe(gulp.dest('./.tmp/js'));
 });
 
-gulp.task('browserify', ['clean', 'lint', 'umd', 'templates'], function () {
+gulp.task('browserify', ['clean', 'umd', 'templates'], function () {
+/*
   var b = browserify({
     entries: './.tmp/js/main.js',
     debug: false
   });
 
   return b.bundle().pipe(source('main.js')).pipe(buffer()).pipe(gulp.dest('./.tmp/build/js/'));
-/*
-    .pipe(sourcemaps.init({loadMaps: true}))
-        // Add transformation tasks to the pipeline here.
-        .pipe(uglify())
-        .on('error', gutil.log)
-    .pipe(sourcemaps.write('./'))
-        */
+*/
+  var bundler = browserify('./.tmp/js/main.js', { debug: true }).transform(babel);
+
+  return bundler.bundle()
+      .on('error', function(err) { console.error(err); this.emit('end'); })
+      .pipe(source('main.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./.tmp/build/js/'));
 
 });
 
