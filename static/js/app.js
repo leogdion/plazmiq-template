@@ -1,3 +1,31 @@
+export default class App {
+  attachStyleSheetOnReady () {
+    const raf = requestAnimationFrame || mozRequestAnimationFrame || webkitRequestAnimationFrame || msRequestAnimationFrame;
+    if (raf) raf(this.attachStyleSheet);
+    else window.addEventListener('load', this.attachStyleSheet);
+  }
+  setConfigurationOnReady () {
+    window.addEventListener('load', this.setConfiguration)
+  }
+  setConfiguration () {
+    var configurationElement = document.getElementById('main-configuration');
+    if (configurationElement) {
+      this.configuration = JSON.parse(configurationElement.innerText.trim()) || this.configuration;
+    }
+  }
+  attachStyleSheet () {
+    const l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = '/css/style.css';
+    const h = document.getElementsByTagName('head')[0];
+    h.parentNode.insertBefore(l, h);
+  }
+  start () {
+    this.attachStyleSheetOnReady()
+    this.setConfigurationOnReady()
+  }
+}
+/*
 var User = require('./controllers/user.js');
 
 function isFunction(functionToCheck) {
@@ -51,3 +79,4 @@ var App = {
     });
   }
 };
+*/
