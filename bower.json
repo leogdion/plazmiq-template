@@ -1,0 +1,23 @@
+{
+  "name": "tagmento",
+  "authors": [
+    "Leo Dion <leogdion@brightdigit.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "ISC",
+  "homepage": "www.tagmento.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "html5shiv": "~3.7.3",
+    "mueller": "~1.2.0"
+  }
+}

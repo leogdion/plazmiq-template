@@ -1,18 +1,24 @@
 <!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <html>
-  <head>
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+<head>
+<title><%= current_page.data.title || "tagmento" %></title>
     <meta charset="utf-8">
-    <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="description" content="MUELLER is a modular grid system for responsive/adaptive and non–responsive layouts, based on Compass.">
+    <meta name="author" content="vonautomatisch, Patrick Kranzlmüller, Axel Swoboda">
 
-    <!-- Use title if it's in the page YAML frontmatter -->
-    <title><%= current_page.data.title || "tagmento" %></title>
-
-    <link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
-
-    <%= stylesheet_link_tag :site %>
-    <%= javascript_include_tag :all %>
-  </head>
+        <%= stylesheet_link_tag :site %>
+        <%= javascript_include_tag :all %>
+        <!--[if lt IE 9]>
+    <script src="../../bower_components/html5shiv/dist/html5shiv.js"></script>
+<![endif]-->
+</head>
 
   <body class="<%= page_classes %>">
     <%= yield %>

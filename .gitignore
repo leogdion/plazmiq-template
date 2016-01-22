@@ -18,3 +18,5 @@
 .DS_Store
 
 .s3_sync
+
+bower_components
