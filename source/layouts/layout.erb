@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+| Landed by HTML5 UP
+
+| html5up.net | @n33co
+
+| Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)-->
+<html>
+<head>
+<title><%= ::Temple::Utils.escape_html((current_page.data.title)) %>
+</title><meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<!--[if lte IE 8]>
+<%= javascript_include_tag "ie/html5shiv.js" %>
+<![endif]--><%= stylesheet_link_tag "main", media: :all %>
+<!--[if lte IE 9]>
+<%= stylesheet_link_tag "ie9", media: :all %>
+<![endif]--><!--[if lte IE 8]>
+<%= stylesheet_link_tag "ie8", media: :all %>
+<![endif]--></head>
+<body class="<%= page_classes %> landing">
+<div id="page-wrapper">
+<!--Header-->
+<header id="header">
+<h1 id="logo">
+<a href="/"> tagmento</a>
+</h1><nav id="nav">
+<ul>
+<li>
+<a class="button special" href="#"> Sign Up</a>
+</li></ul></nav></header><%= yield %>
+<!--Footer-->
+<footer id="footer">
+<ul class="icons">
+<li>
+<a class="icon alt fa-twitter" href="#">
+<span class="label">Twitter</span>
+</a></li><li>
+<a class="icon alt fa-envelope" href="#">
+<span class="label">Email</span>
+</a></li></ul><ul class="copyright">
+<li>&copy; BrightDigit LLC. All rights reserved.
+</li>
+</ul></footer></div><!--Scripts-->
+<%= javascript_include_tag "vendor" %>
+<!--[if lte IE 8]>
+<%= javascript_include_tag "ie/respond" %>
+<![endif]--><%= javascript_include_tag "main" %>
+</body></html>
