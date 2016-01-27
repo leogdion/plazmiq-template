@@ -19,6 +19,8 @@ gem 'font-awesome-sass', require: false
 gem 'middleman-sprockets'
 
 gem 'slim'
+gem 'execjs'
+gem 'therubyracer'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-mapbox.js', '~> 2.1.9', require: false

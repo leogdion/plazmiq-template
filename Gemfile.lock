@@ -103,6 +103,7 @@ GEM
     ipaddress (0.8.2)
     json (1.8.3)
     kramdown (1.9.0)
+    libv8 (3.16.14.13)
     listen (3.0.5)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -164,6 +165,7 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    ref (2.0.0)
     ruby-progressbar (1.7.5)
     sass (3.4.21)
     slim (3.0.6)
@@ -180,6 +182,9 @@ GEM
       sprockets (~> 2.0)
       tilt (~> 1.1)
     temple (0.7.6)
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
@@ -198,6 +203,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  execjs
   font-awesome-sass
   middleman!
   middleman-jquery
@@ -214,6 +220,7 @@ DEPENDENCIES
   rails-assets-respond!
   rails-assets-skel (~> 3.0.0.dev)!
   slim
+  therubyracer
   tzinfo-data
   wdm (~> 0.1.0)
 

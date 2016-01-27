@@ -1432,9 +1432,12 @@
 			form {
 				border-radius: 100%;
 				display: inline-block;
-				height: 18em;
+				/*height: 18em;*/
 				vertical-align: middle;
 				clear: both;
+				.message {
+					max-width: 550px;
+				}
 			}
 		}
 	}
