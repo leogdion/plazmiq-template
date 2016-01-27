@@ -25,18 +25,18 @@
 		family:				('Raleway', Helvetica, sans-serif),
 		family-fixed:		('Courier New', monospace),
 		weight:				100,
-		weight-bold:		300
+		weight-bold:		400
 	);
 
 // Palette.
 	$palette: (
 		bg:					#1c1d26,
-		bg-transparent:		rgba(0,0,0,.20),
+		bg-transparent:		rgba(0,0,0,.33),
 		fg-bold:			#ffffff,
-		fg:					rgba(255,255,255,0.75),
+		fg:					rgba(255,255,255,1.0),
 		fg-light:			rgba(255,255,255,0.5),
 		fg-lighter:			rgba(255,255,255,0.15),
-		border:				rgba(255,255,255,0.3),
+		border:				rgba(255,255,255,0.5),
 		border-bg:			rgba(255,255,255,0.075),
 		border2:			rgba(255,255,255,0.5),
 		border2-bg:			rgba(255,255,255,0.25),

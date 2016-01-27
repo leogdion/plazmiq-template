@@ -306,69 +306,93 @@
 		(function() {
 
 			// Vars.
-			var $form = document.querySelectorAll('#signup-form')[0],
-			$submit = document.querySelectorAll('#signup-form input[type="submit"]')[0],
-			$message, $parent;
+			var $form = document.querySelectorAll('.signup-form'),
+			$submit = document.querySelectorAll('.signup-form input[type="submit"]');
+
 
 			// Bail if addEventListener isn't supported.
-			if (!('addEventListener' in $form))
+			if (!('addEventListener' in $form[0]))
 			return;
 
+			var icon = {
+				failure: "fa-exclamation-circle",
+				success: "fa-thumbs-o-up"
+			};
+
 			// Message.
-			$parent = document.createElement('div');
-			$parent.classList.add('row');
-			$parent.classList.add('50%');
-			$message = document.createElement('span');
-			$message.classList.add('message');
-			$message.classList.add('12u');
-			$parent.appendChild($message);
-			$form.appendChild($parent);
-			$message._show = function(type, text) {
+			[].forEach.call($form, function(div) {
+				var $message, $parent;
+				$parent = document.createElement('div');
+				$parent.classList.add('row');
+				$parent.classList.add('50%');
+				$message = document.createElement('span');
+				$message.classList.add('message');
+				$message.classList.add('12u');
+				$parent.appendChild($message);
+			  // do whatever
+			  //div.style.color = "red";
+				div.appendChild($parent);
+				var currentType;
 
-				$message.innerHTML = text;
-				$message.classList.add(type);
-				$message.classList.add('visible');
+				$message._show = function(type, text) {
 
-				window.setTimeout(function() {
-					$message._hide();
-				}, 3000);
-
-			};
-
-			$message._hide = function() {
-				$message.classList.remove('visible');
-			};
-
-			// Events.
-			// Note: If you're *not* using AJAX, get rid of this event listener.
-			$form.addEventListener('submit', function(event) {
-
-				var email = $form.querySelector("input.email").value;
-				event.stopPropagation();
-				event.preventDefault();
-
-				// Hide message.
-				$message._hide();
-
-				// Disable submit.
-				$submit.disabled = true;
-
-
-				var script = document.createElement('script');
-				script.src = $form.getAttribute('action') + "&c=signup_success&EMAIL=" + encodeURIComponent(email);
-
-				window.signup_success = function(data)
-				{
-					if (data.result === "success") {
-						$message._show('success', data.msg);
-					} else {
-						$message._show('failure', data.msg);
+					var prefix = "";
+					var iconClass = icon[type];
+					if (iconClass) {
+						prefix = '<i class="fa ' + iconClass + '"></i>'
 					}
-					$submit.disabled = false;
-					document.getElementsByTagName('head')[0].removeChild(script);
-				}
-				document.getElementsByTagName('head')[0].appendChild(script);
+					currentType = type;
+					$message.innerHTML = prefix + text;
+					$message.classList.add(type);
+					$message.classList.add('visible');
+
+					window.setTimeout(function() {
+						$message._hide();
+					}, 3000);
+
+				};
+
+				$message._hide = function() {
+					$message.classList.remove('visible');
+					if (currentType) {
+						$message.classList.remove(currentType);
+					}
+				};
+
+				// Events.
+				// Note: If you're *not* using AJAX, get rid of this event listener.
+				div.addEventListener('submit', function(event) {
+
+					var email = div.querySelector("input.email").value;
+					event.stopPropagation();
+					event.preventDefault();
+
+					// Hide message.
+					$message._hide();
+
+					// Disable submit.
+					$submit.disabled = true;
+
+
+					var script = document.createElement('script');
+					script.src = div.getAttribute('action') + "&c=signup_success&EMAIL=" + encodeURIComponent(email);
+
+					window.signup_success = function(data)
+					{
+						if (data.result === "success") {
+							$message._show('success', data.msg);
+						} else {
+							$message._show('failure', data.msg);
+						}
+						$submit.disabled = false;
+						document.getElementsByTagName('head')[0].removeChild(script);
+					}
+					document.getElementsByTagName('head')[0].appendChild(script);
+				});
 			});
+
+
+
 
 
 		})();

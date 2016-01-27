@@ -379,7 +379,7 @@
 	textarea {
 		@include vendor('appearance', 'none');
 		@include vendor('transition', 'border-color #{_duration(transition)} ease-in-out');
-		background: transparent;
+		background: _palette(bg-transparent);
 		border-radius: _size(border-radius);
 		border: solid 1px _palette(border);
 		color: inherit;
@@ -395,6 +395,7 @@
 
 		&:focus {
 			border-color: _palette(accent1);
+			font-weight: 300;
 		}
 	}
 
@@ -1435,9 +1436,7 @@
 				/*height: 18em;*/
 				vertical-align: middle;
 				clear: both;
-				.message {
-					max-width: 550px;
-				}
+
 			}
 		}
 	}
@@ -1448,6 +1447,36 @@
 		}
 	}
 
+	form.signup-form {
+		.message {
+			max-width: 550px;
+			margin-top: 1em;
+			font-weight: _font(weight-bold);
+			visibility: hidden;
+			header & {
+				background: _palette(bg-transparent);
+				padding: 10px;
+				text-align: left;
+			}
+			i.fa {
+				margin-right: 5px;
+			}
+			&.success {
+				color: lighten(_palette(accent4), 50%);
+				header & {
+					color: lighten(_palette(accent4), 10%);
+				}
+				visibility: visible;
+			}
+			&.failure {
+				color: lighten(_palette(accent1), 50%);
+				header & {
+					color: lighten(_palette(accent1), 10%);
+				}
+				visibility: visible;
+			}
+		}
+	}
 /* Footer */
 
 	#footer {
