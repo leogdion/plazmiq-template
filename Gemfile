@@ -13,6 +13,7 @@ gem 'tzinfo-data', platforms: [:mswin, :mingw, :jruby]
 gem 'middleman', :git => 'https://github.com/middleman/middleman.git', :branch => 'master'
 gem 'middleman-livereload'
 gem 'middleman-s3_sync', '~> 4.0.0'
+gem "middleman-minify-html"
 
 gem 'middleman-jquery'
 gem 'font-awesome-sass', require: false
@@ -21,6 +22,7 @@ gem 'middleman-sprockets'
 gem 'slim'
 gem 'execjs'
 gem 'therubyracer'
+gem 'uglifier'
 
 source 'https://rails-assets.org' do
   gem 'rails-assets-mapbox.js', '~> 2.1.9', require: false

@@ -98,6 +98,7 @@ GEM
       concurrent-ruby (~> 0.8)
     hashie (3.4.3)
     hike (1.2.3)
+    htmlcompressor (0.2.0)
     http_parser.rb (0.6.0)
     i18n (0.7.0)
     ipaddress (0.8.2)
@@ -114,6 +115,9 @@ GEM
       em-websocket (~> 0.5.1)
       middleman-core (>= 3.3)
       rack-livereload (~> 0.3.15)
+    middleman-minify-html (3.4.1)
+      htmlcompressor (~> 0.2.0)
+      middleman-core (>= 3.2)
     middleman-s3_sync (4.0.1)
       ansi (~> 1.5.0)
       fog-aws (>= 0.1.1)
@@ -208,6 +212,7 @@ DEPENDENCIES
   middleman!
   middleman-jquery
   middleman-livereload
+  middleman-minify-html
   middleman-s3_sync (~> 4.0.0)
   middleman-sprockets
   rails-assets-Hover (~> 1.0.9)!
@@ -222,6 +227,7 @@ DEPENDENCIES
   slim
   therubyracer
   tzinfo-data
+  uglifier
   wdm (~> 0.1.0)
 
 BUNDLED WITH

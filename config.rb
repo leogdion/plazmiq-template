@@ -2,6 +2,7 @@ set :css_dir,               'css'
 set :js_dir,                'js'
 set :images_dir,            'img'
 set :fonts_dir,             'fonts'
+set :js_compressor, Uglifier.new(:mangle => false)
 
 # Slim template engine
 require 'slim'
@@ -20,6 +21,8 @@ page '/*.xml', layout: false
 page '/*.json', layout: false
 page '/*.txt', layout: false
 
+
+  activate :gzip
 # With alternative layout
 # page "/path/to/file.html", layout: :otherlayout
 
@@ -50,6 +53,9 @@ configure :build do
 
   # Minify Javascript on build
   activate :minify_javascript
+
+  activate :minify_html
+
 end
 
 # work-around to remove copies of font-awesome files. Where are they pulled in?
