@@ -123,7 +123,7 @@ gulp.task('handlebars', function () {
 gulp.task('templates', ['clean'], function () {
   gulp.src('static/templates/*.hbt').pipe(handlebars()).pipe(wrap('Handlebars.template(<%= contents %>)')).pipe(declare({
     root: "Templates"
-    // Avoid duplicate declarations 
+    // Avoid duplicate declarations
   })).pipe(concat('templates.js')).pipe(insert.prepend('var Handlebars = require(\'handlebars\'); var Templates = Templates || {};')).pipe(umd()).pipe(gulp.dest('.tmp/js/'));
 });
 
@@ -137,7 +137,7 @@ gulp.task('browserify', ['clean', 'templates'], function () {
 
   return b.bundle().pipe(source('main.js')).pipe(buffer()).pipe(gulp.dest('./.tmp/build/js/'));
 */
-  var bundler = browserify('./static/js/main.js', { debug: true }).transform(babel);
+  var bundler = browserify('./static/js/main.js', { debug: true }).transform(babel, { presets: ['es2015'] });
 
   return bundler.bundle()
       .on('error', function(err) { console.error(err); this.emit('end'); })
