@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.568",
+  "version": "1.9.574",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -59,6 +59,7 @@
     "handlebars": "^4.0.5",
     "handlebars-intl": "^1.1.2",
     "intl": "^1.0.1",
+    "jquery": "^2.2.0",
     "jshint": "^2.9.1",
     "merge-stream": "^1.0.0",
     "merge2": "^1.0.0",
