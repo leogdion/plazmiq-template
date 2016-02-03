@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.574",
+  "version": "1.9.594",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -26,6 +26,7 @@
     "babelify": "^7.2.0",
     "body-parser": "^1.14.2",
     "browserify": "^13.0.0",
+    "browserify-shim": "^3.8.12",
     "connect-flash": "^0.1.1",
     "connect-multiparty": "^2.0.0",
     "cookie-parser": "^1.4.1",
@@ -81,14 +82,31 @@
     "passport-local-sequelize": "^0.6.0",
     "pg": "^4.4.4",
     "pg-hstore": "^2.3.2",
+    "placeholder": "^1.0.2",
     "postmark": "^1.2.1",
     "rimraf": "^2.5.1",
     "sequelize": "^3.18.0",
+    "skel": "file:///Users/leo/Documents/Projects/skel",
     "spin.js": "^2.3.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "jquery": {
+      "exports": "jQuery"
+    },
+    "placeholder": {
+      "depends": [
+        "jquery:jQuery"
+      ]
+    }
   }
 }
