@@ -8,7 +8,8 @@
 //var jQuery = require("jquery");
 var skel = require("skel");
 var jQuery = require("jquery");
-require("placeholder");
+
+jQuery.placeholder = require("placeholder");
 
 (function($) {
 
@@ -39,7 +40,7 @@ require("placeholder");
 				$body.addClass('is-touch');
 
 		// Fix: Placeholder polyfill.
-			$('form').placeholder();
+		//$('form').placeholder();
 
 		// Prioritize "important" elements on medium.
 			skel.on('+medium -medium', function() {
@@ -50,16 +51,19 @@ require("placeholder");
 			});
 
 		// Scrolly links.
+		/*
 			$('.scrolly').scrolly({
 				speed: 2000
 			});
+*/
 
 		// Dropdowns.
+		/*
 			$('#nav > ul').dropotron({
 				alignment: 'right',
 				hideDelay: 350
 			});
-
+*/
 		// Off-Canvas Navigation.
 
 			// Title Bar.
@@ -72,6 +76,7 @@ require("placeholder");
 					.appendTo($body);
 
 			// Navigation Panel.
+/*
 				$(
 					'<div id="navPanel">' +
 						'<nav>' +
@@ -91,6 +96,7 @@ require("placeholder");
 						visibleClass: 'navPanel-visible'
 					});
 
+					*/
 			// Fix: Remove navPanel transitions on WP<10 (poor/buggy performance).
 				if (skel.vars.os == 'wp' && skel.vars.osVersion < 10)
 					$('#titleBar, #navPanel, #page-wrapper')
@@ -209,6 +215,7 @@ require("placeholder");
 									}
 
 								// Add scrollex.
+								/*
 									$this.scrollex({
 										mode:		mode,
 										top:		top,
@@ -216,7 +223,7 @@ require("placeholder");
 										initialize:	function(t) { $this.addClass('inactive'); },
 										terminate:	function(t) { $this.removeClass('inactive'); },
 										enter:		function(t) { $this.removeClass('inactive'); },
-
+*/
 										// Uncomment the line below to "rewind" when this spotlight scrolls out of view.
 
 										//leave:	function(t) { $this.addClass('inactive'); },
@@ -236,7 +243,7 @@ require("placeholder");
 							if (skel.canUse('transition')) {
 
 								// Remove scrollex.
-									$this.unscrollex();
+									//$this.unscrollex();
 
 							}
 
@@ -265,7 +272,7 @@ require("placeholder");
 					on = function() {
 
 						if (skel.canUse('transition')) {
-
+/*
 							$this.scrollex({
 								top:		250,
 								bottom:		0,
@@ -278,6 +285,7 @@ require("placeholder");
 								//leave:	function(t) { $this.addClass('inactive'); },
 
 							});
+							*/
 
 						}
 
@@ -286,7 +294,7 @@ require("placeholder");
 					off = function() {
 
 						if (skel.canUse('transition'))
-							$this.unscrollex();
+							//$this.unscrollex();
 
 					};
 

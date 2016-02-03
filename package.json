@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.594",
+  "version": "1.9.611",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -100,12 +100,10 @@
     ]
   },
   "browserify-shim": {
-    "jquery": {
-      "exports": "jQuery"
-    },
     "placeholder": {
+      "exports": "jquery.placeholder",
       "depends": [
-        "jquery:jQuery"
+        "jquery:jquery"
       ]
     }
   }
