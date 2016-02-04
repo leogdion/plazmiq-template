@@ -5,7 +5,7 @@ PATH := $(NODE_PATH):$(shell echo $$PATH)
 
 PHONY: all
 depend:
-	npm install
+	node_modules/check-dependencies/bin/cli.js || npm install
 all: depend
 	$(gulp) ${task}
 test: depend
