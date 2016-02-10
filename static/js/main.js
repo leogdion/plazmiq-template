@@ -4,8 +4,15 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+
+//var jQuery = require("jquery");
 var jQuery = require("jquery");
+require("jquery-placeholder");
+require("jquery.scrolly");
+require("jquery.dropotron");
+require("jquery.scrollex");
 var skel = require("skel");
+require("./util");
 
 (function($) {
 
@@ -36,7 +43,7 @@ var skel = require("skel");
 				$body.addClass('is-touch');
 
 		// Fix: Placeholder polyfill.
-			$('form').placeholder();
+		$('form').placeholder();
 
 		// Prioritize "important" elements on medium.
 			skel.on('+medium -medium', function() {
@@ -50,7 +57,6 @@ var skel = require("skel");
 			$('.scrolly').scrolly({
 				speed: 2000
 			});
-
 		// Dropdowns.
 			$('#nav > ul').dropotron({
 				alignment: 'right',
@@ -69,6 +75,7 @@ var skel = require("skel");
 					.appendTo($body);
 
 			// Navigation Panel.
+
 				$(
 					'<div id="navPanel">' +
 						'<nav>' +
@@ -87,6 +94,7 @@ var skel = require("skel");
 						target: $body,
 						visibleClass: 'navPanel-visible'
 					});
+
 
 			// Fix: Remove navPanel transitions on WP<10 (poor/buggy performance).
 				if (skel.vars.os == 'wp' && skel.vars.osVersion < 10)
@@ -206,6 +214,7 @@ var skel = require("skel");
 									}
 
 								// Add scrollex.
+
 									$this.scrollex({
 										mode:		mode,
 										top:		top,
@@ -220,7 +229,7 @@ var skel = require("skel");
 
 									});
 
-							}
+						}
 
 					};
 
@@ -282,8 +291,9 @@ var skel = require("skel");
 
 					off = function() {
 
-						if (skel.canUse('transition'))
+						if (skel.canUse('transition')) {
 							$this.unscrollex();
+						}
 
 					};
 
