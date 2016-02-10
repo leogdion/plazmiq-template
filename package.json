@@ -1,6 +1,6 @@
 {
   "name": "beginkit",
-  "version": "1.9.568",
+  "version": "1.9.643",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -26,6 +26,8 @@
     "babelify": "^7.2.0",
     "body-parser": "^1.14.2",
     "browserify": "^13.0.0",
+    "browserify-shim": "^3.8.12",
+    "check-dependencies": "^0.11.0",
     "connect-flash": "^0.1.1",
     "connect-multiparty": "^2.0.0",
     "cookie-parser": "^1.4.1",
@@ -59,6 +61,11 @@
     "handlebars": "^4.0.5",
     "handlebars-intl": "^1.1.2",
     "intl": "^1.0.1",
+    "jquery": "^2.2.0",
+    "jquery-placeholder": "^2.3.1",
+    "jquery.dropotron": "git+https://github.com/brightdigit/jquery.dropotron.git",
+    "jquery.scrollex": "git+https://github.com/brightdigit/jquery.scrollex.git",
+    "jquery.scrolly": "git+https://github.com/brightdigit/scrolly.git",
     "jshint": "^2.9.1",
     "merge-stream": "^1.0.0",
     "merge2": "^1.0.0",
@@ -83,11 +90,39 @@
     "postmark": "^1.2.1",
     "rimraf": "^2.5.1",
     "sequelize": "^3.18.0",
+    "skel": "file:///Users/leo/Documents/Projects/skel",
     "spin.js": "^2.3.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
     "gulp": "^3.9.0"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "jquery-placeholder": {
+      "depends": [
+        "jquery:jquery"
+      ]
+    },
+    "jquery.scrolly": {
+      "depends": [
+        "jquery:jquery"
+      ]
+    },
+    "jquery.dropotron": {
+      "depends": [
+        "jquery:jquery"
+      ]
+    },
+    "jquery.scrollex": {
+      "depends": [
+        "jquery:jquery"
+      ]
+    }
   }
 }
