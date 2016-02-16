@@ -90,7 +90,7 @@
     "postmark": "^1.2.1",
     "rimraf": "^2.5.1",
     "sequelize": "^3.18.0",
-    "skel": "file:///Users/leo/Documents/Projects/skel",
+    "skel": "git+https://github.com/brightdigit/skel.git",
     "spin.js": "^2.3.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
