@@ -611,7 +611,7 @@
 			position: absolute;
 			left: 0;
 			top: 0;
-			background-image: url('images/overlay.png');
+			background-image: url('/css/images/overlay.png');
 			width: 100%;
 			height: 100%;
 			z-index: 1;
@@ -958,7 +958,7 @@
 		z-index: 1;
 
 		&:before {
-			background-image: url('images/arrow.svg');
+			background-image: url('/css/images/arrow.svg');
 			background-position: center center;
 			background-repeat: no-repeat;
 			background-size: contain;
@@ -994,7 +994,7 @@
 		}
 
 		&:before {
-			background-image: url('images/overlay.png');
+			background-image: url('/css/images/overlay.png');
 			content: '';
 			display: block;
 			height: 100%;
@@ -1182,6 +1182,11 @@
 					}
 				}
 			}
+
+			a {
+				color: #FFF;
+				font-weight: bold;
+			}
 		}
 
 		&.fade-down {
@@ -1294,6 +1299,19 @@
 		padding-top: 3.5em;
 	}
 
+	#header #logo, #titleBar .title{
+			img {
+				height: 1.5em;
+				position: relative;
+				top: 0.5em;
+			}
+		}
+
+		#titleBar 
+		.built-by {
+			display: none;
+		}
+
 	#header {
 		background: _palette(accent2-transparent);
 		box-shadow: 0 0 0.25em 0 rgba(0,0,0,0.25);
@@ -1313,6 +1331,19 @@
 			margin: 0;
 			position: absolute;
 			top: 0;
+		}
+
+		
+		.built-by {
+			font-weight: 100;
+			margin: 0px 5px;
+			img {
+				height: 1.5em;
+				display: inline-block;
+				position: relative;
+				top: 0.5em;
+				margin: 0px 2px;
+			}
 		}
 
 		nav {
@@ -1395,7 +1426,7 @@
 		}
 
 		&:after {
-			@include vendor('background-image', ('linear-gradient(top, #{_palette(bg-transparent)}, #{_palette(bg-transparent)})', 'url("images/overlay.png");'));
+			@include vendor('background-image', ('linear-gradient(top, #{_palette(bg-transparent)}, #{_palette(bg-transparent)})', 'url("/css/images/overlay.png");'));
 			content: '';
 			display: block;
 			height: 100%;
@@ -1531,6 +1562,12 @@
 				font-size: 13pt;
 			}
 
+		#header nav ul li a {
+			span {
+				display: inline;
+			}
+		}
+
 	}
 
 /* Large */
@@ -1540,6 +1577,16 @@
 		$size-wrapper-pad-tb: 4.5em;
 		$size-wrapper-pad-lr: 2.5em;
 
+
+
+		#header nav ul li a {
+			span {
+				display: none;
+			}
+		}
+		#titleBar .title img{
+			height: 1
+		}
 		/* Basic */
 
 			body, input, select, textarea {
