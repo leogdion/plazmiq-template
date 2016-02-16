@@ -1408,7 +1408,7 @@
 	#banner {
 		background-attachment: fixed;
 		background-color: _palette(accent2);
-		background-image: url('../../img/banner.jpg');
+		background-image: url('../../img/xlarge/banner.jpg');
 		background-position: bottom center;
 		background-size: cover;
 		box-shadow: 0 0.25em 0.5em 0 rgba(0,0,0,0.25);
@@ -1659,6 +1659,11 @@
 				font-size: 12pt;
 			}
 
+		#banner {
+			background-attachment: fixed;
+			background-color: _palette(accent2);
+			background-image: url('../../img/banner.jpg');
+		}
 		/* Spotlight */
 
 			.spotlight {
