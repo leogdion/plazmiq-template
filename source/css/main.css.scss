@@ -56,6 +56,11 @@
 
 /* Basic */
 
+			#activity {
+				&.active {
+					color: lighten(_palette(accent1), 20%);
+				}
+			}
 	html, body {
 		background: _palette(bg);
 	}
@@ -203,6 +208,7 @@
 	.align-right {
 		text-align: right;
 	}
+
 
 /* Loader */
 
@@ -1446,6 +1452,7 @@
 			vertical-align: middle;
 			z-index: 1;
 
+
 			header {
 				display: inline-block;
 				vertical-align: middle;
@@ -2095,3 +2102,24 @@
 			}
 
 	}
+.typed-cursor{
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}

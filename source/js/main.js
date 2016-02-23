@@ -312,6 +312,14 @@
 				._parallax();
 
 	});
+
+	$("#activity").before("<br>").typed({
+		strings: [" on email?", " on working out?", " on family time?", " on sales?", " on learning a new skill?"],
+    loop: true,
+    startDelay: 1000,
+    typeSpeed: 50,
+    backSpeed: 50,
+	}).addClass("active");
 	// Signup Form.
 		(function() {
 
