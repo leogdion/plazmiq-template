@@ -7,6 +7,11 @@
 
 (function($) {
 
+	function xlarge (src) {
+		var pathComponents = src.split("/");
+		pathComponents.splice(-1,0,"xlarge");
+		return pathComponents.join("/");
+	}
 	skel.breakpoints({
 		xlarge: '(max-width: 1680px)',
 		large: '(max-width: 1280px)',
@@ -172,8 +177,12 @@
 
 					on = function() {
 
+							var img = $this.find('.image.main > img');
+							var orgSrc = img.attr('src');
+							var src = img.hasClass("has-large") ? xlarge(orgSrc) : orgSrc;
+							
 						// Use main <img>'s src as this spotlight's background.
-							$this.css('background-image', 'url("' + $this.find('.image.main > img').attr('src') + '")');
+							$this.css('background-image', 'url("' + src + '")');
 
 						// Enable transitions (if supported).
 							if (skel.canUse('transition')) {
@@ -303,6 +312,14 @@
 				._parallax();
 
 	});
+
+	$("#activity").before("<br>").typed({
+		strings: [" on email?", " on working out?", " on family time?", " on sales?", " on learning a new skill?"],
+    loop: true,
+    startDelay: 1000,
+    typeSpeed: 50,
+    backSpeed: 50,
+	}).addClass("active");
 	// Signup Form.
 		(function() {
 
