@@ -1,0 +1,8 @@
+*.DS_Store
+build
+npm-debug.log
+/.tmp
+node_modules
+.coverrun
+.coverdata
+.aws-credentials.*

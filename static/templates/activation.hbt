@@ -1,0 +1,7 @@
+<form id="user-activation">
+  <p>Please confirm your account.</p>
+  <input name="name" type="text" placeholder="Name" minlength="5" maxlength="15" value="{{ name }}" required>
+  <input name="password" type="password" placeholder="Password" minlength="8" maxlength="255" required>
+  <input name="activationKey" type="password" placeholder="Activation Key" minlength="8" maxlength="255" value="{{ activationKey }}" required>
+  <button type="submit">Confirm</button>
+</form>

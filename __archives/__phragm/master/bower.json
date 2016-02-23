@@ -1,0 +1,25 @@
+{
+  "name": "phragm",
+  "version": "0.1.517",
+  "authors": [
+    "Leo Dion <leogdion@brightdigit.com>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/www/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "zepto": "~1.1.4",
+    "requirejs": "~2.1.14",
+    "lodash": "~2.4.1",
+    "crossroads": "~0.12.0",
+    "hasher": "~1.2.0",
+    "signals": "~1.0.0",
+    "NameDatabases": "https://github.com/enorvelle/NameDatabases.git"
+  },
+  "devDependencies": {}
+}

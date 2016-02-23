@@ -1,0 +1,324 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+  background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
+$fa-font-path: "/assets/fonts/font-awesome";
+$submit-button-bg-color: #36C;
+@import "../../node_modules/font-awesome/scss/font-awesome.scss";
+
+/*
+/// Replace `$search` with `$replace` in `$string`
+/// @author Hugo Giraudel
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace ('') - New value
+/// @return {String} - Updated string
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $string;
+}
+
+$fonts-path: '/assets/fonts/';
+
+$font-family-name: 'Avera Sans';
+$font-family-name-ttf-prefix: str-replace($font-family-name, ' ', '-');
+$font-family-name-prefix: to-lower-case($font-family-name-ttf-prefix);
+$font-path: $fonts-path + str-replace($font-family-name, ' ', '-');
+
+$ttf-extension: 'ttf';
+$eot-extension: 'eot';
+$woff-extension: 'woff';
+$woff2-extension: 'woff2';
+
+$webfont-suffix: 'webfont';
+
+$ttf-light-suffix: 'Lt';
+$light-suffix: to-lower-case($ttf-light-suffix);
+
+$ttf-regular-suffix: 'Rg';
+$regular-suffix: to-lower-case($ttf-regular-suffix);
+
+$ttf-bold-suffix: 'Bld';
+$bold-suffix: to-lower-case($ttf-bold-suffix);
+
+$ttf-cn-light-suffix: 'Cn-Lt';
+$cn-light-suffix: to-lower-case($ttf-cn-light-suffix);
+
+$ttf-cn-regular-suffix: 'Rg';
+$cn-regular-suffix: to-lower-case($ttf-cn-regular-suffix);
+
+$ttf-cn-bold-suffix: 'Cn-Bld';
+$cn-bold-suffix: to-lower-case($ttf-cn-bold-suffix);
+*/
+
+html, body, input, button {
+  font-family: 'Raleway', sans-serif;
+}
+
+html, body {
+  background-color: #333;
+  color: #FFF;
+  margin: 0;
+  min-height: 100%;
+  min-width: 100%;
+  header > nav {
+    overflow: auto;
+    background-color: #000;
+    padding: 10px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    position: fixed;
+    z-index: 1000;
+    a {
+      color: #FFF;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    form {
+      float: right;
+      margin: 0px 10px;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      margin-right: 10px;
+      overflow: auto;
+      float: left;
+      display: block;
+      &:last-of-type,&.float-right  {
+        float: right;
+      }
+      li {
+        float: left;
+        display: block;
+        margin-right: 10px;
+        img {
+          margin: -0.15em 5px -0.15em 0px;
+          height: 1.0em;
+        }
+        &.brand a{
+          font-weight: 900;
+        }
+        &#build {
+          font-weight: 100;
+          font-size: 0.8em;
+          line-height: 1.75em;
+          &.dev {
+            color: #F00;
+          }
+        }
+      }
+    }
+  }
+  main {
+    margin: 1em 0px 20px;
+    display: block;
+    clear: both;
+    .background {
+      background-color: transparentize(#000000, 0.7);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0px;
+      top: 0px;
+      z-index: 2;
+    }
+    .video-bg {
+      position: relative;
+      overflow: hidden;
+      top: 20px;
+    }
+    video#bgvid {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      z-index: 100;
+      object-fit: cover;
+      background: url(/assets/images/Dissolve_D1_3_061_1.jpg) no-repeat;
+      background-size: cover;
+      z-index: 1;
+    }
+    .callout {
+      display: table;
+      margin: auto;
+      width: auto;
+      position: relative;
+      z-index: 200;
+      padding: 50px;
+      min-height: 40vh;
+      height: 40vh;
+      max-height: 60vh;
+      transition: opacity 500ms;
+      &.half.fade {
+        opacity: 0.5;
+      }
+      & > * {
+        display: table;
+        height: 100%;
+        float: left;
+        position: relative;
+        & > * {
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
+      form {
+        &#user-activation {
+          position: absolute;
+          left: 0px;
+        }
+        vertical-align: middle;
+        padding: 0px 50px;
+        max-width: 300px;
+        & > main > div {
+          position: relative;
+        }
+        p {
+          margin-top: 0px;
+        }
+        button,input, p {
+          padding: 10px;
+
+        }
+        button,input {
+          margin: 10px;
+          font-size: 14pt;
+          clear: both;
+          border: none;
+          @include border-radius(5px);
+          display: block;
+          &[data-validated="true"]:invalid,&.invalid {
+            border: red 1px solid;
+            margin: 9px;
+          }
+        }
+        .error-message {
+          position: absolute;
+          right: -20px;
+          background-color: white;
+          top: 10px;
+          color: #000;
+          padding: 5px;
+          font-size: 0.8em;
+          opacity: 0;
+          @include border-radius(5px);
+          border: 1px solid rgba(0,0,0,0.3);
+          transition: opacity 500ms linear;
+          z-index: 1000;
+          &.active {
+            opacity: 1.0;
+          }
+          p {
+            margin: 0px;
+            padding: 0px;
+          }
+        }
+        button {
+          margin-bottom: 0px;
+          float: left;
+          display: inline-block;
+          clear: none;
+          cursor: pointer;
+          &.test {
+            background-color: #FFF;
+            color: #F00;
+          }
+          &[type="submit"] {
+            background-color: $submit-button-bg-color;
+            color: #FFF;
+            transition: background-color 500ms linear, opacity 500ms linear;
+          }
+          &:disabled {
+            opacity: 0.5;
+            background-color: desaturate($submit-button-bg-color, 100%);
+          }
+        }
+        input {
+
+          width: 100%;
+          &:first-child {
+            margin-top: 0;
+          }
+        }
+        margin: auto;
+      }
+      img.logo {
+        height: 50%;
+        display: block;
+        margin: auto;
+      }
+      .tagline {
+        text-align: center;
+        width: 100%;
+        #title-header {
+          font-size: 64pt;
+          margin: 8pt auto;
+          font-weight: 900;
+        }
+      }
+    }
+  }
+  & > footer {
+    margin: 20px 10px;
+  }
+  &.margin > main {
+    margin: 60px 20px 0px;
+  }
+}
+
+.fade {
+  opacity: 0.0;
+  transition: opacity 2000ms;
+}
+
+.fade.in {
+  opacity: 1.0;
+}
+
+.modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color:rgba(0,0,0,0.2);
+  top: 0px;
+  z-index: 1000;
+  section {
+    max-width: 50%;
+    position: absolute;
+    background-color: #FFF;
+    color: #000;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    overflow: auto;
+    display: table;
+    & > * {
+      display: table-row;
+    }
+    & > main {
+      overflow-y: auto;
+      height: 100%;
+      height: 50%;
+      width: 50%;
+      display: table-row;
+      & > .message {
+        padding: 10px 0px;
+        margin: 10px 0px;
+      }
+    }
+  }
+}

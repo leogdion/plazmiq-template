@@ -1,0 +1,66 @@
+{
+  "name": "brightdigit",
+  "version": "2.0.217",
+  "prerelease": "alpha",
+  "description": "sample project",
+  "main": "server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brightdigit/beginkit.git"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "author": "Leo G. Dion, BrightDigit, LLC <leogdion@brightdigit.com>",
+  "devDependencies": {
+    "async": "^0.9.0",
+    "browserify": "^7.1.0",
+    "glob": "^4.4.0",
+    "gulp": "^3.8.7",
+    "gulp-awspublish": "0.0.24",
+    "gulp-awspublish-router": "^0.1.0",
+    "gulp-beautify": "^1.1.2",
+    "gulp-bump": "^0.1.13",
+    "gulp-coverage": "^0.1.24",
+    "gulp-coveralls": "^0.1.2",
+    "gulp-express-service": "^1.2.3",
+    "gulp-filter": "^2.0.2",
+    "gulp-front-matter": "^1.1.1",
+    "gulp-htmlmin": "^0.2.0",
+    "gulp-istanbul": "^0.2.2",
+    "gulp-jshint": "^1.9.2",
+    "gulp-mocha": "^0.5.2",
+    "gulp-rev-all": "^0.7.6",
+    "gulp-sass": "^1.3.3",
+    "gulp-scss-lint": "^0.1.7",
+    "gulp-uglify": "^1.0.2",
+    "gulp-uglifycss": "^1.0.4",
+    "gulpsmith": "^0.5.3",
+    "handlebars": "^2.0.0",
+    "handlebars-intl": "^1.0.1",
+    "intl": "^0.1.4",
+    "lodash.assign": "^2.4.1",
+    "metalsmith": "^1.3.0",
+    "metalsmith-collections": "^0.6.0",
+    "metalsmith-define": "^1.0.0",
+    "metalsmith-drafts": "0.0.1",
+    "metalsmith-excerpts": "^1.0.0",
+    "metalsmith-ignore": "^0.1.2",
+    "metalsmith-markdown": "^0.2.1",
+    "metalsmith-paginate": "^0.3.0",
+    "metalsmith-permalinks": "^0.4.0",
+    "metalsmith-tags": "^0.6.1",
+    "metalsmith-templates": "^0.6.0",
+    "node-static": "^0.7.6",
+    "rimraf": "^2.2.8",
+    "vinyl-transform": "^1.0.0"
+  },
+  "dependencies": {
+    "browserify-zepto": "^1.1.4",
+    "browsernizr": "^1.0.2",
+    "express": "^4.12.0"
+  }
+}

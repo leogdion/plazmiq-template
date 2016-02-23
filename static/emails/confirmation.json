@@ -1,0 +1,6 @@
+{
+  "From": "beginkit@brightdigit.com", 
+  "To": "{{ email }}",
+  "TextBody": "Hello {{ name }},\n\nPlease click on the link below:\n{{ url }}\n\nYour activation key is:\n{{ activationKey }}\n\nEnjoy!\nbeginkit",
+  "Subject" : "[beginkit] Hello {{ name }}, please confirm your account"
+}

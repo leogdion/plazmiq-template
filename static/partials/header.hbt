@@ -1,0 +1,24 @@
+<header>
+  <nav>
+    <ul>
+      <li class="brand"><a href="/#">
+  <img class="logo" src="/assets/images/power-button2.svg">beginkit</a></li>
+    </ul>
+    <ul>
+     {{#each collections.pages}}
+      <li><a href="/{{path}}">{{this.title}}</a></li>
+      {{/each}}
+    </ul>
+    <ul class="float-right"><li><a href="https://github.com/brightdigit/beginkit"><img src="/assets/images/GitHub-Mark-Light-32px.png"></a></li>
+    <li><a href="https://www.brightdigit.com"><img src="/assets/images/bd-logo.svg"></a></li>
+    </ul>
+    <form>
+       <input class="" name="name" type="text" placeholder="name" minlength="5" maxlength="15" required>
+          <input class="" name="password" type="password" placeholder="password" minlength="8" maxlength="255" required>
+          <button>Log In</button>
+    </form>
+    <ul class="float-right">
+      <li id="build" class="{{ stage }}">{{ pkg.version }}-{{ stage }}</li>
+    </ul>
+  </nav>
+</header>

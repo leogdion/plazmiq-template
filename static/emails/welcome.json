@@ -1,0 +1,6 @@
+{
+  "From": "beginkit@brightdigit.com", 
+  "To": "{{ email }}",
+  "TextBody": "Welcome {{ name }}!",
+  "Subject": "[beginkit] Welcome {{ name }}!"
+}
