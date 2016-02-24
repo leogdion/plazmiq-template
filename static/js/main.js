@@ -7,7 +7,7 @@
 
 var jQuery = require("jquery");
 require("jquery-placeholder");
-require("jquery.scrolly");
+require("./jquery.scrolly");
 require("jquery.dropotron");
 require("jquery.scrollex");
 //require("typed.js");
@@ -37,11 +37,15 @@ require("./util");
 		// Disable animations/transitions until the page has loaded.
 			$body.addClass('is-loading');
 
-			$window.on('load', function() {
+			$window.load(function() {
 				window.setTimeout(function() {
 					$body.removeClass('is-loading');
 				}, 0);
+			/** this is come when complete page is fully loaded, including all frames, objects and images **/
 			});
+				window.setTimeout(function() {
+					$body.removeClass('is-loading');
+				}, 5000);
 
 		// Touch mode.
 			if (skel.vars.mobile)
@@ -58,7 +62,7 @@ require("./util");
 				);
 			});
 
-debugger;
+
 		// Scrolly links.
 			$('.scrolly').scrolly({
 				speed: 2000
@@ -221,7 +225,7 @@ debugger;
 										bottom = 0;
 
 									}
-
+debugger;
 								// Add scrollex.
 									$this.scrollex({
 										mode:		mode,
