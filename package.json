@@ -1,6 +1,6 @@
 {
   "name": "tagmento-web",
-  "version": "1.4.25",
+  "version": "1.4.28",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -92,7 +92,7 @@
     "sequelize": "^3.18.0",
     "skel": "git+https://github.com/brightdigit/skel.git",
     "spin.js": "^2.3.2",
-    "typed.js": "^1.1.1",
+    "typed.js": "git+https://github.com/brightdigit/typed.js.git",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
@@ -127,7 +127,7 @@
     },
     "typed.js": {
       "depends": [
-        "jquery:jQuery"
+        "jquery:jquery"
       ]
     }
   }

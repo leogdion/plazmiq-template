@@ -10,7 +10,7 @@ require("jquery-placeholder");
 require("./jquery.scrolly");
 require("jquery.dropotron");
 require("jquery.scrollex");
-//require("typed.js");
+require("typed.js");
 var skel = require("skel");
 require("./util");
 
@@ -326,7 +326,7 @@ debugger;
 				._parallax();
 
 	});
-/*
+
 	$("#activity").before("<br>").typed({
 		strings: [" on email?", " on working out?", " on family time?", " on sales?", " on learning a new skill?"],
     loop: true,
@@ -334,7 +334,7 @@ debugger;
     typeSpeed: 50,
     backSpeed: 50,
 	}).addClass("active");
-*/
+
 	// Signup Form.
 		(function() {
 
