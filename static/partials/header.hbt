@@ -1,24 +1,59 @@
-<header>
-  <nav>
-    <ul>
-      <li class="brand"><a href="/#">
-  <img class="logo" src="/assets/images/power-button2.svg">beginkit</a></li>
-    </ul>
-    <ul>
-     {{#each collections.pages}}
-      <li><a href="/{{path}}">{{this.title}}</a></li>
-      {{/each}}
-    </ul>
-    <ul class="float-right"><li><a href="https://github.com/brightdigit/beginkit"><img src="/assets/images/GitHub-Mark-Light-32px.png"></a></li>
-    <li><a href="https://www.brightdigit.com"><img src="/assets/images/bd-logo.svg"></a></li>
-    </ul>
-    <form>
-       <input class="" name="name" type="text" placeholder="name" minlength="5" maxlength="15" required>
-          <input class="" name="password" type="password" placeholder="password" minlength="8" maxlength="255" required>
-          <button>Log In</button>
-    </form>
-    <ul class="float-right">
-      <li id="build" class="{{ stage }}">{{ pkg.version }}-{{ stage }}</li>
-    </ul>
-  </nav>
-</header>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-33667276-2', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+<div id="page-wrapper">
+<!--Header-->
+<header id="header">
+<h1 id="logo">
+<img src="/assets/images/logo.svg">
+<a href="/"> TagMento</a>
+<span class="built-by">built by <a href="http://www.brightdigit.com"><img alt="brightdigit" src="/assets/images/brightdigit-name.svg"></a></span>
+</h1><nav id="nav">
+<ul>
+
+<li>
+<!-- Email -->
+<a href="mailto:?&bcc=contact@tagmento.com&subject=Take a look at TagMento - track your time intelligently&body=Hey,%0A%0ACheck%20this%20app%20out.%20TagMento%20helps%20you%20track%20your%20time%20intelligently%20based%20on%20where%20you%20are%20and%20what%20you%20have%20planned.%20Signup%20at%20the%20website%20to%20receive%20exclusive%20news%20on%20releases.%0A%0Ahttp%3A//www.tagmento.com" title="Share via Email" target="_blank" class="btn btn-envelope"><i class="fa fa-envelope"></i> <span class="title">Email</span></a>
+
+</li>
+
+<li>
+<!-- Twitter -->
+<a href="https://twitter.com/share?url=https%3A%2F%2Fwww.tagmento.com&hashtags=productivity%2Capp%2CBigData&text=Do you know what have you done today? Track time intelligently with @tagmento" title="Share on Twitter" target="_blank" class="btn btn-twitter"><i class="fa fa-twitter"></i> <span class="title">Twitter</span></a>
+
+</li>
+<li>
+ <!-- Facebook -->
+<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//www.tagmento.com" title="Share on Facebook" target="_blank" class="btn btn-facebook"><i class="fa fa-facebook"></i> <span class="title">Facebook</span></a>
+</li>
+
+<li>
+ <!-- Pintrest -->
+<a href="https://pinterest.com/pin/create/button/?url=http%3A//www.tagmento.com&media=http%3A//www.tagmento.com/assets/images/banner.jpg&description=Do%20you%20know%20what%20have%20you%20done%20today?%0ATagMento%20helps%20you%20track%20your%20time%20intelligently%20based%20on%20where%20you%20are%20and%20what%20you%20have%20planned.%0ASignup%20to%20receive%20exclusive%20news%20on%20releases." title="Share on Facebook" target="_blank" class="btn btn-pinterest"><i class="fa fa-pinterest"></i> <span class="title">Pinterest</span></a>
+</li>
+
+<li>
+<!-- LinkedIn --> 
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A//www.tagmento.com&title=Do%20you%20know%20what%20have%20you%20done%20today?%20Track%20time%20intelligently%20with%20TagMento.&summary=TagMento%20helps%20you%20track%20your%20time%20intelligently%20based%20on%20where%20you%20are%20and%20what%20you%20have%20planned.Signup%20to%20receive%20exclusive%20news%20on%20new%20releases.&source=https://www.linkedin.com/company/tagmento" title="Share on LinkedIn" target="_blank" class="btn btn-linkedin"><i class="fa fa-linkedin"></i> <span class="title">LinkedIn</span></a>
+</li>
+<li>
+<!-- LinkedIn --> 
+<a href="http://www.reddit.com/submit?url=http://www.tagmento.com&title=Do you know what have you done today? Track time intelligently with TagMento" title="Share on Reddit" target="_blank" class="btn btn-reddit"><i class="fa fa-reddit"></i> <span class="title">Reddit</span></a>
+</li>
+
+<li>
+<!-- Hacker News --> 
+<a href="https://news.ycombinator.com/submitlink?u=http://www.tagmento.com&t=Track time intelligently with TagMento" title="Share on Hacker News" target="_blank" class="btn btn-hacker-news"><i class="fa fa-hacker-news"></i> <span class="title">Hacker News</span></a>
+</li>
+
+<li>
+<a class="button special scrolly" href="/#six"> Sign Up</a>
+</li>
+</ul></nav></header>

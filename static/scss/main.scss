@@ -55,6 +55,11 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 /* Basic */
 
+			#activity {
+				&.active {
+					color: lighten(_palette(accent1), 20%);
+				}
+			}
 	html, body {
 		background: _palette(bg);
 	}
@@ -202,6 +207,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
 	.align-right {
 		text-align: right;
 	}
+
 
 /* Loader */
 
@@ -378,7 +384,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
 	textarea {
 		@include vendor('appearance', 'none');
 		@include vendor('transition', 'border-color #{_duration(transition)} ease-in-out');
-		background: transparent;
+		background: _palette(bg-transparent);
 		border-radius: _size(border-radius);
 		border: solid 1px _palette(border);
 		color: inherit;
@@ -394,6 +400,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 		&:focus {
 			border-color: _palette(accent1);
+			font-weight: 300;
 		}
 	}
 
@@ -513,22 +520,22 @@ $fa-font-path: "/assets/fonts/font-awesome";
 	}
 
 	::-webkit-input-placeholder {
-		color: _palette(fg-light) !important;
+		color: _palette(fg) !important;
 		opacity: 1.0;
 	}
 
 	:-moz-placeholder {
-		color: _palette(fg-light) !important;
+		color: _palette(fg) !important;
 		opacity: 1.0;
 	}
 
 	::-moz-placeholder {
-		color: _palette(fg-light) !important;
+		color: _palette(fg) !important;
 		opacity: 1.0;
 	}
 
 	:-ms-input-placeholder {
-		color: _palette(fg-light) !important;
+		color: _palette(fg) !important;
 		opacity: 1.0;
 	}
 
@@ -1180,6 +1187,11 @@ $fa-font-path: "/assets/fonts/font-awesome";
 					}
 				}
 			}
+
+			a {
+				color: #FFF;
+				font-weight: bold;
+			}
 		}
 
 		&.fade-down {
@@ -1292,6 +1304,19 @@ $fa-font-path: "/assets/fonts/font-awesome";
 		padding-top: 3.5em;
 	}
 
+	#header #logo, #titleBar .title{
+			img {
+				height: 1.5em;
+				position: relative;
+				top: 0.5em;
+			}
+		}
+
+		#titleBar 
+		.built-by {
+			display: none;
+		}
+
 	#header {
 		background: _palette(accent2-transparent);
 		box-shadow: 0 0 0.25em 0 rgba(0,0,0,0.25);
@@ -1311,6 +1336,19 @@ $fa-font-path: "/assets/fonts/font-awesome";
 			margin: 0;
 			position: absolute;
 			top: 0;
+		}
+
+		
+		.built-by {
+			font-weight: 100;
+			margin: 0px 5px;
+			img {
+				height: 1.5em;
+				display: inline-block;
+				position: relative;
+				top: 0.5em;
+				margin: 0px 2px;
+			}
 		}
 
 		nav {
@@ -1375,8 +1413,8 @@ $fa-font-path: "/assets/fonts/font-awesome";
 	#banner {
 		background-attachment: fixed;
 		background-color: _palette(accent2);
-		background-image: url('/assets/images/banner.jpg');
-		background-position: center center;
+		background-image: url('../../assets/images/xlarge/banner.jpg');
+		background-position: bottom center;
 		background-size: cover;
 		box-shadow: 0 0.25em 0.5em 0 rgba(0,0,0,0.25);
 		min-height: 100vh;
@@ -1413,6 +1451,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
 			vertical-align: middle;
 			z-index: 1;
 
+
 			header {
 				display: inline-block;
 				vertical-align: middle;
@@ -1428,19 +1467,13 @@ $fa-font-path: "/assets/fonts/font-awesome";
 				}
 			}
 
-			.image {
+			form {
 				border-radius: 100%;
 				display: inline-block;
-				height: 18em;
-				margin-left: 3em;
+				/*height: 18em;*/
 				vertical-align: middle;
-				width: 18em;
+				clear: both;
 
-				img {
-					border-radius: 100%;
-					display: block;
-					width: 100%;
-				}
 			}
 		}
 	}
@@ -1451,6 +1484,37 @@ $fa-font-path: "/assets/fonts/font-awesome";
 		}
 	}
 
+	form.signup-form {
+	width: 100%;
+		.message {
+			max-width: 550px;
+			margin-top: 1em;
+			font-weight: _font(weight-bold);
+			visibility: hidden;
+			header & {
+				background: _palette(bg-transparent);
+				padding: 10px;
+				text-align: left;
+			}
+			i.fa {
+				margin-right: 5px;
+			}
+			&.success {
+				color: lighten(_palette(accent4), 50%);
+				header & {
+					color: lighten(_palette(accent4), 10%);
+				}
+				visibility: visible;
+			}
+			&.failure {
+				color: lighten(_palette(accent1), 50%);
+				header & {
+					color: lighten(_palette(accent1), 10%);
+				}
+				visibility: visible;
+			}
+		}
+	}
 /* Footer */
 
 	#footer {
@@ -1504,6 +1568,12 @@ $fa-font-path: "/assets/fonts/font-awesome";
 				font-size: 13pt;
 			}
 
+		#header nav ul li a {
+			span {
+				display: inline;
+			}
+		}
+
 	}
 
 /* Large */
@@ -1513,6 +1583,16 @@ $fa-font-path: "/assets/fonts/font-awesome";
 		$size-wrapper-pad-tb: 4.5em;
 		$size-wrapper-pad-lr: 2.5em;
 
+
+
+		#header nav ul li a {
+			span {
+				display: none;
+			}
+		}
+		#titleBar .title img{
+			height: 1
+		}
 		/* Basic */
 
 			body, input, select, textarea {
@@ -1585,6 +1665,11 @@ $fa-font-path: "/assets/fonts/font-awesome";
 				font-size: 12pt;
 			}
 
+		#banner {
+			background-attachment: fixed;
+			background-color: _palette(accent2);
+			background-image: url('../../assets/images/banner.jpg');
+		}
 		/* Spotlight */
 
 			.spotlight {
@@ -2016,3 +2101,24 @@ $fa-font-path: "/assets/fonts/font-awesome";
 			}
 
 	}
+.typed-cursor{
+    opacity: 1;
+    -webkit-animation: blink 0.7s infinite;
+    -moz-animation: blink 0.7s infinite;
+    animation: blink 0.7s infinite;
+}
+@keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes blink{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}

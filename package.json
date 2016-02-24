@@ -1,6 +1,6 @@
 {
-  "name": "beginkit-template",
-  "version": "0.1.0",
+  "name": "tagmento-web",
+  "version": "1.4.12",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -92,6 +92,7 @@
     "sequelize": "^3.18.0",
     "skel": "git+https://github.com/brightdigit/skel.git",
     "spin.js": "^2.3.2",
+    "typed.js": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
@@ -122,6 +123,11 @@
     "jquery.scrollex": {
       "depends": [
         "jquery:jquery"
+      ]
+    },
+    "typed.js": {
+      "depends": [
+        "jquery:jQuery"
       ]
     }
   }
