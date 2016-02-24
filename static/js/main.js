@@ -5,7 +5,6 @@
 */
 
 
-//var jQuery = require("jquery");
 var jQuery = require("jquery");
 require("jquery-placeholder");
 require("jquery.scrolly");
@@ -59,6 +58,7 @@ require("./util");
 				);
 			});
 
+debugger;
 		// Scrolly links.
 			$('.scrolly').scrolly({
 				speed: 2000

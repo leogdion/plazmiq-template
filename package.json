@@ -1,6 +1,6 @@
 {
   "name": "tagmento-web",
-  "version": "1.4.12",
+  "version": "1.4.15",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
