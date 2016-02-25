@@ -119,24 +119,7 @@ gulp.task('handlebars', function () {
   });
 });
 
-
-gulp.task('templates', ['clean'], function () {
-  gulp.src('static/templates/*.hbt').pipe(handlebars()).pipe(wrap('Handlebars.template(<%= contents %>)')).pipe(declare({
-    root: "Templates"
-    // Avoid duplicate declarations
-  })).pipe(concat('templates.js')).pipe(insert.prepend('var Handlebars = require(\'handlebars\'); var Templates = Templates || {};')).pipe(umd()).pipe(gulp.dest('.tmp/js/'));
-});
-
-
-gulp.task('browserify', ['clean', 'templates'], function () {
-/*
-  var b = browserify({
-    entries: './.tmp/js/main.js',
-    debug: false
-  });
-
-  return b.bundle().pipe(source('main.js')).pipe(buffer()).pipe(gulp.dest('./.tmp/build/js/'));
-*/
+gulp.task('browserify', ['clean'], function () {
   var bundler = browserify('./static/js/main.js', { debug: true }).transform(babel, { presets: ['es2015'] });
 
   return bundler.bundle()
@@ -164,11 +147,15 @@ gulp.task('assets', ['clean'], function () {
   return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
 });
 
+gulp.task('favicons', ['clean'], function () {
+  return gulp.src('static/favicons/**/*').pipe(gulp.dest('.tmp/build'));
+});
+
 gulp.task('fonts', ['clean'], function () {
   return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/build/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'fonts', 'critical']);
+gulp.task('static', ['metalsmith', 'browserify', 'assets', 'fonts', 'critical', 'favicons']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
