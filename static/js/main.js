@@ -5,10 +5,9 @@
 */
 
 
-//var jQuery = require("jquery");
 var jQuery = require("jquery");
 require("jquery-placeholder");
-require("jquery.scrolly");
+require("./jquery.scrolly");
 require("jquery.dropotron");
 require("jquery.scrollex");
 var skel = require("skel");
@@ -16,6 +15,11 @@ require("./util");
 
 (function($) {
 
+	function xlarge (src) {
+		var pathComponents = src.split("/");
+		pathComponents.splice(-1,0,"xlarge");
+		return pathComponents.join("/");
+	}
 	skel.breakpoints({
 		xlarge: '(max-width: 1680px)',
 		large: '(max-width: 1280px)',
@@ -32,18 +36,22 @@ require("./util");
 		// Disable animations/transitions until the page has loaded.
 			$body.addClass('is-loading');
 
-			$window.on('load', function() {
+			$window.load(function() {
 				window.setTimeout(function() {
 					$body.removeClass('is-loading');
 				}, 0);
+			/** this is come when complete page is fully loaded, including all frames, objects and images **/
 			});
+				window.setTimeout(function() {
+					$body.removeClass('is-loading');
+				}, 5000);
 
 		// Touch mode.
 			if (skel.vars.mobile)
 				$body.addClass('is-touch');
 
 		// Fix: Placeholder polyfill.
-		$('form').placeholder();
+			$('form').placeholder();
 
 		// Prioritize "important" elements on medium.
 			skel.on('+medium -medium', function() {
@@ -53,10 +61,12 @@ require("./util");
 				);
 			});
 
+
 		// Scrolly links.
 			$('.scrolly').scrolly({
 				speed: 2000
 			});
+
 		// Dropdowns.
 			$('#nav > ul').dropotron({
 				alignment: 'right',
@@ -75,7 +85,6 @@ require("./util");
 					.appendTo($body);
 
 			// Navigation Panel.
-
 				$(
 					'<div id="navPanel">' +
 						'<nav>' +
@@ -94,7 +103,6 @@ require("./util");
 						target: $body,
 						visibleClass: 'navPanel-visible'
 					});
-
 
 			// Fix: Remove navPanel transitions on WP<10 (poor/buggy performance).
 				if (skel.vars.os == 'wp' && skel.vars.osVersion < 10)
@@ -182,8 +190,12 @@ require("./util");
 
 					on = function() {
 
+							var img = $this.find('.image.main > img');
+							var orgSrc = img.attr('src');
+							var src = img.hasClass("has-large") ? xlarge(orgSrc) : orgSrc;
+							
 						// Use main <img>'s src as this spotlight's background.
-							$this.css('background-image', 'url("' + $this.find('.image.main > img').attr('src') + '")');
+							$this.css('background-image', 'url("' + src + '")');
 
 						// Enable transitions (if supported).
 							if (skel.canUse('transition')) {
@@ -212,9 +224,8 @@ require("./util");
 										bottom = 0;
 
 									}
-
+debugger;
 								// Add scrollex.
-
 									$this.scrollex({
 										mode:		mode,
 										top:		top,
@@ -229,7 +240,7 @@ require("./util");
 
 									});
 
-						}
+							}
 
 					};
 
@@ -291,9 +302,8 @@ require("./util");
 
 					off = function() {
 
-						if (skel.canUse('transition')) {
+						if (skel.canUse('transition'))
 							$this.unscrollex();
-						}
 
 					};
 
@@ -316,4 +326,99 @@ require("./util");
 
 	});
 
+
+	// Signup Form.
+		(function() {
+
+			// Vars.
+			var $form = document.querySelectorAll('.signup-form'),
+			$submit = document.querySelectorAll('.signup-form input[type="submit"]');
+
+
+			// Bail if addEventListener isn't supported.
+			if (!('addEventListener' in $form[0]))
+			return;
+
+			var icon = {
+				failure: "fa-exclamation-circle",
+				success: "fa-thumbs-o-up"
+			};
+
+			// Message.
+			[].forEach.call($form, function(div) {
+				var $message, $parent;
+				$parent = document.createElement('div');
+				$parent.classList.add('row');
+				$parent.classList.add('50%');
+				$message = document.createElement('span');
+				$message.classList.add('message');
+				$message.classList.add('12u');
+				$parent.appendChild($message);
+			  // do whatever
+			  //div.style.color = "red";
+				div.appendChild($parent);
+				var currentType;
+
+				$message._show = function(type, text) {
+
+					var prefix = "";
+					var iconClass = icon[type];
+					if (iconClass) {
+						prefix = '<i class="fa ' + iconClass + '"></i>'
+					}
+					currentType = type;
+					$message.innerHTML = prefix + text;
+					$message.classList.add(type);
+					$message.classList.add('visible');
+
+					window.setTimeout(function() {
+						$message._hide();
+					}, 3000);
+
+				};
+
+				$message._hide = function() {
+					$message.classList.remove('visible');
+					if (currentType) {
+						$message.classList.remove(currentType);
+					}
+				};
+
+				// Events.
+				// Note: If you're *not* using AJAX, get rid of this event listener.
+				div.addEventListener('submit', function(event) {
+
+					var email = div.querySelector("input.email").value;
+					event.stopPropagation();
+					event.preventDefault();
+
+					// Hide message.
+					$message._hide();
+
+					// Disable submit.
+					$submit.disabled = true;
+
+
+					var script = document.createElement('script');
+					script.src = div.getAttribute('action') + "&c=signup_success&EMAIL=" + encodeURIComponent(email);
+
+					window.signup_success = function(data)
+					{
+						if (data.result === "success") {
+							$message._show('success', data.msg);
+						} else {
+							$message._show('failure', data.msg);
+						}
+						$submit.disabled = false;
+						document.getElementsByTagName('head')[0].removeChild(script);
+					}
+					document.getElementsByTagName('head')[0].appendChild(script);
+				});
+			});
+
+
+
+
+
+		})();
 })(jQuery);
