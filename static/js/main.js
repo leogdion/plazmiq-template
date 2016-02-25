@@ -224,7 +224,7 @@ require("./util");
 										bottom = 0;
 
 									}
-debugger;
+
 								// Add scrollex.
 									$this.scrollex({
 										mode:		mode,
@@ -335,6 +335,9 @@ debugger;
 			$submit = document.querySelectorAll('.signup-form input[type="submit"]');
 
 
+			if ($form.length < 1)
+				return;
+			
 			// Bail if addEventListener isn't supported.
 			if (!('addEventListener' in $form[0]))
 			return;
