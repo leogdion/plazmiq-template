@@ -1,24 +1,28 @@
-<header>
-  <nav>
-    <ul>
-      <li class="brand"><a href="/#">
-  <img class="logo" src="/assets/images/power-button2.svg">beginkit</a></li>
-    </ul>
-    <ul>
-     {{#each collections.pages}}
-      <li><a href="/{{path}}">{{this.title}}</a></li>
-      {{/each}}
-    </ul>
-    <ul class="float-right"><li><a href="https://github.com/brightdigit/beginkit"><img src="/assets/images/GitHub-Mark-Light-32px.png"></a></li>
-    <li><a href="https://www.brightdigit.com"><img src="/assets/images/bd-logo.svg"></a></li>
-    </ul>
-    <form>
-       <input class="" name="name" type="text" placeholder="name" minlength="5" maxlength="15" required>
-          <input class="" name="password" type="password" placeholder="password" minlength="8" maxlength="255" required>
-          <button>Log In</button>
-    </form>
-    <ul class="float-right">
-      <li id="build" class="{{ stage }}">{{ pkg.version }}-{{ stage }}</li>
-    </ul>
-  </nav>
-</header>
+
+        <header id="header">
+          <h1 id="logo"><a href="index.html">Landed</a></h1>
+          <nav id="nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li>
+                <a href="#">Layouts</a>
+                <ul>
+                  <li><a href="left-sidebar.html">Left Sidebar</a></li>
+                  <li><a href="right-sidebar.html">Right Sidebar</a></li>
+                  <li><a href="no-sidebar.html">No Sidebar</a></li>
+                  <li>
+                    <a href="#">Submenu</a>
+                    <ul>
+                      <li><a href="#">Option 1</a></li>
+                      <li><a href="#">Option 2</a></li>
+                      <li><a href="#">Option 3</a></li>
+                      <li><a href="#">Option 4</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="elements.html">Elements</a></li>
+              <li><a href="#" class="button special">Sign Up</a></li>
+            </ul>
+          </nav>
+        </header>
