@@ -1,0 +1,35 @@
+
+
+<!DOCTYPE html>
+<html>
+  {{> head}}
+    <body class="margin">
+        {{> header}}
+      <main>
+<h2>{{title}}</h2>
+
+<article>
+    <ul>
+    	<li>
+        <h1>Posts for {{tag}}</h1>
+<ul>{{#each pagination.files}}
+	<li>{{title}}</li>
+{{/each}}</ul>
+	</li>
+    </ul>
+</article>
+{{#if this.pagination}}
+    <nav class="pagination">
+        {{#if this.pagination.next}}
+            <a href="/{{this.pagination.next.path}}">&lt; Prev</a>
+        {{/if}}
+
+        {{#if this.pagination.prev}}
+            <a href="/{{this.pagination.prev.path}}">Next &gt;</a>
+        {{/if}}
+    </nav>
+{{/if}}
+      </main>
+        {{> footer}}
+    </body>
+</html>
