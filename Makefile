@@ -17,7 +17,7 @@ clean:
 clean-dry-run:
 	git clean -x -d -n --exclude=".credentials"
 publish:
-	$(gulp) publish & git push heroku master
+	$(gulp) publish
 dev: all
 	$(static) build/development -p 8081 #& npm start
 serve: all

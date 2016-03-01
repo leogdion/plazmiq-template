@@ -225,7 +225,7 @@ require("./util");
 										bottom = 0;
 
 									}
-debugger;
+
 								// Add scrollex.
 									$this.scrollex({
 										mode:		mode,
