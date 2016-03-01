@@ -1,0 +1,193 @@
+    <head>
+        <title>{{title}}</title>
+<meta charset="utf-8" />
+
+<meta property="og:image" content="http://www.tagmento.com/assets/images/banner.jpg" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-194x194.png" sizes="194x194">
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+<meta name="theme-color" content="#ffffff">
+<script type="text/javascript">
+    (function () {
+      "use strict";
+      // once cached, the css file is stored on the client forever unless
+      // the URL below is changed. Any change will invalidate the cache
+      var css_href = '/assets/fonts/raleway/raleway.css';
+      // a simple event handler wrapper
+      function on(el, ev, callback) {
+        if (el.addEventListener) {
+          el.addEventListener(ev, callback, false);
+        } else if (el.attachEvent) {
+          el.attachEvent("on" + ev, callback);
+        }
+      }
+      
+      // if we have the fonts in localStorage or if we've cached them using the native batrowser cache
+      if ((window.localStorage && localStorage.font_css_cache) || document.cookie.indexOf('font_css_cache') > -1){
+        // just use the cached version
+        injectFontsStylesheet();
+      } else {
+       // otherwise, don't block the loading of the page; wait until it's done.
+        on(window, "load", injectFontsStylesheet);
+      }
+      
+      // quick way to determine whether a css file has been cached locally
+      function fileIsCached(href) {
+        return window.localStorage && localStorage.font_css_cache && (localStorage.font_css_cache_file === href);
+      }
+      // time to get the actual css file
+      function injectFontsStylesheet() {
+       // if this is an older browser
+        if (!window.localStorage || !window.XMLHttpRequest) {
+          var stylesheet = document.createElement('link');
+          stylesheet.href = css_href;
+          stylesheet.rel = 'stylesheet';
+          stylesheet.type = 'text/css';
+          document.getElementsByTagName('head')[0].appendChild(stylesheet);
+          // just use the native browser cache
+          // this requires a good expires header on the server
+          document.cookie = "font_css_cache";
+        
+        // if this isn't an old browser
+        } else {
+           // use the cached version if we already have it
+          if (fileIsCached(css_href)) {
+            injectRawStyle(localStorage.font_css_cache);
+          // otherwise, load it with ajax
+          } else {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", css_href, true);
+            // cater for IE8 which does not support addEventListener or attachEvent on XMLHttpRequest
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                // once we have the content, quickly inject the css rules
+                injectRawStyle(xhr.responseText);
+                // and cache the text content for further use
+                // notice that this overwrites anything that might have already been previously cached
+                localStorage.font_css_cache = xhr.responseText;
+                localStorage.font_css_cache_file = css_href;
+              }
+            };
+            xhr.send();
+          }
+        }
+      }
+      // this is the simple utitily that injects the cached or loaded css text
+      function injectRawStyle(text) {
+        var style = document.createElement('style');
+        // cater for IE8 which doesn't support style.innerHTML
+        style.setAttribute("type", "text/css");
+        // add the style element to the DOM before adding styles to it or IE8 will crash
+        document.getElementsByTagName('head')[0].appendChild(style);
+        if (style.styleSheet) {
+            style.styleSheet.cssText = text;
+        } else {
+            style.innerHTML = text;
+        }
+      }
+    }());
+</script>
+<!--[if lte IE 8]>
+        <script src="/js/ie/html5shiv.js" type="text/javascript" charset="utf-8" async defer></script>
+<![endif]-->
+<script>
+/*!
+loadCSS: load a CSS file asynchronously.
+[c]2015 @scottjehl, Filament Group, Inc.
+Licensed MIT
+*/
+(function(w){
+    "use strict";
+    /* exported loadCSS */
+    var loadCSS = function( href, before, media ){
+        // Arguments explained:
+        // `href` [REQUIRED] is the URL for your CSS file.
+        // `before` [OPTIONAL] is the element the script should use as a reference for injecting our stylesheet <link> before
+            // By default, loadCSS attempts to inject the link after the last stylesheet or script in the DOM. However, you might desire a more specific location in your document.
+        // `media` [OPTIONAL] is the media type or query of the stylesheet. By default it will be 'all'
+        var doc = w.document;
+        var ss = doc.createElement( "link" );
+        var newMedia = media || "all";
+        var ref;
+        if( before ){
+            ref = before;
+        }
+        else {
+            var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+            ref = refs[ refs.length - 1];
+        }
+
+        var sheets = doc.styleSheets;
+        ss.rel = "stylesheet";
+        ss.href = href;
+        // temporarily set media to something inapplicable to ensure it'll fetch without blocking render
+        ss.media = "only x";
+
+
+        // Inject link
+            // Note: the ternary preserves the existing behavior of "before" argument, but we could choose to change the argument to "after" in a later release and standardize on ref.nextSibling for all refs
+            // Note: `insertBefore` is used instead of `appendChild`, for safety re: http://www.paulirish.com/2011/surefire-dom-element-insertion/
+        ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+        // A method (exposed on return object for external use) that mimics onload by polling until document.styleSheets until it includes the new sheet.
+        var onloadcssdefined = function( cb ){
+            var resolvedHref = ss.href;
+            var i = sheets.length;
+            while( i-- ){
+                if( sheets[ i ].href === resolvedHref ){
+                    return cb();
+                }
+            }
+            setTimeout(function() {
+                onloadcssdefined( cb );
+            });
+        };
+
+        // once loaded, set link's media back to `all` so that the stylesheet applies once it loads
+        if( ss.addEventListener ){
+            ss.addEventListener( "load", function(){
+                this.media = newMedia;
+            });
+        }
+        ss.onloadcssdefined = onloadcssdefined;
+        onloadcssdefined(function() {
+            if( ss.media !== newMedia ){
+                ss.media = newMedia;
+            }
+        });
+        return ss;
+    };
+    // commonjs
+    if( typeof exports !== "undefined" ){
+        exports.loadCSS = loadCSS;
+    }
+    else {
+        w.loadCSS = loadCSS;
+    }
+}( typeof global !== "undefined" ? global : this ));
+loadCSS( "/css/main.css" );
+</script>
+<noscript>
+      <link rel="stylesheet" href="/css/main.css">
+</noscript>
+<!--[if lte IE 9]>
+      <link rel="stylesheet" href="/css/ie9.css" media="all">
+<![endif]--><!--[if lte IE 8]>
+      <link rel="stylesheet" href="/css/ie8.css" media="all">
+<![endif]-->
+</head>

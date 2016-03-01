@@ -1,0 +1,29 @@
+<!--Footer-->
+<footer id="footer">
+<ul class="icons">
+<li>
+<a class="icon alt fa-twitter" href="http://www.twitter.com/tagmento">
+<span class="label">Twitter</span>
+</a></li>
+<li>
+<a class="icon alt fa-facebook" href="http://www.facebook.com/tagmento">
+<span class="label">Facebook</span>
+</a></li>
+<li>
+<a class="icon alt fa-linkedin" href="https://www.linkedin.com/company/tagmento">
+<span class="label">Linked</span>
+</a></li>
+<li>
+<a class="icon alt fa-envelope" href="mailto:contact@tagmento.com">
+<span class="label">Email</span>
+</a></li></ul><ul class="copyright">
+<li><a href="http://www.brightdigit.com" style="text-decoration: none;">&copy; BrightDigit LLC.</a> All rights reserved.
+</li>
+</ul></footer></div><!--Scripts-->
+<!--[if lte IE 8]>
+        <script src="/js/ie/respond.min.js" type="text/javascript" charset="utf-8" async defer></script>
+
+<![endif]-->
+
+        <script src="/js/main.js" type="text/javascript" charset="utf-8" async defer></script>
+</body></html>
