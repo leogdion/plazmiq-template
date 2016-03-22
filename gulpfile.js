@@ -48,6 +48,8 @@ var metalsmith_build = require('./gulp/metalsmith');
 var async = require('async'),
     rimraf = require('rimraf');
 
+var package = require("./package.json");
+
 var awscredentials = revquire({
   "accessKeyId": "AWS_CREDENTIALS_KEY",
   "secretAccessKey": "AWS_CREDENTIALS_SECRET",
@@ -56,11 +58,23 @@ var awscredentials = revquire({
   }
 }, __dirname + '/.credentials/aws.json');
 
+var publishType = package.beginkit.publishing.type;
+
+if (publishType == "github") {
+  publishTasks = ['github-publish'];
+} else if (publishType == "aws") {
+  publishTasks = ['aws-publish'];
+} else {
+  publishTasks = [];
+}
+
 gulp.task('clean', function (cb) {
   async.each(['.tmp', 'build'], rimraf, cb);
 });
 
-gulp.task('publish', ['production'], function () {
+gulp.task('publish', publishTasks);
+
+gulp.task('aws-publish', ['production'], function () {
   var publisher = awspublish.create(awscredentials);
   return gulp.src("**/*", {
     cwd: "./build/production/"
