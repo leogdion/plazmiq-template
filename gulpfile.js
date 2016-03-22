@@ -28,6 +28,7 @@ var substituter = require('gulp-substituter');
 var gulpFilter = require('gulp-filter');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('babelify');
+var ghPages = require('gulp-gh-pages');
 
 HandlebarsIntl = require('handlebars-intl');
 
@@ -73,6 +74,13 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('publish', publishTasks);
+
+gulp.task('github-publish', ['production'], function () {
+  return gulp.src('./build/production/**/*')
+    .pipe(ghPages({
+      "options.cacheDir" : "./.tmp/publish"
+    }));
+});
 
 gulp.task('aws-publish', ['production'], function () {
   var publisher = awspublish.create(awscredentials);
