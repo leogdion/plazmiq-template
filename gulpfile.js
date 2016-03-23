@@ -78,7 +78,7 @@ gulp.task('publish', publishTasks);
 gulp.task('github-publish', ['production'], function () {
   return gulp.src('./build/production/**/*')
     .pipe(ghPages({
-      "options.cacheDir" : "./.tmp/publish"
+      "cacheDir" : "./.tmp/publish"
     }));
 });
 
@@ -222,7 +222,7 @@ gulp.task('development', ['static'], function () {
   })).pipe(filter.restore).pipe(gulp.dest('build/development'));
 });
 
-gulp.task('production', ['minify', 'production-assets'], function () {
+gulp.task('production', ['minify', 'production-assets', 'production-cname'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
@@ -236,6 +236,10 @@ gulp.task('production', ['minify', 'production-assets'], function () {
 
 gulp.task('production-assets', ['static'], function () {
   return gulp.src('.tmp/build/assets/**/*').pipe(gulp.dest('./build/production/assets'));
+});
+
+gulp.task('production-cname', ['static'], function () {
+  return gulp.src('.tmp/build/CNAME').pipe(gulp.dest('./build/production'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
