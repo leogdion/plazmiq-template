@@ -242,6 +242,10 @@ gulp.task('assets', ['clean'], function () {
   return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/metalsmith/assets'));
 });
 
+gulp.task('graphics', ['clean'], function () {
+  return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/assets/images'));
+});
+
 gulp.task('favicons', ['clean', 'generate-favicon', 'inject-favicon-markups', 'check-for-favicon-update'], function () {
   return gulp.src('static/favicons/**/*').pipe(gulp.dest('.tmp/metalsmith'));
 });
@@ -250,7 +254,7 @@ gulp.task('fonts', ['clean'], function () {
   return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'fonts', 'critical', 'favicons']);
+gulp.task('static', ['metalsmith', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
