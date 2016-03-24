@@ -28,6 +28,7 @@ var substituter = require('gulp-substituter');
 var gulpFilter = require('gulp-filter');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('babelify');
+var ghPages = require('gulp-gh-pages');
 
 HandlebarsIntl = require('handlebars-intl');
 
@@ -48,6 +49,8 @@ var metalsmith_build = require('./gulp/metalsmith');
 var async = require('async'),
     rimraf = require('rimraf');
 
+var package = require("./package.json");
+
 var awscredentials = revquire({
   "accessKeyId": "AWS_CREDENTIALS_KEY",
   "secretAccessKey": "AWS_CREDENTIALS_SECRET",
@@ -56,11 +59,30 @@ var awscredentials = revquire({
   }
 }, __dirname + '/.credentials/aws.json');
 
+var publishType = package.beginkit.publishing.type;
+
+if (publishType == "github") {
+  publishTasks = ['github-publish'];
+} else if (publishType == "aws") {
+  publishTasks = ['aws-publish'];
+} else {
+  publishTasks = [];
+}
+
 gulp.task('clean', function (cb) {
   async.each(['.tmp', 'build'], rimraf, cb);
 });
 
-gulp.task('publish', ['production'], function () {
+gulp.task('publish', publishTasks);
+
+gulp.task('github-publish', ['production'], function () {
+  return gulp.src('./build/production/**/*')
+    .pipe(ghPages({
+      "cacheDir" : "./.tmp/publish"
+    }));
+});
+
+gulp.task('aws-publish', ['production'], function () {
   var publisher = awspublish.create(awscredentials);
   return gulp.src("**/*", {
     cwd: "./build/production/"
@@ -200,7 +222,7 @@ gulp.task('development', ['static'], function () {
   })).pipe(filter.restore).pipe(gulp.dest('build/development'));
 });
 
-gulp.task('production', ['minify', 'production-assets'], function () {
+gulp.task('production', ['minify', 'production-assets', 'production-cname'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
@@ -214,6 +236,10 @@ gulp.task('production', ['minify', 'production-assets'], function () {
 
 gulp.task('production-assets', ['static'], function () {
   return gulp.src('.tmp/build/assets/**/*').pipe(gulp.dest('./build/production/assets'));
+});
+
+gulp.task('production-cname', ['static'], function () {
+  return gulp.src('.tmp/build/CNAME').pipe(gulp.dest('./build/production'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
