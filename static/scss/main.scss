@@ -367,6 +367,15 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 	form {
 		margin: 0 0 _size(element-margin) 0;
+
+		header > & > .row.uniform > .form-message {
+			padding: 0;
+			p {
+			font-size: 1.25em;
+			margin-top: -1em;
+			line-height: 1.75em;
+			}
+		}	
 	}
 
 	label {
