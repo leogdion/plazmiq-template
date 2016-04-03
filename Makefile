@@ -13,8 +13,12 @@ test: depend
 prod: all
 	$(static) build/production -p 8080 & npm start
 clean:
-	git clean -x -d -f --exclude=".credentials"
+	git clean -x -d -f --exclude=".credentials" --exclude="node_modules"
 clean-dry-run:
+	git clean -x -d -n --exclude=".credentials" --exclude="node_modules"
+clean-cache:
+	git clean -x -d -f --exclude=".credentials"
+clean-cache-dry-run:
 	git clean -x -d -n --exclude=".credentials"
 publish:
 	$(gulp) publish

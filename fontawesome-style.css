@@ -23,7 +23,7 @@
 .<%= className %>-lg {
   font-size: 1.3333333333333333em;
   line-height: 0.75em;
-  vertical-align: -15%;
+  vertical-align: -25%;
 }
 .<%= className %>-2x { font-size: 2em; }
 .<%= className %>-3x { font-size: 3em; }
