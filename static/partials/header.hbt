@@ -47,6 +47,12 @@
 <a href="http://www.reddit.com/submit?url=http://www.tagmento.com&title=Do you know what have you done today? Track time intelligently with TagMento" title="Share on Reddit" target="_blank" class="btn btn-reddit"><i class="fa fa-reddit"></i> <span class="title">Reddit</span></a>
 </li>
 
+
+<li>
+<!-- Beta List --> 
+<a href="http://betalist.com/startups/tagmento" title="Share on Beta List" target="_blank" class="btn btn-betalist"><i class="s s-betalist"></i> <span class="title">Beta List</span></a>
+</li>
+
 <li>
 <!-- Hacker News --> 
 <a href="https://news.ycombinator.com/submitlink?u=http://www.tagmento.com&t=Track time intelligently with TagMento" title="Share on Hacker News" target="_blank" class="btn btn-hacker-news"><i class="fa fa-hacker-news"></i> <span class="title">Hacker News</span></a>

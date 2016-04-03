@@ -5,6 +5,9 @@
 
 $fa-font-path: "/assets/fonts/font-awesome";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
+
+@import "../../.tmp/css/fontawesome-style.scss";
+
 /*
 	Landed by HTML5 UP
 	html5up.net | @n33co
@@ -39,6 +42,19 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 	@mixin line-icon($bg: _palette(bg), $fg: _palette(fg-bold)) {
 		@include icon;
+		$size: 1px;
+
+		&:before {
+			color: $bg !important;
+			text-shadow:	$size 0 0 $fg,
+							($size * -1) 0 0 $fg,
+							0 $size 0 $fg,
+							0 ($size * -1) 0 $fg;
+		}
+	}
+
+	@mixin sline-icon($bg: _palette(bg), $fg: _palette(fg-bold)) {
+		@include sicon;
 		$size: 1px;
 
 		&:before {
@@ -589,6 +605,10 @@ $fa-font-path: "/assets/fonts/font-awesome";
 			@include line-icon;
 		}
 
+		&.s.alt {
+			@include sline-icon;
+		}
+
 		&.major {
 			background: _palette(accent2);
 			border-radius: 100%;
@@ -606,6 +626,10 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 			&.alt {
 				@include line-icon(_palette(accent2));
+			}
+
+			&.s.alt {
+				@include sline-icon(_palette(accent2));
 			}
 		}
 	}
@@ -1032,6 +1056,20 @@ $fa-font-path: "/assets/fonts/font-awesome";
 			border-style: solid;
 			opacity: 1;
 			position: absolute;
+
+			div.row {
+				.bigger {
+					font-size: 1.25em;
+					line-height: 1.75em
+				}
+				header > .heavier {
+					font-weight: 300;
+					strong {
+						color: lighten(_palette(accent1), 20%);
+						font-weight: 600;
+					}
+				}
+			}
 		}
 
 		.goto-next {
@@ -1535,6 +1573,9 @@ $fa-font-path: "/assets/fonts/font-awesome";
 			.icon {
 				&.alt {
 					@include line-icon(_palette(accent2), _palette(fg-light));
+				}
+				&.s.alt {
+					@include sline-icon(_palette(accent2), _palette(fg-light));
 				}
 			}
 		}

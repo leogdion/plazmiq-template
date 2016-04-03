@@ -43,6 +43,8 @@ var declare = require('gulp-declare');
 var concat = require('gulp-concat');
 var insert = require('gulp-insert');
 
+var iconfont = require('gulp-iconfont');
+
 var metalsmith_build = require('./gulp/metalsmith');
 
 var async = require('async'),
@@ -151,7 +153,7 @@ gulp.task('favicons', ['clean'], function () {
   return gulp.src('static/favicons/**/*').pipe(gulp.dest('.tmp/build'));
 });
 
-gulp.task('fonts', ['clean'], function () {
+gulp.task('fonts', ['clean', 'iconfont'], function () {
   return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/build/assets/fonts/font-awesome'));
 });
 
@@ -233,7 +235,40 @@ gulp.task('uglify-js', ['static'], function () {
 
 });
 
-gulp.task('critical', ['scss', 'metalsmith'], function (cb) {
+var runTimestamp = Math.round(Date.now()/1000);
+ 
+var consolidate = require('gulp-consolidate');
+ 
+gulp.task('iconfont', ['clean'], function(done){
+  var iconStream = gulp.src(['icons/*.svg'])
+    .pipe(iconfont({ fontName: 'tagmento' }));
+ 
+  async.parallel([
+    function handleGlyphs (cb) {
+      iconStream.on('glyphs', function(glyphs, options) {
+        gulp.src('fontawesome-style.css')
+          .pipe(consolidate('lodash', {
+            glyphs: glyphs,
+            fontName: 'tagmento',
+            fontPath: '/assets/fonts/tagmento/',
+            className: 's'
+          }))
+          .pipe(rename({
+            extname: ".scss"
+          }))
+          .pipe(gulp.dest('.tmp/css/'))
+          .on('finish', cb);
+      });
+    },
+    function handleFonts (cb) {
+      iconStream
+        .pipe(gulp.dest('.tmp/build/assets/fonts/tagmento'))
+        .on('finish', cb);
+    }
+  ], done);
+});
+
+gulp.task('critical', ['scss', 'metalsmith', 'iconfont'], function (cb) {
   critical.generateInline({
     base: '.tmp/build',
     src: 'index.html',
