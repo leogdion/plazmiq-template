@@ -150,7 +150,7 @@ gulp.task('assets', ['clean'], function () {
 });
 
 gulp.task('favicons', ['clean'], function () {
-  return gulp.src('static/favicons/**/*').pipe(gulp.dest('.tmp/build'));
+  return gulp.src('static/favicons/**/*').pipe(gulp.dest('.tmp/build')).pipe(gulp.dest('build/production'));
 });
 
 gulp.task('fonts', ['clean', 'iconfont'], function () {
