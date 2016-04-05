@@ -373,7 +373,7 @@ gulp.task('iconfont', ['clean'], function(done){
   ], done);
 });
 
-gulp.task('critical', ['scss', 'metalsmith', 'favicons'], function (cb) {
+gulp.task('critical', ['scss', 'metalsmith', 'favicons', 'iconfont'], function (cb) {
   critical.generateInline({
     base: '.tmp/metalsmith',
     src: 'index.html',
