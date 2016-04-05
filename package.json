@@ -1,6 +1,6 @@
 {
   "name": "tagmento-web",
-  "version": "1.6.7",
+  "version": "1.6.11",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -90,7 +90,8 @@
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-real-favicon": "^0.2.1"
+    "gulp-real-favicon": "^0.2.1",
+    "gulp-sitemap": "^4.0.0"
   },
   "browserify": {
     "transform": [
