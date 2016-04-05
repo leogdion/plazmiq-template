@@ -343,6 +343,9 @@ require("./util");
 			$submit = document.querySelectorAll('.signup-form input[type="submit"]');
 
 
+			if (!($form[0]))
+			return;
+		
 			// Bail if addEventListener isn't supported.
 			if (!('addEventListener' in $form[0]))
 			return;

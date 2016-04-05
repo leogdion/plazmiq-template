@@ -59,6 +59,10 @@
 </li>
 
 <li>
+<a class="button scrolly" href="/blog"> News</a>
+</li>
+
+<li>
 <a class="button special scrolly" href="/#six"> Sign Up</a>
 </li>
 </ul></nav></header>

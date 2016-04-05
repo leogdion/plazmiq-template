@@ -29,8 +29,8 @@ module.exports = (function () {
     }
     var m = metalsmith(basePath + "/static").metadata({
       site: {
-        title: "BrightDigit",
-        url: "http://www.brightdigit.com"
+        title: "TagMento",
+        url: "http://www.tagmento.com"
       }
     }).use(publish(publishSettings)).use(define({
       pkg: require(basePath + '/package.json'),

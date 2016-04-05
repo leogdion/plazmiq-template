@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
+<head>
   {{> head}}
-    <body class="margin">
-        {{> header}}
-      <main>
-<h2>{{title}}</h2>
+</head>
+<body class="blog index">
+  <div id="page-wrapper">
+    {{> header}}    
+    <div id="main" class="wrapper style1">
+                    <div class="container">
+                        <header class="major">
+                            <h2>News</h2>
+                            <p>Articles, </p>
+                        </header>
 
-<article>
+                        <!-- Content -->
+                        <article>
     <ul>
         {{#each (limit collections.posts this.pagination.end this.pagination.start)}}
             <li>
                 <h3><a href="../{{this.path}}">{{this.title}}</a></h3>
+                <h4>{{#intl locales="en-US"}}{{formatDate date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}</h4>
                 <article>
                 {{#unless this.abstract}}
-                  {{safe excerpt}}
+                  <p>{{strip excerpt}}</p>
                 {{else}}
                   {{this.abstract}}
                 {{/unless}}
@@ -33,7 +42,18 @@
         {{/if}}
     </nav>
 {{/if}}
-      </main>
-        {{> footer}}
-    </body>
+                            
+
+                    </div>
+                </div>
+    
+    {{> footer}}
+  </div>
+  <!--[if lte IE 8]>
+        <script src="/js/ie/respond.min.js" type="text/javascript" charset="utf-8" async defer></script>
+
+<![endif]-->
+
+        <script src="/js/main.js" type="text/javascript" charset="utf-8" async defer></script>
+</body>
 </html>

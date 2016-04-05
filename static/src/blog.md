@@ -1,5 +1,5 @@
 ---
-title: blog
+title: TagMento - News
 layout: blog.hbt
 paginate: posts
 ---
