@@ -1,3 +1,0 @@
-[submodule "modules/roust"]
-	path = modules/roust
-	url = https://github.com/brightdigit/roust.git

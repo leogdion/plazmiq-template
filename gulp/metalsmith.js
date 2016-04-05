@@ -80,7 +80,7 @@ module.exports = (function () {
     }).use(layouts({
       engine: "handlebars",
       partials: 'partials'
-    })).destination("../.tmp/build");
+    })).destination("../.tmp/metalsmith");
 
     // and .use() as many Metalsmith plugins as you like 
     //.use(permalinks('posts/:title'))
