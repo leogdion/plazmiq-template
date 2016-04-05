@@ -1,6 +1,6 @@
 {
   "name": "www.beginkit.com",
-  "version": "0.2.95",
+  "version": "0.3.0",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brightdigit/www.beginkit.com.git"
+    "url": "git+https://github.com/brightdigit/beginkit-template.git"
   },
   "author": "Leo G Dion",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/brightdigit/www.beginkit.com/issues"
+    "url": "https://github.com/brightdigit/beginkit-template/issues"
   },
-  "homepage": "https://github.com/brightdigit/www.beginkit.com#readme",
+  "homepage": "https://github.com/brightdigit/beginkit-template#readme",
   "beginkit": {
     "publishing": {
       "type": "github"

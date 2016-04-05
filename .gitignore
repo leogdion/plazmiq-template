@@ -57,5 +57,3 @@ node_modules
 .sass-cache
 .credentials
 build
-
-faviconData.json
