@@ -2,6 +2,7 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
+var realFavicon = require ('gulp-real-favicon');
 var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
@@ -70,6 +71,78 @@ if (publishType == "github") {
 } else {
   publishTasks = [];
 }
+// File where the favicon markups are stored
+var FAVICON_DATA_FILE = 'faviconData.json';
+
+// Generate the icons. This task takes a few seconds to complete. 
+// You should run it at least once to create the icons. Then, 
+// you should run it whenever RealFaviconGenerator updates its 
+// package (see the check-for-favicon-update task below).
+gulp.task('generate-favicon', ['clean', 'metalsmith', 'check-for-favicon-update'], function(done) {
+  realFavicon.generateFavicon({
+    masterPicture: "./graphics/logo.svg",
+    dest: "./.tmp/metalsmith",
+    iconsPath: '/',
+    design: {
+      ios: {
+        pictureAspect: 'backgroundAndMargin',
+        backgroundColor: '#ffffff',
+        margin: '18%'
+      },
+      desktopBrowser: {},
+      windows: {
+        pictureAspect: 'noChange',
+        backgroundColor: '#da532c',
+        onConflict: 'override'
+      },
+      androidChrome: {
+        pictureAspect: 'noChange',
+        themeColor: '#ffffff',
+        manifest: {
+          name: 'BeginKit',
+          display: 'browser',
+          orientation: 'notSet',
+          onConflict: 'override',
+          declared: true
+        }
+      },
+      safariPinnedTab: {
+        pictureAspect: 'silhouette',
+        themeColor: '#5bbad5'
+      }
+    },
+    settings: {
+      scalingAlgorithm: 'Mitchell',
+      errorOnImageTooSmall: false
+    },
+    markupFile: FAVICON_DATA_FILE
+  }, function() {
+    done();
+  });
+});
+
+// Inject the favicon markups in your HTML pages. You should run 
+// this task whenever you modify a page. You can keep this task 
+// as is or refactor your existing HTML pipeline.
+gulp.task('inject-favicon-markups', ['clean', 'metalsmith', 'generate-favicon'], function() {
+  return gulp.src([ './.tmp/metalsmith/**/*.html' ])
+    .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
+    .pipe(gulp.dest('./.tmp/metalsmith'));
+});
+
+// Check for updates on RealFaviconGenerator (think: Apple has just
+// released a new Touch icon along with the latest version of iOS).
+// Run this task from time to time. Ideally, make it part of your 
+// continuous integration system.
+gulp.task('check-for-favicon-update', ['clean', 'metalsmith'], function(done) {
+  var currentVersion = JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).version;
+  realFavicon.checkForUpdates(currentVersion, function(err) {
+    if (err) {
+      throw err;
+    }
+    done();
+  });
+});
 
 gulp.task('clean', function (cb) {
   async.each(['.tmp', 'build'], rimraf, cb);
@@ -152,12 +225,12 @@ gulp.task('browserify', ['clean'], function () {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./.tmp/build/js/'));
+      .pipe(gulp.dest('./.tmp/metalsmith/js/'));
 
 });
 
-gulp.task('scss', ['clean'], function () {
-  var dest = gulp.dest('.tmp/build/css');
+gulp.task('scss', ['clean', 'iconfont'], function () {
+  var dest = gulp.dest('.tmp/metalsmith/css');
   var main = gulp.src('static/scss/*.scss').pipe(scss());
 
   var site = gulp.src('static/scss/*.scss').pipe(scss()).pipe(rename({
@@ -168,18 +241,20 @@ gulp.task('scss', ['clean'], function () {
 });
 
 gulp.task('assets', ['clean'], function () {
-  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
+  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/metalsmith/assets'));
 });
 
-gulp.task('favicons', ['clean'], function () {
-  return gulp.src('static/favicons/**/*').pipe(gulp.dest('.tmp/build'));
+gulp.task('graphics', ['clean'], function () {
+  return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/assets/images'));
 });
 
-gulp.task('fonts', ['clean', 'iconfont'], function () {
-  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/build/assets/fonts/font-awesome'));
+gulp.task('favicons', ['clean', 'generate-favicon', 'inject-favicon-markups', 'check-for-favicon-update']);
+
+gulp.task('fonts', ['clean'], function () {
+  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'fonts', 'critical', 'favicons']);
+gulp.task('static', ['metalsmith', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons']);
 
 gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -216,48 +291,52 @@ gulp.task('development', ['static'], function () {
     restore: true
   });
 
-  return gulp.src('.tmp/build/**/*').pipe(filter).pipe(substituter({
+  return gulp.src('.tmp/metalsmith/**/*').pipe(filter).pipe(substituter({
     configuration: JSON.stringify({
       "server": "http://localhost:5000",
       "debug": true
     })
-  })).pipe(filter.restore).pipe(gulp.dest('build/development'));
+  })).pipe(filter.restore).pipe(gulp.dest('./build/development'));
 });
 
-gulp.task('production', ['minify', 'production-assets', 'production-cname'], function () {
+gulp.task('production', ['minify', 'production-assets', 'production-cname', 'production-favicons'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
   });
-  return gulp.src('.tmp/production/**/*').pipe(substituter({
+  return gulp.src('.tmp/build/production/**/*').pipe(substituter({
     configuration: JSON.stringify({
       "server": "http://mysterious-oasis-7692.herokuapp.com"
     })
   })).pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
 });
 
+gulp.task('production-favicons', ['static'], function () {
+  return gulp.src(['.tmp/metalsmith/*.png','.tmp/metalsmith/browserconfig.xml','.tmp/metalsmith/manifest.json','.tmp/metalsmith/*.svg']).pipe(gulp.dest('./build/production/'));
+});
+
 gulp.task('production-assets', ['static'], function () {
-  return gulp.src('.tmp/build/assets/**/*').pipe(gulp.dest('./build/production/assets'));
+  return gulp.src('.tmp/metalsmith/assets/**/*').pipe(gulp.dest('./build/production/assets'));
 });
 
 gulp.task('production-cname', ['static'], function () {
-  return gulp.src('.tmp/build/CNAME').pipe(gulp.dest('./build/production'));
+  return gulp.src('.tmp/metalsmith/CNAME').pipe(gulp.dest('./build/production'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
 
 gulp.task('htmlmin', ['static'], function () {
-  return gulp.src('.tmp/build/**/*.html').pipe(htmlmin({
+  return gulp.src('.tmp/metalsmith/**/*.html').pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
-  })).pipe(gulp.dest('.tmp/production'));
+  })).pipe(gulp.dest('.tmp/build/production'));
 });
 
 gulp.task('uglify-js', ['static'], function () {
-  return gulp.src('.tmp/build/**/*.js').pipe(uglify({
+  return gulp.src('.tmp/metalsmith/**/*.js').pipe(uglify({
     mangle: false,
     compress: false
-  })).pipe(gulp.dest('.tmp/production'));
+  })).pipe(gulp.dest('.tmp/build/production'));
 
 });
 
@@ -267,7 +346,7 @@ var consolidate = require('gulp-consolidate');
  
 gulp.task('iconfont', ['clean'], function(done){
   var iconStream = gulp.src(['icons/*.svg'])
-    .pipe(iconfont({ fontName: 'beginkit' }));
+    .pipe(iconfont({ fontName: 'tagmento' }));
  
   async.parallel([
     function handleGlyphs (cb) {
@@ -275,8 +354,8 @@ gulp.task('iconfont', ['clean'], function(done){
         gulp.src('fontawesome-style.css')
           .pipe(consolidate('lodash', {
             glyphs: glyphs,
-            fontName: 'beginkit',
-            fontPath: '/assets/fonts/beginkit/',
+            fontName: 'tagmento',
+            fontPath: '/assets/fonts/tagmento/',
             className: 's'
           }))
           .pipe(rename({
@@ -288,18 +367,18 @@ gulp.task('iconfont', ['clean'], function(done){
     },
     function handleFonts (cb) {
       iconStream
-        .pipe(gulp.dest('.tmp/build/assets/fonts/beginkit'))
+        .pipe(gulp.dest('.tmp/build/assets/fonts/tagmento'))
         .on('finish', cb);
     }
   ], done);
 });
 
-gulp.task('critical', ['scss', 'metalsmith', 'iconfont'], function (cb) {
+gulp.task('critical', ['scss', 'metalsmith', 'favicons'], function (cb) {
   critical.generateInline({
-    base: '.tmp/build',
+    base: '.tmp/metalsmith',
     src: 'index.html',
-    styleTarget: '.tmp/build/css/site.css',
-    htmlTarget: '.tmp/build/index.html',
+    styleTarget: '.tmp/metalsmith/css/site.css',
+    htmlTarget: '.tmp/metalsmith/index.html',
     width: 320,
     height: 480,
     minify: false
@@ -307,10 +386,8 @@ gulp.task('critical', ['scss', 'metalsmith', 'iconfont'], function (cb) {
 });
 
 gulp.task('uglify-css', ['static'], function () {
-  return gulp.src('.tmp/build/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/production'));
+  return gulp.src('.tmp/metalsmith/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/build/production'));
 });
-
-gulp.task('heroku:production', ['publish', 'test', 'submodules']);
 
 gulp.task('test', function () {
   // place code for your default task here

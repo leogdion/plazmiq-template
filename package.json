@@ -1,6 +1,6 @@
 {
   "name": "www.beginkit.com",
-  "version": "0.2.59",
+  "version": "0.2.95",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -89,7 +89,8 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.0"
+    "gulp": "^3.9.0",
+    "gulp-real-favicon": "^0.2.1"
   },
   "browserify": {
     "transform": [
