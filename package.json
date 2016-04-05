@@ -22,7 +22,7 @@
   "homepage": "https://github.com/brightdigit/beginkit-template#readme",
   "beginkit": {
     "publishing": {
-      "type": "github"
+      "type": "aws"
     }
   },
   "dependencies": {
