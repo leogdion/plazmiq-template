@@ -10,6 +10,7 @@ require("jquery-placeholder");
 require("./jquery.scrolly");
 require("jquery.dropotron");
 require("jquery.scrollex");
+require("typed.js");
 var skel = require("skel");
 require("./util");
 
@@ -333,7 +334,6 @@ require("./util");
 			// Vars.
 			var $form = document.querySelectorAll('.signup-form'),
 			$submit = document.querySelectorAll('.signup-form input[type="submit"]');
-
 
 			if ($form.length < 1)
 				return;
