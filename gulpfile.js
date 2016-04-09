@@ -330,7 +330,7 @@ gulp.task('production-sitemap', ['static'], function () {
 });
 
 gulp.task('production-favicons', ['static'], function () {
-  return gulp.src(['.tmp/metalsmith/production/*.png','.tmp/metalsmith/production/browserconfig.xml','.tmp/metalsmith/production/manifest.json','.tmp/metalsmith/production/*.svg']).pipe(gulp.dest('./.tmp/build/production/'));
+  return gulp.src(['.tmp/metalsmith/production/*.png','.tmp/metalsmith/production/browserconfig.xml','.tmp/metalsmith/production/manifest.json','.tmp/metalsmith/production/*.svg','.tmp/metalsmith/production/*.ico']).pipe(gulp.dest('./.tmp/build/production/'));
 });
 
 gulp.task('production-assets', ['static'], function () {
@@ -400,8 +400,9 @@ gulp.task('sitemap', ['clean', 'metalsmith-production', , 'metalsmith-developmen
 });
 
 gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont'], function (cb) {
-  critical.generateInline({
-    base: '.tmp/metalsmith/production',
+  critical.generate({
+    inline: true,
+    base: '.tmp/metalsmith/production', 
     src: 'index.html',
     styleTarget: '.tmp/metalsmith/production/css/site.css',
     htmlTarget: '.tmp/metalsmith/production/index.html',

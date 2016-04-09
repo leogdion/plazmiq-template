@@ -1633,6 +1633,35 @@ $fa-font-path: "/assets/fonts/font-awesome";
 		}
 	}
 
+
+
+	.blog.index {
+		#main .container {
+			article {
+				max-width: 640px !important;
+				margin: auto;
+				ul {
+					list-style: none;
+					padding: 0;
+					margin: 0;
+					border-bottom: solid 1px;
+					padding-bottom: 2em;
+					li {
+						text-indent: 0;
+						padding: 0;
+						margin: 0;
+						border-bottom: solid 1px;
+						margin-bottom: 2em;
+						&:last-child {
+							border: none;
+							margin: 0;
+						}
+					}
+				}
+			}
+		}
+	}
+
 /* XLarge */
 
 	@include breakpoint(xlarge) {

@@ -18,7 +18,6 @@ var md5sum = crypto.createHash('md5');
 module.exports = (function () {
   function build(configuration, cb) {
 
-    console.log(cb);
     var publishSettings = {};
     var stage = (configuration && configuration.stage) || "development";
     var basePath = (configuration && configuration.base) || (__dirname + "/..");
@@ -30,10 +29,7 @@ module.exports = (function () {
       };
     }
 
-    console.log(configuration);
-    console.log(path.resolve("../.tmp/metalsmith", stage));
     var destination = path.relative(__dirname, path.resolve(".tmp/metalsmith", stage));
-    console.log(destination);
     var m = metalsmith(basePath + "/static").metadata({
       site: {
         title: "TagMento",
