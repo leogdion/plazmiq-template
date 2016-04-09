@@ -1633,7 +1633,21 @@ $fa-font-path: "/assets/fonts/font-awesome";
 		}
 	}
 
-
+	.post.index {
+		#main .container {
+			.post {
+				max-width: 640px !important;
+				margin: auto;
+				footer {
+					nav {
+						a.next {
+							float: right;
+						}
+					}
+				}
+			}
+		}
+	}
 
 	.blog.index {
 		#main .container {

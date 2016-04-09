@@ -1,6 +1,6 @@
 {
   "name": "www.beginkit.com",
-  "version": "0.3.37",
+  "version": "0.3.53",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -71,6 +71,7 @@
     "jquery.scrolly": "git+https://github.com/brightdigit/scrolly.git",
     "jshint": "^2.9.1",
     "lodash": "^4.7.0",
+    "marked": "^0.3.5",
     "merge-stream": "^1.0.0",
     "metalsmith": "^2.1.0",
     "metalsmith-collections": "^0.7.0",

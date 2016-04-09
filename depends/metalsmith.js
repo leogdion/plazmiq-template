@@ -11,7 +11,14 @@ markdown = require('metalsmith-markdown'),
     collections = require('metalsmith-collections'),
     metalsmith = require('metalsmith'),
     path = require('path');
+var marked = require('marked');
+var renderer = new marked.Renderer();
 
+var heading = renderer.heading;
+
+renderer.heading = function (text, level, raw) {
+  return heading.call(renderer, text, level + 2, raw);
+};
 
 var crypto = require('crypto');
 var md5sum = crypto.createHash('md5');
@@ -61,7 +68,9 @@ module.exports = (function () {
     })).use(paginate({
       perPage: 10,
       path: "blog/page"
-    })).use(markdown()).use(excerpts()).use(permalinks({
+    })).use(markdown({
+      renderer : renderer
+    })).use(excerpts()).use(permalinks({
       pattern: 'blog/:date/:title',
       date: 'YY/MM/DD'
     })).use(function (files, metalsmith) {
@@ -91,8 +100,7 @@ module.exports = (function () {
     // and .use() as many Metalsmith plugins as you like 
     //.use(permalinks('posts/:title'))
     m.build(function (error) {
-      console.log(error);
-      cb();
+      cb(error);
     });
   }
 
