@@ -86,11 +86,12 @@
     "spin.js": "^2.3.2",
     "typed.js": "git+https://github.com/brightdigit/typed.js.git",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "gulp-real-favicon": "^0.2.1",
+    "gulp-sitemap": "^4.0.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-real-favicon": "^0.2.1"
+    "gulp": "^3.9.0"
   },
   "browserify": {
     "transform": [
