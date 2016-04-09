@@ -35,7 +35,7 @@ var sitemap = require('gulp-sitemap');
 
 HandlebarsIntl = require('handlebars-intl');
 
-var revquire = require('./gulp/revquire');
+var revquire = require('./depends/revquire');
 
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -49,7 +49,7 @@ var insert = require('gulp-insert');
 
 var iconfont = require('gulp-iconfont');
 
-var metalsmith_build = require('./gulp/metalsmith');
+var metalsmith_build = require('./depends/metalsmith');
 
 var async = require('async'),
     rimraf = require('rimraf');
@@ -82,7 +82,7 @@ var FAVICON_DATA_FILE = 'faviconData.json';
 // package (see the check-for-favicon-update task below).
 gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-favicon-update'], function(done) {
   realFavicon.generateFavicon({
-    masterPicture: "./static/assets/images/logo.svg",
+    masterPicture: "./graphics/logo.svg",
     dest: "./.tmp/favicons",
     iconsPath: '/',
     design: {
@@ -227,7 +227,8 @@ gulp.task('browserify', ['clean'], function () {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./.tmp/metalsmith/js/'));
+      .pipe(gulp.dest('./.tmp/metalsmith/development/js/'))
+      .pipe(gulp.dest('./.tmp/metalsmith/production/js/'));
 
 });
 
@@ -239,24 +240,26 @@ gulp.task('scss', ['clean', 'iconfont'], function () {
     basename: "site"
   }));
 
-  return merge(main, site).pipe(dest);
+  return merge(main, site).pipe(gulp.dest('.tmp/metalsmith/production/css')).pipe(gulp.dest('.tmp/metalsmith/development/css'));
 });
 
 gulp.task('assets', ['clean'], function () {
-  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/metalsmith/assets'));
+  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/metalsmith/production/assets')).pipe(gulp.dest('.tmp/metalsmith/development/assets'));
 });
 
 gulp.task('graphics', ['clean'], function () {
-  return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/assets/images'));
+  return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/production/assets/images')).pipe(gulp.dest('.tmp/metalsmith/development/assets/images'));
 });
 
-gulp.task('favicons', ['clean', 'generate-favicon', 'inject-favicon-markups', 'check-for-favicon-update']);
+gulp.task('favicons', ['clean', 'generate-favicon', 'inject-favicon-markups', 'check-for-favicon-update'], function () {
+  return gulp.src('.tmp/favicons/*.*').pipe(gulp.dest('.tmp/metalsmith/production')).pipe(gulp.dest('.tmp/metalsmith/development'));
+});
 
 gulp.task('fonts', ['clean'], function () {
-  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/assets/fonts/font-awesome'));
+  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/font-awesome')).pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'sitemap']);
+gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'fonts']);
 
 gulp.task('metalsmith-development', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -297,7 +300,7 @@ gulp.task('development', ['static'], function () {
     restore: true
   });
 
-  return gulp.src('.tmp/metalsmith/**/*').pipe(filter).pipe(substituter({
+  return gulp.src('.tmp/metalsmith/development/**/*').pipe(filter).pipe(substituter({
     configuration: JSON.stringify({
       "server": "http://localhost:5000",
       "debug": true
@@ -305,9 +308,10 @@ gulp.task('development', ['static'], function () {
   })).pipe(filter.restore).pipe(gulp.dest('./build/development'));
 });
 
-gulp.task('production', ['minify', 'production-assets', 'production-cname', 'production-favicons', 'production-sitemap'], function () {
+gulp.task('production', ['minify', 'browserify', 'scss', 'production-css-js', 'production-assets', 'production-cname', 'production-favicons', 'production-sitemap'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
+    dontGlobal: ['.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
   });
   return gulp.src('.tmp/build/production/**/*').pipe(substituter({
@@ -317,26 +321,30 @@ gulp.task('production', ['minify', 'production-assets', 'production-cname', 'pro
   })).pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
 });
 
+gulp.task('production-css-js', ['static'], function () {
+  return gulp.src(['.tmp/metalsmith/production/**/*.js','.tmp/metalsmith/production/**/*.js.map','.tmp/metalsmith/production/**/*.css']).pipe(gulp.dest('./.tmp/build/production/'));
+});
+
 gulp.task('production-sitemap', ['static'], function () {
-  return gulp.src(['.tmp/metalsmith/sitemap.xml']).pipe(gulp.dest('./build/production/'));
+  return gulp.src(['.tmp/metalsmith/production/sitemap.xml']).pipe(gulp.dest('./.tmp/build/production/'));
 });
 
 gulp.task('production-favicons', ['static'], function () {
-  return gulp.src(['.tmp/metalsmith/*.png','.tmp/metalsmith/browserconfig.xml','.tmp/metalsmith/manifest.json','.tmp/metalsmith/*.svg']).pipe(gulp.dest('./build/production/'));
+  return gulp.src(['.tmp/metalsmith/production/*.png','.tmp/metalsmith/production/browserconfig.xml','.tmp/metalsmith/production/manifest.json','.tmp/metalsmith/production/*.svg']).pipe(gulp.dest('./.tmp/build/production/'));
 });
 
 gulp.task('production-assets', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/assets/**/*').pipe(gulp.dest('./build/production/assets'));
+  return gulp.src('.tmp/metalsmith/production/assets/**/*').pipe(gulp.dest('./.tmp/build/production/assets'));
 });
 
 gulp.task('production-cname', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/CNAME').pipe(gulp.dest('./build/production'));
+  return gulp.src('.tmp/metalsmith/production/CNAME').pipe(gulp.dest('./.tmp/build/production'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
 
 gulp.task('htmlmin', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/**/*.html').pipe(htmlmin({
+  return gulp.src('.tmp/metalsmith/production/**/*.html').pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
   })).pipe(gulp.dest('.tmp/build/production'));
@@ -383,7 +391,7 @@ gulp.task('iconfont', ['clean'], function(done){
   ], done);
 });
 
-gulp.task('sitemap', ['clean', 'metalsmith'], function () {
+gulp.task('sitemap', ['clean', 'metalsmith-production', , 'metalsmith-development'], function () {
   return gulp.src('.tmp/metalsmith/production/**/*.html')
         .pipe(sitemap({
             siteUrl: 'http://www.tagmento.com'
@@ -391,7 +399,7 @@ gulp.task('sitemap', ['clean', 'metalsmith'], function () {
         .pipe(gulp.dest('./.tmp/metalsmith'));
 });
 
-gulp.task('critical', ['scss', 'metalsmith', 'favicons', 'iconfont'], function (cb) {
+gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont'], function (cb) {
   critical.generateInline({
     base: '.tmp/metalsmith/production',
     src: 'index.html',
