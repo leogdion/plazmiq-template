@@ -79,10 +79,10 @@ var FAVICON_DATA_FILE = 'faviconData.json';
 // You should run it at least once to create the icons. Then, 
 // you should run it whenever RealFaviconGenerator updates its 
 // package (see the check-for-favicon-update task below).
-gulp.task('generate-favicon', ['clean', 'metalsmith', 'check-for-favicon-update'], function(done) {
+gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-favicon-update'], function(done) {
   realFavicon.generateFavicon({
     masterPicture: "./static/assets/images/logo.svg",
-    dest: "./.tmp/metalsmith",
+    dest: "./.tmp/favicons",
     iconsPath: '/',
     design: {
       ios: {
@@ -125,7 +125,7 @@ gulp.task('generate-favicon', ['clean', 'metalsmith', 'check-for-favicon-update'
 // Inject the favicon markups in your HTML pages. You should run 
 // this task whenever you modify a page. You can keep this task 
 // as is or refactor your existing HTML pipeline.
-gulp.task('inject-favicon-markups', ['clean', 'metalsmith', 'generate-favicon'], function() {
+gulp.task('inject-favicon-markups', ['clean', 'metalsmith-development', 'metalsmith-production', 'generate-favicon'], function() {
   return gulp.src([ './.tmp/metalsmith/**/*.html' ])
     .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
     .pipe(gulp.dest('./.tmp/metalsmith'));
@@ -135,7 +135,7 @@ gulp.task('inject-favicon-markups', ['clean', 'metalsmith', 'generate-favicon'],
 // released a new Touch icon along with the latest version of iOS).
 // Run this task from time to time. Ideally, make it part of your 
 // continuous integration system.
-gulp.task('check-for-favicon-update', ['clean', 'metalsmith'], function(done) {
+gulp.task('check-for-favicon-update', ['clean', 'metalsmith-development'], function(done) {
   var currentVersion = JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).version;
   realFavicon.checkForUpdates(currentVersion, function(err) {
     if (err) {
@@ -257,8 +257,12 @@ gulp.task('fonts', ['clean'], function () {
 
 gulp.task('static', ['metalsmith', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'sitemap']);
 
-gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
+gulp.task('metalsmith-development', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
+}));
+
+gulp.task('metalsmith-production', ['handlebars', 'clean'], metalsmith_build({
+  stage: "production"
 }));
 
 gulp.task('jscs', function () {
@@ -379,7 +383,7 @@ gulp.task('iconfont', ['clean'], function(done){
 });
 
 gulp.task('sitemap', ['clean', 'metalsmith'], function () {
-    gulp.src('.tmp/metalsmith/**/*.html')
+  return gulp.src('.tmp/metalsmith/production/**/*.html')
         .pipe(sitemap({
             siteUrl: 'http://www.tagmento.com'
         }))
@@ -388,10 +392,10 @@ gulp.task('sitemap', ['clean', 'metalsmith'], function () {
 
 gulp.task('critical', ['scss', 'metalsmith', 'favicons', 'iconfont'], function (cb) {
   critical.generateInline({
-    base: '.tmp/metalsmith',
+    base: '.tmp/metalsmith/production',
     src: 'index.html',
-    styleTarget: '.tmp/metalsmith/css/site.css',
-    htmlTarget: '.tmp/metalsmith/index.html',
+    styleTarget: '.tmp/metalsmith/production/css/site.css',
+    htmlTarget: '.tmp/metalsmith/production/index.html',
     width: 320,
     height: 480,
     minify: false

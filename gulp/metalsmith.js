@@ -9,14 +9,16 @@ markdown = require('metalsmith-markdown'),
     define = require('metalsmith-define'),
     layouts = require('metalsmith-layouts'),
     collections = require('metalsmith-collections'),
-    metalsmith = require('metalsmith');
+    metalsmith = require('metalsmith'),
+    path = require('path');
+
 
 var crypto = require('crypto');
 var md5sum = crypto.createHash('md5');
 module.exports = (function () {
   function build(configuration, cb) {
 
-
+    console.log(cb);
     var publishSettings = {};
     var stage = (configuration && configuration.stage) || "development";
     var basePath = (configuration && configuration.base) || (__dirname + "/..");
@@ -27,6 +29,11 @@ module.exports = (function () {
         future: true
       };
     }
+
+    console.log(configuration);
+    console.log(path.resolve("../.tmp/metalsmith", stage));
+    var destination = path.relative(__dirname, path.resolve(".tmp/metalsmith", stage));
+    console.log(destination);
     var m = metalsmith(basePath + "/static").metadata({
       site: {
         title: "TagMento",
@@ -80,15 +87,20 @@ module.exports = (function () {
     }).use(layouts({
       engine: "handlebars",
       partials: 'partials'
-    })).destination("../.tmp/metalsmith");
+    })).destination(destination);
+
+    //path.resolve("../.tmp/metalsmith", stage));
 
     // and .use() as many Metalsmith plugins as you like 
     //.use(permalinks('posts/:title'))
-    m.build(cb);
+    m.build(function (error) {
+      console.log(error);
+      cb();
+    });
   }
 
   function build_callback(configuration) {
-    return build.bind(null, [configuration]);
+    return build.bind(null, configuration);
   }
 
   return build_callback;
