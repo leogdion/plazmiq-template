@@ -16,7 +16,7 @@
                             {{#intl locales="en-US"}}{{formatDate this.issue_date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}
                             </p>
                             <p class="date meta">
-                            Issue #{{this.no}}
+                            Issue #{{this.issue_no}}
                             </p>
                              <article class="email-content">
                               {{ safe contents }}
@@ -67,7 +67,7 @@
                     </div>
                 </div>
     
-    {{> footer}}
+    {{> issue-footer}}
   </div>
   
 </body>

@@ -414,6 +414,10 @@ gulp.task('issues', ['metalsmith-production', 'scss'], function() {
     cwd: ".tmp/metalsmith/production"
   })
         .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
+        .pipe(htmlmin({
+    collapseWhitespace: true,
+    minifyCSS: true
+  }))
         .pipe(gulp.dest('.tmp/issues'));
 });
 
