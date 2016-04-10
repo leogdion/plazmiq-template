@@ -31,6 +31,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var babel = require('babelify');
 var ghPages = require('gulp-gh-pages');
 var sitemap = require('gulp-sitemap');
+var inline = require('gulp-inline');
 
 
 HandlebarsIntl = require('handlebars-intl');
@@ -314,11 +315,7 @@ gulp.task('production', ['minify', 'browserify', 'scss', 'production-css-js', 'p
     dontGlobal: ['.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
   });
-  return gulp.src('.tmp/build/production/**/*').pipe(substituter({
-    configuration: JSON.stringify({
-      "server": "http://mysterious-oasis-7692.herokuapp.com"
-    })
-  })).pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
+  return gulp.src('.tmp/build/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
 });
 
 gulp.task('production-css-js', ['static'], function () {
@@ -410,6 +407,14 @@ gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development'
     height: 480,
     minify: false
   }, cb);
+});
+
+gulp.task('issues', ['metalsmith-production', 'scss'], function() {
+    return gulp.src(['issues/**/*.html'], {
+    cwd: ".tmp/metalsmith/production"
+  })
+        .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
+        .pipe(gulp.dest('.tmp/issues'));
 });
 
 gulp.task('uglify-css', ['static'], function () {
