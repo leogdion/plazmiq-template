@@ -1,24 +1,36 @@
-        <footer id="footer">
-          <ul class="icons">
-            <li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
-            <li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-            <li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-            <li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
-            <li><a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
-            <li><a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
-          </ul>
-          <br /> 
-<a href="*|UNSUB|*">Unsubscribe</a> *|EMAIL|* from this list.<br /> 
-<br /> 
-Our mailing address is:<br /> 
-*|HTML:LIST_ADDRESS_HTML|*<br /> 
-<br /> 
-          <ul class="copyright">
-            <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-          </ul>
-          <p>*|LIST:DESCRIPTION|* <br /> 
-Copyright (C) *|CURRENT_YEAR|* *|LIST:COMPANY|* All rights reserved.<br /> 
-<br /> 
-<a href="*|FORWARD|*">Forward</a> this email to a friend<br /> 
-<a href="*|UPDATE_PROFILE|*">Update your profile</a></p>
-        </footer>
+        <table class="footer">
+          <tr>
+            <td>
+              <table>
+
+        <tr>
+          <td> 
+            <a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a>
+            <a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a>
+            <a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a>
+            <a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a>
+            <a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a>
+            <a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <a href="*|UNSUB|*">Unsubscribe</a> *|EMAIL|* from this list.<br /> 
+            <br /> 
+            Our mailing address is:<br /> 
+            *|HTML:LIST_ADDRESS_HTML|*<br /> 
+            <br /> 
+                      <ul class="copyright">
+                        <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                      </ul>
+                      <p>*|LIST:DESCRIPTION|* <br /> 
+            Copyright (C) *|CURRENT_YEAR|* *|LIST:COMPANY|* All rights reserved.<br /> 
+            <br /> 
+            <a href="*|FORWARD|*">Forward</a> this email to a friend<br /> 
+            <a href="*|UPDATE_PROFILE|*">Update your profile</a></p>
+          </td>
+        </tr>
+              </table>
+            </td>
+          </tr>
+          </table>

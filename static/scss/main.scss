@@ -1,7 +1,6 @@
 @import 'libs/vars';
 @import 'libs/functions';
 @import 'libs/mixins';
-@import url("http://fonts.googleapis.com/css?family=Roboto:100,300,100italic,300italic");
 
 $fa-font-path: "/assets/fonts/font-awesome";
 @import "../../node_modules/font-awesome/scss/font-awesome.scss";
@@ -1636,50 +1635,33 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 	
 	.blog.index,.email.index {
-		#main 
-		{ 
-			padding-top: 0;
-			.container {
-				img.featured {
-					width: 640px;
-					max-height: 240px;
+	table {
+	margin: 0;
+	}
+		& > table:first-child {
+			max-width: 640px;
+			margin: auto;
+			tr.header{
+				h2 {
 					text-align: center;
-					object-fit: cover;
-				}
-				header {
-					.email-content, .meta {
-						max-width: 640px !important;
-						text-align: left;
-						margin: auto;
-					}
-					.email-content {
-
-					}
-				}
-				article {
-					max-width: 640px !important;
-					margin: auto;
-					ul {
-						list-style: none;
-						padding: 0;
-						margin: 0;
-						border-bottom: solid 1px;
-						padding-bottom: 2em;
-						li {
-							text-indent: 0;
-							padding: 0;
-							margin: 0;
-							border-bottom: solid 1px;
-							margin-bottom: 2em;
-							&:last-child {
-								border: none;
-								margin: 0;
-							}
-						}
-					}
 				}
 			}
+			tr.featured > td {
+				height: 240px;
+				background-size: cover;
+				background-position: center;
+				width: 100%;
+			}
 		}
+		table.footer {
+				background: _palette(accent2);
+				table {
+				max-width: 640px;
+				margin: auto;
+
+			}
+		}
+
 	}
 	.post.index {
 		#main .container {

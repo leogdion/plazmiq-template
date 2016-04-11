@@ -31,7 +31,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var babel = require('babelify');
 var ghPages = require('gulp-gh-pages');
 var sitemap = require('gulp-sitemap');
-var inline = require('gulp-inline');
+var inline = require('gulp-inline'),
+    inlineCss = require('gulp-inline-css');
 
 
 HandlebarsIntl = require('handlebars-intl');
@@ -414,6 +415,7 @@ gulp.task('issues', ['metalsmith-production', 'scss'], function() {
     cwd: ".tmp/metalsmith/production"
   })
         .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
+        .pipe(inlineCss())
         .pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
