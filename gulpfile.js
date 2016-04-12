@@ -2,6 +2,7 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
+var unirest = require('unirest');
 var realFavicon = require ('gulp-real-favicon');
 var fs = require('fs');
 var path = require('path');
@@ -32,8 +33,18 @@ var babel = require('babelify');
 var ghPages = require('gulp-gh-pages');
 var sitemap = require('gulp-sitemap');
 var inline = require('gulp-inline'),
-    inlineCss = require('gulp-inline-css');
+    inlineCss = require('gulp-inline-css'),
+    cheerio = require('gulp-cheerio');
+var crypto = require('crypto');
 
+var domain_suffix = "api.mailchimp.com"
+var base_path = "3.0"
+//var base_url = "https://<dc>.api.mailchimp.com/3.0"
+
+var api_key = "34d68e073f06bb9875b577c908533d40-us12";
+var dc = api_key.split('-')[1];
+
+var base_url = ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("");
 
 HandlebarsIntl = require('handlebars-intl');
 
@@ -57,6 +68,9 @@ var async = require('async'),
     rimraf = require('rimraf');
 
 var package = require("./package.json");
+var replace = require('gulp-just-replace');
+
+var state = require('crypto').randomBytes(64).toString('hex');
 
 var awscredentials = revquire({
   "accessKeyId": "AWS_CREDENTIALS_KEY",
@@ -410,16 +424,83 @@ gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development'
   }, cb);
 });
 
+function checksum (str, algorithm, encoding) {
+    return crypto
+        .createHash(algorithm || 'md5')
+        .update(str, 'utf8')
+        .digest(encoding || 'hex')
+}
+
 gulp.task('issues', ['metalsmith-production', 'scss'], function() {
-    return gulp.src(['issues/**/*.html'], {
+  var images = [];
+  var replaceMap = {};
+  return gulp.src(['issues/**/*.html'], {
     cwd: ".tmp/metalsmith/production"
-  })
+  }).pipe(cheerio(function ($, file, done) {
+      // The only difference here is the inclusion of a `done` parameter. 
+      // Call `done` when everything is finished. `done` accepts an error if applicable.
+      
+      async.each($('[style*=background-image]').toArray(), function (item, cb) {
+        var propValue = $(item).css('background-image');
+        var uri = propValue.substr(4,propValue.length - 5);
+        var pathComponents = uri.split('/');
+        pathComponents.unshift("static");
+        var filePath = path.resolve.apply(undefined, pathComponents);
+        var extname = path.extname(uri);
+
+        fs.readFile(filePath, function (error, data) {
+          var base64 = new Buffer(data).toString('base64');
+          var sha = checksum(data, 'sha1');
+
+          unirest.post(base_url + "/file-manager/files")
+         .auth(state, api_key)
+         .header('content-type', 'application/json')
+         .send({"name": sha + extname, "file_data": base64})
+         .end(function (response) {
+          //console.log(response.body.full_size_url);
+          
+            if (response.body.error) {
+              console.log(response.body.error_description);
+              cb(response.body.error);
+            } else {
+
+              images.push({
+                 "sha" : sha,
+                "ext" : extname,
+                "relative_url" : uri,
+                "id" : response.body.id,
+                "full_size_url" : response.body.full_size_url
+              }); 
+              replaceMap[uri] = response.body.full_size_url;
+              cb();  
+            }
+            //console.log(response.body);
+            
+          });
+        });
+      }, function (error) {
+     
+        done();
+      })
+    }))
+
         .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
         .pipe(inlineCss())
         .pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
+  })).pipe(replace(/url\(([^\)]+)\)/g, function(match) {
+    var uri = match.substr(4,match.length - 5);
+    console.log(uri);
+    var newUrl = replaceMap[uri];
+    console.log(newUrl);
+    if (newUrl) {
+      return "url(" + newUrl + ")";
+    } else {
+      return match;
+    }
   }))
+
         .pipe(gulp.dest('.tmp/issues'));
 });
 
