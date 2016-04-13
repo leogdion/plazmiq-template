@@ -4,7 +4,7 @@ if (!global.Intl) {
 
 var unirest = require('unirest');
 var realFavicon = require ('gulp-real-favicon');
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var gulp = require('gulp');
 var beautify = require('gulp-beautify');
@@ -431,9 +431,13 @@ function checksum (str, algorithm, encoding) {
         .digest(encoding || 'hex')
 }
 
-gulp.task('issues', ['metalsmith-production', 'scss'], function() {
-  var images = [];
+
+
+gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
+  fs.ensureFileSync("./beginkit/MailChimp/files.json");
+  var images =  fs.readJsonSync("./beginkit/MailChimp/files.json", {throws: false}) || {};
   var replaceMap = {};
+  
   return gulp.src(['issues/**/*.html'], {
     cwd: ".tmp/metalsmith/production"
   }).pipe(cheerio(function ($, file, done) {
@@ -451,36 +455,44 @@ gulp.task('issues', ['metalsmith-production', 'scss'], function() {
         fs.readFile(filePath, function (error, data) {
           var base64 = new Buffer(data).toString('base64');
           var sha = checksum(data, 'sha1');
+          if (images[sha]) {
+            replaceMap[uri] = images[sha].full_size_url;
+            images[sha].relative_url = uri;
+            cb();
+          } else {
 
-          unirest.post(base_url + "/file-manager/files")
-         .auth(state, api_key)
-         .header('content-type', 'application/json')
-         .send({"name": sha + extname, "file_data": base64})
-         .end(function (response) {
-          //console.log(response.body.full_size_url);
           
-            if (response.body.error) {
-              console.log(response.body.error_description);
-              cb(response.body.error);
-            } else {
-
-              images.push({
-                 "sha" : sha,
-                "ext" : extname,
-                "relative_url" : uri,
-                "id" : response.body.id,
-                "full_size_url" : response.body.full_size_url
-              }); 
-              replaceMap[uri] = response.body.full_size_url;
-              cb();  
-            }
+            unirest.post(base_url + "/file-manager/files")
+           .auth(state, api_key)
+           .header('content-type', 'application/json')
+           .send({"name": sha + extname, "file_data": base64})
+           .end(function (response) {
+            //console.log(response.body.full_size_url);
+            
+              if (response.body.error) {
+                console.log(response.body.error_description);
+                cb(response.body.error);
+              } else {
+                var data = 
+                  {
+                    "ext" : extname,
+                    "relative_url" : uri,
+                    "id" : response.body.id,
+                    "full_size_url" : response.body.full_size_url
+                  }; 
+                  images[sha] = data;
+                replaceMap[data.relative_url] = data.full_size_url;
+                cb();  
+              }
             //console.log(response.body);
             
           });
+          }
         });
       }, function (error) {
-     
-        done();
+        fs.writeJson("./beginkit/MailChimp/files.json", images, {spaces : 2}, function (err){
+          done(err || error);
+        });
       })
     }))
 
@@ -502,6 +514,33 @@ gulp.task('issues', ['metalsmith-production', 'scss'], function() {
   }))
 
         .pipe(gulp.dest('.tmp/issues'));
+});
+
+gulp.task('campaign', ['issues'], function () {
+// read folder from settings
+// read all files in issues folder
+// create template name based on folder
+// read each file and post
+/*
+var template_folder_id = "db9b74ea32";
+console.log(template_name);
+console.log('reading template...');
+fs.readFile(path.resolve(__dirname, "template.html"), function(err, data) {
+ var htmltext = new Buffer(data).toString();
+  console.log('posting template...');
+ unirest.post(base_url + "/templates")
+ .auth(state, api_key)
+ .header('content-type', 'application/json')
+ .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+ .end(function (response) {
+    if (response.body.error) {
+      console.log(response.body.error_description);
+      process.exit(1);
+    }
+    console.log(response.body);
+  });
+});
+*/
 });
 
 gulp.task('uglify-css', ['static'], function () {
