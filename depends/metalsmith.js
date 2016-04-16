@@ -9,13 +9,21 @@ markdown = require('metalsmith-markdown'),
     define = require('metalsmith-define'),
     layouts = require('metalsmith-layouts'),
     collections = require('metalsmith-collections'),
-    metalsmith = require('metalsmith');
+    metalsmith = require('metalsmith'),
+    path = require('path');
+var marked = require('marked');
+var renderer = new marked.Renderer();
+
+var heading = renderer.heading;
+
+renderer.heading = function (text, level, raw) {
+  return heading.call(renderer, text, level + 2, raw);
+};
 
 var crypto = require('crypto');
 var md5sum = crypto.createHash('md5');
 module.exports = (function () {
   function build(configuration, cb) {
-
 
     var publishSettings = {};
     var stage = (configuration && configuration.stage) || "development";
@@ -27,10 +35,12 @@ module.exports = (function () {
         future: true
       };
     }
+
+    var destination = path.relative(__dirname, path.resolve(".tmp/metalsmith", stage));
     var m = metalsmith(basePath + "/static").metadata({
       site: {
-        title: "BrightDigit",
-        url: "http://www.brightdigit.com"
+        title: "TagMento",
+        url: "http://www.tagmento.com"
       }
     }).use(publish(publishSettings)).use(define({
       pkg: require(basePath + '/package.json'),
@@ -58,7 +68,9 @@ module.exports = (function () {
     })).use(paginate({
       perPage: 10,
       path: "blog/page"
-    })).use(markdown()).use(excerpts()).use(permalinks({
+    })).use(markdown({
+      renderer : renderer
+    })).use(excerpts()).use(permalinks({
       pattern: 'blog/:date/:title',
       date: 'YY/MM/DD'
     })).use(function (files, metalsmith) {
@@ -80,15 +92,20 @@ module.exports = (function () {
     }).use(layouts({
       engine: "handlebars",
       partials: 'partials'
-    })).destination("../.tmp/metalsmith");
+    })).destination(destination);
+
+    //path.resolve("../.tmp/metalsmith", stage));
+
 
     // and .use() as many Metalsmith plugins as you like 
     //.use(permalinks('posts/:title'))
-    m.build(cb);
+    m.build(function (error) {
+      cb(error);
+    });
   }
 
   function build_callback(configuration) {
-    return build.bind(null, [configuration]);
+    return build.bind(null, configuration);
   }
 
   return build_callback;
