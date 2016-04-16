@@ -2,6 +2,7 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
+var glob = require("glob");
 var unirest = require('unirest');
 var realFavicon = require ('gulp-real-favicon');
 var fs = require('fs-extra');
@@ -41,10 +42,7 @@ var domain_suffix = "api.mailchimp.com"
 var base_path = "3.0"
 //var base_url = "https://<dc>.api.mailchimp.com/3.0"
 
-var api_key = "34d68e073f06bb9875b577c908533d40-us12";
-var dc = api_key.split('-')[1];
 
-var base_url = ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("");
 
 HandlebarsIntl = require('handlebars-intl');
 
@@ -70,6 +68,17 @@ var async = require('async'),
 var package = require("./package.json");
 var replace = require('gulp-just-replace');
 
+var beginkit_package = package.beginkit;
+
+var beginkit_creds = require('./.credentials/beginkit.json');
+
+var mc_api_key = beginkit_creds.services.MailChimp.ApiKey;
+
+var dc = mc_api_key.split('-')[1];
+
+var base_url = ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("");
+console.log(base_url);
+
 var state = require('crypto').randomBytes(64).toString('hex');
 
 var awscredentials = revquire({
@@ -80,7 +89,7 @@ var awscredentials = revquire({
   }
 }, __dirname + '/.credentials/aws.json');
 
-var publishType = package.beginkit.publishing.type;
+var publishType = beginkit_package.publishing.type;
 
 if (publishType == "github") {
   publishTasks = ['github-publish'];
@@ -463,7 +472,7 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
 
           
             unirest.post(base_url + "/file-manager/files")
-           .auth(state, api_key)
+           .auth(state, mc_api_key)
            .header('content-type', 'application/json')
            .send({"name": sha + extname, "file_data": base64})
            .end(function (response) {
@@ -503,9 +512,8 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
     minifyCSS: true
   })).pipe(replace(/url\(([^\)]+)\)/g, function(match) {
     var uri = match.substr(4,match.length - 5);
-    console.log(uri);
+    
     var newUrl = replaceMap[uri];
-    console.log(newUrl);
     if (newUrl) {
       return "url(" + newUrl + ")";
     } else {
@@ -516,11 +524,66 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
         .pipe(gulp.dest('.tmp/issues'));
 });
 
-gulp.task('campaign', ['issues'], function () {
+Object.byString = function(o, s) {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, '');           // strip a leading dot
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
+
+gulp.task('templates', ['issues'], function (done) {
+  fs.ensureFileSync("./beginkit/MailChimp/templates.json");
+  var templates =  fs.readJsonSync("./beginkit/MailChimp/templates.json", {throws: false}) || {};
+  var template_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.template");
 // read folder from settings
-// read all files in issues folder
+  glob('.tmp/issues/**/index.html', function (er, files) {
+    // read all files in issues folder
+    async.each(files, 
+      function (file, cb) {
+        var template_name = path.basename(path.dirname(file));
+        if (templates[template_name]) {
+          cb();
+          return;
+        }
+        fs.readFile(file, function(err, data) {
+         var htmltext = new Buffer(data).toString();
+         unirest.post(base_url + "/templates")
+         .auth(state, mc_api_key)
+         .header('content-type', 'application/json')
+         .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+         .end(function (response) {
+            if (response.body.error) {
+              console.log(response.body.error_description);
+              //cb(response.body.error)
+            } else {
+              templates[response.body.id] = response.body;
+            }
+            cb(response.body.error);
+          });
+        });
+      },
+      function (error) {
+        fs.writeJson("./beginkit/MailChimp/templates.json", templates, {spaces : 2}, function (err){
+          done(err || error);
+        });
+      }
+    );
+  // If the `nonull` option is set, and nothing
+  // was found, then files is ["**/*.js"]
+  // er is an error object or null.
+
+  });
 // create template name based on folder
 // read each file and post
+
 /*
 var template_folder_id = "db9b74ea32";
 console.log(template_name);

@@ -1,6 +1,6 @@
 {
   "name": "www.beginkit.com",
-  "version": "0.3.91",
+  "version": "0.3.92",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -23,6 +23,15 @@
   "beginkit": {
     "publishing": {
       "type": "github"
+    },
+    "services": {
+      "MailChimp": {
+        "folders": {
+          "template": "db9b74ea32",
+          "files": "3273",
+          "campaign": "510b4ee963"
+        }
+      }
     }
   },
   "dependencies": {
