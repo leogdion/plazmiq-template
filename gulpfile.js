@@ -226,6 +226,9 @@ gulp.task('handlebars', function () {
   Handlebars.registerHelper('limit', function (collection, limit, start) {
     return collection.slice(start, limit + 1);
   });
+  Handlebars.registerHelper('access', function (collection, key) {
+    return collection[key];
+  });
   Handlebars.registerHelper('safe', function (contents) {
     return new Handlebars.SafeString(contents);
   });
