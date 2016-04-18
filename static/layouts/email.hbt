@@ -13,10 +13,10 @@
         <tr class="header">
             <td>
                 <h2>{{this.title}}</h2>
-                <p class="no meta">
+                <p class="date meta">
                 {{#intl locales="en-US"}}{{formatDate this.issue_date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}
                 </p>
-                <p class="date meta">
+                <p class="issue_no meta">
                 Issue #{{this.issue_no}}
                 </p>
                 <p class="email-content">
@@ -24,7 +24,7 @@
                 </p>
             </td>
         </tr>
-        {{#each (limit collections.posts 3 0)}}
+        {{#each (access issues this.issue_no)}}
             <tr class="featured">
                 <td style="background-image: url(/assets/images/{{this.image}})">
                     &nbsp;
