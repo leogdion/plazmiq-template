@@ -2,8 +2,26 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
+
+Object.byString = function(o, s) {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, '');           // strip a leading dot
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
+
+var glob = require("glob");
+var unirest = require('unirest');
 var realFavicon = require ('gulp-real-favicon');
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var gulp = require('gulp');
 var beautify = require('gulp-beautify');
@@ -31,10 +49,20 @@ var sourcemaps = require('gulp-sourcemaps');
 var babel = require('babelify');
 var ghPages = require('gulp-gh-pages');
 var sitemap = require('gulp-sitemap');
+var inline = require('gulp-inline'),
+    inlineCss = require('gulp-inline-css'),
+    cheerio = require('gulp-cheerio');
+var crypto = require('crypto');
+
+var domain_suffix = "api.mailchimp.com"
+var base_path = "3.0"
+//var base_url = "https://<dc>.api.mailchimp.com/3.0"
+
+
 
 HandlebarsIntl = require('handlebars-intl');
 
-var revquire = require('./gulp/revquire');
+var revquire = require('./depends/revquire');
 
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -48,12 +76,31 @@ var insert = require('gulp-insert');
 
 var iconfont = require('gulp-iconfont');
 
-var metalsmith_build = require('./gulp/metalsmith');
+var metalsmith_build = require('./depends/metalsmith');
 
 var async = require('async'),
     rimraf = require('rimraf');
 
 var package = require("./package.json");
+var replace = require('gulp-just-replace');
+
+var beginkit_package = package.beginkit;
+
+var beginkit_creds = require('./.credentials/beginkit.json');
+
+console.log("Hello");
+console.log(beginkit_creds);
+
+var mc_api_key = Object.byString(beginkit_creds,"services.MailChimp.ApiKey");
+
+console.log(mc_api_key);
+
+var dc = mc_api_key && mc_api_key.split  && mc_api_key.split('-')[1];
+
+var base_url = dc ? ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("") : undefined;
+console.log("Hello");
+
+var state = require('crypto').randomBytes(64).toString('hex');
 
 var awscredentials = revquire({
   "accessKeyId": "AWS_CREDENTIALS_KEY",
@@ -63,7 +110,7 @@ var awscredentials = revquire({
   }
 }, __dirname + '/.credentials/aws.json');
 
-var publishType = package.beginkit.publishing.type;
+var publishType = beginkit_package.publishing.type;
 
 if (publishType == "github") {
   publishTasks = ['github-publish'];
@@ -81,7 +128,7 @@ var FAVICON_DATA_FILE = 'faviconData.json';
 // package (see the check-for-favicon-update task below).
 gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-favicon-update'], function(done) {
   realFavicon.generateFavicon({
-    masterPicture: "./static/assets/images/logo.svg",
+    masterPicture: "./graphics/logo.svg",
     dest: "./.tmp/favicons",
     iconsPath: '/',
     design: {
@@ -226,7 +273,8 @@ gulp.task('browserify', ['clean'], function () {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./.tmp/metalsmith/js/'));
+      .pipe(gulp.dest('./.tmp/metalsmith/development/js/'))
+      .pipe(gulp.dest('./.tmp/metalsmith/production/js/'));
 
 });
 
@@ -238,24 +286,26 @@ gulp.task('scss', ['clean', 'iconfont'], function () {
     basename: "site"
   }));
 
-  return merge(main, site).pipe(dest);
+  return merge(main, site).pipe(gulp.dest('.tmp/metalsmith/production/css')).pipe(gulp.dest('.tmp/metalsmith/development/css'));
 });
 
 gulp.task('assets', ['clean'], function () {
-  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/metalsmith/assets'));
+  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/metalsmith/production/assets')).pipe(gulp.dest('.tmp/metalsmith/development/assets'));
 });
 
 gulp.task('graphics', ['clean'], function () {
-  return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/assets/images'));
+  return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/production/assets/images')).pipe(gulp.dest('.tmp/metalsmith/development/assets/images'));
 });
 
-gulp.task('favicons', ['clean', 'generate-favicon', 'inject-favicon-markups', 'check-for-favicon-update']);
+gulp.task('favicons', ['clean', 'generate-favicon', 'inject-favicon-markups', 'check-for-favicon-update'], function () {
+  return gulp.src('.tmp/favicons/*.*').pipe(gulp.dest('.tmp/metalsmith/production')).pipe(gulp.dest('.tmp/metalsmith/development'));
+});
 
 gulp.task('fonts', ['clean'], function () {
-  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/assets/fonts/font-awesome'));
+  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/font-awesome')).pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'sitemap']);
+gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'fonts']);
 
 gulp.task('metalsmith-development', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -296,7 +346,7 @@ gulp.task('development', ['static'], function () {
     restore: true
   });
 
-  return gulp.src('.tmp/metalsmith/**/*').pipe(filter).pipe(substituter({
+  return gulp.src('.tmp/metalsmith/development/**/*').pipe(filter).pipe(substituter({
     configuration: JSON.stringify({
       "server": "http://localhost:5000",
       "debug": true
@@ -304,38 +354,39 @@ gulp.task('development', ['static'], function () {
   })).pipe(filter.restore).pipe(gulp.dest('./build/development'));
 });
 
-gulp.task('production', ['minify', 'production-assets', 'production-cname', 'production-favicons', 'production-sitemap'], function () {
+gulp.task('production', ['minify', 'browserify', 'scss', 'production-css-js', 'production-assets', 'production-cname', 'production-favicons', 'production-sitemap'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
+    dontGlobal: ['.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
   });
-  return gulp.src('.tmp/build/production/**/*').pipe(substituter({
-    configuration: JSON.stringify({
-      "server": "http://mysterious-oasis-7692.herokuapp.com"
-    })
-  })).pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
+  return gulp.src('.tmp/build/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
+});
+
+gulp.task('production-css-js', ['static'], function () {
+  return gulp.src(['.tmp/metalsmith/production/**/*.js','.tmp/metalsmith/production/**/*.js.map','.tmp/metalsmith/production/**/*.css']).pipe(gulp.dest('./.tmp/build/production/'));
 });
 
 gulp.task('production-sitemap', ['static'], function () {
-  return gulp.src(['.tmp/metalsmith/sitemap.xml']).pipe(gulp.dest('./build/production/'));
+  return gulp.src(['.tmp/metalsmith/production/sitemap.xml']).pipe(gulp.dest('./.tmp/build/production/'));
 });
 
 gulp.task('production-favicons', ['static'], function () {
-  return gulp.src(['.tmp/metalsmith/*.png','.tmp/metalsmith/browserconfig.xml','.tmp/metalsmith/manifest.json','.tmp/metalsmith/*.svg']).pipe(gulp.dest('./build/production/'));
+  return gulp.src(['.tmp/metalsmith/production/*.png','.tmp/metalsmith/production/browserconfig.xml','.tmp/metalsmith/production/manifest.json','.tmp/metalsmith/production/*.svg','.tmp/metalsmith/production/*.ico']).pipe(gulp.dest('./.tmp/build/production/'));
 });
 
 gulp.task('production-assets', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/assets/**/*').pipe(gulp.dest('./build/production/assets'));
+  return gulp.src('.tmp/metalsmith/production/assets/**/*').pipe(gulp.dest('./.tmp/build/production/assets'));
 });
 
 gulp.task('production-cname', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/CNAME').pipe(gulp.dest('./build/production'));
+  return gulp.src('.tmp/metalsmith/production/CNAME').pipe(gulp.dest('./.tmp/build/production'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
 
 gulp.task('htmlmin', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/**/*.html').pipe(htmlmin({
+  return gulp.src('.tmp/metalsmith/production/**/*.html').pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
   })).pipe(gulp.dest('.tmp/build/production'));
@@ -376,13 +427,14 @@ gulp.task('iconfont', ['clean'], function(done){
     },
     function handleFonts (cb) {
       iconStream
-        .pipe(gulp.dest('.tmp/metalsmith/assets/fonts/tagmento'))
+        .pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/tagmento'))
+        .pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/tagmento'))
         .on('finish', cb);
     }
   ], done);
 });
 
-gulp.task('sitemap', ['clean', 'metalsmith'], function () {
+gulp.task('sitemap', ['clean', 'metalsmith-production', , 'metalsmith-development'], function () {
   return gulp.src('.tmp/metalsmith/production/**/*.html')
         .pipe(sitemap({
             siteUrl: 'http://www.tagmento.com'
@@ -390,9 +442,10 @@ gulp.task('sitemap', ['clean', 'metalsmith'], function () {
         .pipe(gulp.dest('./.tmp/metalsmith'));
 });
 
-gulp.task('critical', ['scss', 'metalsmith', 'favicons', 'iconfont'], function (cb) {
-  critical.generateInline({
-    base: '.tmp/metalsmith/production',
+gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont'], function (cb) {
+  critical.generate({
+    inline: true,
+    base: '.tmp/metalsmith/production', 
     src: 'index.html',
     styleTarget: '.tmp/metalsmith/production/css/site.css',
     htmlTarget: '.tmp/metalsmith/production/index.html',
@@ -400,6 +453,145 @@ gulp.task('critical', ['scss', 'metalsmith', 'favicons', 'iconfont'], function (
     height: 480,
     minify: false
   }, cb);
+});
+
+function checksum (str, algorithm, encoding) {
+    return crypto
+        .createHash(algorithm || 'md5')
+        .update(str, 'utf8')
+        .digest(encoding || 'hex')
+}
+
+
+
+gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
+  fs.ensureFileSync("./beginkit/MailChimp/files.json");
+  var images =  fs.readJsonSync("./beginkit/MailChimp/files.json", {throws: false}) || {};
+  var replaceMap = {};
+  
+  return gulp.src(['issues/**/*.html'], {
+    cwd: ".tmp/metalsmith/production"
+  }).pipe(cheerio(function ($, file, done) {
+      // The only difference here is the inclusion of a `done` parameter. 
+      // Call `done` when everything is finished. `done` accepts an error if applicable.
+      
+      async.each($('[style*=background-image]').toArray(), function (item, cb) {
+        var propValue = $(item).css('background-image');
+        var uri = propValue.substr(4,propValue.length - 5);
+        var pathComponents = uri.split('/');
+        pathComponents.unshift("static");
+        var filePath = path.resolve.apply(undefined, pathComponents);
+        var extname = path.extname(uri);
+
+        fs.readFile(filePath, function (error, data) {
+          var base64 = new Buffer(data).toString('base64');
+          var sha = checksum(data, 'sha1');
+          if (images[sha]) {
+            replaceMap[uri] = images[sha].full_size_url;
+            images[sha].relative_url = uri;
+            cb();
+          } else {
+
+          
+            unirest.post(base_url + "/file-manager/files")
+           .auth(state, mc_api_key)
+           .header('content-type', 'application/json')
+           .send({"name": sha + extname, "file_data": base64})
+           .end(function (response) {
+            //console.log(response.body.full_size_url);
+            
+              if (response.body.error) {
+                console.log(response.body.error_description);
+                cb(response.body.error);
+              } else {
+                var data = 
+                  {
+                    "ext" : extname,
+                    "relative_url" : uri,
+                    "id" : response.body.id,
+                    "full_size_url" : response.body.full_size_url
+                  }; 
+                  images[sha] = data;
+                replaceMap[data.relative_url] = data.full_size_url;
+                cb();  
+              }
+            //console.log(response.body);
+            
+          });
+          }
+        });
+      }, function (error) {
+        fs.writeJson("./beginkit/MailChimp/files.json", images, {spaces : 2}, function (err){
+          done(err || error);
+        });
+      })
+    }))
+
+        .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
+        .pipe(inlineCss())
+        .pipe(htmlmin({
+    collapseWhitespace: true,
+    minifyCSS: true
+  })).pipe(replace(/url\(([^\)]+)\)/g, function(match) {
+    var uri = match.substr(4,match.length - 5);
+    
+    var newUrl = replaceMap[uri];
+    if (newUrl) {
+      return "url(" + newUrl + ")";
+    } else {
+      return match;
+    }
+  }))
+
+        .pipe(gulp.dest('.tmp/issues'));
+});
+
+
+gulp.task('templates', ['issues'], function (done) {
+  fs.ensureFileSync("./beginkit/MailChimp/templates.json");
+  var templates =  fs.readJsonSync("./beginkit/MailChimp/templates.json", {throws: false}) || {};
+  var template_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.template");
+// read folder from settings
+  glob('.tmp/issues/**/index.html', function (er, files) {
+    // read all files in issues folder
+    async.each(files, 
+      function (file, cb) {
+        var template_name = path.basename(path.dirname(file));
+        if (templates[template_name]) {
+          cb();
+          return;
+        }
+        fs.readFile(file, function(err, data) {
+         var htmltext = new Buffer(data).toString();
+         unirest.post(base_url + "/templates")
+         .auth(state, mc_api_key)
+         .header('content-type', 'application/json')
+         .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+         .end(function (response) {
+            if (response.body.error) {
+              console.log(response.body.error_description);
+              //cb(response.body.error)
+            } else {
+              templates[response.body.id] = response.body;
+            }
+            cb(response.body.error);
+          });
+        });
+      },
+      function (error) {
+        fs.writeJson("./beginkit/MailChimp/templates.json", templates, {spaces : 2}, function (err){
+          done(err || error);
+        });
+      }
+    );
+  // If the `nonull` option is set, and nothing
+  // was found, then files is ["**/*.js"]
+  // er is an error object or null.
+
+  });
+// create template name based on folder
+// read each file and post
+
 });
 
 gulp.task('uglify-css', ['static'], function () {

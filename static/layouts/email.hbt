@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {{> head}}
+</head>
+<body class="email index">
+    <table>
+        <tr class="featured">
+            <td style="background-image: url(/assets/images/{{this.image}})">
+                &nbsp;
+            </td>
+        </tr>
+        <tr class="header">
+            <td>
+                <h2>{{this.title}}</h2>
+                <p class="no meta">
+                {{#intl locales="en-US"}}{{formatDate this.issue_date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}
+                </p>
+                <p class="date meta">
+                Issue #{{this.issue_no}}
+                </p>
+                <p class="email-content">
+                  {{ safe contents }}
+                </p>
+            </td>
+        </tr>
+        {{#each (limit collections.posts 3 0)}}
+            <tr class="featured">
+                <td style="background-image: url(/assets/images/{{this.image}})">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h3><a href="../{{this.path}}">{{this.title}}</a></h3>
+                    <h4>
+                    {{#unless this.date}}
+                    DATE ERROR
+                    {{else}}
+                    {{#intl locales="en-US"}}{{formatDate this.date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}
+                    {{/unless}}
+                    </h4>
+                    <p>
+                    {{#unless this.abstract}}
+                      {{strip excerpt}}
+                    {{else}}
+                      {{this.abstract}}
+                    {{/unless}}
+                    </p>
+                </td>
+            </tr>
+        {{/each}}
+
+    </table>
+        {{> issue-footer}}
+</body>
+</html>

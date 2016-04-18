@@ -28,11 +28,13 @@
                 {{/unless}}
                 </h4>
                 <article>
+                <p>
                 {{#unless this.abstract}}
-                  <p>{{strip excerpt}}</p>
+                  {{strip excerpt}}
                 {{else}}
                   {{this.abstract}}
                 {{/unless}}
+                </p>
                 </article>
             </li>
         {{/each}}
