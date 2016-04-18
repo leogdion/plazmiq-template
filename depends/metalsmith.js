@@ -91,11 +91,17 @@ module.exports = (function () {
       }
     }).use(function (files, metalsmith) {
       var metadata = metalsmith.metadata();
+      metadata.issues = metadata.issues || {};
+      
       for (var key in files) {
-        if (!files[key].issue_no) {
-          continue;
+        if (files[key].collection && files[key].issue_no && files[key].collection.indexOf("posts") >= 0) {
+          var issue_no = files[key].issue_no;
+
+          if (!(metadata.issues[issue_no])) {
+            metadata.issues[issue_no] = [];
+          }
+          metadata.issues[issue_no].push(files[key])
         }
-        console.log(files[key].issue_no);
         /*
         for (var collectionIndex = 0; collectionIndex < files[key].collection.length; collectionIndex++) {
           var collectionName = files[key].collection[collectionIndex];
@@ -107,6 +113,14 @@ module.exports = (function () {
           }
         }
         */
+      }
+
+      for (var issue_no in metadata.issues) {
+        metadata.issues[issue_no] = metadata.issues[issue_no].sort(function (a, b) {
+          var a_date = new Date(a.date);
+          var b_date = new Date(b.date);
+          return a_date < b_date ? 1 : -1;
+        });
       }
     }).use(layouts({
       engine: "handlebars",
