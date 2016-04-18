@@ -89,6 +89,25 @@ module.exports = (function () {
           }
         }
       }
+    }).use(function (files, metalsmith) {
+      var metadata = metalsmith.metadata();
+      for (var key in files) {
+        if (!files[key].issue_no) {
+          continue;
+        }
+        console.log(files[key].issue_no);
+        /*
+        for (var collectionIndex = 0; collectionIndex < files[key].collection.length; collectionIndex++) {
+          var collectionName = files[key].collection[collectionIndex];
+          var index;
+          for (index = 0; index < metadata.collections[collectionName].length; index++) {
+            if (metadata.collections[collectionName][index].title == files[key].title) {
+              metadata.collections[collectionName][index] = files[key];
+            }
+          }
+        }
+        */
+      }
     }).use(layouts({
       engine: "handlebars",
       partials: 'partials'
