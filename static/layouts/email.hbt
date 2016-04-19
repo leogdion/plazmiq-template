@@ -24,7 +24,7 @@
                 </p>
             </td>
         </tr>
-        {{#each (limit collections.posts 3 0)}}
+        {{#each (access issues this.issue_no)}}
             <tr class="featured">
                 <td style="background-image: url(/assets/images/{{this.image}})">
                     &nbsp;
@@ -33,7 +33,7 @@
             <tr>
                 <td>
                     <h3><a href="../{{this.path}}">{{this.title}}</a></h3>
-                    <h4>
+                    <h4 class="meta date">
                     {{#unless this.date}}
                     DATE ERROR
                     {{else}}
@@ -47,6 +47,7 @@
                       {{this.abstract}}
                     {{/unless}}
                     </p>
+                    <p><a href="../{{this.path}}">Read More...</a></p>
                 </td>
             </tr>
         {{/each}}
