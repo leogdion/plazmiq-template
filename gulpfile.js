@@ -2,6 +2,22 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
+
+Object.byString = function(o, s) {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, '');           // strip a leading dot
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
+
 var glob = require("glob");
 var unirest = require('unirest');
 var realFavicon = require ('gulp-real-favicon');
@@ -70,14 +86,19 @@ var replace = require('gulp-just-replace');
 
 var beginkit_package = package.beginkit;
 
-var beginkit_creds = require('./.credentials/beginkit.json');
+var beginkit_creds = revquire({},'./.credentials/beginkit.json');
 
-var mc_api_key = beginkit_creds.services.MailChimp.ApiKey;
+console.log("Hello");
+console.log(beginkit_creds);
 
-var dc = mc_api_key.split('-')[1];
+var mc_api_key = Object.byString(beginkit_creds,"services.MailChimp.ApiKey");
 
-var base_url = ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("");
-console.log(base_url);
+console.log(mc_api_key);
+
+var dc = mc_api_key && mc_api_key.split  && mc_api_key.split('-')[1];
+
+var base_url = dc ? ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("") : undefined;
+console.log("Hello");
 
 var state = require('crypto').randomBytes(64).toString('hex');
 
@@ -287,7 +308,7 @@ gulp.task('fonts', ['clean'], function () {
   return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/font-awesome')).pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'fonts']);
+gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons']);
 
 gulp.task('metalsmith-development', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -409,7 +430,8 @@ gulp.task('iconfont', ['clean'], function(done){
     },
     function handleFonts (cb) {
       iconStream
-        .pipe(gulp.dest('.tmp/metalsmith/assets/fonts/tagmento'))
+        .pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/tagmento'))
+        .pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/tagmento'))
         .on('finish', cb);
     }
   ], done);
@@ -423,7 +445,7 @@ gulp.task('sitemap', ['clean', 'metalsmith-production', , 'metalsmith-developmen
         .pipe(gulp.dest('./.tmp/metalsmith'));
 });
 
-gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont'], function (cb) {
+gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont', 'fonts'], function (cb) {
   critical.generate({
     inline: true,
     base: '.tmp/metalsmith/production', 
@@ -445,7 +467,7 @@ function checksum (str, algorithm, encoding) {
 
 
 
-gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
+gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], function() {
   fs.ensureFileSync("./beginkit/MailChimp/files.json");
   var images =  fs.readJsonSync("./beginkit/MailChimp/files.json", {throws: false}) || {};
   var replaceMap = {};
@@ -455,7 +477,7 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
   }).pipe(cheerio(function ($, file, done) {
       // The only difference here is the inclusion of a `done` parameter. 
       // Call `done` when everything is finished. `done` accepts an error if applicable.
-      
+      if (base_url && mc_api_key) {
       async.each($('[style*=background-image]').toArray(), function (item, cb) {
         var propValue = $(item).css('background-image');
         var uri = propValue.substr(4,propValue.length - 5);
@@ -506,6 +528,9 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
           done(err || error);
         });
       })
+    } else {
+      done()
+    }
     }))
 
         .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
@@ -527,20 +552,6 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
         .pipe(gulp.dest('.tmp/issues'));
 });
 
-Object.byString = function(o, s) {
-    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-    s = s.replace(/^\./, '');           // strip a leading dot
-    var a = s.split('.');
-    for (var i = 0, n = a.length; i < n; ++i) {
-        var k = a[i];
-        if (k in o) {
-            o = o[k];
-        } else {
-            return;
-        }
-    }
-    return o;
-}
 
 gulp.task('templates', ['issues'], function (done) {
   fs.ensureFileSync("./beginkit/MailChimp/templates.json");
@@ -587,26 +598,6 @@ gulp.task('templates', ['issues'], function (done) {
 // create template name based on folder
 // read each file and post
 
-/*
-var template_folder_id = "db9b74ea32";
-console.log(template_name);
-console.log('reading template...');
-fs.readFile(path.resolve(__dirname, "template.html"), function(err, data) {
- var htmltext = new Buffer(data).toString();
-  console.log('posting template...');
- unirest.post(base_url + "/templates")
- .auth(state, api_key)
- .header('content-type', 'application/json')
- .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
- .end(function (response) {
-    if (response.body.error) {
-      console.log(response.body.error_description);
-      process.exit(1);
-    }
-    console.log(response.body);
-  });
-});
-*/
 });
 
 gulp.task('uglify-css', ['static'], function () {
