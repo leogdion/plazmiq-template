@@ -86,7 +86,7 @@ var replace = require('gulp-just-replace');
 
 var beginkit_package = package.beginkit;
 
-var beginkit_creds = require('./.credentials/beginkit.json');
+var beginkit_creds = revquire({},'./.credentials/beginkit.json');
 
 console.log("Hello");
 console.log(beginkit_creds);
@@ -247,6 +247,9 @@ gulp.task('handlebars', function () {
   Handlebars.registerHelper('limit', function (collection, limit, start) {
     return collection.slice(start, limit + 1);
   });
+  Handlebars.registerHelper('access', function (collection, key) {
+    return collection[key];
+  });
   Handlebars.registerHelper('safe', function (contents) {
     return new Handlebars.SafeString(contents);
   });
@@ -305,7 +308,7 @@ gulp.task('fonts', ['clean'], function () {
   return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/font-awesome')).pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'fonts']);
+gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons']);
 
 gulp.task('metalsmith-development', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -442,7 +445,7 @@ gulp.task('sitemap', ['clean', 'metalsmith-production', , 'metalsmith-developmen
         .pipe(gulp.dest('./.tmp/metalsmith'));
 });
 
-gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont'], function (cb) {
+gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont', 'fonts'], function (cb) {
   critical.generate({
     inline: true,
     base: '.tmp/metalsmith/production', 
@@ -464,7 +467,7 @@ function checksum (str, algorithm, encoding) {
 
 
 
-gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
+gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], function() {
   fs.ensureFileSync("./beginkit/MailChimp/files.json");
   var images =  fs.readJsonSync("./beginkit/MailChimp/files.json", {throws: false}) || {};
   var replaceMap = {};
@@ -474,7 +477,7 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
   }).pipe(cheerio(function ($, file, done) {
       // The only difference here is the inclusion of a `done` parameter. 
       // Call `done` when everything is finished. `done` accepts an error if applicable.
-      
+      if (base_url && mc_api_key) {
       async.each($('[style*=background-image]').toArray(), function (item, cb) {
         var propValue = $(item).css('background-image');
         var uri = propValue.substr(4,propValue.length - 5);
@@ -525,6 +528,9 @@ gulp.task('issues', ['metalsmith-production', 'scss', 'clean'], function() {
           done(err || error);
         });
       })
+    } else {
+      done()
+    }
     }))
 
         .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))

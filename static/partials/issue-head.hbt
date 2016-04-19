@@ -1,0 +1,16 @@
+    <head>
+        <title>{{title}}</title>
+<meta charset="utf-8" />
+
+<meta property="og:image" content="http://www.tagmento.com/assets/images/banner.jpg" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+
+      <link rel="stylesheet" href="/css/email.css">
+      <link rel="stylesheet" href="../../assets/fonts/raleway/raleway.css">
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,300,900' rel='stylesheet' type='text/css'>
+<!--[if lte IE 9]>
+      <link rel="stylesheet" href="/css/ie9.css" media="all">
+<![endif]--><!--[if lte IE 8]>
+      <link rel="stylesheet" href="/css/ie8.css" media="all">
+<![endif]-->
+</head>

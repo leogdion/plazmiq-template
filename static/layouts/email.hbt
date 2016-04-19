@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  {{> head}}
+  {{> issue-head}}
 </head>
 <body class="email index">
     <table>
