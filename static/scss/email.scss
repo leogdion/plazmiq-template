@@ -80,10 +80,23 @@ $fa-font-path: "/assets/fonts/font-awesome";
   }
 
   .email {
-    table {
+      background-color: #CCC;
+    & > table {
       max-width: 640px;
       margin: auto;
+      background-color: #FFF;
+      @include box-shadow(0, 0px, 5px, rgba(0, 0, 0, 0.5));
+      & > tr > td {
+        padding: 0px 40px;
 
+        & > table.footer {
+          font-size: 0.5em;
+          line-height: 1.5em;
+          p {
+            margin: 1em 0px;
+          }
+        }
+      }
       h2 {
         text-align: center;
       }

@@ -1,3 +1,4 @@
+<hr>
         <table class="footer">
           <tr>
             <td>
@@ -15,19 +16,20 @@
         </tr>
         <tr>
           <td>
-            <a href="*|UNSUB|*">Unsubscribe</a> *|EMAIL|* from this list.<br /> 
-            <br /> 
+          <p>
+            <a href="*|UNSUB|*">Unsubscribe</a> *|EMAIL|* from this list.
+            </p>
+            <p>
             Our mailing address is:<br /> 
             *|HTML:LIST_ADDRESS_HTML|*<br /> 
-            <br /> 
-                      <ul class="copyright">
-                        <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                      </ul>
+            </p>
                       <p>*|LIST:DESCRIPTION|* <br /> 
-            Copyright (C) *|CURRENT_YEAR|* *|LIST:COMPANY|* All rights reserved.<br /> 
-            <br /> 
+            <a href="http://www.brightdigit.com" style="text-decoration: none;">&copy; *|CURRENT_YEAR|* *|LIST:COMPANY|*</a> All rights reserved.
+            </p>
+           <p>
             <a href="*|FORWARD|*">Forward</a> this email to a friend<br /> 
             <a href="*|UPDATE_PROFILE|*">Update your profile</a></p>
+             </p> 
           </td>
         </tr>
               </table>

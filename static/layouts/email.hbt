@@ -4,6 +4,10 @@
   {{> issue-head}}
 </head>
 <body class="email index">
+<table>
+<tr>
+<td>
+
     <table>
         <tr class="featured">
             <td style="background-image: url(/assets/images/{{this.image}})">
@@ -54,5 +58,8 @@
 
     </table>
         {{> issue-footer}}
+</td>
+</tr>
+</table>
 </body>
 </html>
