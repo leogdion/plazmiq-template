@@ -5,6 +5,7 @@ title: Tracking Methods - David El Achkar and LifeLog
 date:  2016-04-07T19:22:12-05:00
 tags: methods
 issue_no: 1
+image: posts/01-lifelog-david-achkar/david-achkar-qs-silicon-valley-video.jpg
 ---
 # Tracking Methods - David El Achkar and LifeLog 
 

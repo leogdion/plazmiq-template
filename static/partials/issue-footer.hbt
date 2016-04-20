@@ -29,6 +29,25 @@
 </a>
           </td>
               </tr>
+              <tr>   
+          <td colspan="2" class="social"> 
+          <a class="icon alt fa-twitter" href="http://www.twitter.com/tagmento">
+<img src="/assets/images/social-icons/twitter-logo.png">
+</a>
+<a class="icon alt fa-facebook" href="http://www.facebook.com/tagmento">
+<img src="/assets/images/social-icons/facebook-logo.png">
+</a>
+<a class="icon alt fa-linkedin" href="https://www.linkedin.com/company/tagmento">
+<img src="/assets/images/social-icons/linkedin-logo.png">
+</a>
+<a class="icon alt s s-betalist" href="http://betalist.com/startups/tagmento">
+<img src="/assets/images/social-icons/betalist.png">
+</a>
+<a class="icon alt fa-envelope" href="mailto:contact@tagmento.com">
+<img src="/assets/images/social-icons/mail.png">
+</a>
+          </td>
+              </tr>
             </table>
           </td>
 
@@ -50,7 +69,7 @@
             <a href="*|UPDATE_PROFILE|*">Update your profile</a></p>
              </p> 
              <p>
-              Email not displaying correctly? <a href="*|ARCHIVE|*">View this email in your browser</a>
+              Email not displaying correctly?<br> <a href="*|ARCHIVE|*">View this email in your browser</a>
              </p>
           </td>
         </tr>

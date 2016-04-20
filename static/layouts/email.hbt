@@ -20,7 +20,7 @@
 <td id="main">
 
     <table>
-       
+       <thead>
         <tr class="header">
             <td>
                 <table class="meta">
@@ -44,12 +44,14 @@
                 </p>
             </td>
         </tr>
+        </thead>
+        <tbody>
         {{#each (access issues this.issue_no)}}
      
             <tr>
                 <td>
                    {{#if this.image}}
-                   <table>
+                   <table class="featured-container">
             <tr class="featured">
                 <td style="background-image: url(/assets/images/{{this.image}})">
                     &nbsp;
@@ -78,7 +80,7 @@
                 </td>
             </tr>
         {{/each}}
-
+</tbody>
     </table>
     </td>
     </tr>

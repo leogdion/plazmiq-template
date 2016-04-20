@@ -34,5 +34,17 @@
     "relative_url": "/assets/images/social-icons/mail.png",
     "id": 720089,
     "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/0c917252-81af-4b63-aa72-e94e30b078eb.png"
+  },
+  "d1b7c439f3584b40040810152eb7294ff530f40f": {
+    "ext": ".jpg",
+    "relative_url": "/assets/images/posts/01-lifelog-david-achkar/david-achkar-qs-silicon-valley-video.jpg",
+    "id": 721429,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/9f1d0fc7-f80b-4a82-802f-4a2503da6bae.jpg"
+  },
+  "0f90825ed2dff6000ac91b007b0d2d61340e3cc7": {
+    "ext": ".jpg",
+    "relative_url": "/assets/images/posts/02-tagmento-first-poll/screen-shot.jpg",
+    "id": 721509,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/2e8c8db9-b9c6-44bf-8402-65472bc9f3c5.jpg"
   }
 }
