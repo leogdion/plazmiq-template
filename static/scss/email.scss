@@ -74,7 +74,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
   body, input, select, textarea {
     color: #333;
     font-family: _font(family);
-    font-size: 15pt;
+    font-size: 12pt;
     font-weight: _font(weight);
     line-height: 1.75em;
   }
@@ -84,21 +84,90 @@ $fa-font-path: "/assets/fonts/font-awesome";
     & > table {
       max-width: 640px;
       margin: auto;
-      background-color: #FFF;
-      @include box-shadow(0, 0px, 5px, rgba(0, 0, 0, 0.5));
-      & > tr > td {
-        padding: 0px 40px;
+      & > tr.featured:first-child > td {
+        padding: 0px;
+          background-size: cover;
+          height: 250px;
+          background-position: center;
+          & > table {
+            background-color: rgba(0,0,0,0.50);
+            height: 100%;
+            width: 100%;
+            td {
+              vertical-align: middle;
+              text-align: center;
+              color: #FFF;
+              h1 {
+                font-size: 3.5em;
+                line-height: 0.75em;
+                font-weight: 300;
+              }
+            }
+          }
+         }
+      & > table:first-child {
 
+         background-color: #FFF;
+      }
+      & > tr > td {
+        padding: 40px;
+        &#main {
+         background-color: #FFF;
+         border: solid 1px #BBB;
+         border-top: none;
+         & > table  {
+
+          & > tr > td {
+            padding-bottom: 20px;
+            hr {
+              margin-bottom: 30px;
+            }
+          }
+          & > tr:last-child > td {
+            padding-bottom: 20px;
+          }
+         }
+        }
         & > table.footer {
-          font-size: 0.5em;
+          font-size: 0.75em;
           line-height: 1.5em;
+          width: 100%;
+          table {
+            width: 100%;
+          }
           p {
             margin: 1em 0px;
+          }
+          h1 {
+            font-size: 2em;
+            font-weight: 300;
+
+            a {
+              text-decoration: none;
+              color: #FFF;
+            }
+          }
+          .top {
+            margin-bottom: 20px;
+          }
+          .social {
+            font-size: 2em;
+            text-align: right;
+            img {
+              height: 1em;
+              padding: 0px 5px;
+              margin: 0px 5px;
+            }
+            a {
+              text-decoration: none;
+            }
           }
         }
       }
       h2 {
         text-align: center;
+        font-size: 1.5em;
+        margin-top: 10px;
       }
 
       h2,h3,h4 {
@@ -106,7 +175,18 @@ $fa-font-path: "/assets/fonts/font-awesome";
       }
 
       .meta {
-        font-size: 0.75em;
+        font-size: 0.88em;
+      }
+      .header {
+        table.meta { 
+          width: 100%;
+          .date {
+            text-align: right;
+          }
+        }
+        hr {
+          margin-bottom: 0px;
+        }
       }
     }
   }

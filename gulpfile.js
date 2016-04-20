@@ -86,19 +86,14 @@ var replace = require('gulp-just-replace');
 
 var beginkit_package = package.beginkit;
 
-var beginkit_creds = revquire({},'./.credentials/beginkit.json');
+var beginkit_creds = require('./.credentials/beginkit.json');
 
-console.log("Hello");
-console.log(beginkit_creds);
 
 var mc_api_key = Object.byString(beginkit_creds,"services.MailChimp.ApiKey");
-
-console.log(mc_api_key);
 
 var dc = mc_api_key && mc_api_key.split  && mc_api_key.split('-')[1];
 
 var base_url = dc ? ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("") : undefined;
-console.log("Hello");
 
 var state = require('crypto').randomBytes(64).toString('hex');
 
@@ -478,14 +473,19 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
       // The only difference here is the inclusion of a `done` parameter. 
       // Call `done` when everything is finished. `done` accepts an error if applicable.
       if (base_url && mc_api_key) {
-      async.each($('[style*=background-image]').toArray(), function (item, cb) {
+      async.each($('[style*=background-image],img').toArray(), function (item, cb) {
+        var uri;
         var propValue = $(item).css('background-image');
-        var uri = propValue.substr(4,propValue.length - 5);
+        if (propValue) {
+          uri = propValue.substr(4,propValue.length - 5);
+        } else {
+          uri = $(item).attr('src');
+        }
         var pathComponents = uri.split('/');
         pathComponents.unshift("static");
         var filePath = path.resolve.apply(undefined, pathComponents);
+        
         var extname = path.extname(uri);
-
         fs.readFile(filePath, function (error, data) {
           var base64 = new Buffer(data).toString('base64');
           var sha = checksum(data, 'sha1');
@@ -557,6 +557,7 @@ gulp.task('templates', ['issues'], function (done) {
   fs.ensureFileSync("./beginkit/MailChimp/templates.json");
   var templates =  fs.readJsonSync("./beginkit/MailChimp/templates.json", {throws: false}) || {};
   var template_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.template");
+
 // read folder from settings
   glob('.tmp/issues/**/index.html', function (er, files) {
     // read all files in issues folder

@@ -1,18 +1,37 @@
-<hr>
+
         <table class="footer">
           <tr>
             <td>
               <table>
 
         <tr>
-          <td> 
-            <a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a>
-            <a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a>
-            <a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a>
-            <a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a>
-            <a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a>
-            <a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a>
+          <td>
+            <table class="top">
+              <tr>
+              <td>
+                <h1><a href="http://www.tagmento.com">tagmento</a></h1>
+              </td>    
+          <td class="social"> 
+          <a class="icon alt fa-twitter" href="http://www.twitter.com/tagmento">
+<img src="/assets/images/social-icons/twitter-logo.png">
+</a>
+<a class="icon alt fa-facebook" href="http://www.facebook.com/tagmento">
+<img src="/assets/images/social-icons/facebook-logo.png">
+</a>
+<a class="icon alt fa-linkedin" href="https://www.linkedin.com/company/tagmento">
+<img src="/assets/images/social-icons/linkedin-logo.png">
+</a>
+<a class="icon alt s s-betalist" href="http://betalist.com/startups/tagmento">
+<img src="/assets/images/social-icons/betalist.png">
+</a>
+<a class="icon alt fa-envelope" href="mailto:contact@tagmento.com">
+<img src="/assets/images/social-icons/mail.png">
+</a>
           </td>
+              </tr>
+            </table>
+          </td>
+
         </tr>
         <tr>
           <td>
@@ -30,6 +49,9 @@
             <a href="*|FORWARD|*">Forward</a> this email to a friend<br /> 
             <a href="*|UPDATE_PROFILE|*">Update your profile</a></p>
              </p> 
+             <p>
+              Email not displaying correctly? <a href="*|ARCHIVE|*">View this email in your browser</a>
+             </p>
           </td>
         </tr>
               </table>

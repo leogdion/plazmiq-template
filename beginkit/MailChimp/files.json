@@ -1,0 +1,38 @@
+{
+  "a9e01e32e969f0ff216eac87c19ce9ffdb0505c2": {
+    "ext": ".jpg",
+    "relative_url": "/assets/images/banner.jpg",
+    "id": 719857,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/51866d30-2114-4665-8048-cf58b9c08a41.jpg"
+  },
+  "87c5e29bc620d8250976e07ed3137784c604e228": {
+    "ext": ".png",
+    "relative_url": "/assets/images/social-icons/twitter-logo.png",
+    "id": 720069,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/1c1b9982-c19e-40f2-a29a-5b4c8f0c7f6d.png"
+  },
+  "b29e5dd1d8a38a834a67558da001cf8abdd3fa94": {
+    "ext": ".png",
+    "relative_url": "/assets/images/social-icons/facebook-logo.png",
+    "id": 720077,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/c9fe794d-97d7-4246-aabb-aad08765dc4e.png"
+  },
+  "259a94fc33c0385977b0e0170c8c8f3e1b6fd66f": {
+    "ext": ".png",
+    "relative_url": "/assets/images/social-icons/linkedin-logo.png",
+    "id": 720081,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/37fe5fbe-22b9-4c03-bfdd-686ffa8996c9.png"
+  },
+  "9cad6b69d55fe163d2190a6b0a91167a66ea623f": {
+    "ext": ".png",
+    "relative_url": "/assets/images/social-icons/betalist.png",
+    "id": 720085,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/191e2db8-dfd2-40c2-9fe3-4d3471e450f7.png"
+  },
+  "c62acd1cf1f92cb9a75f0b93073fd712df7e3517": {
+    "ext": ".png",
+    "relative_url": "/assets/images/social-icons/mail.png",
+    "id": 720089,
+    "full_size_url": "https://gallery.mailchimp.com/cb3bba007ed171091f55c47f0/images/0c917252-81af-4b63-aa72-e94e30b078eb.png"
+  }
+}
