@@ -74,7 +74,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
   body, input, select, textarea {
     color: #333;
     font-family: _font(family);
-    font-size: 12pt;
+    font-size: 10pt;
     font-weight: _font(weight);
     line-height: 1.75em;
     overflow-x: hidden;
@@ -90,6 +90,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
         padding: 0px;
           background-size: cover;
           height: 250px;
+          height: 30vh;
           background-position: center;
           & > table {
             background-color: rgba(0,0,0,0.50);
@@ -112,8 +113,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
          background-color: #FFF;
       }
       & > tr > td {
-        padding: 40px;
-        padding: 30px;
+        padding: 20px;
         &#main {
          background-color: #FFF;
          border: solid 1px #BBB;
@@ -144,7 +144,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
          }
         }
         & > table.footer {
-          font-size: 0.75em;
+          font-size: 0.88em;
           line-height: 1.5em;
           width: 100%;
           table {
@@ -211,7 +211,6 @@ $fa-font-path: "/assets/fonts/font-awesome";
           }
         }
         hr {
-          margin-bottom: 0px;
         }
       }
     }

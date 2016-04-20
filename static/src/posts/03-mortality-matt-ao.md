@@ -5,6 +5,7 @@ title: Visualize - Mortality by Matt Ao
 date:  2016-04-14T19:22:12-05:00
 tags: visualize
 issue_no: 1
+image: posts/03-mortality-matt-ao/screen-shot.png
 ---
 # Visualize - Mortality by Matt Ao
 
