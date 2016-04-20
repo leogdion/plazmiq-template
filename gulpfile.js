@@ -534,7 +534,9 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
     }))
 
         .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
-        .pipe(inlineCss())
+        .pipe(inlineCss({
+          preserveMediaQueries: true
+        }))
         .pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
