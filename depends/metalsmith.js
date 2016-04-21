@@ -67,11 +67,11 @@ module.exports = (function () {
       reverse: true // sort direction (optional)
     })).use(paginate({
       perPage: 10,
-      path: "blog/page"
+      path: "news/page"
     })).use(markdown({
       renderer : renderer
     })).use(excerpts()).use(permalinks({
-      pattern: 'blog/:date/:title',
+      pattern: 'news/:date/:title',
       date: 'YY/MM/DD'
     })).use(function (files, metalsmith) {
       var metadata = metalsmith.metadata();

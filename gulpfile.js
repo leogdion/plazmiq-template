@@ -540,16 +540,23 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
         .pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
-  })).pipe(replace(/url\(([^\)]+)\)/g, function(match) {
-    var uri = match.substr(4,match.length - 5);
-    
-    var newUrl = replaceMap[uri];
-    if (newUrl) {
-      return "url(" + newUrl + ")";
-    } else {
-      return match;
-    }
-  }))
+  })).pipe(replace([{
+      search : /url\(([^\)]+)\)/g,
+      replacement: function(match) {
+        var uri = match.substr(4,match.length - 5);
+        
+        var newUrl = replaceMap[uri];
+        if (newUrl) {
+          return "url(" + newUrl + ")";
+        } else {
+          return match;
+        }
+      }
+    }, {
+      search : /"(\.\.)?\//g,
+      replacement: "\"http://www.tagmento.com/"
+    }]
+  ))
 
         .pipe(gulp.dest('.tmp/issues'));
 });

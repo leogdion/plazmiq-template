@@ -70,6 +70,26 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 /* Basic */
 
+  a {
+    text-decoration: none;
+    color: #e76278;
+  }
+    .read-more {
+      margin-top: 1em;
+      a {
+        background-color: #e76278;
+        color: #FFF;
+        padding: 0.75em 1.5em;
+        border-radius: _size(border-radius);
+        font-size: 0.75em;
+        font-weight: 400;
+      }
+    }
+  
+
+  .footer a {
+    color: #000;
+  }
 
   body, input, select, textarea {
     color: #333;
@@ -243,43 +263,5 @@ $fa-font-path: "/assets/fonts/font-awesome";
                     height: 30vh !important;
                   }
             
-    /*
-      body, input, select, textarea {
-        font-size: 10pt !important;
-      }
-
-    body.email {
-      max-width: 100% !important;
-    }.email {
-      background-color: #CCC;
-      max-width: 100%;
-    & > table {
-
-      body.email table {
-         table.footer {
-          .top {
-            margin-bottom: 20px;
-            tr:first-child {
-              td.social {
-                display: none !important;
-                img {
-              padding: 0px 2px !important;
-              margin: 0px 2px !important;
-
-                }
-              }
-            }
-           
-          }
-      }
-                  tr.featured > td {
-                    height: 150px !important;
-                    height: 30vh !important;
-                  }
-                
-              }
-
-      
-      
-*/
+   
   }

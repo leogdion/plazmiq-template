@@ -1,5 +1,5 @@
 
-        <title>{{title}}</title>
+        <title>tagmento news - {{title}}</title>
 <meta charset="utf-8" />
 
 <meta property="og:image" content="http://www.tagmento.com/assets/images/banner.jpg" />
