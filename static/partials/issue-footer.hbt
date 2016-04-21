@@ -12,19 +12,19 @@
                 <h1><a href="http://www.tagmento.com">tagmento</a></h1>
               </td>    
           <td class="social"> 
-          <a class="icon alt fa-twitter" href="http://www.twitter.com/tagmento">
+          <a class="icon" href="http://www.twitter.com/tagmento">
 <img src="/assets/images/social-icons/twitter-logo.png">
 </a>
-<a class="icon alt fa-facebook" href="http://www.facebook.com/tagmento">
+<a class="icon" href="http://www.facebook.com/tagmento">
 <img src="/assets/images/social-icons/facebook-logo.png">
 </a>
-<a class="icon alt fa-linkedin" href="https://www.linkedin.com/company/tagmento">
+<a class="icon" href="https://www.linkedin.com/company/tagmento">
 <img src="/assets/images/social-icons/linkedin-logo.png">
 </a>
-<a class="icon alt s s-betalist" href="http://betalist.com/startups/tagmento">
+<a class="icon" href="http://betalist.com/startups/tagmento">
 <img src="/assets/images/social-icons/betalist.png">
 </a>
-<a class="icon alt fa-envelope" href="mailto:contact@tagmento.com">
+<a class="icon" href="mailto:contact@tagmento.com">
 <img src="/assets/images/social-icons/mail.png">
 </a>
           </td>
