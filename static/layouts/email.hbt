@@ -53,7 +53,7 @@
                    {{#if this.image}}
                    <table class="featured-container">
             <tr class="featured">
-                <td style="background-image: url(/assets/images/{{this.image}})">
+                <td style="background: url(/assets/images/{{this.image}}) no-repeat top / 100% auto;">
                     &nbsp;
                 </td>
             </tr>

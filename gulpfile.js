@@ -58,8 +58,6 @@ var domain_suffix = "api.mailchimp.com"
 var base_path = "3.0"
 //var base_url = "https://<dc>.api.mailchimp.com/3.0"
 
-
-
 HandlebarsIntl = require('handlebars-intl');
 
 var revquire = require('./depends/revquire');
@@ -473,14 +471,19 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
       // The only difference here is the inclusion of a `done` parameter. 
       // Call `done` when everything is finished. `done` accepts an error if applicable.
       if (base_url && mc_api_key) {
-      async.each($('[style*=background-image],img').toArray(), function (item, cb) {
+      async.each($('[style*=background-image],[style*=background],img').toArray(), function (item, cb) {
         var uri;
-        var propValue = $(item).css('background-image');
+        var propValue = $(item).css('background-image') || $(item).css('background');
+        console.log(propValue);
         if (propValue) {
-          uri = propValue.substr(4,propValue.length - 5);
-        } else {
+          uri = propValue.match(/url\(([^\)]+)\)/)[1];
+        } else if (item.tagName === "img") {
           uri = $(item).attr('src');
+        } else {
+          console.log(item.tagName);
+          cb();
         }
+        console.log(uri);
         var pathComponents = uri.split('/');
         pathComponents.unshift("static");
         var filePath = path.resolve.apply(undefined, pathComponents);
@@ -533,7 +536,7 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
     }
     }))
 
-        .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify}))
+        .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify, disabledTypes: ['img']}))
         .pipe(inlineCss({
           preserveMediaQueries: true
         }))
@@ -548,6 +551,17 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
         var newUrl = replaceMap[uri];
         if (newUrl) {
           return "url(" + newUrl + ")";
+        } else {
+          return match;
+        }
+      }
+    },{
+      search : /\ssrc="(\/[^"]+)"\s/g,
+      replacement: function(match, uri) {
+        
+        var newUrl = replaceMap[uri];
+        if (newUrl) {
+          return " src=\"" + newUrl + "\" ";
         } else {
           return match;
         }
