@@ -9,48 +9,15 @@ image: posts/01-lifelog-david-achkar/david-achkar-qs-silicon-valley-video.jpg
 ---
 # Tracking Methods - David El Achkar and LifeLog 
 
-<iframe src="//player.vimeo.com/video/80922960?byline=0&amp;portrait=0" height="337" width="600" allowfullscreen="" frameborder="0"></iframe>
-
-## Aut trisulcis
-
-Lorem markdownum Hippalmon et ipse cogitat atque caesa. Munere vidit quibus
-pars; putes Dolona protinus quamvis erat?
+Since May 19 2013, David El Achkar was logged every minute of his life. Whenever he completes a task, he logs that activity in his Google Calendar. He calls this project LifeLog
 
 <!--more-->
 
-## Solacia filis inde venturaque cornua
+<iframe src="//player.vimeo.com/video/80922960?byline=0&amp;portrait=0" height="337" width="600" allowfullscreen="" frameborder="0"></iframe>
 
-Gratamque contemnere medio Myrmidonasque male Prochytenque Aeginam sorte arma
-nempe sum, tristia vel habet. Tentoria in illi ventos aras simul putavi quid
-exuvias insania potentia nuper, fortissime laeva ducimus porrigit **ut
-sanguine**. Retinere et Amor regum, cum in mea opus superi. Quoque suis: tegi
-aeno et, illuc, [in](http://www.wtfpl.net/)! Quem Phrygiis villos quodque,
-inquit?
+In December of 2013, he gave a talk detailing the experience of tracking his time as well as what insights he gained from it. Some of the insights he's gained include:
 
-Date [haurire arator specto](http://www.youtube.com/watch?v=MghiBW3r65M) nefas
-avenis, suae vocato, significent. Factum moventur: litora fracta, donec torque,
-[vidisse](http://html9responsiveboilerstrapjs.com/) e acies hinc sidereo rediit,
-lunae licet. Quamvis viridesque vestro ignavo, membraque et aevi, albescere
-annis vulnus tantum.
+* Just over half his time is spent on basic survival activities (e.g., Sleep, Food, shower)
+* he approximatley spends 30% of his time working
 
-## Est lynca ferendae igitur
-
-Tellus quid torpor iuventus languor, manes libravit, oppida antiquas Iove ullis
-et decent curvi secreta Delos generis? Et nulla parit novas iniectam, claudit
-diva, festis.
-
-## Terras oscula
-
-*Per credere* quo poterit Finierat, ille? Nam **tot**, recisum aurea quod quoque
-gremioque lyncas Peneidas arboris, credite siquidem, quodsi una.
-
-1. Ulla contingere mixtae coniuge relinquar mihi
-2. Cui dubites ense amor parvos quod vellem
-3. Meque erat coniunx
-4. Per erat
-5. Excipit facies deus
-6. Dixit palustres animoque nocet in lambit Phoronidos
-
-Visa silvas, nunc constitit unam qua imagine secedere: nymphas arma, umeris
-carpebam! Bitumen sarcina! **Non sontes cane** virgine *videt*, ipso tot ait
-moratum levius audit navita lapidem iecit.
+You should definitely checkout his video and his blog for more details on how someone else tracks and analyzes their time.
