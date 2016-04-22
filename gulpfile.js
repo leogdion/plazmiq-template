@@ -258,6 +258,9 @@ gulp.task('handlebars', function () {
   Handlebars.registerHelper('strip', function (contents) {
     return contents.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ");
   });
+  Handlebars.registerHelper('single', function (contents) {
+    return contents.length === 1;
+  });
 });
 
 gulp.task('browserify', ['clean'], function () {
