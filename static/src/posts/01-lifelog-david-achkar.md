@@ -7,13 +7,12 @@ tags: methods
 issue_no: 2
 image: posts/01-lifelog-david-achkar/david-achkar-qs-silicon-valley-video.jpg
 ---
-# Tracking Methods - David El Achkar and LifeLog 
 
 Since May 19 2013, David El Achkar was logged every minute of his life. Whenever he completes a task, he logs that activity in his Google Calendar. He calls this project LifeLog
 
 <!--more-->
 
-<iframe src="//player.vimeo.com/video/80922960?byline=0&amp;portrait=0" height="337" width="600" allowfullscreen="" frameborder="0"></iframe>
+<div class='embed-container'><iframe src="//player.vimeo.com/video/80922960?byline=0&amp;portrait=0" height="337" width="600" allowfullscreen="" frameborder="0"></iframe></div>
 
 In December of 2013, he gave a talk detailing the experience of tracking his time as well as what insights he gained from it. Some of the insights he's gained include:
 
