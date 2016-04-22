@@ -460,12 +460,12 @@ function checksum (str, algorithm, encoding) {
 
 
 
-gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], function() {
+gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], function() {
   fs.ensureFileSync("./beginkit/MailChimp/files.json");
   var images =  fs.readJsonSync("./beginkit/MailChimp/files.json", {throws: false}) || {};
   var replaceMap = {};
   
-  return gulp.src(['issues/**/*.html'], {
+  return gulp.src(['newsletters/**/*.html'], {
     cwd: ".tmp/metalsmith/production"
   }).pipe(cheerio(function ($, file, done) {
       // The only difference here is the inclusion of a `done` parameter. 
@@ -474,7 +474,7 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
       async.each($('[style*=background-image],[style*=background],img').toArray(), function (item, cb) {
         var uri;
         var propValue = $(item).css('background-image') || $(item).css('background');
-        console.log(propValue);
+        
         if (propValue) {
           uri = propValue.match(/url\(([^\)]+)\)/)[1];
         } else if (item.tagName === "img") {
@@ -483,7 +483,6 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
           console.log(item.tagName);
           cb();
         }
-        console.log(uri);
         var pathComponents = uri.split('/');
         pathComponents.unshift("static");
         var filePath = path.resolve.apply(undefined, pathComponents);
@@ -572,18 +571,18 @@ gulp.task('issues', ['metalsmith-production', 'assets', 'scss', 'clean'], functi
     }]
   ))
 
-        .pipe(gulp.dest('.tmp/issues'));
+        .pipe(gulp.dest('.tmp/newsletters'));
 });
 
 
-gulp.task('templates', ['issues'], function (done) {
+gulp.task('templates', ['newsletters'], function (done) {
   fs.ensureFileSync("./beginkit/MailChimp/templates.json");
   var templates =  fs.readJsonSync("./beginkit/MailChimp/templates.json", {throws: false}) || {};
   var template_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.template");
 
 // read folder from settings
-  glob('.tmp/issues/**/index.html', function (er, files) {
-    // read all files in issues folder
+  glob('.tmp/newsletters/**/index.html', function (er, files) {
+    // read all files in newsletters folder
     async.each(files, 
       function (file, cb) {
         var template_name = path.basename(path.dirname(file));

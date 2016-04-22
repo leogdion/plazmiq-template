@@ -40,7 +40,7 @@
             </p>
             <p>
             Our mailing address is:<br /> 
-            *|HTML:LIST_ADDRESS_HTML|*<br /> 
+            *|HTML:LIST_ADDRESS_HTML|*
             </p>
                       <p>*|LIST:DESCRIPTION|* <br /> 
             <a href="http://www.brightdigit.com" style="text-decoration: none;">&copy; *|CURRENT_YEAR|* *|LIST:COMPANY|*</a> All rights reserved.
@@ -52,6 +52,7 @@
              <p>
               Email not displaying correctly?<br> <a href="*|ARCHIVE|*">View this email in your browser</a>
              </p>
+             *|REWARDS|*
           </td>
         </tr>
               </table>

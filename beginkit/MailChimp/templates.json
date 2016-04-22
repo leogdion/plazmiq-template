@@ -5328,5 +5328,128 @@
         "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
       }
     ]
+  },
+  "113577": {
+    "id": 113577,
+    "type": "user",
+    "name": "01.2015-01-05",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-04-21T14:27:53+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113577",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113577",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113577/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "113581": {
+    "id": 113581,
+    "type": "user",
+    "name": "01.2015-01-05",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-04-21T14:28:25+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113581",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113581",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113581/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "113593": {
+    "id": 113593,
+    "type": "user",
+    "name": "01.2015-01-05",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-04-21T14:40:13+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113593",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113593",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/113593/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
   }
 }

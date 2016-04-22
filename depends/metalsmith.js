@@ -95,24 +95,25 @@ module.exports = (function () {
       
       for (var key in files) {
         if (files[key].collection && files[key].issue_no && files[key].collection.indexOf("posts") >= 0) {
-          var issue_no = files[key].issue_no;
 
-          if (!(metadata.issues[issue_no])) {
-            metadata.issues[issue_no] = [];
-          }
-          metadata.issues[issue_no].push(files[key])
-        }
-        /*
-        for (var collectionIndex = 0; collectionIndex < files[key].collection.length; collectionIndex++) {
-          var collectionName = files[key].collection[collectionIndex];
+          var issue_no_string = files[key].issue_no.toString();
+
+          var issue_nos = issue_no_string.split(',').map(function (_) {
+            return _.trim();
+          });
+
           var index;
-          for (index = 0; index < metadata.collections[collectionName].length; index++) {
-            if (metadata.collections[collectionName][index].title == files[key].title) {
-              metadata.collections[collectionName][index] = files[key];
+
+          for (index = 0; index < issue_nos.length; index = index + 1) {
+            var issue_no = issue_nos[index];
+            
+            if (!(metadata.issues[issue_no])) {
+              metadata.issues[issue_no] = [];
             }
+            
+            metadata.issues[issue_no].push(files[key]);
           }
         }
-        */
       }
 
       for (var issue_no in metadata.issues) {
