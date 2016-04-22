@@ -74,7 +74,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
     text-decoration: none;
     color: #e76278;
   }
-    .read-more {
+    .read-more, .as-button {
       margin-top: 1em;
       a {
         background-color: #e76278;
@@ -101,6 +101,9 @@ $fa-font-path: "/assets/fonts/font-awesome";
   }
 
   .email {
+    strong {
+    font-weight: 500;
+    }
       background-color: #CCC;
       width: 100%;
     & > table {
@@ -138,6 +141,11 @@ $fa-font-path: "/assets/fonts/font-awesome";
          background-color: #FFF;
          border: solid 1px #BBB;
          border-top: none;
+         ul {
+          list-style: disc inside;
+          text-indent: 1em;
+          margin: 0.5em;
+         }
          & > table  {
             margin-right: 20px;
             tbody {

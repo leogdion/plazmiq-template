@@ -68,6 +68,7 @@
               {{this.abstract}}
               {{/unless}}
             </p>
+            <p class="read-more"><a href="../{{this.path}}">Read More</a></p>
           </td>
         </tr>
         {{/each}}
