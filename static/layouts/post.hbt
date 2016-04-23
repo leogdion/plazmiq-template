@@ -19,6 +19,53 @@
   {{ safe contents }}
   </article>
   <footer>
+  <div class="social">
+  <h4>Share on:</h4>
+  <ul >
+
+<li>
+<!-- Email -->
+<a href="mailto:?&bcc=contact@tagmento.com&subject={{ title }}&body={{ title }}%0A%0Ahttp%3A//www.tagmento.com/{{ path }}" title="Share via Email" target="_blank" class="btn btn-envelope"><i class="fa fa-envelope"></i> <span class="title">Email</span></a>
+
+</li>
+
+<li>
+<!-- Twitter -->
+<a href="https://twitter.com/share?url=http%3A//www.tagmento.com/{{ path }}&hashtags=productivity%2Capp%2CBigData&text={{ title }} via @tagmento" title="Share on Twitter" target="_blank" class="btn btn-twitter"><i class="fa fa-twitter"></i> <span class="title">Twitter</span></a>
+
+</li>
+<li>
+ <!-- Facebook -->
+<a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//www.tagmento.com/{{ path }}" title="Share on Facebook" target="_blank" class="btn btn-facebook"><i class="fa fa-facebook"></i> <span class="title">Facebook</span></a>
+</li>
+
+<li>
+ <!-- Pintrest -->
+<a href="https://pinterest.com/pin/create/button/?url=http%3A//www.tagmento.com/{{ path }}&media=http%3A//www.tagmento.com/{{ featured }}&description={{ title }}" title="Share on Pinterest" target="_blank" class="btn btn-pinterest"><i class="fa fa-pinterest"></i> <span class="title">Pinterest</span></a>
+</li>
+
+<li>
+<!-- LinkedIn --> 
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A//www.tagmento.com/{{ path }}&title={{ title }}&source=https://www.linkedin.com/company/tagmento" title="Share on LinkedIn" target="_blank" class="btn btn-linkedin"><i class="fa fa-linkedin"></i> <span class="title">LinkedIn</span></a>
+</li>
+<li>
+<!-- LinkedIn --> 
+<a href="http://www.reddit.com/submit?url=http%3A//www.tagmento.com/{{ path }}&title={{ title }}" title="Share on Reddit" target="_blank" class="btn btn-reddit"><i class="fa fa-reddit"></i> <span class="title">Reddit</span></a>
+</li>
+
+
+<li>
+<!-- Beta List --> 
+<a href="http://betalist.com/startups/tagmento" title="Share on Beta List" target="_blank" class="btn btn-betalist"><i class="s s-betalist"></i> <span class="title">Beta List</span></a>
+</li>
+
+<li>
+<!-- Hacker News --> 
+<a href="https://news.ycombinator.com/submitlink?u=http%3A//www.tagmento.com/{{ path }}&t={{ title }}" title="Share on Hacker News" target="_blank" class="btn btn-hacker-news"><i class="fa fa-hacker-news"></i> <span class="title">Hacker News</span></a>
+</li>
+</ul>
+</div>
+<div>
   <nav>
     {{#if next}}<a class="prev" href="/{{next.path}}">&#171; {{next.title}}</a>{{/if}}
     {{#if previous}}<a class="next" href="/{{previous.path}}">{{previous.title}} &#187;</a>{{/if}}  

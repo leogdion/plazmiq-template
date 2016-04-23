@@ -1678,6 +1678,36 @@ $fa-font-path: "/assets/fonts/font-awesome";
 				line-height: 1.5em;
 			}
 			footer {
+				.social {
+					border-radius: _size(border-radius);
+					font-size: 1.5em;
+					background-color: _palette(accent1);
+					padding: 5px;
+					line-height: 1.5em;
+					padding: 10px 20px;
+					margin: 0px 0px 20px;
+					h4 {
+						padding: 0;
+						float: left;
+						margin: 0;
+					}
+				 	ul {
+				 		list-style: none;
+				 		li {
+				 			float: left;
+				 			a {
+				 				text-decoration: none;
+				 				color: #FFF;
+								.title {
+									display: none;
+								}
+							}
+				 		}
+				 	}
+				 	& + div {
+				 		clear: both;
+				 	}
+				}
 				nav {
 					display: block;
 					a {
