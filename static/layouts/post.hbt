@@ -20,9 +20,10 @@
   </article>
   <footer>
   <nav>
-    {{#if next}}<a class="prev" href="/{{next.path}}">Previous - {{next.title}}</a>{{/if}}
-    {{#if previous}}<a class="next" href="/{{previous.path}}">Next - {{previous.title}}</a>{{/if}}  
+    {{#if next}}<a class="prev" href="/{{next.path}}">&#171; {{next.title}}</a>{{/if}}
+    {{#if previous}}<a class="next" href="/{{previous.path}}">{{previous.title}} &#187;</a>{{/if}}  
     </nav>
+    <br/>
   <div id="disqus_thread"></div>
 <div id="disqus_thread"></div>
 <script>

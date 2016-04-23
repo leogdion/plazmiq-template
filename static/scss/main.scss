@@ -1427,6 +1427,9 @@ $fa-font-path: "/assets/fonts/font-awesome";
 						&:not(.button):before {
 							margin-right: 0.5em;
 						}
+						span {
+							display: inline;
+						}
 					}
 
 					&.active {
@@ -1612,14 +1615,16 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 	.blog.index {
 		#main .container {
+		 h1 {
+		 	font-size: 2em;
+		 }
 			article {
 				max-width: 700px !important;
+				margin: auto;
 				ul {
 					list-style: none;
 					padding: 0;
 					margin: 0;
-					border-bottom: solid 1px;
-					padding-bottom: 2em;
 					li {
 						text-indent: 0;
 						padding: 0;
@@ -1629,6 +1634,21 @@ $fa-font-path: "/assets/fonts/font-awesome";
 						&:last-child {
 							border: none;
 							margin: 0;
+						}
+						.featured {
+							background-size: cover;
+							height: 150px;
+              height: 25vw;
+              background-position: center;
+            	width: 100%;
+            	margin: 2em 0px;
+            	pointer: cursor;
+						}
+						a.button {
+							margin-bottom: 2em;
+							font-size: 0.75em;
+							margin-top: -1em;
+							text-align: right;
 						}
 					}
 				}
@@ -1640,6 +1660,12 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 	.post.index {
 		#main .container {
+		 h1 {
+		 	font-size: 2em;
+		 }
+		 h2 {
+		 font-size: 1.88em;
+		 }
 			header,article,footer {
 				max-width: 700px !important;
 				margin: auto;
@@ -1650,6 +1676,25 @@ $fa-font-path: "/assets/fonts/font-awesome";
 			article {
 				font-size: 1.25em;
 				line-height: 1.5em;
+			}
+			footer {
+				nav {
+					display: block;
+					a {
+						display: block;
+						max-width: 50%;
+						float: left;
+						font-weight: 400;
+						text-decoration: none;
+						margin-bottom: 1.5em;
+						line-height: 1.25em;
+
+						&.next {
+							float: right;
+							text-align: right;
+						}
+					}
+				}
 			}
 		}
 		.embed-container { 
@@ -1681,7 +1726,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 		#header nav ul li a {
 			span {
-				display: inline;
+				display: none;
 			}
 		}
 
@@ -1696,11 +1741,6 @@ $fa-font-path: "/assets/fonts/font-awesome";
 
 
 
-		#header nav ul li a {
-			span {
-				display: none;
-			}
-		}
 		#titleBar .title img{
 			height: 1
 		}
@@ -1770,6 +1810,17 @@ $fa-font-path: "/assets/fonts/font-awesome";
 		$size-wrapper-pad-tb: 4.5em;
 		$size-wrapper-pad-lr: 2.5em;
 
+			.news .text {
+				display: none;
+			}
+
+			#logo .text {
+				display: none;
+			}
+
+			#header .title {
+				display: none;
+			}
 		/* Basic */
 
 			body, input, select, textarea {
@@ -1859,7 +1910,16 @@ $fa-font-path: "/assets/fonts/font-awesome";
 	}
 
 	@include breakpoint(small) {
-
+		.post,.blog {
+			font-size: 0.75em;
+			#main {
+				margin: 30px 20px 0px;
+				padding: 0px;
+				a.button {
+					padding: 0px 5px;
+				}
+			}
+		}
 		$size-wrapper-pad-tb: 3.25em;
 		$size-wrapper-pad-lr: 1.5em;
 
