@@ -21,4 +21,4 @@ In December of 2013, he gave a **[talk](http://david.achkar.com/qssv-lifelog-tal
 
 You should definitely checkout **[his talk](http://david.achkar.com/life-log/)** and **[his blog](http://david.achkar.com)** for more details on how someone else tracks and analyzes their time.
 
-[[http://david.achkar.com]](http://david.achkar.com)
+**[[http://david.achkar.com]](http://david.achkar.com)**
