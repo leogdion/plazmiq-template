@@ -7,30 +7,8 @@ tags: visualize
 issue_no: 2
 image: posts/03-mortality-matt-ao/screen-shot.png
 ---
-How often are we willing to look at how much time we have lef
-Time flies like an arrow;
-Fruit flies like a banana
+Looking for motivation to manage your time better? Take a look at **[Mortality by Matt Ao]https://chrome.google.com/webstore/detail/motivation/ofdgfpchbidcgncgfpdlpclnpaemakoj)**. This Chrome extension gives you visualization how much time we have left on this Earth.
 
-Mortality is a new tab extension that reminds you of your precise age.
-A bitter-sweet motivational tool; it illustrates how little time we have.
-Circles represent months, for the average lifespan of 80 years.
-As you age, the circles fill, and are split into the main Chapters of your life.
-These are the default chapters:
-  -Early Years (0 to ~5 years, Elementary starts in September))
-  -Elementary (7 years)
-  -Middle (2 years)
-  -High School (4 years)
-  -College (4 years)
-  -Work (~44 years, Retire at 65)
-  -Retire (~15 years, Death at 80)
+The visualization divides life into "chapters" such as Elementary School, College, and Retirement. The extension also lets you customize styles, shapes, colors, and chapters. If you are Chrome user, you'll definitely want to check **[this extension out](https://chrome.google.com/webstore/detail/motivation/ofdgfpchbidcgncgfpdlpclnpaemakoj)**.
 
-Get busy living, or get busy dying.
-You can never go back :)
-
-Original idea from Motivation by Maccman
-https://chrome.google.com/webstore/detail/motivation/ofdgfpchbidcgncgfpdlpclnpaemakoj
-
-
-
-<!--more-->
-
+**[[Google Chrome Extension]](https://chrome.google.com/webstore/detail/motivation/ofdgfpchbidcgncgfpdlpclnpaemakoj)**
