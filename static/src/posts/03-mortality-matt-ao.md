@@ -7,48 +7,30 @@ tags: visualize
 issue_no: 2
 image: posts/03-mortality-matt-ao/screen-shot.png
 ---
-# Visualize - Mortality by Matt Ao
+How often are we willing to look at how much time we have lef
+Time flies like an arrow;
+Fruit flies like a banana
 
-## Aut trisulcis
+Mortality is a new tab extension that reminds you of your precise age.
+A bitter-sweet motivational tool; it illustrates how little time we have.
+Circles represent months, for the average lifespan of 80 years.
+As you age, the circles fill, and are split into the main Chapters of your life.
+These are the default chapters:
+  -Early Years (0 to ~5 years, Elementary starts in September))
+  -Elementary (7 years)
+  -Middle (2 years)
+  -High School (4 years)
+  -College (4 years)
+  -Work (~44 years, Retire at 65)
+  -Retire (~15 years, Death at 80)
 
-Lorem markdownum Hippalmon et ipse cogitat atque caesa. Munere vidit quibus
-pars; putes Dolona protinus quamvis erat?
+Get busy living, or get busy dying.
+You can never go back :)
+
+Original idea from Motivation by Maccman
+https://chrome.google.com/webstore/detail/motivation/ofdgfpchbidcgncgfpdlpclnpaemakoj
+
+
 
 <!--more-->
 
-## Solacia filis inde venturaque cornua
-
-Gratamque contemnere medio Myrmidonasque male Prochytenque Aeginam sorte arma
-nempe sum, tristia vel habet. Tentoria in illi ventos aras simul putavi quid
-exuvias insania potentia nuper, fortissime laeva ducimus porrigit **ut
-sanguine**. Retinere et Amor regum, cum in mea opus superi. Quoque suis: tegi
-aeno et, illuc, [in](http://www.wtfpl.net/)! Quem Phrygiis villos quodque,
-inquit?
-
-Date [haurire arator specto](http://www.youtube.com/watch?v=MghiBW3r65M) nefas
-avenis, suae vocato, significent. Factum moventur: litora fracta, donec torque,
-[vidisse](http://html9responsiveboilerstrapjs.com/) e acies hinc sidereo rediit,
-lunae licet. Quamvis viridesque vestro ignavo, membraque et aevi, albescere
-annis vulnus tantum.
-
-## Est lynca ferendae igitur
-
-Tellus quid torpor iuventus languor, manes libravit, oppida antiquas Iove ullis
-et decent curvi secreta Delos generis? Et nulla parit novas iniectam, claudit
-diva, festis.
-
-## Terras oscula
-
-*Per credere* quo poterit Finierat, ille? Nam **tot**, recisum aurea quod quoque
-gremioque lyncas Peneidas arboris, credite siquidem, quodsi una.
-
-1. Ulla contingere mixtae coniuge relinquar mihi
-2. Cui dubites ense amor parvos quod vellem
-3. Meque erat coniunx
-4. Per erat
-5. Excipit facies deus
-6. Dixit palustres animoque nocet in lambit Phoronidos
-
-Visa silvas, nunc constitit unam qua imagine secedere: nymphas arma, umeris
-carpebam! Bitumen sarcina! **Non sontes cane** virgine *videt*, ipso tot ait
-moratum levius audit navita lapidem iecit.
