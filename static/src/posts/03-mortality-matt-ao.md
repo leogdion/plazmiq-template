@@ -2,7 +2,7 @@
 layout: post.hbt
 published: false
 title: Visualize - Mortality by Matt Ao
-date:  2016-04-14T19:22:12-05:00
+date:  2016-05-02T07:00:00-04:00
 tags: visualize
 issue_no: 2
 image: posts/03-mortality-matt-ao/screen-shot.png

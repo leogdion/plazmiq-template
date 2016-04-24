@@ -259,7 +259,7 @@ gulp.task('handlebars', function () {
     return contents.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ");
   });
   Handlebars.registerHelper('single', function (contents) {
-    return contents.length === 1;
+    return contents && contents.length && contents.length === 1;
   });
 });
 
