@@ -161,15 +161,6 @@ gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-fav
   });
 });
 
-// Inject the favicon markups in your HTML pages. You should run 
-// this task whenever you modify a page. You can keep this task 
-// as is or refactor your existing HTML pipeline.
-gulp.task('inject-favicon-markups', ['clean', 'metalsmith-development', 'metalsmith-production', 'generate-favicon'], function() {
-  return gulp.src([ './.tmp/metalsmith/**/*.html' ])
-    .pipe(realFavicon.injectFaviconMarkups(JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).favicon.html_code))
-    .pipe(gulp.dest('./.tmp/metalsmith'));
-});
-
 // Check for updates on RealFaviconGenerator (think: Apple has just
 // released a new Touch icon along with the latest version of iOS).
 // Run this task from time to time. Ideally, make it part of your 
@@ -295,7 +286,7 @@ gulp.task('graphics', ['clean'], function () {
   return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/production/assets/images')).pipe(gulp.dest('.tmp/metalsmith/development/assets/images'));
 });
 
-gulp.task('favicons', ['clean', 'generate-favicon', 'inject-favicon-markups', 'check-for-favicon-update'], function () {
+gulp.task('favicons', ['clean', 'generate-favicon', 'check-for-favicon-update'], function () {
   return gulp.src('.tmp/favicons/*.*').pipe(gulp.dest('.tmp/metalsmith/production')).pipe(gulp.dest('.tmp/metalsmith/development'));
 });
 

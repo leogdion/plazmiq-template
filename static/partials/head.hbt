@@ -1,13 +1,43 @@
-    <head>
-        <title>{{title}}</title>
-<meta charset="utf-8" />
 
-{{#if featured}}
-<meta property="og:image" content="http://www.tagmento.com/assets/images/{{featured}}" />
+        <title>{{title}}</title>
+        <meta name="twitter:site" content="@tagmento">
+<meta name="twitter:creator" content="leogdion">
+<meta name="twitter:title" content="{{title}}">
+{{#if image}}
+<meta property="og:image" content="http://www.tagmento.com/assets/images/{{image}}" />
+<meta name="twitter:image:src" content="http://www.tagmento.com/assets/images/{{image}}">
+<meta itemprop="image" content="http://www.tagmento.com/assets/images/{{image}}">
 {{else}}
 <meta property="og:image" content="http://www.tagmento.com/assets/images/banner.jpg" />
+<meta name="twitter:image:src" content="http://www.tagmento.com/assets/images/banner.jpg">
+<meta itemprop="image" content="http://www.tagmento.com/assets/images/banner.jpg">
 {{/if}}
 
+<meta name="author" content="Leo Dion">
+{{#unless this.abstract}}
+  <meta name="twitter:description" content="{{strip excerpt}}">
+  <meta name="description" content="{{strip excerpt}}">
+  <meta property="og:description" content="{{strip excerpt}}">
+  <meta itemprop="description" content="{{strip excerpt}}">
+{{else}}
+  <meta name="twitter:description" content="{{this.abstract}}">
+  <meta name="description" content="{{this.abstract}}">
+  <meta property="og:description" content="{{this.abstract}}">
+  <meta itemprop="description" content="{{this.abstract}}">
+{{/unless}}
+
+<meta property="fb:admins" content="100003631275635">
+<meta property="fb:app_id" content="1023325644356985">
+<meta property="og:url" content="http://www.tagmento.com/{{path}}">
+<meta property="og:type" content="article">
+<meta property="og:title" content="{{title}}">
+<meta property="og:site_name" content="Scotch">
+<meta property="article:author" content="https://www.facebook.com/leogdion">
+<meta property="article:publisher" content="https://www.facebook.com/tagmento">
+<meta itemprop="name" content="{{title}}">
+<link rel="canonical" href="http://www.tagmento.com/{{path}}">
+
+<meta charset="utf-8" />
 <meta content="width=device-width, initial-scale=1" name="viewport" />
 <script type="text/javascript">
     (function () {
@@ -176,4 +206,22 @@ loadCSS( "/css/main.css" );
 <![endif]--><!--[if lte IE 8]>
       <link rel="stylesheet" href="/css/ie8.css" media="all">
 <![endif]-->
-</head>
+<link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicon-194x194.png" sizes="194x194">
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/mstile-144x144.png">
+<meta name="theme-color" content="#ffffff">
