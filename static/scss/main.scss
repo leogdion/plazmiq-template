@@ -1683,6 +1683,7 @@ $fa-font-path: "/assets/fonts/font-awesome";
 						background-size: cover;
 						background-position: center;
 						display: block;
+						border: none;
 					}
 				}
 			}
@@ -1707,8 +1708,14 @@ $fa-font-path: "/assets/fonts/font-awesome";
 				 			a {
 				 				text-decoration: none;
 				 				color: #FFF;
+				 				border: none;
+				 				opacity: 0.67;
 								.title {
 									display: none;
+								}
+								&:hover {
+				 					opacity: 1.0;
+				 					color: #FFF !important;
 								}
 							}
 				 		}
