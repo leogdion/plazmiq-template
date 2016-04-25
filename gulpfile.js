@@ -60,8 +60,6 @@ var base_path = "3.0"
 
 HandlebarsIntl = require('handlebars-intl');
 
-var revquire = require('./depends/revquire');
-
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var critical = require('critical');
@@ -95,13 +93,13 @@ var base_url = dc ? ["https://", dc, ".", domain_suffix, "/", base_path , "/"].j
 
 var state = require('crypto').randomBytes(64).toString('hex');
 
-var awscredentials = revquire({
-  "accessKeyId": "AWS_CREDENTIALS_KEY",
-  "secretAccessKey": "AWS_CREDENTIALS_SECRET",
+var awscredentials = {
+  "accessKeyId": Object.byString(beginkit_creds,"services.Amazon.AccessKeyId"),
+  "secretAccessKey": Object.byString(beginkit_creds,"services.Amazon.SecretAccessKey"),
   "params": {
-    "Bucket": "AWS_CREDENTIALS_BUCKET"
+    "Bucket": Object.byString(beginkit_creds,"services.Amazon.Bucket")
   }
-}, __dirname + '/.credentials/aws.json');
+};
 
 var publishType = beginkit_package.publishing.type;
 
@@ -121,14 +119,14 @@ var FAVICON_DATA_FILE = 'faviconData.json';
 // package (see the check-for-favicon-update task below).
 gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-favicon-update'], function(done) {
   realFavicon.generateFavicon({
-    masterPicture: "./graphics/logo.svg",
+    masterPicture: "./static/assets/images/logo.svg",
     dest: "./.tmp/favicons",
     iconsPath: '/',
     design: {
       ios: {
         pictureAspect: 'backgroundAndMargin',
-        backgroundColor: '#ffffff',
-        margin: '18%'
+        backgroundColor: '#000000',
+        margin: '28%'
       },
       desktopBrowser: {},
       windows: {
@@ -137,10 +135,10 @@ gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-fav
         onConflict: 'override'
       },
       androidChrome: {
-        pictureAspect: 'noChange',
+        pictureAspect: 'shadow',
         themeColor: '#ffffff',
         manifest: {
-          name: 'BeginKit',
+          name: 'tagmento web',
           display: 'browser',
           orientation: 'notSet',
           onConflict: 'override',
@@ -153,6 +151,7 @@ gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-fav
       }
     },
     settings: {
+      compression: 5,
       scalingAlgorithm: 'Mitchell',
       errorOnImageTooSmall: false
     },
@@ -304,7 +303,7 @@ gulp.task('fonts', ['clean'], function () {
   return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/font-awesome')).pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/font-awesome'));
 });
 
-gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons']);
+gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'sitemap']);
 
 gulp.task('metalsmith-development', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
@@ -353,7 +352,7 @@ gulp.task('development', ['static'], function () {
   })).pipe(filter.restore).pipe(gulp.dest('./build/development'));
 });
 
-gulp.task('production', ['minify', 'browserify', 'scss', 'production-css-js', 'production-assets', 'production-cname', 'production-favicons', 'production-sitemap'], function () {
+gulp.task('production', ['minify', 'browserify', 'scss', 'production-css-js', 'production-assets', 'production-cname', 'production-rss', 'production-favicons', 'production-sitemap'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     dontGlobal: ['.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
@@ -382,17 +381,21 @@ gulp.task('production-cname', ['static'], function () {
   return gulp.src('.tmp/metalsmith/production/CNAME').pipe(gulp.dest('./.tmp/build/production'));
 });
 
+gulp.task('production-rss', ['static'], function () {
+  return gulp.src('.tmp/metalsmith/production/feed.xml').pipe(gulp.dest('./.tmp/build/production'));
+});
+
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
 
 gulp.task('htmlmin', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/production/**/*.html').pipe(htmlmin({
+  return gulp.src(['.tmp/metalsmith/production/**/*.html','!.tmp/metalsmith/production/newsletters/**/*.html']).pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
   })).pipe(gulp.dest('.tmp/build/production'));
 });
 
 gulp.task('uglify-js', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/**/*.js').pipe(uglify({
+  return gulp.src('.tmp/metalsmith/production/**/*.js').pipe(uglify({
     mangle: false,
     compress: false
   })).pipe(gulp.dest('.tmp/build/production'));
@@ -433,12 +436,13 @@ gulp.task('iconfont', ['clean'], function(done){
   ], done);
 });
 
-gulp.task('sitemap', ['clean', 'metalsmith-production', , 'metalsmith-development'], function () {
-  return gulp.src('.tmp/metalsmith/production/**/*.html')
+gulp.task('sitemap', ['clean', 'metalsmith-production'], function () {
+
+  return gulp.src(['.tmp/metalsmith/production/**/*.html','!.tmp/metalsmith/production/newsletters/**/*.html'])
         .pipe(sitemap({
             siteUrl: 'http://www.tagmento.com'
         }))
-        .pipe(gulp.dest('./.tmp/metalsmith'));
+        .pipe(gulp.dest('.tmp/metalsmith/production'));
 });
 
 gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont', 'fonts'], function (cb) {
@@ -627,7 +631,7 @@ gulp.task('templates', ['newsletters'], function (done) {
 });
 
 gulp.task('uglify-css', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/build/production'));
+  return gulp.src('.tmp/metalsmith/production/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/build/production'));
 });
 
 gulp.task('test', function () {

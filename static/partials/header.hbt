@@ -12,7 +12,7 @@
 <header id="header">
 <h1 id="logo">
 <img src="/assets/images/logo.svg">
-<a class="title" href="/"> tagmento</a>
+<a class="home" href="/"> tagmento</a>
 <span class="built-by">built by <a href="http://www.brightdigit.com"><img alt="brightdigit" src="/assets/images/brightdigit-name.svg"></a></span>
 </h1><nav id="nav">
 <ul>

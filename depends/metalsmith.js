@@ -9,6 +9,7 @@ markdown = require('metalsmith-markdown'),
     define = require('metalsmith-define'),
     layouts = require('metalsmith-layouts'),
     collections = require('metalsmith-collections'),
+    feed = require('metalsmith-feed'),
     metalsmith = require('metalsmith'),
     path = require('path');
 var marked = require('marked');
@@ -55,7 +56,7 @@ module.exports = (function () {
       pages: {
         pattern: '*.md'
       }
-    })).use(tags({
+    })).use(feed({collection : 'posts'}))/*.use(tags({
       handle: 'tags',
       // yaml key for tag list in you pages
       path: 'blog/tags.html',
@@ -65,7 +66,7 @@ module.exports = (function () {
       sortBy: 'date',
       // provide posts sorted by 'date' (optional)
       reverse: true // sort direction (optional)
-    })).use(paginate({
+    }))*/.use(paginate({
       perPage: 10,
       path: "news/page"
     })).use(markdown({
