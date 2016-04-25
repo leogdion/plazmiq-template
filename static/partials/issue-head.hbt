@@ -1,0 +1,28 @@
+
+        <title>tagmento news - {{title}}</title>
+<meta charset="utf-8" />
+
+<meta property="og:image" content="http://www.tagmento.com/assets/images/banner.jpg" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+
+      <link rel="stylesheet" href="/css/email.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+      <link rel="stylesheet" href="../../assets/fonts/raleway/raleway.css">
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,100,300,900' rel='stylesheet' type='text/css'>
+<!--[if lte IE 9]>
+      <link rel="stylesheet" href="/css/ie9.css" media="all">
+<![endif]--><!--[if lte IE 8]>
+      <link rel="stylesheet" href="/css/ie8.css" media="all">
+<![endif]-->
+<script type="text/javascript">
+  WebFontConfig = {
+    google: { families: [ 'Raleway:400,300,100,900:latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })(); </script>

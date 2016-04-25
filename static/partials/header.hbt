@@ -12,7 +12,7 @@
 <header id="header">
 <h1 id="logo">
 <img src="/assets/images/logo.svg">
-<a href="/"> TagMento</a>
+<a class="home" href="/"> tagmento</a>
 <span class="built-by">built by <a href="http://www.brightdigit.com"><img alt="brightdigit" src="/assets/images/brightdigit-name.svg"></a></span>
 </h1><nav id="nav">
 <ul>
@@ -56,6 +56,10 @@
 <li>
 <!-- Hacker News --> 
 <a href="https://news.ycombinator.com/submitlink?u=http://www.tagmento.com&t=Track time intelligently with TagMento" title="Share on Hacker News" target="_blank" class="btn btn-hacker-news"><i class="fa fa-hacker-news"></i> <span class="title">Hacker News</span></a>
+</li>
+
+<li>
+<a class="button scrolly news" href="/news"><i class="fa fa-newspaper-o" aria-hidden="true"></i><span class="text">News</span></a>
 </li>
 
 <li>

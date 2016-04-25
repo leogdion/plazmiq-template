@@ -2,7 +2,26 @@ if (!global.Intl) {
   global.Intl = require('intl');
 }
 
-var fs = require('fs');
+
+Object.byString = function(o, s) {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
+    s = s.replace(/^\./, '');           // strip a leading dot
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
+
+var glob = require("glob");
+var unirest = require('unirest');
+var realFavicon = require ('gulp-real-favicon');
+var fs = require('fs-extra');
 var path = require('path');
 var gulp = require('gulp');
 var beautify = require('gulp-beautify');
@@ -28,10 +47,18 @@ var substituter = require('gulp-substituter');
 var gulpFilter = require('gulp-filter');
 var sourcemaps = require('gulp-sourcemaps');
 var babel = require('babelify');
+var ghPages = require('gulp-gh-pages');
+var sitemap = require('gulp-sitemap');
+var inline = require('gulp-inline'),
+    inlineCss = require('gulp-inline-css'),
+    cheerio = require('gulp-cheerio');
+var crypto = require('crypto');
+
+var domain_suffix = "api.mailchimp.com"
+var base_path = "3.0"
+//var base_url = "https://<dc>.api.mailchimp.com/3.0"
 
 HandlebarsIntl = require('handlebars-intl');
-
-var revquire = require('./gulp/revquire');
 
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -45,24 +72,123 @@ var insert = require('gulp-insert');
 
 var iconfont = require('gulp-iconfont');
 
-var metalsmith_build = require('./gulp/metalsmith');
+var metalsmith_build = require('./depends/metalsmith');
 
 var async = require('async'),
     rimraf = require('rimraf');
 
-var awscredentials = revquire({
-  "accessKeyId": "AWS_CREDENTIALS_KEY",
-  "secretAccessKey": "AWS_CREDENTIALS_SECRET",
+var package = require("./package.json");
+var replace = require('gulp-just-replace');
+
+var beginkit_package = package.beginkit;
+
+var beginkit_creds = require('./.credentials/beginkit.json');
+
+
+var mc_api_key = Object.byString(beginkit_creds,"services.MailChimp.ApiKey");
+
+var dc = mc_api_key && mc_api_key.split  && mc_api_key.split('-')[1];
+
+var base_url = dc ? ["https://", dc, ".", domain_suffix, "/", base_path , "/"].join("") : undefined;
+
+var state = require('crypto').randomBytes(64).toString('hex');
+
+var awscredentials = {
+  "accessKeyId": Object.byString(beginkit_creds,"services.Amazon.AccessKeyId"),
+  "secretAccessKey": Object.byString(beginkit_creds,"services.Amazon.SecretAccessKey"),
   "params": {
-    "Bucket": "AWS_CREDENTIALS_BUCKET"
+    "Bucket": Object.byString(beginkit_creds,"services.Amazon.Bucket")
   }
-}, __dirname + '/.credentials/aws.json');
+};
+
+var publishType = beginkit_package.publishing.type;
+
+if (publishType == "github") {
+  publishTasks = ['github-publish'];
+} else if (publishType == "aws") {
+  publishTasks = ['aws-publish'];
+} else {
+  publishTasks = [];
+}
+// File where the favicon markups are stored
+var FAVICON_DATA_FILE = 'faviconData.json';
+
+// Generate the icons. This task takes a few seconds to complete. 
+// You should run it at least once to create the icons. Then, 
+// you should run it whenever RealFaviconGenerator updates its 
+// package (see the check-for-favicon-update task below).
+gulp.task('generate-favicon', ['clean', 'metalsmith-development', 'check-for-favicon-update'], function(done) {
+  realFavicon.generateFavicon({
+    masterPicture: "./static/assets/images/logo.svg",
+    dest: "./.tmp/favicons",
+    iconsPath: '/',
+    design: {
+      ios: {
+        pictureAspect: 'backgroundAndMargin',
+        backgroundColor: '#000000',
+        margin: '28%'
+      },
+      desktopBrowser: {},
+      windows: {
+        pictureAspect: 'noChange',
+        backgroundColor: '#da532c',
+        onConflict: 'override'
+      },
+      androidChrome: {
+        pictureAspect: 'shadow',
+        themeColor: '#ffffff',
+        manifest: {
+          name: 'tagmento web',
+          display: 'browser',
+          orientation: 'notSet',
+          onConflict: 'override',
+          declared: true
+        }
+      },
+      safariPinnedTab: {
+        pictureAspect: 'silhouette',
+        themeColor: '#5bbad5'
+      }
+    },
+    settings: {
+      compression: 5,
+      scalingAlgorithm: 'Mitchell',
+      errorOnImageTooSmall: false
+    },
+    markupFile: FAVICON_DATA_FILE
+  }, function() {
+    done();
+  });
+});
+
+// Check for updates on RealFaviconGenerator (think: Apple has just
+// released a new Touch icon along with the latest version of iOS).
+// Run this task from time to time. Ideally, make it part of your 
+// continuous integration system.
+gulp.task('check-for-favicon-update', ['clean', 'metalsmith-development'], function(done) {
+  var currentVersion = JSON.parse(fs.readFileSync(FAVICON_DATA_FILE)).version;
+  realFavicon.checkForUpdates(currentVersion, function(err) {
+    if (err) {
+      throw err;
+    }
+    done();
+  });
+});
 
 gulp.task('clean', function (cb) {
   async.each(['.tmp', 'build'], rimraf, cb);
 });
 
-gulp.task('publish', ['production'], function () {
+gulp.task('publish', publishTasks);
+
+gulp.task('github-publish', ['production'], function () {
+  return gulp.src('./build/production/**/*')
+    .pipe(ghPages({
+      "cacheDir" : "./.tmp/publish"
+    }));
+});
+
+gulp.task('aws-publish', ['production'], function () {
   var publisher = awspublish.create(awscredentials);
   return gulp.src("**/*", {
     cwd: "./build/production/"
@@ -104,6 +230,9 @@ gulp.task('handlebars', function () {
   Handlebars.registerHelper('limit', function (collection, limit, start) {
     return collection.slice(start, limit + 1);
   });
+  Handlebars.registerHelper('access', function (collection, key) {
+    return collection[key];
+  });
   Handlebars.registerHelper('safe', function (contents) {
     return new Handlebars.SafeString(contents);
   });
@@ -119,6 +248,9 @@ gulp.task('handlebars', function () {
   Handlebars.registerHelper('strip', function (contents) {
     return contents.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ");
   });
+  Handlebars.registerHelper('single', function (contents) {
+    return contents && contents.length && contents.length === 1;
+  });
 });
 
 gulp.task('browserify', ['clean'], function () {
@@ -130,37 +262,46 @@ gulp.task('browserify', ['clean'], function () {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('./.tmp/build/js/'));
+      .pipe(gulp.dest('./.tmp/metalsmith/development/js/'))
+      .pipe(gulp.dest('./.tmp/metalsmith/production/js/'));
 
 });
 
-gulp.task('scss', ['clean'], function () {
-  var dest = gulp.dest('.tmp/build/css');
+gulp.task('scss', ['clean', 'iconfont'], function () {
+  var dest = gulp.dest('.tmp/metalsmith/css');
   var main = gulp.src('static/scss/*.scss').pipe(scss());
 
   var site = gulp.src('static/scss/*.scss').pipe(scss()).pipe(rename({
     basename: "site"
   }));
 
-  return merge(main, site).pipe(dest);
+  return merge(main, site).pipe(gulp.dest('.tmp/metalsmith/production/css')).pipe(gulp.dest('.tmp/metalsmith/development/css'));
 });
 
 gulp.task('assets', ['clean'], function () {
-  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/build/assets'));
+  return gulp.src('static/assets/**/*').pipe(gulp.dest('.tmp/metalsmith/production/assets')).pipe(gulp.dest('.tmp/metalsmith/development/assets'));
 });
 
-gulp.task('favicons', ['clean'], function () {
-  return gulp.src('static/favicons/**/*').pipe(gulp.dest('.tmp/build')).pipe(gulp.dest('build/production'));
+gulp.task('graphics', ['clean'], function () {
+  return gulp.src('graphics/**/*').pipe(gulp.dest('.tmp/metalsmith/production/assets/images')).pipe(gulp.dest('.tmp/metalsmith/development/assets/images'));
 });
 
-gulp.task('fonts', ['clean', 'iconfont'], function () {
-  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/build/assets/fonts/font-awesome'));
+gulp.task('favicons', ['clean', 'generate-favicon', 'check-for-favicon-update'], function () {
+  return gulp.src('.tmp/favicons/*.*').pipe(gulp.dest('.tmp/metalsmith/production')).pipe(gulp.dest('.tmp/metalsmith/development'));
 });
 
-gulp.task('static', ['metalsmith', 'browserify', 'assets', 'fonts', 'critical', 'favicons']);
+gulp.task('fonts', ['clean'], function () {
+  return gulp.src('./node_modules/font-awesome/fonts/*.*').pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/font-awesome')).pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/font-awesome'));
+});
 
-gulp.task('metalsmith', ['handlebars', 'clean'], metalsmith_build({
+gulp.task('static', ['metalsmith-development', 'metalsmith-production', 'browserify', 'assets', 'graphics', 'fonts', 'critical', 'favicons', 'sitemap']);
+
+gulp.task('metalsmith-development', ['handlebars', 'clean'], metalsmith_build({
   stage: "development"
+}));
+
+gulp.task('metalsmith-production', ['handlebars', 'clean'], metalsmith_build({
+  stage: "production"
 }));
 
 gulp.task('jscs', function () {
@@ -194,44 +335,61 @@ gulp.task('development', ['static'], function () {
     restore: true
   });
 
-  return gulp.src('.tmp/build/**/*').pipe(filter).pipe(substituter({
+  return gulp.src('.tmp/metalsmith/development/**/*').pipe(filter).pipe(substituter({
     configuration: JSON.stringify({
       "server": "http://localhost:5000",
       "debug": true
     })
-  })).pipe(filter.restore).pipe(gulp.dest('build/development'));
+  })).pipe(filter.restore).pipe(gulp.dest('./build/development'));
 });
 
-gulp.task('production', ['minify', 'production-assets'], function () {
+gulp.task('production', ['minify', 'browserify', 'scss', 'production-css-js', 'production-assets', 'production-cname', 'production-rss', 'production-favicons', 'production-sitemap'], function () {
   var revAll = new revall({
     dontRenameFile: ['.html', '.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
+    dontGlobal: ['.svg', '.jpeg', '.jpg', '.png', '.ico', '.xml'],
     debug: false
   });
-  return gulp.src('.tmp/production/**/*').pipe(substituter({
-    configuration: JSON.stringify({
-      "server": "http://mysterious-oasis-7692.herokuapp.com"
-    })
-  })).pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
+  return gulp.src('.tmp/build/production/**/*').pipe(revAll.revision()).pipe(gulp.dest('./build/production'));
+});
+
+gulp.task('production-css-js', ['static'], function () {
+  return gulp.src(['.tmp/metalsmith/production/**/*.js','.tmp/metalsmith/production/**/*.js.map','.tmp/metalsmith/production/**/*.css']).pipe(gulp.dest('./.tmp/build/production/'));
+});
+
+gulp.task('production-sitemap', ['static'], function () {
+  return gulp.src(['.tmp/metalsmith/production/sitemap.xml']).pipe(gulp.dest('./.tmp/build/production/'));
+});
+
+gulp.task('production-favicons', ['static'], function () {
+  return gulp.src(['.tmp/metalsmith/production/*.png','.tmp/metalsmith/production/browserconfig.xml','.tmp/metalsmith/production/manifest.json','.tmp/metalsmith/production/*.svg','.tmp/metalsmith/production/*.ico']).pipe(gulp.dest('./.tmp/build/production/'));
 });
 
 gulp.task('production-assets', ['static'], function () {
-  return gulp.src('.tmp/build/assets/**/*').pipe(gulp.dest('./build/production/assets'));
+  return gulp.src('.tmp/metalsmith/production/assets/**/*').pipe(gulp.dest('./.tmp/build/production/assets'));
+});
+
+gulp.task('production-cname', ['static'], function () {
+  return gulp.src('.tmp/metalsmith/production/CNAME').pipe(gulp.dest('./.tmp/build/production'));
+});
+
+gulp.task('production-rss', ['static'], function () {
+  return gulp.src('.tmp/metalsmith/production/rss.xml').pipe(gulp.dest('./.tmp/build/production'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
 
 gulp.task('htmlmin', ['static'], function () {
-  return gulp.src('.tmp/build/**/*.html').pipe(htmlmin({
+  return gulp.src(['.tmp/metalsmith/production/**/*.html','!.tmp/metalsmith/production/newsletters/**/*.html']).pipe(htmlmin({
     collapseWhitespace: true,
     minifyCSS: true
-  })).pipe(gulp.dest('.tmp/production'));
+  })).pipe(gulp.dest('.tmp/build/production'));
 });
 
 gulp.task('uglify-js', ['static'], function () {
-  return gulp.src('.tmp/build/**/*.js').pipe(uglify({
+  return gulp.src('.tmp/metalsmith/production/**/*.js').pipe(uglify({
     mangle: false,
     compress: false
-  })).pipe(gulp.dest('.tmp/production'));
+  })).pipe(gulp.dest('.tmp/build/production'));
 
 });
 
@@ -262,29 +420,210 @@ gulp.task('iconfont', ['clean'], function(done){
     },
     function handleFonts (cb) {
       iconStream
-        .pipe(gulp.dest('.tmp/build/assets/fonts/tagmento'))
+        .pipe(gulp.dest('.tmp/metalsmith/production/assets/fonts/tagmento'))
+        .pipe(gulp.dest('.tmp/metalsmith/development/assets/fonts/tagmento'))
         .on('finish', cb);
     }
   ], done);
 });
 
-gulp.task('critical', ['scss', 'metalsmith', 'iconfont'], function (cb) {
-  critical.generateInline({
-    base: '.tmp/build',
+gulp.task('sitemap', ['clean', 'metalsmith-production'], function () {
+
+  return gulp.src(['.tmp/metalsmith/production/**/*.html','!.tmp/metalsmith/production/newsletters/**/*.html'])
+        .pipe(sitemap({
+            siteUrl: 'http://www.tagmento.com'
+        }))
+        .pipe(gulp.dest('.tmp/metalsmith/production'));
+});
+
+gulp.task('critical', ['scss', 'metalsmith-production', 'metalsmith-development', 'favicons', 'iconfont', 'fonts'], function (cb) {
+  critical.generate({
+    inline: true,
+    base: '.tmp/metalsmith/production', 
     src: 'index.html',
-    styleTarget: '.tmp/build/css/site.css',
-    htmlTarget: '.tmp/build/index.html',
+    styleTarget: '.tmp/metalsmith/production/css/site.css',
+    htmlTarget: '.tmp/metalsmith/production/index.html',
     width: 320,
     height: 480,
     minify: false
   }, cb);
 });
 
-gulp.task('uglify-css', ['static'], function () {
-  return gulp.src('.tmp/build/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/production'));
+function checksum (str, algorithm, encoding) {
+    return crypto
+        .createHash(algorithm || 'md5')
+        .update(str, 'utf8')
+        .digest(encoding || 'hex')
+}
+
+
+
+gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], function() {
+  fs.ensureFileSync("./beginkit/MailChimp/files.json");
+  var images =  fs.readJsonSync("./beginkit/MailChimp/files.json", {throws: false}) || {};
+  var replaceMap = {};
+  
+  return gulp.src(['newsletters/**/*.html'], {
+    cwd: ".tmp/metalsmith/production"
+  }).pipe(cheerio(function ($, file, done) {
+      // The only difference here is the inclusion of a `done` parameter. 
+      // Call `done` when everything is finished. `done` accepts an error if applicable.
+      if (base_url && mc_api_key) {
+      async.each($('[style*=background-image],[style*=background],img').toArray(), function (item, cb) {
+        var uri;
+        var propValue = $(item).css('background-image') || $(item).css('background');
+        
+        if (propValue) {
+          uri = propValue.match(/url\(([^\)]+)\)/)[1];
+        } else if (item.tagName === "img") {
+          uri = $(item).attr('src');
+        } else {
+          console.log(item.tagName);
+          cb();
+        }
+        var pathComponents = uri.split('/');
+        pathComponents.unshift("static");
+        var filePath = path.resolve.apply(undefined, pathComponents);
+        
+        var extname = path.extname(uri);
+        fs.readFile(filePath, function (error, data) {
+          var base64 = new Buffer(data).toString('base64');
+          var sha = checksum(data, 'sha1');
+          if (images[sha]) {
+            replaceMap[uri] = images[sha].full_size_url;
+            images[sha].relative_url = uri;
+            cb();
+          } else {
+
+          
+            unirest.post(base_url + "/file-manager/files")
+           .auth(state, mc_api_key)
+           .header('content-type', 'application/json')
+           .send({"name": sha + extname, "file_data": base64})
+           .end(function (response) {
+            //console.log(response.body.full_size_url);
+            
+              if (response.body.error) {
+                console.log(response.body.error_description);
+                cb(response.body.error);
+              } else {
+                var data = 
+                  {
+                    "ext" : extname,
+                    "relative_url" : uri,
+                    "id" : response.body.id,
+                    "full_size_url" : response.body.full_size_url
+                  }; 
+                  images[sha] = data;
+                replaceMap[data.relative_url] = data.full_size_url;
+                cb();  
+              }
+            //console.log(response.body);
+            
+          });
+          }
+        });
+      }, function (error) {
+        fs.writeJson("./beginkit/MailChimp/files.json", images, {spaces : 2}, function (err){
+          done(err || error);
+        });
+      })
+    } else {
+      done()
+    }
+    }))
+
+        .pipe(inline({base: ".tmp/metalsmith/production",css: uglifycss, js: uglify, disabledTypes: ['img']}))
+        .pipe(inlineCss({
+          preserveMediaQueries: true
+        }))
+        .pipe(htmlmin({
+    collapseWhitespace: true,
+    minifyCSS: true
+  })).pipe(replace([{
+      search : /url\(([^\)]+)\)/g,
+      replacement: function(match) {
+        var uri = match.substr(4,match.length - 5);
+        
+        var newUrl = replaceMap[uri];
+        if (newUrl) {
+          return "url(" + newUrl + ")";
+        } else {
+          return match;
+        }
+      }
+    },{
+      search : /\ssrc="(\/[^"]+)"\s/g,
+      replacement: function(match, uri) {
+        
+        var newUrl = replaceMap[uri];
+        if (newUrl) {
+          return " src=\"" + newUrl + "\" ";
+        } else {
+          return match;
+        }
+      }
+    }, {
+      search : /"(\.\.)?\//g,
+      replacement: "\"http://www.tagmento.com/"
+    }]
+  ))
+
+        .pipe(gulp.dest('.tmp/newsletters'));
 });
 
-gulp.task('heroku:production', ['publish', 'test', 'submodules']);
+
+gulp.task('templates', ['newsletters'], function (done) {
+  fs.ensureFileSync("./beginkit/MailChimp/templates.json");
+  var templates =  fs.readJsonSync("./beginkit/MailChimp/templates.json", {throws: false}) || {};
+  var template_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.template");
+
+// read folder from settings
+  glob('.tmp/newsletters/**/index.html', function (er, files) {
+    // read all files in newsletters folder
+    async.each(files, 
+      function (file, cb) {
+        var template_name = path.basename(path.dirname(file));
+        if (templates[template_name]) {
+          cb();
+          return;
+        }
+        fs.readFile(file, function(err, data) {
+         var htmltext = new Buffer(data).toString();
+         unirest.post(base_url + "/templates")
+         .auth(state, mc_api_key)
+         .header('content-type', 'application/json')
+         .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+         .end(function (response) {
+            if (response.body.error) {
+              console.log(response.body.error_description);
+              //cb(response.body.error)
+            } else {
+              templates[response.body.id] = response.body;
+            }
+            cb(response.body.error);
+          });
+        });
+      },
+      function (error) {
+        fs.writeJson("./beginkit/MailChimp/templates.json", templates, {spaces : 2}, function (err){
+          done(err || error);
+        });
+      }
+    );
+  // If the `nonull` option is set, and nothing
+  // was found, then files is ["**/*.js"]
+  // er is an error object or null.
+
+  });
+// create template name based on folder
+// read each file and post
+
+});
+
+gulp.task('uglify-css', ['static'], function () {
+  return gulp.src('.tmp/metalsmith/production/**/*.css').pipe(uglifycss()).pipe(gulp.dest('.tmp/build/production'));
+});
 
 gulp.task('test', function () {
   // place code for your default task here

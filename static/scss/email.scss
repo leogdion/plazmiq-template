@@ -1,0 +1,277 @@
+@import 'libs/vars';
+@import 'libs/functions';
+@import 'libs/mixins';
+
+$fa-font-path: "/assets/fonts/font-awesome";
+@import "../../node_modules/font-awesome/scss/font-awesome.scss";
+
+@import "../../.tmp/css/fontawesome-style.scss";
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,100,300,900);
+/*
+  Landed by HTML5 UP
+  html5up.net | @n33co
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
+
+  @import "libs/skel";
+
+  @include skel-breakpoints((
+    xlarge: '(max-width: 1680px)',
+    large: '(max-width: 1280px)',
+    medium: '(max-width: 980px)',
+    small: '(max-width: 736px)',
+    xsmall: '(max-width: 480px)'
+  ));
+
+  @include skel-layout((
+    reset: 'full',
+    boxModel: 'border',
+    grid: ( gutters: 2.5em ),
+    conditionals: true,
+    containers: 70em,
+    breakpoints: (
+      large: (
+        containers: 90%,
+      ),
+      medium: (
+        containers: (100%, true),
+      )
+    )
+  ));
+
+  @mixin line-icon($bg: _palette(bg), $fg: _palette(fg-bold)) {
+    @include icon;
+    $size: 1px;
+
+    &:before {
+      color: $bg !important;
+      text-shadow:  $size 0 0 $fg,
+              ($size * -1) 0 0 $fg,
+              0 $size 0 $fg,
+              0 ($size * -1) 0 $fg;
+    }
+  }
+
+  @mixin sline-icon($bg: _palette(bg), $fg: _palette(fg-bold)) {
+    @include sicon;
+    $size: 1px;
+
+    &:before {
+      color: $bg !important;
+      text-shadow:  $size 0 0 $fg,
+              ($size * -1) 0 0 $fg,
+              0 $size 0 $fg,
+              0 ($size * -1) 0 $fg;
+    }
+  }
+
+  $size-wrapper-pad-tb: 6em;
+  $size-wrapper-pad-lr: 3em;
+
+/* Basic */
+
+  a {
+    text-decoration: none;
+    color: #e76278;
+  }
+    .read-more, .as-button {
+      margin-top: 1em;
+      a {
+        background-color: #e76278;
+        color: #FFF;
+        padding: 0.75em 1.5em;
+        border-radius: _size(border-radius);
+        font-size: 0.75em;
+        font-weight: 400;
+      }
+    }
+  
+
+  .footer a {
+    color: #000;
+  }
+
+  body, input, select, textarea {
+    color: #333;
+    font-family: _font(family);
+
+    font-size: 12pt;
+    font-weight: _font(weight);
+    line-height: 1.75em;
+  }
+
+  .email {
+    strong {
+    font-weight: 500;
+    }
+      background-color: #CCC;
+      width: 100%;
+    & > table {
+      margin: auto;
+      max-width: 640px;
+      & > tr.featured:first-child > td {
+        padding: 0px;
+          background-size: cover;
+          height: 250px;
+          height: 25vh;
+          background-position: center;
+          & > table {
+            background-color: rgba(0,0,0,0.50);
+            height: 100%;
+            width: 100%;
+            td {
+              vertical-align: middle;
+              text-align: center;
+              color: #FFF;
+              h1 {
+                font-size: 3.5em;
+                line-height: 0.75em;
+                font-weight: 300;
+              }
+            }
+          }
+         }
+      & > table:first-child {
+
+         background-color: #FFF;
+      }
+      & > tr > td {
+        padding: 20px;
+        &#main {
+         background-color: #FFF;
+         border: solid 1px #BBB;
+         border-top: none;
+         ul {
+          list-style: disc inside;
+          text-indent: 1em;
+          margin: 0.5em;
+         }
+         & > table  {
+            margin-right: 20px;
+            tbody {
+              table.featured-container {
+                margin: 30px 0px 10px; 
+                width: 100%;
+                tr.featured > td {
+                  background-repeat: no-repeat;
+                  background-position: top;
+                  background-size: cover;
+                  height: 250px;
+                  background-position: center;
+                  width: 100%;
+                }
+              }
+            }
+          & > tr > td {
+            padding-bottom: 20px;
+            hr {
+              margin-bottom: 30px;
+            }
+          }
+          & > tr:last-child > td {
+            padding-bottom: 20px;
+          }
+         }
+        }
+        & > table.footer {
+            margin-right: 20px;
+          font-size: 0.75em;
+          line-height: 1.5em;
+          width: 100%;
+          table {
+            width: 100%;
+          }
+          p {
+            margin: 1em 0px;
+          }
+          h1 {
+            font-size: 2em;
+            font-weight: 300;
+
+            a {
+              text-decoration: none;
+              color: #FFF;
+            }
+          }
+          .top {
+            margin-bottom: 20px;
+            & > tr {
+              td.social {
+                display: none;
+              }
+            }
+            & > tr:first-child {
+              td.social {
+                display: table-cell;
+                text-align: right;
+              }
+            }
+           
+          }
+          .social {
+            font-size: 1.75em;
+            text-align: left;
+            img {
+              height: 1em;
+              padding: 0px 5px;
+              margin: 0px 5px;
+              &:first-child {
+                margin-left: 0px;
+                padding-left: 0px;
+              }
+            }
+            a {
+              text-decoration: none;
+            }
+          }
+        }
+      }
+      h2 {
+        text-align: center;
+        font-size: 1.5em;
+        margin-top: 10px;
+      }
+
+      h2,h3,h4 {
+        font-weight: 300;
+      }
+
+      .meta {
+        font-size: 0.88em;
+      }
+      .header {
+        table.meta { 
+          width: 100%;
+          .date {
+            text-align: right;
+          }
+        }
+        hr {
+        }
+      }
+    }
+  }
+
+
+  @include breakpoint(medium) {
+  body, input, select, textarea {
+    font-size: 10pt !important;
+  }
+  
+       td.social img {
+              padding: 0px 2px !important;
+              margin: 0px 2px !important;
+
+       
+       }   
+    .top tr:first-child td.social {
+                display: table-cell !important;
+              
+  }
+  tr.featured td {
+                    height: 150px !important;
+                    height: 30vh !important;
+                  }
+            
+   
+  }

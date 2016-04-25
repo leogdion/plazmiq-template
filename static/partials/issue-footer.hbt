@@ -1,0 +1,61 @@
+
+        <table class="footer">
+          <tr>
+            <td>
+              <table>
+
+        <tr>
+          <td>
+            <table class="top">
+              <tr>
+              <td>
+                <h1><a href="http://www.tagmento.com">tagmento</a></h1>
+              </td>    
+          <td class="social"> 
+          <a class="icon" href="http://www.twitter.com/tagmento">
+<img src="/assets/images/social-icons/twitter-logo.png" height="20">
+</a>
+<a class="icon" href="http://www.facebook.com/tagmento">
+<img src="/assets/images/social-icons/facebook-logo.png" height="20">
+</a>
+<a class="icon" href="https://www.linkedin.com/company/tagmento">
+<img src="/assets/images/social-icons/linkedin-logo.png" height="20">
+</a>
+<a class="icon" href="http://betalist.com/startups/tagmento">
+<img src="/assets/images/social-icons/betalist.png" height="20">
+</a>
+<a class="icon" href="mailto:contact@tagmento.com">
+<img src="/assets/images/social-icons/mail.png" height="20">
+</a>
+          </td>
+              </tr>
+            </table>
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+          <p>
+            <a href="*|UNSUB|*">Unsubscribe</a> *|EMAIL|* from this list.
+            </p>
+            <p>
+            Our mailing address is:<br /> 
+            *|HTML:LIST_ADDRESS_HTML|*
+            </p>
+                      <p>*|LIST:DESCRIPTION|* <br /> 
+            <a href="http://www.brightdigit.com" style="text-decoration: none;">&copy; *|CURRENT_YEAR|* *|LIST:COMPANY|*</a> All rights reserved.
+            </p>
+           <p>
+            <a href="*|FORWARD|*">Forward</a> this email to a friend<br /> 
+            <a href="*|UPDATE_PROFILE|*">Update your profile</a></p>
+             </p> 
+             <p>
+              Email not displaying correctly?<br> <a href="*|ARCHIVE|*">View this email in your browser</a>
+             </p>
+             *|REWARDS|*
+          </td>
+        </tr>
+              </table>
+            </td>
+          </tr>
+          </table>

@@ -1,22 +1,47 @@
 <!DOCTYPE html>
 <html>
+<head>
   {{> head}}
-    <body class="margin">
-        {{> header}}
-      <main>
-<h2>{{title}}</h2>
+</head>
+<body class="blog index">
+  <div id="page-wrapper">
+    {{> header}}    
+    <div id="main" class="wrapper style1">
+                    <div class="container">
+                        <header class="major">
+                            <h1>tagmento news</h1>
+                        </header>
 
-<article>
+                        <!-- Content -->
+                        <article>
     <ul>
         {{#each (limit collections.posts this.pagination.end this.pagination.start)}}
             <li>
-                <h3><a href="../{{this.path}}">{{this.title}}</a></h3>
+                <h3><a href="../{{this.path}}#disqus_thread">{{this.title}}</a></h3>
+                <h4>
+
+                {{#unless this.date}}
+                DATE ERROR
+                {{else}}
+                {{#intl locales="en-US"}}{{formatDate date day="numeric" month="long" year="numeric" locale="en-us"}}{{/intl}}
+                {{/unless}}
+                </h4>
+                {{#if this.image}}
+      <div onclick="location.href='../{{this.path}}#disqus_thread'" class="featured" style="background-image: url(/assets/images/{{this.image}});">
+        
+      </div>
+    {{else}}
+      <hr>
+    {{/if}}
                 <article>
+                <p>
                 {{#unless this.abstract}}
-                  {{safe excerpt}}
+                  {{strip excerpt}}
                 {{else}}
                   {{this.abstract}}
                 {{/unless}}
+                </p>
+                <a class="button special" href="../{{this.path}}">Read More</a>
                 </article>
             </li>
         {{/each}}
@@ -33,7 +58,18 @@
         {{/if}}
     </nav>
 {{/if}}
-      </main>
-        {{> footer}}
-    </body>
+                            
+
+                    </div>
+                </div>
+    
+    {{> footer}}
+  </div>
+  <!--[if lte IE 8]>
+        <script src="/js/ie/respond.min.js" type="text/javascript" charset="utf-8" async defer></script>
+
+<![endif]-->
+
+        <script src="/js/main.js" type="text/javascript" charset="utf-8" async defer></script>
+</body>
 </html>
