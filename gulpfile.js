@@ -373,7 +373,7 @@ gulp.task('production-cname', ['static'], function () {
 });
 
 gulp.task('production-rss', ['static'], function () {
-  return gulp.src('.tmp/metalsmith/production/feed.xml').pipe(gulp.dest('./.tmp/build/production'));
+  return gulp.src('.tmp/metalsmith/production/rss.xml').pipe(gulp.dest('./.tmp/build/production'));
 });
 
 gulp.task('minify', ['htmlmin', 'uglify-js', 'uglify-css']);
