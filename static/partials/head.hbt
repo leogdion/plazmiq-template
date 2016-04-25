@@ -2,7 +2,12 @@
         <title>{{title}}</title>
 <meta charset="utf-8" />
 
+{{#if featured}}
+<meta property="og:image" content="http://www.tagmento.com/assets/images/{{featured}}" />
+{{else}}
 <meta property="og:image" content="http://www.tagmento.com/assets/images/banner.jpg" />
+{{/if}}
+
 <meta content="width=device-width, initial-scale=1" name="viewport" />
 <script type="text/javascript">
     (function () {
