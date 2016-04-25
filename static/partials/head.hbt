@@ -1,7 +1,7 @@
 
         <title>{{title}}</title>
         <link rel="alternate" type="application/rss+xml" 
-  title="tagmento RSS feed" 
+  title="tagmento news" 
   href="/rss.xml" />
         <meta name="twitter:site" content="@tagmento">
 <meta name="twitter:creator" content="leogdion">

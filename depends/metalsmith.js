@@ -56,7 +56,7 @@ module.exports = (function () {
       pages: {
         pattern: '*.md'
       }
-    })).use(feed({collection : 'posts'}))/*.use(tags({
+    }))/*.use(tags({
       handle: 'tags',
       // yaml key for tag list in you pages
       path: 'blog/tags.html',
@@ -71,7 +71,7 @@ module.exports = (function () {
       path: "news/page"
     })).use(markdown({
       renderer : renderer
-    })).use(excerpts()).use(permalinks({
+    })).use(excerpts()).use(feed({collection : 'posts'})).use(permalinks({
       pattern: 'news/:date/:title',
       date: 'YY/MM/DD'
     })).use(function (files, metalsmith) {
