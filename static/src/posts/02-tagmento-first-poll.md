@@ -2,7 +2,7 @@
 layout: post.hbt
 published: false
 title: Getting to know you - TagMento's First Survey
-date:  2016-04-29T07:00:00-04:00
+date:  2016-04-28T07:00:00-04:00
 tags: survey
 issue_no: 1,2
 image: posts/02-tagmento-first-poll/screen-shot.jpg
