@@ -5861,5 +5861,333 @@
         "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
       }
     ]
+  },
+  "118685": {
+    "id": 118685,
+    "type": "user",
+    "name": "01.2016-04-25",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:04:47+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118685",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118685",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118685/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "118689": {
+    "id": 118689,
+    "type": "user",
+    "name": "02.2016-05-02",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:04:47+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118689",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118689",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118689/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "118693": {
+    "id": 118693,
+    "type": "user",
+    "name": "01.2016-04-25",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:12:44+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118693",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118693",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118693/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "118697": {
+    "id": 118697,
+    "type": "user",
+    "name": "02.2016-05-02",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:12:45+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118697",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118697",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118697/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "118701": {
+    "id": 118701,
+    "type": "user",
+    "name": "02.2016-05-02",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:15:20+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118701",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118701",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118701/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "118705": {
+    "id": 118705,
+    "type": "user",
+    "name": "01.2016-04-25",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:15:21+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118705",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118705",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118705/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "118713": {
+    "id": 118713,
+    "type": "user",
+    "name": "01.2016-04-25",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:16:55+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118713",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118713",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118713/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
+  },
+  "118717": {
+    "id": 118717,
+    "type": "user",
+    "name": "02.2016-05-02",
+    "drag_and_drop": false,
+    "responsive": false,
+    "category": "",
+    "date_created": "2016-05-04T14:16:59+00:00",
+    "created_by": "Leo Dion",
+    "active": true,
+    "folder_id": "17a990b035",
+    "thumbnail": "",
+    "share_url": "",
+    "_links": [
+      {
+        "rel": "self",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118717",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Instance.json"
+      },
+      {
+        "rel": "parent",
+        "href": "https://us12.api.mailchimp.com/3.0/templates",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      },
+      {
+        "rel": "delete",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118717",
+        "method": "DELETE"
+      },
+      {
+        "rel": "default-content",
+        "href": "https://us12.api.mailchimp.com/3.0/templates/118717/default-content",
+        "method": "GET",
+        "targetSchema": "https://us12.api.mailchimp.com/schema/3.0/Templates/Defaultcontent/Collection.json",
+        "schema": "https://us12.api.mailchimp.com/schema/3.0/CollectionLinks/Templates.json"
+      }
+    ]
   }
 }
