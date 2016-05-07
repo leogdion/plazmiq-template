@@ -9,6 +9,7 @@ markdown = require('metalsmith-markdown'),
     define = require('metalsmith-define'),
     layouts = require('metalsmith-layouts'),
     collections = require('metalsmith-collections'),
+    feed = require('metalsmith-feed'),
     metalsmith = require('metalsmith'),
     path = require('path');
 var marked = require('marked');
@@ -55,7 +56,7 @@ module.exports = (function () {
       pages: {
         pattern: '*.md'
       }
-    })).use(tags({
+    }))/*.use(tags({
       handle: 'tags',
       // yaml key for tag list in you pages
       path: 'blog/tags.html',
@@ -65,13 +66,13 @@ module.exports = (function () {
       sortBy: 'date',
       // provide posts sorted by 'date' (optional)
       reverse: true // sort direction (optional)
-    })).use(paginate({
+    }))*/.use(paginate({
       perPage: 10,
-      path: "blog/page"
+      path: "news/page"
     })).use(markdown({
       renderer : renderer
-    })).use(excerpts()).use(permalinks({
-      pattern: 'blog/:date/:title',
+    })).use(excerpts()).use(feed({collection : 'posts'})).use(permalinks({
+      pattern: 'news/:date/:title',
       date: 'YY/MM/DD'
     })).use(function (files, metalsmith) {
       var metadata = metalsmith.metadata();
@@ -95,24 +96,25 @@ module.exports = (function () {
       
       for (var key in files) {
         if (files[key].collection && files[key].issue_no && files[key].collection.indexOf("posts") >= 0) {
-          var issue_no = files[key].issue_no;
 
-          if (!(metadata.issues[issue_no])) {
-            metadata.issues[issue_no] = [];
-          }
-          metadata.issues[issue_no].push(files[key])
-        }
-        /*
-        for (var collectionIndex = 0; collectionIndex < files[key].collection.length; collectionIndex++) {
-          var collectionName = files[key].collection[collectionIndex];
+          var issue_no_string = files[key].issue_no.toString();
+
+          var issue_nos = issue_no_string.split(',').map(function (_) {
+            return _.trim();
+          });
+
           var index;
-          for (index = 0; index < metadata.collections[collectionName].length; index++) {
-            if (metadata.collections[collectionName][index].title == files[key].title) {
-              metadata.collections[collectionName][index] = files[key];
+
+          for (index = 0; index < issue_nos.length; index = index + 1) {
+            var issue_no = issue_nos[index];
+            
+            if (!(metadata.issues[issue_no])) {
+              metadata.issues[issue_no] = [];
             }
+            
+            metadata.issues[issue_no].push(files[key]);
           }
         }
-        */
       }
 
       for (var issue_no in metadata.issues) {
