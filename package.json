@@ -1,6 +1,6 @@
 {
   "name": "www.beginkit.com",
-  "version": "0.5.7",
+  "version": "0.5.9",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
