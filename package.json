@@ -36,7 +36,11 @@
         "sources": [
           {
             "template": "templates/draft.md",
-            "parameters": {}
+            "parameters": {
+              "detailType" : "complete"
+            },
+            "path": "posts/drafts",
+            "filename": "{{ordinal}}.{{slugify title}}.md"
           }
         ]
       }

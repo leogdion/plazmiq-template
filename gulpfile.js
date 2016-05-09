@@ -21,6 +21,7 @@ Object.byString = function(o, s) {
 
 }
 
+var url = require('url');
 var glob = require("glob");
 var unirest = require('unirest');
 var realFavicon = require ('gulp-real-favicon');
@@ -257,6 +258,27 @@ gulp.task('handlebars', function () {
   });
   Handlebars.registerHelper('single', function (contents) {
     return contents && contents.length && contents.length === 1;
+  });
+  /**
+  * Handlebars helpers.
+  * @namespace Handlebars.helpers
+  */
+  Handlebars.registerHelper('slugify', function (component, options) {
+    /**
+    * Return a slug for a DOM id or class.
+    * @function slugify
+    * @memberof Handlebars.helpers
+    * @param {string} component - string to slugify.
+    * @example
+    * // returns stuff-in-the-title-lots-more
+    * Handlebars.helpers.slugify('Stuff in the TiTlE & Lots More');
+    * @returns {string} slug
+    */
+    console.log(component);
+    var slug = component.replace(/[^\w\s]+/gi, '').replace(/ +/gi, '-');
+
+    return slug.toLowerCase();
+
   });
 });
 
@@ -646,21 +668,69 @@ gulp.task('submodules', function () {
 
 gulp.task('drafts', ['drafts-pocket']);
 
-gulp.task('drafts-pocket', function (cb) {
+gulp.task('drafts-pocket', ['handlebars'], function (cb) {
   var sources = Object.byString(beginkit_package, "services.Pocket.sources") || [];
+  var current = glob.sync('src/posts/*.md').length;
   async.each(sources, 
     function (source, cb) {
       var params = source.parameters || {};
       params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
       params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken");
-      console.log(params);
+      var filename = Handlebars.compile(source.filename);
+      var template = Handlebars.compile(fs.readFileSync(source.template).toString());
       unirest.post('https://getpocket.com/v3/get.php')
       .header('X-Accept', 'application/json')
       .header('Content-Type', 'application/json; charset=UTF-8')
       .send(params)
       .end(function (response) {
-        console.log(response.body);
-        cb();
+        async.each(response.body.list,
+          function (article, cb) {
+            var videos = article.videos || {};
+            var video;
+            for(var key in videos) {
+                if(videos.hasOwnProperty(key)) {
+                    video = videos[key];
+                    break;
+                }
+            }
+            if (video) {
+              article.video = video;
+            }
+            article.url = article.resolved_url || article.given_url;
+            article.title = article.resolved_title || article.given_title;
+            article.ordinal = current;
+            var url_obj = url.parse(article.url)
+            article.site_url = url.format( {
+              "protocol" : url_obj.protocol,
+              "hostname" : url_obj.hostname
+            });
+            for (var key in article) {
+              var words = key.split("_");
+              if (words.length === 2 && (words[0] === "is" || words[0] === "has")) {
+                article[key] = article[key] === '1';
+              }
+            }
+            article.tag_list = article.tags ? Object.keys(article.tags).join(", ") : undefined;
+            article.now = Date();
+            current++; 
+            console.log(article);
+            console.log(template(article));
+            cb();
+          },
+          function (error) {
+            cb();
+          });
+        /*
+        var firstProp;
+        for(var key in response.body.list) {
+            if(response.body.list.hasOwnProperty(key)) {
+                firstProp = response.body.list[key];
+                break;
+            }
+        }
+        */
+        //console.log(response.body.list);
+        
       });
     },
     function (error) {
