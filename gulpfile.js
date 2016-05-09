@@ -7,15 +7,18 @@ Object.byString = function(o, s) {
     s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
     s = s.replace(/^\./, '');           // strip a leading dot
     var a = s.split('.');
-    for (var i = 0, n = a.length; i < n; ++i) {
-        var k = a[i];
-        if (k in o) {
-            o = o[k];
-        } else {
-            return;
-        }
+    if (o) {
+      for (var i = 0, n = a.length; i < n; ++i) {
+          var k = a[i];
+          if (k in o) {
+              o = o[k];
+          } else {
+              return;
+          }
+      }
     }
     return o;
+
 }
 
 var glob = require("glob");
@@ -82,7 +85,11 @@ var replace = require('gulp-just-replace');
 
 var beginkit_package = package.beginkit;
 
-var beginkit_creds = require('./.credentials/beginkit.json');
+var beginkit_creds;
+try {
+  beginkit_creds = require('./.credentials/beginkit.json');
+} catch (e) {
+}
 
 
 var mc_api_key = Object.byString(beginkit_creds,"services.MailChimp.ApiKey");
