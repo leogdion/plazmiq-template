@@ -647,7 +647,26 @@ gulp.task('submodules', function () {
 gulp.task('drafts', ['drafts-pocket']);
 
 gulp.task('drafts-pocket', function (cb) {
-  var params = {};
+  var sources = Object.byString(beginkit_package, "services.Pocket.sources") || [];
+  async.each(sources, 
+    function (source, cb) {
+      var params = source.parameters || {};
+      params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
+      params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken");
+      console.log(params);
+      unirest.post('https://getpocket.com/v3/get.php')
+      .header('X-Accept', 'application/json')
+      .header('Content-Type', 'application/json; charset=UTF-8')
+      .send(params)
+      .end(function (response) {
+        console.log(response.body);
+        cb();
+      });
+    },
+    function (error) {
+      cb();
+    });
+  /*
   params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
   params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken")
   unirest.post('https://getpocket.com/v3/get.php')
@@ -658,4 +677,5 @@ gulp.task('drafts-pocket', function (cb) {
     console.log(response.body);
     cb();
   });
+  */
 });
