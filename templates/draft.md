@@ -2,9 +2,10 @@
 layout: post.hbt
 publish: draft
 title: {{ title }}
-date:  {{ now }}
-{{#if tags_list}}tags: {{ tags_list }}{{/if}}
-{{#if has_image}}image: {{ image.src }}{{/if}}
+date:  {{ isoDate now }}{{#if tags_list}}
+tags: {{ tags_list }}{{/if}}{{#if has_image}}
+image: {{ image.src }}{{/if}}
+{{meta_yaml}}
 ---
 
 {{ excerpt }}

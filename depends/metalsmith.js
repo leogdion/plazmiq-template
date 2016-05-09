@@ -48,7 +48,7 @@ module.exports = (function () {
       stage: stage.substring(0, 3)
     })).use(collections({
       posts: {
-        pattern: 'posts/*.md',
+        pattern: 'posts/**/*.md',
         sortBy: 'date',
         reverse: true
       },
@@ -67,11 +67,11 @@ module.exports = (function () {
       reverse: true // sort direction (optional)
     }))*/.use(paginate({
       perPage: 10,
-      path: "news/page"
+      path: "blog/page"
     })).use(markdown({
       renderer : renderer
     })).use(excerpts()).use(feed({collection : 'posts'})).use(permalinks({
-      pattern: 'news/:date/:title',
+      pattern: 'blog/:date/:title',
       date: 'YY/MM/DD'
     })).use(function (files, metalsmith) {
       var metadata = metalsmith.metadata();

@@ -18,7 +18,7 @@
     <ul>
         {{#each (limit collections.posts this.pagination.end this.pagination.start)}}
             <li>
-                <h3><a href="../{{this.path}}">{{this.title}}</a></h3>
+                <h3><a href="/{{this.path}}">{{this.title}}</a></h3>
                 <h4>
 
                 {{#unless this.date}}

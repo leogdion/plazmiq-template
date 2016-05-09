@@ -1,6 +1,6 @@
 {
   "name": "www.beginkit.com",
-  "version": "0.5.22",
+  "version": "0.5.27",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -37,10 +37,11 @@
           {
             "template": "templates/draft.md",
             "parameters": {
-              "detailType" : "complete"
+              "detailType": "complete",
+              "sort": "oldest"
             },
             "path": "posts/drafts",
-            "filename": "{{ordinal}}.{{slugify title}}.md"
+            "filename": "{{zerofill ordinal 3}}.{{slugify title}}.md"
           }
         ]
       }
@@ -118,7 +119,8 @@
     "typed.js": "git+https://github.com/brightdigit/typed.js.git",
     "unirest": "^0.4.2",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "yamljs": "^0.2.7"
   },
   "devDependencies": {
     "gulp": "^3.9.0"

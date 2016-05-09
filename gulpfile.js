@@ -21,6 +21,7 @@ Object.byString = function(o, s) {
 
 }
 
+var YAML = require('yamljs');
 var url = require('url');
 var glob = require("glob");
 var unirest = require('unirest');
@@ -251,6 +252,9 @@ gulp.task('handlebars', function () {
     return contents.getFullYear();
   });
   Handlebars.registerHelper('isoDate', function (contents) {
+    if (!(contents.toISOString)) {
+      contents = new Date(contents);
+    }
     return contents.toISOString();
   });
   Handlebars.registerHelper('strip', function (contents) {
@@ -258,6 +262,15 @@ gulp.task('handlebars', function () {
   });
   Handlebars.registerHelper('single', function (contents) {
     return contents && contents.length && contents.length === 1;
+  });
+  Handlebars.registerHelper('zerofill', function (number, width) {
+    width -= number.toString().length;
+    if ( width > 0 )
+    {
+      return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+    }
+    return number + ""; // always return a stringify
+    //return contents && contents.length && contents.length === 1;
   });
   /**
   * Handlebars helpers.
@@ -274,7 +287,6 @@ gulp.task('handlebars', function () {
     * Handlebars.helpers.slugify('Stuff in the TiTlE & Lots More');
     * @returns {string} slug
     */
-    console.log(component);
     var slug = component.replace(/[^\w\s]+/gi, '').replace(/ +/gi, '-');
 
     return slug.toLowerCase();
@@ -670,7 +682,7 @@ gulp.task('drafts', ['drafts-pocket']);
 
 gulp.task('drafts-pocket', ['handlebars'], function (cb) {
   var sources = Object.byString(beginkit_package, "services.Pocket.sources") || [];
-  var current = glob.sync('src/posts/*.md').length;
+  var current = glob.sync('static/src/posts/*.md').length;
   async.each(sources, 
     function (source, cb) {
       var params = source.parameters || {};
@@ -711,11 +723,24 @@ gulp.task('drafts-pocket', ['handlebars'], function (cb) {
               }
             }
             article.tag_list = article.tags ? Object.keys(article.tags).join(", ") : undefined;
-            article.now = Date();
+            article.now = new Date();
+            article.meta_yaml =  YAML.stringify({
+              "pocket": article
+            }).replace(/'/g, "");
             current++; 
-            console.log(article);
-            console.log(template(article));
-            cb();
+            var filepath = path.join("static", "src",source.path, filename(article));
+            //console.log(template(article));
+            fs.stat(filepath, function (err, stats) {
+
+              if (stats) {
+                cb() 
+              } else {
+                fs.outputFile(filepath, template(article), function(error) {
+                  cb(error);
+                });
+
+              }
+            });
           },
           function (error) {
             cb();
