@@ -643,3 +643,19 @@ gulp.task('default', ['submodules', 'bump', 'production', 'development', 'test']
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));
 });
+
+gulp.task('drafts', ['drafts-pocket']);
+
+gulp.task('drafts-pocket', function (cb) {
+  var params = {};
+  params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
+  params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken")
+  unirest.post('https://getpocket.com/v3/get.php')
+  .header('X-Accept', 'application/json')
+  .header('Content-Type', 'application/json; charset=UTF-8')
+  .send(params)
+  .end(function (response) {
+    console.log(response.body);
+    cb();
+  });
+});

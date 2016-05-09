@@ -31,6 +31,14 @@
           "files": "3273",
           "campaign": "510b4ee963"
         }
+      },
+      "Pocket": {
+        "sources" : [
+          {
+            "template" : "templates/draft.md",
+            "parameters" : {}
+          }
+        ]
       }
     }
   },

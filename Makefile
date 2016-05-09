@@ -29,3 +29,5 @@ serve: all
 rebuild: clean-cache all
 templates: 
 	$(gulp) templates
+drafts:
+	$(gulp) drafts
