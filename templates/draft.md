@@ -1,11 +1,11 @@
 ---
 layout: post.hbt
 publish: draft
-title: {{ title }}
+title: "{{ title }}"
 date:  {{ isoDate now }}{{#if tags_list}}
 tags: {{ tags_list }}{{/if}}{{#if has_image}}
-image: {{ image.src }}{{/if}}
-{{meta_yaml}}
+image: "{{ image.src }}"{{/if}}
+pocket: {{stringify this}}
 ---
 
 {{ excerpt }}

@@ -21,7 +21,9 @@ Object.byString = function(o, s) {
 
 }
 
-var YAML = require('yamljs');
+var traverse = require('traverse');
+var matter = require('gray-matter');
+var yaml = require('js-yaml');
 var url = require('url');
 var glob = require("glob");
 var unirest = require('unirest');
@@ -272,6 +274,9 @@ gulp.task('handlebars', function () {
     return number + ""; // always return a stringify
     //return contents && contents.length && contents.length === 1;
   });
+  Handlebars.registerHelper('stringify', function(object){
+    return new Handlebars.SafeString(JSON.stringify(object));
+  });
   /**
   * Handlebars helpers.
   * @namespace Handlebars.helpers
@@ -519,7 +524,6 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
         } else if (item.tagName === "img") {
           uri = $(item).attr('src');
         } else {
-          console.log(item.tagName);
           cb();
         }
         var pathComponents = uri.split('/');
@@ -542,7 +546,6 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
            .header('content-type', 'application/json')
            .send({"name": sha + extname, "file_data": base64})
            .end(function (response) {
-            //console.log(response.body.full_size_url);
             
               if (response.body.error) {
                 console.log(response.body.error_description);
@@ -559,7 +562,6 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
                 replaceMap[data.relative_url] = data.full_size_url;
                 cb();  
               }
-            //console.log(response.body);
             
           });
           }
@@ -638,7 +640,6 @@ gulp.task('templates', ['newsletters'], function (done) {
          .end(function (response) {
             if (response.body.error) {
               console.log(response.body.error_description);
-              //cb(response.body.error)
             } else {
               templates[response.body.id] = response.body;
             }
@@ -682,196 +683,91 @@ gulp.task('drafts', ['drafts-pocket']);
 
 gulp.task('drafts-pocket', ['handlebars'], function (cb) {
   var sources = Object.byString(beginkit_package, "services.Pocket.sources") || [];
-  var current = glob.sync('static/src/posts/*.md').length;
-  async.each(sources, 
-    function (source, cb) {
-      var params = source.parameters || {};
-      params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
-      params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken");
-      var filename = Handlebars.compile(source.filename);
-      var template = Handlebars.compile(fs.readFileSync(source.template).toString());
-      unirest.post('https://getpocket.com/v3/get.php')
-      .header('X-Accept', 'application/json')
-      .header('Content-Type', 'application/json; charset=UTF-8')
-      .send(params)
-      .end(function (response) {
-        async.each(response.body.list,
-          function (article, cb) {
-            var videos = article.videos || {};
-            var video;
-            for(var key in videos) {
-                if(videos.hasOwnProperty(key)) {
-                    video = videos[key];
-                    break;
-                }
-            }
-            if (video) {
-              article.video = video;
-            }
-            article.url = article.resolved_url || article.given_url;
-            article.title = article.resolved_title || article.given_title;
-            article.ordinal = current;
-            var url_obj = url.parse(article.url)
-            article.site_url = url.format( {
-              "protocol" : url_obj.protocol,
-              "hostname" : url_obj.hostname
-            });
-            for (var key in article) {
-              var words = key.split("_");
-              if (words.length === 2 && (words[0] === "is" || words[0] === "has")) {
-                article[key] = article[key] === '1';
-              }
-            }
-            article.tag_list = article.tags ? Object.keys(article.tags).join(", ") : undefined;
-            article.now = new Date();
-            article.meta_yaml =  YAML.stringify({
-              "pocket": article
-            }).replace(/'/g, "");
-            current++; 
-            var filepath = path.join("static", "src",source.path, filename(article));
-            //console.log(template(article));
-            fs.stat(filepath, function (err, stats) {
-
-              if (stats) {
-                cb() 
-              } else {
-                fs.outputFile(filepath, template(article), function(error) {
-                  cb(error);
-                });
-
-              }
-            });
-          },
-          function (error) {
-            cb();
-          });
-        /*
-        var firstProp;
-        for(var key in response.body.list) {
-            if(response.body.list.hasOwnProperty(key)) {
-                firstProp = response.body.list[key];
-                break;
-            }
-        }
-        */
-        //console.log(response.body.list);
-        
-      });
-    },
-    function (error) {
-      cb();
-    });
-  /*
-  params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
-  params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken")
-  unirest.post('https://getpocket.com/v3/get.php')
-  .header('X-Accept', 'application/json')
-  .header('Content-Type', 'application/json; charset=UTF-8')
-  .send(params)
-  .end(function (response) {
-    console.log(response.body);
-    cb();
-  });
-  */
-});
-
-/*
-gulp.task('drafts-pocket', ['handlebars'], function (cb) {
-  var sources = Object.byString(beginkit_package, "services.Pocket.sources") || [];
-  var current = glob.sync('static/src/posts/*.md').length;
-  
-  //glob('static/src/posts/**//*.md', function (error, files) {
-
-    /*
+  glob('static/src/posts/**/*.md', function (error, files) {
+    
     async.reduce(files, {}, function (memo, file, cb) {
 
       fs.readFile(file, function (error, data) {
-        try {
+        
           var frontmatter = matter(data.toString());
           if (frontmatter.data.pocket && frontmatter.data.pocket.item_id) {
-            memo[frontmatter.data.pocket.item_id] = true
+            var item_id = Number(frontmatter.data.pocket.item_id);
+            if (!isNaN(item_id)) {
+              memo[item_id] = true
+            }
           }
-        } catch (e) {
-          console.log(e);
-        }
         cb(undefined, memo);
       });
     }, function (error, item_ids) {
+      var current = files.length - Object.keys(item_ids).length;
       async.each(sources, 
-    function (source, cb) {
-
-      var params = source.parameters || {};
-      params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
-      params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken");
-      var filename = Handlebars.compile(source.filename);
-      var template = Handlebars.compile(fs.readFileSync(source.template).toString());
-      unirest.post('https://getpocket.com/v3/get.php')
-      .header('X-Accept', 'application/json')
-      .header('Content-Type', 'application/json; charset=UTF-8')
-      .send(params)
-      .end(function (response) {
-        async.each(response.body.list,
-          function (article, cb) {
-            
-            if (item_ids[article.item_id]) {
-              cb();
-              return;
-            }
-            
-            var videos = article.videos || {};
-            var video;
-            for(var key in videos) {
-                if(videos.hasOwnProperty(key)) {
-                    video = videos[key];
-                    break;
+        function (source, cb) {
+          var params = source.parameters || {};
+          params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
+          params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken");
+          var filename = Handlebars.compile(source.filename);
+          var template = Handlebars.compile(fs.readFileSync(source.template).toString());
+          unirest.post('https://getpocket.com/v3/get.php')
+          .header('X-Accept', 'application/json')
+          .header('Content-Type', 'application/json; charset=UTF-8')
+          .send(params)
+          .end(function (response) {
+            async.each(response.body.list,
+              function (article, cb) {
+                if (item_ids[article.item_id]) {
+                  //console.log("Already: ",article.item_id,article.resolved_title);
+                  cb();
+                  return;
                 }
-            }
-            if (video) {
-              article.video = video;
-            }
-            article.url = article.resolved_url || article.given_url;
-            article.title = article.resolved_title || article.given_title;
-            article.ordinal = current;
-            var url_obj = url.parse(article.url)
-            article.site_url = url.format( {
-              "protocol" : url_obj.protocol,
-              "hostname" : url_obj.hostname
-            });
-
-            for (var key in article) {
-              var words = key.split("_");
-              if (words.length === 2 && (words[0] === "is" || words[0] === "has")) {
-                article[key] = article[key] === '1';
-              } else {
-                var parsed = parseInt(article[key], 10); 
-                if (!isNaN(parsed)) {
-                  article[key] = parsed;
+                traverse(article).forEach(function (value) {
+                  if (this.key) {
+                    
+                    var words = this.key.split("_");
+                    if (words.length === 2 && (words[0] === "is" || words[0] === "has")) {
+                      this.update(value === '1');
+                    } else {
+                      var parsed = Number(value); 
+                      if (!isNaN(parsed)) {
+                        this.update(parsed);
+                      }
+                    }
+                  }
+                });
+                var videos = article.videos || {};
+                var video;
+                for(var key in videos) {
+                    if(videos.hasOwnProperty(key)) {
+                        video = videos[key];
+                        break;
+                    }
                 }
-              }
-            }
-            article.tag_list = article.tags ? Object.keys(article.tags).join(", ") : undefined;
-            article.now = new Date();
-            
-            current++; 
-            var filepath = path.join(__dirname, "static", "src", source.path, filename(article));
-            console.log(filepath);
-            console.log(fs.stat);
-            fs.stat(filepath, function (err, stats) {
-              if(err) {
-                cb();
-              } else if(err.code == 'ENOENT') {
+                if (video) {
+                  article.video = video;
+                }
+                article.url = article.resolved_url || article.given_url;
+                article.title = article.resolved_title || article.given_title;
+                article.ordinal = current;
+                var url_obj = url.parse(article.url)
+                article.site_url = url.format( {
+                  "protocol" : url_obj.protocol,
+                  "hostname" : url_obj.hostname
+                });
+                article.tag_list = article.tags ? Object.keys(article.tags).join(", ") : undefined;
+                article.now = new Date();
+                current++; 
+                var filepath = path.join("static", "src",source.path, filename(article));
                 fs.outputFile(filepath, template(article), function(error) {
                   cb(error);
                 });
-              } else {
-                cb(err);
-              }
-            });
-          },
-          function (error) {
-            console.log(error);
-            cb();
-          });        
-      });
+              },
+              function (error) {
+                cb();
+              });
+          });
+        },
+        function (error) {
+          cb();
+        });
+    });
+  });
 });
-  */
