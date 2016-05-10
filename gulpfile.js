@@ -774,3 +774,104 @@ gulp.task('drafts-pocket', ['handlebars'], function (cb) {
   });
   */
 });
+
+/*
+gulp.task('drafts-pocket', ['handlebars'], function (cb) {
+  var sources = Object.byString(beginkit_package, "services.Pocket.sources") || [];
+  var current = glob.sync('static/src/posts/*.md').length;
+  
+  //glob('static/src/posts/**//*.md', function (error, files) {
+
+    /*
+    async.reduce(files, {}, function (memo, file, cb) {
+
+      fs.readFile(file, function (error, data) {
+        try {
+          var frontmatter = matter(data.toString());
+          if (frontmatter.data.pocket && frontmatter.data.pocket.item_id) {
+            memo[frontmatter.data.pocket.item_id] = true
+          }
+        } catch (e) {
+          console.log(e);
+        }
+        cb(undefined, memo);
+      });
+    }, function (error, item_ids) {
+      async.each(sources, 
+    function (source, cb) {
+
+      var params = source.parameters || {};
+      params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
+      params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken");
+      var filename = Handlebars.compile(source.filename);
+      var template = Handlebars.compile(fs.readFileSync(source.template).toString());
+      unirest.post('https://getpocket.com/v3/get.php')
+      .header('X-Accept', 'application/json')
+      .header('Content-Type', 'application/json; charset=UTF-8')
+      .send(params)
+      .end(function (response) {
+        async.each(response.body.list,
+          function (article, cb) {
+            
+            if (item_ids[article.item_id]) {
+              cb();
+              return;
+            }
+            
+            var videos = article.videos || {};
+            var video;
+            for(var key in videos) {
+                if(videos.hasOwnProperty(key)) {
+                    video = videos[key];
+                    break;
+                }
+            }
+            if (video) {
+              article.video = video;
+            }
+            article.url = article.resolved_url || article.given_url;
+            article.title = article.resolved_title || article.given_title;
+            article.ordinal = current;
+            var url_obj = url.parse(article.url)
+            article.site_url = url.format( {
+              "protocol" : url_obj.protocol,
+              "hostname" : url_obj.hostname
+            });
+
+            for (var key in article) {
+              var words = key.split("_");
+              if (words.length === 2 && (words[0] === "is" || words[0] === "has")) {
+                article[key] = article[key] === '1';
+              } else {
+                var parsed = parseInt(article[key], 10); 
+                if (!isNaN(parsed)) {
+                  article[key] = parsed;
+                }
+              }
+            }
+            article.tag_list = article.tags ? Object.keys(article.tags).join(", ") : undefined;
+            article.now = new Date();
+            
+            current++; 
+            var filepath = path.join(__dirname, "static", "src", source.path, filename(article));
+            console.log(filepath);
+            console.log(fs.stat);
+            fs.stat(filepath, function (err, stats) {
+              if(err) {
+                cb();
+              } else if(err.code == 'ENOENT') {
+                fs.outputFile(filepath, template(article), function(error) {
+                  cb(error);
+                });
+              } else {
+                cb(err);
+              }
+            });
+          },
+          function (error) {
+            console.log(error);
+            cb();
+          });        
+      });
+});
+  */
