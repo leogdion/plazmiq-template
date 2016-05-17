@@ -118,14 +118,15 @@ async.parallel([
       function (file, cb) {
         var template_name = path.basename(path.dirname(file));
         var template_id = templates[template_name];
-
-        if (template_id == null) {
+        if (template_id === null) {
           console.log("skipping ", template_name);
           cb();
         } else {
           fs.readFile(file, function(err, data) {
             var htmltext = new Buffer(data).toString();
             if (template_id) {
+         // console.log("overwrite ", template_name);
+          
               unirest.patch(base_url + "/templates/" + template_id)
               .auth(state, mc_api_key)
               .header('content-type', 'application/json')
@@ -139,7 +140,10 @@ async.parallel([
                 }
                 cb(response.body.error);
               });
+              
             } else {
+          //console.log("creating ", template_name);
+              
               unirest.post(base_url + "/templates")
               .auth(state, mc_api_key)
               .header('content-type', 'application/json')
@@ -153,6 +157,7 @@ async.parallel([
                 }
                 cb(response.body.error);
               });
+              
             }
           });
         }
