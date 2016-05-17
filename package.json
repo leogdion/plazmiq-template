@@ -92,6 +92,7 @@
     "gulp-uglify": "^1.5.1",
     "gulp-uglifycss": "^1.0.5",
     "gulp-umd": "^0.2.0",
+    "gulp-util": "^3.0.7",
     "gulp-wrap": "^0.11.0",
     "handlebars": "^4.0.5",
     "handlebars-intl": "^1.1.2",

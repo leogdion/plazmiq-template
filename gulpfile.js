@@ -21,6 +21,7 @@ Object.byString = function(o, s) {
 
 }
 
+var gutil = require('gulp-util');
 var traverse = require('traverse');
 var matter = require('gray-matter');
 var yaml = require('js-yaml');
@@ -617,49 +618,130 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
 
 
 gulp.task('templates', ['newsletters'], function (done) {
-  fs.ensureFileSync("./beginkit/MailChimp/templates.json");
-  var templates =  fs.readJsonSync("./beginkit/MailChimp/templates.json", {throws: false}) || {};
+  var campaign_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.campaign");
   var template_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.template");
+  var campaign_statuses = Object.byString(beginkit_package,"services.MailChimp.campaigns.overwrite.status") || [];
+  
+  async.parallel([
+    function (cb) {
+      unirest.get(base_url + "/campaigns")
+      .auth(state, mc_api_key)
+      .header('content-type', 'application/json')
+      .send({})
+      .end(function (response) {
+        /*
+         if (response.body.error) {
+           console.log(response.body.error_description);
+         } else {
+           templates[response.body.id] = response.body;
+         }
+         cb(response.body.error);
+         */
+         var campaigns = response.body.campaigns.filter( function (_) {
+          
+            return _.settings.folder_id == campaign_folder_id
+         }).reduce(function (memo, _) {
+          //var template = templates[_.settings.template_id];
+          //if (template) {
+            memo[_.settings.template_id] = _.status;  
+          //}
 
-// read folder from settings
-  glob('.tmp/newsletters/**/index.html', function (er, files) {
-    // read all files in newsletters folder
-    async.each(files, 
-      function (file, cb) {
-        var template_name = path.basename(path.dirname(file));
-        if (templates[template_name]) {
-          cb();
-          return;
-        }
-        fs.readFile(file, function(err, data) {
-         var htmltext = new Buffer(data).toString();
-         unirest.post(base_url + "/templates")
-         .auth(state, mc_api_key)
-         .header('content-type', 'application/json')
-         .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
-         .end(function (response) {
-            if (response.body.error) {
-              console.log(response.body.error_description);
-            } else {
-              templates[response.body.id] = response.body;
-            }
-            cb(response.body.error);
-          });
-        });
-      },
-      function (error) {
-        fs.writeJson("./beginkit/MailChimp/templates.json", templates, {spaces : 2}, function (err){
-          done(err || error);
-        });
+          
+          return memo
+         }, {});
+         cb(null,campaigns);
+       });
+    },
+    function (cb) {
+      unirest.get(base_url + "/templates")
+      .auth(state, mc_api_key)
+      .header('content-type', 'application/json')
+      .send({})
+      .end(function (response) {
+        /*
+         if (response.body.error) {
+           console.log(response.body.error_description);
+         } else {
+           templates[response.body.id] = response.body;
+         }
+         cb(response.body.error);
+         */
+         var templates = response.body.templates.filter( function (_) {
+          
+            return _.folder_id == template_folder_id
+         }).map(function (_) {
+          return {name : _.name,  id : _.id}
+         }, {});
+         cb(null, templates);
+       });
+    }
+  ], function (error, results) {
+    var templates = results[1].reduce(function (memo, _) {
+      var status = results[0][_.id];
+      if (!status || campaign_statuses.indexOf(status) > -1) {
+        memo[_.name] = _.id;  
+      } else if (status) {
+        memo[_.name] = null;
       }
-    );
-  // If the `nonull` option is set, and nothing
-  // was found, then files is ["**/*.js"]
-  // er is an error object or null.
-
+      
+      return memo;
+    }, {});
+    glob('.tmp/newsletters/**/index.html', function (er, files) {
+      async.each(files, 
+        function (file, cb) {
+          var template_name = path.basename(path.dirname(file));
+          var template_id = templates[template_name];
+          if (template_id === null) {
+            gutil.log("Skipping", gutil.colors.cyan("'" + template_name + "'"));
+            cb();
+          } else {
+            fs.readFile(file, function(err, data) {
+              var htmltext = new Buffer(data).toString();
+              if (template_id) {
+           // console.log("overwrite ", template_name);
+            
+                unirest.patch(base_url + "/templates/" + template_id)
+                .auth(state, mc_api_key)
+                .header('content-type', 'application/json')
+                .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+                .end(function (response) {
+                  if (response.body.error) {
+                    console.log(response.body.error_description);
+                  } else {
+                    gutil.log("Overwriting", gutil.colors.cyan("'" + template_name + "'"));
+                  }
+                  cb(response.body.error);
+                });
+                
+              } else {
+            //console.log("creating ", template_name);
+                
+                unirest.post(base_url + "/templates")
+                .auth(state, mc_api_key)
+                .header('content-type', 'application/json')
+                .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+                .end(function (response) {
+                  if (response.body.error) {
+                    console.log(response.body.error_description);
+                  } else {
+                    gutil.log("Creating", gutil.colors.cyan("'" + template_name + "'"));
+                  }
+                  cb(response.body.error);
+                });
+                
+              }
+            });
+          }
+        },
+        function (error) {
+          if (error) {
+            console.log(error);
+          }
+          done(error);
+        }
+      );
+    });
   });
-// create template name based on folder
-// read each file and post
 
 });
 
