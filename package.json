@@ -8,7 +8,7 @@
     "start": "make serve"
   },
   "engines": {
-    "node": "5"
+    "node": "6"
   },
   "repository": {
     "type": "git",
@@ -38,7 +38,9 @@
             "template": "templates/draft.md",
             "parameters": {
               "detailType": "complete",
-              "sort": "oldest"
+              "sort": "oldest",
+              "tag": "tagmento",
+              "state": "archive"
             },
             "path": "posts/drafts",
             "filename": "{{zerofill ordinal 3}}.{{slugify title}}.md"

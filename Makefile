@@ -27,7 +27,7 @@ dev: all
 serve: all
 	$(static) build/production -p 8080 & $(static) build/development -p 8081 # & npm start
 rebuild: clean-cache all
-templates: 
+templates: depend
 	$(gulp) templates
-drafts:
+drafts: depend
 	$(gulp) drafts
