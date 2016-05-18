@@ -1,6 +1,6 @@
 {
   "name": "www.beginkit.com",
-  "version": "0.5.21",
+  "version": "0.5.28",
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "make serve"
   },
   "engines": {
-    "node": "5"
+    "node": "6"
   },
   "repository": {
     "type": "git",
@@ -31,10 +31,27 @@
           "files": "3273",
           "campaign": "510b4ee963"
         }
+      },
+      "Pocket": {
+        "sources": [
+          {
+            "template": "templates/draft.md",
+            "parameters": {
+              "detailType": "complete",
+              "sort": "oldest",
+              "tag": "tagmento",
+              "state": "archive"
+            },
+            "path": "posts/drafts",
+            "filename": "{{zerofill ordinal 3}}.{{slugify title}}.md"
+          }
+        ]
       }
     }
   },
   "dependencies": {
+    "apple-news": "^1.1.0",
+    "article-json-to-apple-news": "^3.2.0",
     "async": "^1.5.2",
     "babel-preset-es2015": "^6.6.0",
     "babelify": "^7.2.0",
@@ -46,6 +63,7 @@
     "font-awesome": "fortawesome/Font-Awesome",
     "fs-extra": "^0.26.7",
     "glob": "^6.0.4",
+    "gray-matter": "^2.0.2",
     "gulp-awspublish": "^3.0.1",
     "gulp-awspublish-router": "^0.1.1",
     "gulp-beautify": "^2.0.0",
@@ -76,15 +94,18 @@
     "gulp-uglify": "^1.5.1",
     "gulp-uglifycss": "^1.0.5",
     "gulp-umd": "^0.2.0",
+    "gulp-util": "^3.0.7",
     "gulp-wrap": "^0.11.0",
     "handlebars": "^4.0.5",
     "handlebars-intl": "^1.1.2",
+    "html-to-article-json": "^1.12.5",
     "intl": "^1.0.1",
     "jquery": "^2.2.0",
     "jquery-placeholder": "^2.3.1",
     "jquery.dropotron": "git+https://github.com/brightdigit/jquery.dropotron.git",
     "jquery.scrollex": "git+https://github.com/brightdigit/jquery.scrollex.git",
     "jquery.scrolly": "git+https://github.com/brightdigit/scrolly.git",
+    "js-yaml": "^3.6.0",
     "jshint": "^2.9.1",
     "lodash": "^4.7.0",
     "marked": "^0.3.5",
@@ -103,10 +124,13 @@
     "rimraf": "^2.5.1",
     "skel": "git+https://github.com/brightdigit/skel.git",
     "spin.js": "^2.3.2",
+    "through2": "^2.0.1",
+    "traverse": "^0.6.6",
     "typed.js": "git+https://github.com/brightdigit/typed.js.git",
     "unirest": "^0.4.2",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "yamljs": "^0.2.7"
   },
   "devDependencies": {
     "gulp": "^3.9.0"

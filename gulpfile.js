@@ -21,6 +21,13 @@ Object.byString = function(o, s) {
 
 }
 
+var convertToAppleNews = require('article-json-to-apple-news');
+var htmlToArticleJson = require('html-to-article-json')({});
+var gutil = require('gulp-util');
+var traverse = require('traverse');
+var matter = require('gray-matter');
+var yaml = require('js-yaml');
+var url = require('url');
 var glob = require("glob");
 var unirest = require('unirest');
 var realFavicon = require ('gulp-real-favicon');
@@ -250,6 +257,9 @@ gulp.task('handlebars', function () {
     return contents.getFullYear();
   });
   Handlebars.registerHelper('isoDate', function (contents) {
+    if (!(contents.toISOString)) {
+      contents = new Date(contents);
+    }
     return contents.toISOString();
   });
   Handlebars.registerHelper('strip', function (contents) {
@@ -257,6 +267,38 @@ gulp.task('handlebars', function () {
   });
   Handlebars.registerHelper('single', function (contents) {
     return contents && contents.length && contents.length === 1;
+  });
+  Handlebars.registerHelper('zerofill', function (number, width) {
+    width -= number.toString().length;
+    if ( width > 0 )
+    {
+      return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+    }
+    return number + ""; // always return a stringify
+    //return contents && contents.length && contents.length === 1;
+  });
+  Handlebars.registerHelper('stringify', function(object){
+    return new Handlebars.SafeString(JSON.stringify(object));
+  });
+  /**
+  * Handlebars helpers.
+  * @namespace Handlebars.helpers
+  */
+  Handlebars.registerHelper('slugify', function (component, options) {
+    /**
+    * Return a slug for a DOM id or class.
+    * @function slugify
+    * @memberof Handlebars.helpers
+    * @param {string} component - string to slugify.
+    * @example
+    * // returns stuff-in-the-title-lots-more
+    * Handlebars.helpers.slugify('Stuff in the TiTlE & Lots More');
+    * @returns {string} slug
+    */
+    var slug = component.replace(/[^\w\s]+/gi, '').replace(/ +/gi, '-');
+
+    return slug.toLowerCase();
+
   });
 });
 
@@ -485,7 +527,6 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
         } else if (item.tagName === "img") {
           uri = $(item).attr('src');
         } else {
-          console.log(item.tagName);
           cb();
         }
         var pathComponents = uri.split('/');
@@ -508,7 +549,6 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
            .header('content-type', 'application/json')
            .send({"name": sha + extname, "file_data": base64})
            .end(function (response) {
-            //console.log(response.body.full_size_url);
             
               if (response.body.error) {
                 console.log(response.body.error_description);
@@ -525,7 +565,6 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
                 replaceMap[data.relative_url] = data.full_size_url;
                 cb();  
               }
-            //console.log(response.body);
             
           });
           }
@@ -581,50 +620,130 @@ gulp.task('newsletters', ['metalsmith-production', 'assets', 'scss', 'clean'], f
 
 
 gulp.task('templates', ['newsletters'], function (done) {
-  fs.ensureFileSync("./beginkit/MailChimp/templates.json");
-  var templates =  fs.readJsonSync("./beginkit/MailChimp/templates.json", {throws: false}) || {};
+  var campaign_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.campaign");
   var template_folder_id = Object.byString(beginkit_package,"services.MailChimp.folders.template");
+  var campaign_statuses = Object.byString(beginkit_package,"services.MailChimp.campaigns.overwrite.status") || [];
+  
+  async.parallel([
+    function (cb) {
+      unirest.get(base_url + "/campaigns")
+      .auth(state, mc_api_key)
+      .header('content-type', 'application/json')
+      .send({})
+      .end(function (response) {
+        /*
+         if (response.body.error) {
+           console.log(response.body.error_description);
+         } else {
+           templates[response.body.id] = response.body;
+         }
+         cb(response.body.error);
+         */
+         var campaigns = response.body.campaigns.filter( function (_) {
+          
+            return _.settings.folder_id == campaign_folder_id
+         }).reduce(function (memo, _) {
+          //var template = templates[_.settings.template_id];
+          //if (template) {
+            memo[_.settings.template_id] = _.status;  
+          //}
 
-// read folder from settings
-  glob('.tmp/newsletters/**/index.html', function (er, files) {
-    // read all files in newsletters folder
-    async.each(files, 
-      function (file, cb) {
-        var template_name = path.basename(path.dirname(file));
-        if (templates[template_name]) {
-          cb();
-          return;
-        }
-        fs.readFile(file, function(err, data) {
-         var htmltext = new Buffer(data).toString();
-         unirest.post(base_url + "/templates")
-         .auth(state, mc_api_key)
-         .header('content-type', 'application/json')
-         .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
-         .end(function (response) {
-            if (response.body.error) {
-              console.log(response.body.error_description);
-              //cb(response.body.error)
-            } else {
-              templates[response.body.id] = response.body;
-            }
-            cb(response.body.error);
-          });
-        });
-      },
-      function (error) {
-        fs.writeJson("./beginkit/MailChimp/templates.json", templates, {spaces : 2}, function (err){
-          done(err || error);
-        });
+          
+          return memo
+         }, {});
+         cb(null,campaigns);
+       });
+    },
+    function (cb) {
+      unirest.get(base_url + "/templates")
+      .auth(state, mc_api_key)
+      .header('content-type', 'application/json')
+      .send({})
+      .end(function (response) {
+        /*
+         if (response.body.error) {
+           console.log(response.body.error_description);
+         } else {
+           templates[response.body.id] = response.body;
+         }
+         cb(response.body.error);
+         */
+         var templates = response.body.templates.filter( function (_) {
+          
+            return _.folder_id == template_folder_id
+         }).map(function (_) {
+          return {name : _.name,  id : _.id}
+         }, {});
+         cb(null, templates);
+       });
+    }
+  ], function (error, results) {
+    var templates = results[1].reduce(function (memo, _) {
+      var status = results[0][_.id];
+      if (!status || campaign_statuses.indexOf(status) > -1) {
+        memo[_.name] = _.id;  
+      } else if (status) {
+        memo[_.name] = null;
       }
-    );
-  // If the `nonull` option is set, and nothing
-  // was found, then files is ["**/*.js"]
-  // er is an error object or null.
-
+      
+      return memo;
+    }, {});
+    glob('.tmp/newsletters/**/index.html', function (er, files) {
+      async.each(files, 
+        function (file, cb) {
+          var template_name = path.basename(path.dirname(file));
+          var template_id = templates[template_name];
+          if (template_id === null) {
+            gutil.log("Skipping", gutil.colors.cyan("'" + template_name + "'"));
+            cb();
+          } else {
+            fs.readFile(file, function(err, data) {
+              var htmltext = new Buffer(data).toString();
+              if (template_id) {
+           // console.log("overwrite ", template_name);
+            
+                unirest.patch(base_url + "/templates/" + template_id)
+                .auth(state, mc_api_key)
+                .header('content-type', 'application/json')
+                .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+                .end(function (response) {
+                  if (response.body.error) {
+                    console.log(response.body.error_description);
+                  } else {
+                    gutil.log("Overwriting", gutil.colors.cyan("'" + template_name + "'"));
+                  }
+                  cb(response.body.error);
+                });
+                
+              } else {
+            //console.log("creating ", template_name);
+                
+                unirest.post(base_url + "/templates")
+                .auth(state, mc_api_key)
+                .header('content-type', 'application/json')
+                .send({"name": template_name, "folder_id" : template_folder_id, "html": htmltext})
+                .end(function (response) {
+                  if (response.body.error) {
+                    console.log(response.body.error_description);
+                  } else {
+                    gutil.log("Creating", gutil.colors.cyan("'" + template_name + "'"));
+                  }
+                  cb(response.body.error);
+                });
+                
+              }
+            });
+          }
+        },
+        function (error) {
+          if (error) {
+            console.log(error);
+          }
+          done(error);
+        }
+      );
+    });
   });
-// create template name based on folder
-// read each file and post
 
 });
 
@@ -642,4 +761,110 @@ gulp.task('default', ['submodules', 'bump', 'production', 'development', 'test']
 
 gulp.task('submodules', function () {
   return gulp.src('modules/**/*').pipe(gulp.dest('node_modules'));
+});
+
+gulp.task('drafts', ['drafts-pocket']);
+
+gulp.task('drafts-pocket', ['handlebars'], function (cb) {
+  var sources = Object.byString(beginkit_package, "services.Pocket.sources") || [];
+  glob('static/src/posts/**/*.md', function (error, files) {
+    
+    async.reduce(files, {}, function (memo, file, cb) {
+
+      fs.readFile(file, function (error, data) {
+        
+          var frontmatter = matter(data.toString());
+          if (frontmatter.data.pocket && frontmatter.data.pocket.item_id) {
+            var item_id = Number(frontmatter.data.pocket.item_id);
+            if (!isNaN(item_id)) {
+              memo[item_id] = true
+            }
+          }
+        cb(undefined, memo);
+      });
+    }, function (error, item_ids) {
+      var current = files.length - Object.keys(item_ids).length;
+      async.each(sources, 
+        function (source, cb) {
+          var params = source.parameters || {};
+          params.consumer_key = Object.byString(beginkit_creds,"services.Pocket.ConsumerKey");
+          params.access_token = Object.byString(beginkit_creds,"services.Pocket.AccessToken");
+          var filename = Handlebars.compile(source.filename);
+          var template = Handlebars.compile(fs.readFileSync(source.template).toString());
+          unirest.post('https://getpocket.com/v3/get.php')
+          .header('X-Accept', 'application/json')
+          .header('Content-Type', 'application/json; charset=UTF-8')
+          .send(params)
+          .end(function (response) {
+            async.each(response.body.list,
+              function (article, cb) {
+                if (item_ids[article.item_id]) {
+                  //console.log("Already: ",article.item_id,article.resolved_title);
+                  cb();
+                  return;
+                }
+                traverse(article).forEach(function (value) {
+                  if (this.key) {
+                    
+                    var words = this.key.split("_");
+                    if (words.length === 2 && (words[0] === "is" || words[0] === "has")) {
+                      this.update(value === '1');
+                    } else {
+                      var parsed = Number(value); 
+                      if (!isNaN(parsed)) {
+                        this.update(parsed);
+                      }
+                    }
+                  }
+                });
+                var videos = article.videos || {};
+                var video;
+                for(var key in videos) {
+                    if(videos.hasOwnProperty(key)) {
+                        video = videos[key];
+                        break;
+                    }
+                }
+                if (video) {
+                  article.video = video;
+                }
+                article.url = article.resolved_url || article.given_url;
+                article.title = article.resolved_title || article.given_title;
+                article.ordinal = current;
+                var url_obj = url.parse(article.url)
+                article.site_url = url.format( {
+                  "protocol" : url_obj.protocol,
+                  "hostname" : url_obj.hostname
+                });
+                article.tag_list = article.tags ? Object.keys(article.tags).join(", ") : undefined;
+                article.now = new Date();
+                current++; 
+                var filepath = path.join("static", "src",source.path, filename(article));
+                fs.outputFile(filepath, template(article), function(error) {
+                  cb(error);
+                });
+              },
+              function (error) {
+                cb();
+              });
+          });
+        },
+        function (error) {
+          cb();
+        });
+    });
+  });
+});
+
+gulp.task('apple-news', ['metalsmith-production', 'assets', 'scss', 'clean'], function () {
+  var through = require('through2'); 
+
+  return gulp.src(['blog/*/**/index.html'], {
+    cwd: ".tmp/metalsmith/production"
+  }).pipe(through.obj(function(file, encoding, callback) {
+    var id = file.relative.substr(0,file.relative.length-11).replace(/\//g, ".");
+    var json = convertToAppleNews(htmlToArticleJson(file.contents.toString()), { identifier: id });
+    console.log(json);
+    callback(null, file);
+  }));
 });
