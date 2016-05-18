@@ -57,3 +57,5 @@ node_modules
 .sass-cache
 .credentials
 build
+
+static/src/posts/drafts
