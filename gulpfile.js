@@ -21,6 +21,8 @@ Object.byString = function(o, s) {
 
 }
 
+var convertToAppleNews = require('article-json-to-apple-news');
+var htmlToArticleJson = require('html-to-article-json')({});
 var gutil = require('gulp-util');
 var traverse = require('traverse');
 var matter = require('gray-matter');
@@ -852,4 +854,17 @@ gulp.task('drafts-pocket', ['handlebars'], function (cb) {
         });
     });
   });
+});
+
+gulp.task('apple-news', ['metalsmith-production', 'assets', 'scss', 'clean'], function () {
+  var through = require('through2'); 
+
+  return gulp.src(['blog/*/**/index.html'], {
+    cwd: ".tmp/metalsmith/production"
+  }).pipe(through.obj(function(file, encoding, callback) {
+    var id = file.relative.substr(0,file.relative.length-11).replace(/\//g, ".");
+    var json = convertToAppleNews(htmlToArticleJson(file.contents.toString()), { identifier: id });
+    console.log(json);
+    callback(null, file);
+  }));
 });
