@@ -1,8 +1,29 @@
 var gulp = require("gulp");
+var glob = require("glob");
 
-gulp.task('default', function (done) {
-  done();
+
+glob.sync(["./tasks/**/index.js")
+
+///var HubRegistry = require('gulp-hub');
+//var FwdRef = require('undertaker-forward-reference');
+
+//var hub = new HubRegistry(['./tasks/*/index.js']);
+//gulp.registry(hub);
+
+/*
+var gulp = require("gulp");
+var async = require('async');
+var rimraf = require('rimraf');
+
+gulp.task('clean', function (done) {
+  async.each(['.tmp', 'build'], rimraf, done);
 });
+*/
+
+//gulp.task('default', gulp.series('clean'));
+//var hub = new HubRegistry(['./tasks/*/index.js', './tasks/index.js']);
+
+//gulp.registry(hub);
 
 if (false) {
 if (!global.Intl) {

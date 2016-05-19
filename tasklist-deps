@@ -1,0 +1,125 @@
+generate-favicon
+─ clean
+─ metalsmith-development
+check-for-favicon-update
+─ clean
+─ metalsmith-development
+clean
+publish
+─ github-publish
+github-publish
+─ production
+aws-publish
+─ production
+handlebars
+browserify
+─ clean
+scss
+─ clean
+─ iconfont
+assets
+─ clean
+graphics
+─ clean
+favicons
+─ clean
+─ generate-favicon
+─ check-for-favicon-update
+fonts
+─ clean
+static
+─ metalsmith-development
+─ metalsmith-production
+─ browserify
+─ assets
+─ graphics
+─ fonts
+─ critical
+─ favicons
+─ sitemap
+metalsmith-development
+─ handlebars
+─ clean
+metalsmith-production
+─ handlebars
+─ clean
+jscs
+lint
+─ beautify
+bump
+beautify
+─ jscs
+development
+─ static
+production
+─ minify
+─ browserify
+─ scss
+─ production-css-js
+─ production-assets
+─ production-cname
+─ production-rss
+─ production-favicons
+─ production-sitemap
+production-css-js
+─ static
+production-sitemap
+─ static
+production-favicons
+─ static
+production-assets
+─ static
+production-cname
+─ static
+production-rss
+─ static
+minify
+─ htmlmin
+─ uglify-js
+─ uglify-css
+htmlmin
+─ static
+uglify-js
+─ static
+iconfont
+─ clean
+sitemap
+─ clean
+─ metalsmith-production
+critical
+─ scss
+─ metalsmith-production
+─ metalsmith-development
+─ favicons
+─ iconfont
+─ fonts
+newsletters
+─ metalsmith-production
+─ assets
+─ scss
+─ clean
+templates
+─ newsletters
+uglify-css
+─ static
+test
+build
+─ submodules
+─ production
+─ test
+default
+─ submodules
+─ bump
+─ production
+─ development
+─ test
+submodules
+drafts
+─ drafts-pocket
+drafts-pocket
+─ handlebars
+apple-news
+─ metalsmith-production
+─ assets
+─ scss
+─ clean
