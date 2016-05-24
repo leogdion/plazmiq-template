@@ -1,10 +1,3 @@
-var gulp = require("gulp");
-
-gulp.task('default', function (done) {
-  done();
-});
-
-if (false) {
 if (!global.Intl) {
   global.Intl = require('intl');
 }
@@ -875,4 +868,3 @@ gulp.task('apple-news', ['metalsmith-production', 'assets', 'scss', 'clean'], fu
     callback(null, file);
   }));
 });
-}
