@@ -1,3 +1,4 @@
+
 if (!global.Intl) {
   global.Intl = require('intl');
 }
@@ -80,6 +81,7 @@ var declare = require('gulp-declare');
 var concat = require('gulp-concat');
 var insert = require('gulp-insert');
 
+console.log("test");
 var iconfont = require('gulp-iconfont');
 
 var metalsmith_build = require('./depends/metalsmith');

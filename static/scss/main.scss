@@ -3,20 +3,8 @@
 @import 'libs/mixins';
 
 $fa-font-path: "/assets/fonts/font-awesome";
-@import "../../node_modules/font-awesome/scss/font-awesome.scss";
 
-@import "../../.tmp/css/fontawesome-style.scss";
-
-@font-face {
-	font-family: 'Swindale';
-	src: url('/assets/fonts/swindale/swindale-rg-webfont.eot');
-	src: url('/assets/fonts/swindale/swindale-rg-webfont.eot?#iefix') format('embedded-opentype'),
-	url('/assets/fonts/swindale/swindale-rg-webfont.woff2') format('woff2'),
-	url('/assets/fonts/swindale/swindale-rg-webfont.woff') format('woff'),
-	url('/assets/fonts/swindale/Swindale-Rg.ttf') format('truetype');
-	font-weight: normal;
-	font-style: normal;
-}
+@import "../../.tmp/fonts/fonts.scss";
 
 /*
 	Landed by HTML5 UP
