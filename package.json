@@ -4,8 +4,7 @@
   "description": "template for s3 aws / heroku app",
   "main": "app/index.js",
   "scripts": {
-    "test": "make test",
-    "start": "make serve"
+    "test": "make test"
   },
   "engines": {
     "node": "6"
@@ -29,12 +28,12 @@
     },
     "stages": {
       "production": {
-        "build" : {
+        "build": {
           "uglify": true,
           "rev": true
         },
-        "server" : {
-          "port" : 8080
+        "server": {
+          "port": 8080
         }
       },
       "development": {
@@ -42,8 +41,8 @@
           "draft": true,
           "future": true
         },
-        "server" : {
-          "port" : 8081
+        "server": {
+          "port": 8081
         }
       }
     },
@@ -162,99 +161,15 @@
     }
   },
   "dependencies": {
-    "apple-news": "^1.1.0",
-    "article-json-to-apple-news": "^3.2.0",
-    "async": "^1.5.2",
-    "babel-preset-es2015": "^6.6.0",
-    "babelify": "^7.2.0",
-    "browserify": "^13.0.0",
     "browserify-shim": "^3.8.12",
-    "check-dependencies": "^0.11.0",
-    "cheerio": "^0.20.0",
-    "consolidate": "^0.14.1",
-    "critical": "^0.7.2",
     "font-awesome": "fortawesome/Font-Awesome",
-    "fs-extra": "^0.26.7",
-    "glob": "^6.0.4",
-    "gray-matter": "^2.0.2",
-    "gulp-awspublish": "^3.0.1",
-    "gulp-awspublish-router": "^0.1.1",
-    "gulp-beautify": "^2.0.0",
-    "gulp-bump": "^1.0.0",
-    "gulp-cheerio": "^0.6.2",
-    "gulp-concat": "^2.6.0",
-    "gulp-consolidate": "^0.2.0",
-    "gulp-declare": "^0.3.0",
-    "gulp-filter": "^3.0.1",
-    "gulp-gh-pages": "^0.5.4",
-    "gulp-handlebars": "^4.0.0",
-    "gulp-htmlmin": "^1.3.0",
-    "gulp-hub": "frankwallis/gulp-hub#registry-init",
-    "gulp-iconfont": "^6.0.0",
-    "gulp-inline": "^0.1.1",
-    "gulp-inline-css": "^3.1.0",
-    "gulp-insert": "^0.5.0",
-    "gulp-jscs": "^3.0.2",
-    "gulp-jshint": "^2.0.0",
-    "gulp-just-replace": "^1.0.2",
-    "gulp-real-favicon": "^0.2.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace-async": "0.0.1",
-    "gulp-rev-all": "^0.8.22",
-    "gulp-sass": "^2.1.1",
-    "gulp-sitemap": "^4.0.0",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-substituter": "^0.3.0",
-    "gulp-uglify": "^1.5.1",
-    "gulp-uglifycss": "^1.0.5",
-    "gulp-umd": "^0.2.0",
-    "gulp-util": "^3.0.7",
-    "gulp-wrap": "^0.11.0",
-    "handlebars": "^4.0.5",
-    "handlebars-intl": "^1.1.2",
-    "html-to-article-json": "^1.12.5",
-    "intl": "^1.0.1",
     "jquery": "^2.2.0",
     "jquery-placeholder": "^2.3.1",
     "jquery.dropotron": "git+https://github.com/brightdigit/jquery.dropotron.git",
     "jquery.scrollex": "git+https://github.com/brightdigit/jquery.scrollex.git",
     "jquery.scrolly": "git+https://github.com/brightdigit/scrolly.git",
-    "js-yaml": "^3.6.0",
-    "jshint": "^2.9.1",
-    "lodash": "^4.7.0",
-    "marked": "^0.3.5",
-    "merge-stream": "^1.0.0",
-    "metalsmith": "^2.1.0",
-    "metalsmith-collections": "^0.7.0",
-    "metalsmith-define": "^1.0.0",
-    "metalsmith-excerpts": "^1.1.0",
-    "metalsmith-feed": "^0.2.0",
-    "metalsmith-layouts": "^1.4.4",
-    "metalsmith-markdown": "^0.2.1",
-    "metalsmith-paginate": "^0.3.0",
-    "metalsmith-permalinks": "^0.4.1",
-    "metalsmith-publish": "^0.1.3",
-    "node-static": "^0.7.7",
-    "plexer": "^1.0.1",
-    "rimraf": "^2.5.1",
     "skel": "git+https://github.com/brightdigit/skel.git",
-    "spin.js": "^2.3.2",
-    "streamfilter": "^1.0.5",
-    "svg2ttf": "^4.0.0",
-    "through2": "^2.0.1",
-    "traverse": "^0.6.6",
-    "ttf2eot": "^2.0.0",
-    "ttf2woff": "^2.0.1",
-    "ttf2woff2": "^2.0.3",
-    "typed.js": "git+https://github.com/brightdigit/typed.js.git",
-    "undertaker-forward-reference": "^1.0.1",
-    "unirest": "^0.4.2",
-    "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0",
-    "yamljs": "^0.2.7"
-  },
-  "devDependencies": {
-    "gulp": "gulpjs/gulp#4.0"
+    "typed.js": "git+https://github.com/brightdigit/typed.js.git"
   },
   "browserify": {
     "transform": [
