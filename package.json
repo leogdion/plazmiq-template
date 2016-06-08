@@ -125,11 +125,6 @@
       {
         "type": "web",
         "name": "Cutive Mono"
-      },
-      {
-        "source": "static/assets/fonts/swindale",
-        "name": "swindale",
-        "stylesheet": "swindale.css"
       }
     ],
     "publishing": {
