@@ -1,0 +1,12 @@
+        {{#each collections.posts}}
+            {{stringify this.posts}}
+            {{#each this.posts}}
+                {{this.content}}
+                {{#each this.profiles as |dates name|}}
+                    {{name}}
+                        {{#each dates}}                        
+                            {{this}}
+                        {{/each}}
+                {{/each}}
+            {{/each}}
+        {{/each}}
