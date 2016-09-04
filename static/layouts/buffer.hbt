@@ -1,0 +1,20 @@
+[
+        {{#each collections.posts}}
+            {{#if this.posts}}
+                {{#each this.posts}}
+                    {{#each this.profiles as |dates name|}}
+                            {{#each dates}}   
+{
+  "profile" : "{{name}}",
+  "pubdate" : " {{../../../date}}",
+  "offset" : "{{this}}",
+  "image" : "{{../../../image}}",
+  "content" : "{{../../content}}",
+  "description" : "{{#unless ../../../abstract}}{{strip ../../../excerpt}}{{else}}{{../../../abstract}}{{/unless}}"
+},                     
+                            {{/each}}
+                    {{/each}}
+                {{/each}}
+            {{/if}}
+        {{/each}}
+{}]
