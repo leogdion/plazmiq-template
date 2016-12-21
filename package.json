@@ -1,5 +1,5 @@
 {
-  "name": "www.beginkit.com",
+  "name": "www.plazmiq.com",
   "version": "0.8.0",
   "description": "template for s3 aws / heroku app",
   "engines": {
@@ -7,15 +7,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/brightdigit/beginkit-template.git"
+    "url": "git+https://github.com/brightdigit/plazmiq-template.git"
   },
   "author": "Leo G Dion",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/brightdigit/beginkit-template/issues"
+    "url": "https://github.com/brightdigit/plazmiq-template/issues"
   },
-  "homepage": "https://github.com/brightdigit/beginkit-template#readme",
-  "beginkit": {
+  "homepage": "https://github.com/brightdigit/plazmiq-template#readme",
+  "plazmiq": {
     "metadata": {
       "site": {
         "title": "Plazmiq Template",
